@@ -328,6 +328,10 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .authDialog input:focus { border-color: #777; box-shadow: 0 0 0 3px rgba(0,0,0,.07); }
 .authSubmit { width: 100%; margin-top: 11px; padding: 11px; border: 0; border-radius: 7px; background: var(--green); color: white; font-size: 10px; font-weight: 700; cursor: pointer; }
 .authSubmit:disabled { opacity: .45; cursor: not-allowed; }
+.dialogActions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 14px; }
+.dialogCancel, .dialogDanger { padding: 11px; border-radius: 7px; font-size: 10px; font-weight: 700; cursor: pointer; }
+.dialogCancel { border: 1px solid #d7e0da; background: white; color: #516159; }
+.dialogDanger { border: 1px solid #b43b3b; background: #b43b3b; color: white; }
 .authMessage { margin-top: 12px; padding: 10px; color: #333; background: #efefed; border-radius: 7px; font-size: 9px; line-height: 1.55; }
 .authDialog > small { display: block; margin-top: 15px; color: #929d97; font-size: 8px; line-height: 1.5; }
 .importLabel { margin-top: 12px; padding: 11px 12px; background: #f5f7f5; border: 1px dashed #bdccc0; border-radius: 7px; cursor: pointer; }

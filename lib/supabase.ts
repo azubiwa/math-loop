@@ -8,5 +8,6 @@ export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: true,
+    storage: typeof window === "undefined" ? undefined : window.localStorage,
   },
 });

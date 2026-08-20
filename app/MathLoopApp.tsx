@@ -214,6 +214,7 @@ export default function MathLoopApp() {
   const [email, setEmail] = useState("");
   const [authMessage, setAuthMessage] = useState("");
   const [authSending, setAuthSending] = useState(false);
+  const [signOutOpen, setSignOutOpen] = useState(false);
   const [saveDataOpen, setSaveDataOpen] = useState(false);
   const [openedAt, setOpenedAt] = useState(0);
   const [now, setNow] = useState(0);
@@ -423,6 +424,15 @@ export default function MathLoopApp() {
     setProgress(readLocalProgress());
     setAttemptsByProblem(readLocalAttempts());
     setSyncState("local");
+    setSignOutOpen(false);
+  }
+
+  function handleAccountButton() {
+    if (user) {
+      setSignOutOpen(true);
+      return;
+    }
+    setAuthOpen(true);
   }
 
   function exportSaveData() {
@@ -605,7 +615,7 @@ export default function MathLoopApp() {
           <div className="progressTrack"><span style={{ width: `${(solved / problems.length) * 100}%` }} /></div>
           <small>{syncState === "loading" ? "記録を同期中…" : syncState === "error" ? "再接続待ち" : syncState === "local" ? "この端末だけに保存中" : "Supabaseに自動保存"}</small>
         </div>
-        <button className="sideFooter" onClick={() => user ? void signOut() : setAuthOpen(true)}><span className="avatar">{user ? "同" : "学"}</span><span><b>{user?.email || "匿名の学習者"}</b><small>{user ? "クリックでログアウト" : "ログインして端末間同期"}</small></span></button>
+        <button className="sideFooter" onClick={handleAccountButton}><span className="avatar">{user ? "同" : "学"}</span><span><b>{user?.email || "匿名の学習者"}</b><small>{user ? "アカウント設定" : "ログインして端末間同期"}</small></span></button>
       </aside>
 
       <section className="workspace">
@@ -617,7 +627,7 @@ export default function MathLoopApp() {
           <div className="topActions">
             {virtualSeconds !== null && virtualSeconds > 0 && <span className="contestClock"><i>●</i> 集中モード {formatTime(virtualSeconds)}</span>}
             <button className="saveDataButton" onClick={() => setSaveDataOpen(true)}>保存データ</button>
-            <button className={`syncButton ${user ? "connected" : ""}`} onClick={() => user ? void signOut() : setAuthOpen(true)}>{user ? "● 同期中" : "端末間で同期"}</button>
+            <button className={`syncButton ${user ? "connected" : ""}`} onClick={handleAccountButton}>{user ? "● 同期中" : "端末間で同期"}</button>
             <div className="streak"><span>学習日</span><b>{uniqueStudyDays}</b><small>days</small></div>
           </div>
         </header>
@@ -721,6 +731,10 @@ export default function MathLoopApp() {
         sending={authSending}
         onSend={() => void sendMagicLink()}
         onClose={() => setAuthOpen(false)}
+      />}
+      {signOutOpen && <SignOutDialog
+        onCancel={() => setSignOutOpen(false)}
+        onConfirm={() => void signOut()}
       />}
       {saveDataOpen && <SaveDataDialog
         signedIn={Boolean(user)}
@@ -838,15 +852,15 @@ function ProblemView({
 function AnswerPreview({ answer }: { answer: string }) {
   return <div className="answerPreview">
     <span className="previewLabel">TeX PREVIEW</span>
-    <div><MathText text={answer} /></div>
+    <div><MathText text={answer} useDisplayStyle={false} /></div>
   </div>;
 }
 
-function MathText({ text }: { text: string }) {
+function MathText({ text, useDisplayStyle = true }: { text: string; useDisplayStyle?: boolean }) {
   const isRawFormula = !/[ぁ-んァ-ヶ一-龠]/.test(text) && /\\[a-zA-Z]+|[_^=]/.test(text);
   if (isRawFormula) {
-    const html = katex.renderToString(text, { throwOnError: false, displayMode: true, strict: false });
-    return <span className="previewFormula display" dangerouslySetInnerHTML={{ __html: html }} />;
+    const html = katex.renderToString(text, { throwOnError: false, displayMode: useDisplayStyle, strict: false });
+    return <span className={`previewFormula${useDisplayStyle ? " display" : ""}`} dangerouslySetInnerHTML={{ __html: html }} />;
   }
   const normalizedLimit = text.replace(/lim_\{([^}]+)\}\s*\(([^)]+)\)\/\(([^)]+)\)/g, (_match, limit, numerator, denominator) => {
     const tex = (value: string) => value
@@ -856,15 +870,15 @@ function MathText({ text }: { text: string }) {
       .replace(/³/g, "^3")
       .replace(/⁴/g, "^4")
       .replace(/−/g, "-");
-    return `$\\displaystyle\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
+    return `$${useDisplayStyle ? "\\displaystyle" : ""}\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
   });
   const normalizedTeX = normalizedLimit.replace(/([A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s]*\\[A-Za-z]+[A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s\\]*)/g, (formula) => {
     const trimmed = formula.trim();
-    return trimmed ? `$\\displaystyle ${trimmed}$` : formula;
+    return trimmed ? `$${useDisplayStyle ? "\\displaystyle " : ""}${trimmed}$` : formula;
   });
   const normalized = normalizedTeX.includes("$") ? normalizedTeX : normalizedTeX.replace(/([A-Za-z](?:_[A-Za-z0-9{}]+|\^[A-Za-z0-9{}]+)(?:[A-Za-z0-9_{}^\\\s∩∪∈+=()]+)?)/g, (formula) => {
     const trimmed = formula.trim();
-    return trimmed ? `$\\displaystyle ${trimmed}$` : formula;
+    return trimmed ? `$${useDisplayStyle ? "\\displaystyle " : ""}${trimmed}$` : formula;
   });
   const parts = normalized.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g).filter(Boolean);
   return <>{parts.map((part, index) => {
@@ -891,6 +905,22 @@ function AuthDialog({ email, setEmail, message, sending, onSend, onClose }: {
       <button className="authSubmit" disabled={!email.trim() || sending} onClick={onSend}>{sending ? "送信中…" : "ログインリンクを送る"}</button>
       {message && <div className="authMessage" aria-live="polite">{message}</div>}
       <small>ログインしない場合も、この端末内だけで回答記録を保存できます。</small>
+    </section>
+  </div>;
+}
+
+function SignOutDialog({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: () => void }) {
+  return <div className="dialogBackdrop">
+    <section className="authDialog signOutDialog" role="dialog" aria-modal="true" aria-labelledby="signout-title">
+      <button className="dialogClose" onClick={onCancel} aria-label="閉じる">×</button>
+      <span className="authMark">↗</span>
+      <span className="eyebrow">SIGN OUT</span>
+      <h2 id="signout-title">ログアウトしますか？</h2>
+      <p>この端末での同期を終了します。学習記録はアカウントに残り、次回ログインすると再び同期できます。</p>
+      <div className="dialogActions">
+        <button className="dialogCancel" onClick={onCancel}>キャンセル</button>
+        <button className="dialogDanger" onClick={onConfirm}>ログアウトする</button>
+      </div>
     </section>
   </div>;
 }
