@@ -273,7 +273,11 @@ export default function MathLoopApp() {
       grouped.set(problem.contest, current);
     }
     return Array.from(grouped, ([contest, setProblems]) => ({ contest, problems: setProblems }))
-      .sort((a, b) => a.contest.localeCompare(b.contest, "en", { numeric: true }));
+      .sort((a, b) => {
+        const aLevel = Number(a.contest.match(/^Level\s+(\d+)/)?.[1] || 0);
+        const bLevel = Number(b.contest.match(/^Level\s+(\d+)/)?.[1] || 0);
+        return aLevel - bLevel || b.contest.localeCompare(a.contest, "en", { numeric: true });
+      });
   }, [filtered]);
 
   function navigate(next: "problems" | "stats") {
@@ -731,6 +735,11 @@ function AnswerPreview({ answer }: { answer: string }) {
 }
 
 function MathText({ text }: { text: string }) {
+  const isRawFormula = !/[ぁ-んァ-ヶ一-龠]/.test(text) && /\\[a-zA-Z]+|[_^=]/.test(text);
+  if (isRawFormula) {
+    const html = katex.renderToString(text, { throwOnError: false, displayMode: true, strict: false });
+    return <span className="previewFormula display" dangerouslySetInnerHTML={{ __html: html }} />;
+  }
   const normalized = text.replace(/lim_\{([^}]+)\}\s*\(([^)]+)\)\/\(([^)]+)\)/g, (_match, limit, numerator, denominator) => {
     const tex = (value: string) => value
       .replace(/→/g, "\\to ")

@@ -12,6 +12,10 @@ test("exports the MathLoop problem-set grid as static HTML", async () => {
   assert.match(html, /レベル 1 #001/);
   assert.match(html, /レベル 2/);
   assert.match(html, /レベル 3/);
+  assert.ok(html.indexOf("レベル 1") < html.indexOf("レベル 2"));
+  assert.ok(html.indexOf("レベル 2") < html.indexOf("レベル 3"));
+  assert.ok(html.indexOf("レベル 1 #010") < html.indexOf("レベル 1 #009"));
+  assert.ok(html.indexOf("レベル 1 #009") < html.indexOf("レベル 1 #001"));
   assert.match(html, /総合・最難関/);
   assert.match(html, /解く。/);
   assert.match(html, /定義・基本/);
