@@ -750,9 +750,13 @@ function MathText({ text }: { text: string }) {
       .replace(/−/g, "-");
     return `$\\displaystyle\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
   });
-  const normalized = normalizedLimit.replace(/([A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s]*\\[A-Za-z]+[A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s\\]*)/g, (formula) => {
+  const normalizedTeX = normalizedLimit.replace(/([A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s]*\\[A-Za-z]+[A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s\\]*)/g, (formula) => {
     const trimmed = formula.trim();
-    return trimmed ? `$${trimmed}$` : formula;
+    return trimmed ? `$\\displaystyle ${trimmed}$` : formula;
+  });
+  const normalized = normalizedTeX.includes("$") ? normalizedTeX : normalizedTeX.replace(/([A-Za-z](?:_[A-Za-z0-9{}]+|\^[A-Za-z0-9{}]+)(?:[A-Za-z0-9_{}^\\\s∩∪∈+=()]+)?)/g, (formula) => {
+    const trimmed = formula.trim();
+    return trimmed ? `$\\displaystyle ${trimmed}$` : formula;
   });
   const parts = normalized.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g).filter(Boolean);
   return <>{parts.map((part, index) => {
