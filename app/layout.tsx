@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { headers } from "next/headers";
 import "./globals.css";
+import "katex/dist/katex.min.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,22 +13,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const host = requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "localhost:3000";
-  const protocol = requestHeaders.get("x-forwarded-proto") || (host.startsWith("localhost") ? "http" : "https");
-  const base = new URL(`${protocol}://${host}`);
-  const title = "Math ABC — 学部数学の演習記録";
-  const description = "定義から証明まで、学部数学をAtCoderのように解いて記録する演習サイト。";
-  return {
-    metadataBase: base,
-    title,
-    description,
-    icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
-    openGraph: { title, description, type: "website", images: [{ url: new URL("/og.png", base).toString(), width: 1730, height: 909, alt: "Math ABC — 定義から、証明できる力へ。" }] },
-    twitter: { card: "summary_large_image", title, description, images: [new URL("/og.png", base).toString()] },
-  };
-}
+const publicBase = new URL("https://azubiwa.github.io/math-loop/");
+const title = "MathLoop — 学部数学の演習記録";
+const description = "定義から証明まで、学部数学をAtCoderのように解いて記録する演習サイト。";
+
+export const metadata: Metadata = {
+  metadataBase: publicBase,
+  title,
+  description,
+  openGraph: { title, description, type: "website", images: [{ url: new URL("og.png", publicBase).toString(), width: 1672, height: 941, alt: "MathLoop — 解く。" }] },
+  twitter: { card: "summary_large_image", title, description, images: [new URL("og.png", publicBase).toString()] },
+};
 
 export default function RootLayout({
   children,
