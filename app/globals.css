@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  --font-sans: var(--font-inter), var(--font-noto-sans-jp), sans-serif;
   --ink: #171717;
   --muted: #747474;
   --line: #e1e1de;
@@ -17,14 +18,14 @@
 
 * { box-sizing: border-box; }
 html { background: var(--paper); scroll-behavior: smooth; }
-body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font-inter), var(--font-noto-sans-jp), sans-serif; }
+body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font-sans); }
 button, input, textarea, select { font: inherit; }
 button { color: inherit; }
 
 .appShell { min-height: 100vh; display: grid; grid-template-columns: 236px minmax(0, 1fr); }
 .sidebar { min-height: 100vh; height: 100vh; position: sticky; top: 0; padding: 29px 19px 22px; background: var(--green-dark); color: white; display: flex; flex-direction: column; z-index: 10; }
 .brand { width: 100%; display: flex; gap: 12px; align-items: center; padding: 0 9px 34px; border: 0; background: transparent; color: white; font-size: 14px; font-weight: 800; letter-spacing: .13em; cursor: pointer; }
-.brandMark { width: 35px; height: 35px; display: grid; place-items: center; color: #111; background: var(--lime); border-radius: 9px; font-family: Georgia, serif; font-size: 22px; box-shadow: inset 0 -2px rgba(0, 0, 0, .1); }
+.brandMark { width: 35px; height: 35px; display: grid; place-items: center; color: #111; background: var(--lime); border-radius: 9px; font-size: 22px; box-shadow: inset 0 -2px rgba(0, 0, 0, .1); }
 .sidebar nav { display: grid; gap: 7px; }
 .navItem { width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 14px; color: #aaa; background: transparent; border: 0; text-decoration: none; border-radius: 9px; font-size: 13px; font-weight: 700; text-align: left; cursor: pointer; }
 .navItem span { width: 20px; font-size: 18px; text-align: center; }
@@ -45,13 +46,13 @@ button { color: inherit; }
 .workspace { min-width: 0; }
 .topbar { min-height: 108px; padding: 24px clamp(24px, 4.5vw, 68px) 21px; border-bottom: 1px solid var(--line); background: rgba(255, 255, 255, .78); backdrop-filter: blur(12px); display: flex; justify-content: space-between; align-items: flex-end; }
 .eyebrow { color: var(--green); font-size: 9px; font-weight: 800; letter-spacing: .19em; }
-h1 { margin: 6px 0 0; font-family: Georgia, "Yu Mincho", serif; font-size: 27px; font-weight: 600; letter-spacing: .02em; }
+h1 { margin: 6px 0 0; font-size: 27px; font-weight: 600; letter-spacing: .02em; }
 .topActions { display: flex; align-items: center; gap: 28px; }
-.contestClock { padding: 8px 12px; color: #444; background: #f2f2f0; border: 1px solid #ddd; border-radius: 8px; font: 700 11px ui-monospace, monospace; }
+.contestClock { padding: 8px 12px; color: #444; background: #f2f2f0; border: 1px solid #ddd; border-radius: 8px; font-size: 11px; font-weight: 700; }
 .contestClock i { color: var(--orange); font-size: 8px; font-style: normal; animation: pulse 1.4s infinite; }
 @keyframes pulse { 50% { opacity: .3; } }
 .streak { display: flex; align-items: baseline; gap: 6px; color: var(--muted); font-size: 10px; }
-.streak b { color: var(--orange); font-family: Georgia, serif; font-size: 25px; }
+.streak b { color: var(--orange); font-size: 25px; }
 .streak small { font-size: 9px; text-transform: uppercase; letter-spacing: .1em; }
 .syncButton { padding: 7px 10px; color: #555; background: #f5f5f3; border: 1px solid #ddd; border-radius: 7px; font-size: 8px; font-weight: 700; cursor: pointer; }
 .syncButton.connected { color: #111; background: #e9e9e6; border-color: #ccc; }
@@ -60,15 +61,15 @@ h1 { margin: 6px 0 0; font-family: Georgia, "Yu Mincho", serif; font-size: 27px;
 
 .content { width: 100%; max-width: 1320px; margin: 0 auto; padding: 31px clamp(24px, 4.5vw, 68px) 64px; }
 .heroCard { min-height: 182px; padding: 33px 39px; background: #e9e9e6; border: 1px solid #d8d8d4; border-radius: 17px; display: flex; justify-content: space-between; align-items: center; overflow: hidden; position: relative; }
-.heroCard::before { content: "∫"; position: absolute; right: 26%; top: -52px; color: rgba(0, 0, 0, .06); font: 250px Georgia, serif; transform: rotate(12deg); }
-.heroCard::after { content: "f(x)"; position: absolute; right: 8%; bottom: -16px; color: rgba(0, 0, 0, .045); font: italic 86px Georgia, serif; }
+.heroCard::before { content: "∫"; position: absolute; right: 26%; top: -52px; color: rgba(0, 0, 0, .06); font-size: 250px; transform: rotate(12deg); }
+.heroCard::after { content: "f(x)"; position: absolute; right: 8%; bottom: -16px; color: rgba(0, 0, 0, .045); font-size: 86px; font-style: italic; }
 .heroCard > * { position: relative; z-index: 1; }
 .heroLabel { color: var(--green); font-size: 9px; font-weight: 800; letter-spacing: .16em; }
-.heroCard h2, .statsHero h2 { margin: 10px 0 8px; font-family: Georgia, "Yu Mincho", serif; font-size: clamp(24px, 2.4vw, 32px); font-weight: 600; letter-spacing: .025em; }
+.heroCard h2, .statsHero h2 { margin: 10px 0 8px; font-size: clamp(24px, 2.4vw, 32px); font-weight: 600; letter-spacing: .025em; }
 .heroCard p, .statsHero p { margin: 0; color: #666; font-size: 12px; }
 .heroAction { display: grid; justify-items: end; gap: 12px; }
 .heroAction > span { color: #666; font-size: 10px; }
-.heroAction > span b { color: var(--green); font: 700 20px Georgia, serif; }
+.heroAction > span b { color: var(--green); font-size: 20px; font-weight: 700; }
 .heroAction button, .submitButton, .nextButton { border: 0; color: white; background: var(--green); padding: 12px 16px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
 .heroAction button span, .submitButton span, .nextButton span { padding-left: 15px; }
 .heroAction button:hover, .submitButton:hover, .nextButton:hover { background: #303030; transform: translateY(-1px); }
@@ -79,12 +80,12 @@ h1 { margin: 6px 0 0; font-family: Georgia, "Yu Mincho", serif; font-size: 27px;
 .metricIcon.green, .metricIcon.orange, .metricIcon.blue, .metricIcon.violet { color: #333; background: #ededeb; }
 .quickStats p { margin: 0; }
 .quickStats small { display: block; color: #8b9791; font-size: 9px; }
-.quickStats b { display: block; margin-top: 3px; font: 600 20px Georgia, serif; }
-.quickStats em { padding-left: 3px; color: #7d8b83; font: normal 10px Arial, sans-serif; }
+.quickStats b { display: block; margin-top: 3px; font-size: 20px; font-weight: 600; }
+.quickStats em { padding-left: 3px; color: #7d8b83; font-size: 10px; font-style: normal; }
 
 .panel { background: #fff; border: 1px solid var(--line); border-radius: 13px; overflow: hidden; }
 .panelHeading { padding: 17px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); }
-.panelHeading h3 { margin: 0; font: 600 15px Georgia, "Yu Mincho", serif; }
+.panelHeading h3 { margin: 0; font-size: 15px; font-weight: 600; }
 .panelHeading > div span { display: block; margin-top: 4px; color: #98a39e; font-size: 8px; letter-spacing: .08em; }
 .sortSelect { color: #89968f; font-size: 9px; }
 .sortSelect select { margin-left: 8px; }
@@ -164,22 +165,22 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .problemStatement { padding: 29px 31px 32px; }
 .problemTitleRow { display: flex; align-items: center; gap: 15px; padding-bottom: 23px; border-bottom: 1px solid #ededeb; }
 .problemKicker { color: #8b9891; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.problemTitleRow h2 { margin: 5px 0 0; font-family: Georgia, "Yu Mincho", serif; font-size: 22px; font-weight: 600; }
+.problemTitleRow h2 { margin: 5px 0 0; font-size: 22px; font-weight: 600; }
 .statementBody { padding: 22px 3px 0; }
 .statementBody p { margin: 0 0 13px; color: #333; font-size: 13px; line-height: 1.9; }
-.statementBody p.formula { margin: 18px 0; padding: 16px 20px; color: #151515; background: #f5f5f3; border-left: 3px solid #bbb; border-radius: 0 7px 7px 0; font: 17px/1.7 Georgia, "Times New Roman", serif; letter-spacing: .02em; }
+.statementBody p.formula { margin: 18px 0; padding: 16px 20px; color: #151515; background: #f5f5f3; border-left: 3px solid #bbb; border-radius: 0 7px 7px 0; font-size: 17px; line-height: 1.7; letter-spacing: .02em; }
 .problemNote { margin: 10px 0 0; padding: 11px 14px; color: #555; background: #f2f2ef; border-radius: 7px; font-size: 10px; }
 .answerCard { padding: 0 23px 20px; overflow: hidden; }
 .answerHeading { min-height: 76px; display: flex; justify-content: space-between; align-items: center; }
 .answerHeading > div { display: flex; gap: 11px; align-items: center; }
-.stepNumber { width: 27px; height: 27px; display: grid; place-items: center; color: #fff; background: var(--green); border-radius: 50%; font: 700 9px Georgia, serif; }
-.answerHeading h3 { margin: 0; font: 600 14px Georgia, "Yu Mincho", serif; }
+.stepNumber { width: 27px; height: 27px; display: grid; place-items: center; color: #fff; background: var(--green); border-radius: 50%; font-size: 9px; font-weight: 700; }
+.answerHeading h3 { margin: 0; font-size: 14px; font-weight: 600; }
 .answerHeading p { margin: 4px 0 0; color: #89958f; font-size: 9px; }
 .answerMode { padding: 5px 8px; color: #666; background: #f1f1ef; border-radius: 5px; font-size: 8px; }
 .symbolBar { margin: 0 -23px; padding: 7px 22px; display: flex; gap: 4px; overflow-x: auto; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: #fafbfa; }
-.symbolBar button { flex: 0 0 29px; height: 27px; border: 1px solid #e0e0dd; background: #fff; border-radius: 5px; color: #444; font-family: Georgia, serif; cursor: pointer; }
+.symbolBar button { flex: 0 0 29px; height: 27px; border: 1px solid #e0e0dd; background: #fff; border-radius: 5px; color: #444; cursor: pointer; }
 .symbolBar button:hover { border-color: #999; background: #efefed; }
-.answerCard textarea { width: 100%; min-height: 190px; margin-top: 16px; padding: 15px; resize: vertical; border: 1px solid #ddd; background: #fcfcfb; border-radius: 8px; color: #222; outline: 0; font: 12px/1.8 ui-monospace, "SFMono-Regular", Menlo, monospace; }
+.answerCard textarea { width: 100%; min-height: 190px; margin-top: 16px; padding: 15px; resize: vertical; border: 1px solid #ddd; background: #fcfcfb; border-radius: 8px; color: #222; outline: 0; font-size: 12px; line-height: 1.8; }
 .answerCard textarea:focus { border-color: #777; box-shadow: 0 0 0 3px rgba(0,0,0,.07); }
 .answerCard textarea::placeholder { color: #adb6b1; }
 .answerPreview { margin-top: 9px; padding: 13px 14px; color: #333; background: #f5f5f3; border: 1px solid #e2e2df; border-radius: 8px; font-size: 11px; line-height: 1.8; }
@@ -202,9 +203,9 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .resultMark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; font-size: 20px; font-weight: 800; }
 .resultCard small { font-size: 7px; font-weight: 800; letter-spacing: .13em; }
 .judgeLabel { margin-left: 8px; padding: 3px 6px; border: 1px solid currentColor; border-radius: 999px; letter-spacing: .04em; opacity: .75; }
-.resultCard h3 { margin: 3px 0 4px; font: 600 16px Georgia, "Yu Mincho", serif; }
+.resultCard h3 { margin: 3px 0 4px; font-size: 16px; font-weight: 600; }
 .resultCard p { margin: 0; color: #666; font-size: 9px; line-height: 1.6; }
-.resultCard > b { font: 600 26px Georgia, serif; }
+.resultCard > b { font-size: 26px; font-weight: 600; }
 .resultCard > b small { display: block; text-align: right; letter-spacing: 0; }
 .resultCardAC { color: #1c6948; background: #eaf6f0; border-color: #c7e5d6; }
 .resultCardAC .resultMark { color: white; background: #2f986a; }
@@ -215,7 +216,7 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .attemptHistorySection { overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: 13px; }
 .attemptHistoryHeading { min-height: 76px; padding: 0 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); }
 .attemptHistoryHeading > div { display: flex; gap: 11px; align-items: center; }
-.attemptHistoryHeading h3 { margin: 0; font: 600 14px Georgia, "Yu Mincho", serif; }
+.attemptHistoryHeading h3 { margin: 0; font-size: 14px; font-weight: 600; }
 .attemptHistoryHeading p { margin: 4px 0 0; color: #89958f; font-size: 9px; }
 .attemptCount { padding: 5px 8px; color: #666; background: #f1f1ef; border-radius: 5px; font-size: 8px; font-weight: 700; }
 .attemptList { padding: 0 22px 18px; }
@@ -223,10 +224,10 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .attemptItem:last-child { border-bottom: 0; }
 .attemptItem summary { min-height: 59px; display: grid; grid-template-columns: 34px 48px minmax(0,1fr) auto 18px; gap: 10px; align-items: center; color: #555; list-style: none; cursor: pointer; }
 .attemptItem summary::-webkit-details-marker { display: none; }
-.attemptNumber { font: 600 10px ui-monospace, monospace; color: #8b9791; }
+.attemptNumber { font-size: 10px; font-weight: 600; color: #8b9791; }
 .attemptDate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 9px; }
-.attemptItem summary > b { color: #333; font: 600 17px Georgia, serif; }
-.attemptItem summary > b small { margin-left: 2px; color: #929d97; font: 7px Arial, sans-serif; }
+.attemptItem summary > b { color: #333; font-size: 17px; font-weight: 600; }
+.attemptItem summary > b small { margin-left: 2px; color: #929d97; font-size: 7px; }
 .attemptItem summary > i { color: #929d97; font-style: normal; font-size: 12px; transition: transform .2s ease; }
 .attemptItem[open] summary > i { transform: rotate(180deg); }
 .attemptBody { margin: 0 0 15px 44px; padding: 14px; background: #f7f7f5; border-radius: 8px; }
@@ -245,12 +246,12 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .explanationToggle { width: 100%; min-height: 75px; padding: 15px 20px; display: flex; align-items: center; gap: 12px; border: 0; background: white; text-align: left; cursor: pointer; }
 .bookIcon { width: 34px; height: 34px; display: grid; place-items: center; color: #222; background: #ededeb; border-radius: 8px; font-size: 17px; }
 .explanationToggle b, .explanationToggle small { display: block; }
-.explanationToggle b { font: 600 13px Georgia, "Yu Mincho", serif; }
+.explanationToggle b { font-size: 13px; font-weight: 600; }
 .explanationToggle small { margin-top: 4px; color: #929e98; font-size: 8px; }
 .explanationToggle i { margin-left: auto; width: 28px; height: 28px; display: grid; place-items: center; color: #5d6d64; border: 1px solid var(--line); border-radius: 50%; font-style: normal; }
 .explanationBody { padding: 3px 23px 25px; border-top: 1px solid var(--line); }
-.explanationSummary { margin: 21px 0; padding: 15px 17px; color: #333; background: #f0f0ee; border-radius: 8px; font: 600 12px/1.8 Georgia, "Yu Mincho", serif; }
-.explanationBody h4 { margin: 24px 0 11px; font: 600 12px Georgia, "Yu Mincho", serif; }
+.explanationSummary { margin: 21px 0; padding: 15px 17px; color: #333; background: #f0f0ee; border-radius: 8px; font-size: 12px; font-weight: 600; line-height: 1.8; }
+.explanationBody h4 { margin: 24px 0 11px; font-size: 12px; font-weight: 600; }
 .explanationBody ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .explanationBody li { display: flex; gap: 10px; align-items: flex-start; }
 .explanationBody li > span { width: 22px; height: 22px; flex: 0 0 auto; display: grid; place-items: center; color: #fff; background: #555; border-radius: 50%; font-size: 8px; }
@@ -264,9 +265,9 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .timerCard, .metaCard, .historyCard { padding: 18px; background: white; border: 1px solid var(--line); border-radius: 11px; }
 .timerCard { display: grid; justify-items: center; }
 .timerCard small { color: #8b9891; font-size: 8px; }
-.timerCard b { margin: 7px 0 5px; color: #222; font: 600 27px ui-monospace, monospace; letter-spacing: .04em; }
+.timerCard b { margin: 7px 0 5px; color: #222; font-size: 27px; font-weight: 600; letter-spacing: .04em; }
 .timerCard span { color: #9ba59f; font-size: 8px; }
-.metaCard h3 { margin: 0 0 13px; padding-bottom: 10px; border-bottom: 1px solid #ededeb; font: 600 11px Georgia, "Yu Mincho", serif; }
+.metaCard h3 { margin: 0 0 13px; padding-bottom: 10px; border-bottom: 1px solid #ededeb; font-size: 11px; font-weight: 600; }
 .metaCard dl { margin: 0; display: grid; gap: 10px; }
 .metaCard dl div { display: flex; justify-content: space-between; gap: 10px; }
 .metaCard dt { color: #94a099; font-size: 8px; }
@@ -282,19 +283,19 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .overallRing { --rate: 0%; width: 113px; height: 113px; display: grid; place-items: center; border-radius: 50%; background: conic-gradient(#222 var(--rate), #d2d2ce 0); position: relative; }
 .overallRing::after { content: ""; position: absolute; inset: 9px; background: #e9e9e6; border-radius: 50%; }
 .overallRing > span { position: relative; z-index: 1; color: #555; font-size: 10px; text-align: center; }
-.overallRing b { color: #171717; font: 600 26px Georgia, serif; }
+.overallRing b { color: #171717; font-size: 26px; font-weight: 600; }
 .overallRing small { display: block; margin-top: 4px; color: #7d8c84; font-size: 7px; }
 .statCards { margin: 18px 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
 .statCards > div { min-height: 93px; padding: 18px; background: white; border: 1px solid var(--line); border-radius: 11px; position: relative; overflow: hidden; }
 .statCards small { display: block; color: #86928c; font-size: 8px; }
-.statCards b { display: block; margin-top: 8px; font: 600 25px Georgia, serif; }
-.statCards b span { color: #8c9992; font: normal 10px Arial, sans-serif; }
-.statCards em { position: absolute; right: 12px; bottom: 8px; color: rgba(0,0,0,.08); font: normal 40px Georgia, serif; }
+.statCards b { display: block; margin-top: 8px; font-size: 25px; font-weight: 600; }
+.statCards b span { color: #8c9992; font-size: 10px; font-style: normal; }
+.statCards em { position: absolute; right: 12px; bottom: 8px; color: rgba(0,0,0,.08); font-size: 40px; font-style: normal; }
 .statsGrid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 12px; }
 .statsPanel { padding: 20px; background: #fff; border: 1px solid var(--line); border-radius: 12px; }
 .heatmapPanel { grid-column: 1 / -1; }
 .statsPanelTitle { display: flex; justify-content: space-between; align-items: flex-start; }
-.statsPanelTitle h3 { margin: 0; font: 600 13px Georgia, "Yu Mincho", serif; }
+.statsPanelTitle h3 { margin: 0; font-size: 13px; font-weight: 600; }
 .statsPanelTitle p { margin: 5px 0 0; color: #98a39e; font-size: 8px; }
 .statsPanelTitle > span { padding: 5px 8px; color: #555; background: #f0f0ee; border-radius: 5px; font-size: 8px; }
 .heatmap { margin-top: 22px; display: grid; grid-template-rows: repeat(7, 11px); grid-auto-flow: column; grid-auto-columns: 11px; gap: 4px; overflow: hidden; }
@@ -319,8 +320,8 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .dialogBackdrop { position: fixed; inset: 0; z-index: 50; padding: 20px; display: grid; place-items: center; background: rgba(0, 0, 0, .58); backdrop-filter: blur(5px); }
 .authDialog { width: min(430px, 100%); padding: 31px; background: white; border-radius: 16px; box-shadow: 0 25px 70px rgba(0, 0, 0, .28); position: relative; }
 .dialogClose { position: absolute; top: 12px; right: 14px; width: 29px; height: 29px; border: 0; border-radius: 50%; background: #f0f3f1; color: #65736b; cursor: pointer; }
-.authMark { width: 38px; height: 38px; margin-bottom: 17px; display: grid; place-items: center; background: #ededeb; color: #111; border-radius: 9px; font: 22px Georgia, serif; }
-.authDialog h2 { margin: 8px 0 9px; font: 600 22px Georgia, "Yu Mincho", serif; }
+.authMark { width: 38px; height: 38px; margin-bottom: 17px; display: grid; place-items: center; background: #ededeb; color: #111; border-radius: 9px; font-size: 22px; }
+.authDialog h2 { margin: 8px 0 9px; font-size: 22px; font-weight: 600; }
 .authDialog > p { margin: 0 0 21px; color: #68766e; font-size: 10px; line-height: 1.75; }
 .authDialog label { display: grid; gap: 7px; color: #516159; font-size: 9px; font-weight: 700; }
 .authDialog input { width: 100%; padding: 11px 12px; border: 1px solid #d7e0da; border-radius: 7px; outline: 0; font-size: 11px; }
@@ -334,7 +335,7 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .importLabel input:focus { box-shadow: none; }
 .difficultyGrid { margin-top: 20px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
 .difficultyGrid > div { padding: 13px 8px; display: grid; justify-items: center; border: 1px solid #e7ece9; border-radius: 8px; }
-.difficultyGrid b { margin-top: 9px; font: 600 18px Georgia, serif; }
+.difficultyGrid b { margin-top: 9px; font-size: 18px; font-weight: 600; }
 .difficultyGrid b small { color: #8b9791; font-size: 10px; }
 .difficultyGrid p { margin: 4px 0 0; color: #86928c; font-size: 7px; text-align: center; }
 .recentList { margin-top: 14px; display: grid; }
