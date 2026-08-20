@@ -102,6 +102,7 @@ function statusRank(status: Status) {
 async function gradeWithSakura(problem: Problem, answer: string): Promise<Result | null> {
   const { data, error } = await supabase.functions.invoke("grade-answer", {
     body: {
+      problemId: problem.id,
       title: problem.title,
       prompt: problem.prompt,
       answer,

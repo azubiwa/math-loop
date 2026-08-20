@@ -35,3 +35,15 @@ npm run build:pages
 ```
 
 GitHub Pages用の成果物は `dist/client/math-loop` に作成されます。
+
+## Supabase
+
+`.env.example` を `.env.local` にコピーし、SupabaseのURLとPublishable Keyを設定します。
+
+```bash
+npx supabase db push
+npx supabase secrets set SAKURA_AI_API_KEY=your_key
+npx supabase functions deploy grade-answer
+```
+
+`grade-answer` はログインユーザーだけが利用でき、AI採点は1時間10回・1日40回までです。
