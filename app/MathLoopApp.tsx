@@ -740,7 +740,7 @@ function MathText({ text }: { text: string }) {
     const html = katex.renderToString(text, { throwOnError: false, displayMode: true, strict: false });
     return <span className="previewFormula display" dangerouslySetInnerHTML={{ __html: html }} />;
   }
-  const normalized = text.replace(/lim_\{([^}]+)\}\s*\(([^)]+)\)\/\(([^)]+)\)/g, (_match, limit, numerator, denominator) => {
+  const normalizedLimit = text.replace(/lim_\{([^}]+)\}\s*\(([^)]+)\)\/\(([^)]+)\)/g, (_match, limit, numerator, denominator) => {
     const tex = (value: string) => value
       .replace(/→/g, "\\to ")
       .replace(/∞/g, "\\infty")
@@ -749,6 +749,10 @@ function MathText({ text }: { text: string }) {
       .replace(/⁴/g, "^4")
       .replace(/−/g, "-");
     return `$\\displaystyle\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
+  });
+  const normalized = normalizedLimit.replace(/([A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s]*\\[A-Za-z]+[A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s\\]*)/g, (formula) => {
+    const trimmed = formula.trim();
+    return trimmed ? `$${trimmed}$` : formula;
   });
   const parts = normalized.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g).filter(Boolean);
   return <>{parts.map((part, index) => {
