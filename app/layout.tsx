@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   metadataBase: publicBase,
   title,
   description,
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   openGraph: { title, description, type: "website", images: [{ url: new URL("og.png", publicBase).toString(), width: 1672, height: 941, alt: "MathLoop — 解く。" }] },
   twitter: { card: "summary_large_image", title, description, images: [new URL("og.png", publicBase).toString()] },
 };
