@@ -734,7 +734,7 @@ function MathText({ text }: { text: string }) {
       .replace(/³/g, "^3")
       .replace(/⁴/g, "^4")
       .replace(/−/g, "-");
-    return `$\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
+    return `$\\displaystyle\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
   });
   const parts = normalized.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g).filter(Boolean);
   return <>{parts.map((part, index) => {
