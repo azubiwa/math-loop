@@ -7756,21 +7756,22 @@
     "minutes": 35,
     "answerType": "proof",
     "prompt": [
-      "ベクトル空間 V の部分空間 W_1, W_2 がある。W_1 \\cap W_2 = \\{0\\} ならば、和空間 W_1 + W_2 に属する任意のベクトル v が、v = w_1 + w_2 (w_1 \\in W_1, w_2 \\in W_2) と一意に表せることを証明せよ。"
+      "ベクトル空間 $\\displaystyle V$ の部分空間 $\\displaystyle W_1, W_2$ がある。",
+      "$\\displaystyle W_1 \\cap W_2 = \\{0\\}$ ならば、和空間 $\\displaystyle W_1 + W_2$ に属する任意のベクトル $\\displaystyle v$ が、$\\displaystyle v = w_1 + w_2 \\quad (w_1 \\in W_1,\\ w_2 \\in W_2)$ と一意に表せることを証明せよ。"
     ],
     "explanation": {
       "summary": "2通りの表し方を仮定し、差が共通部分 {0} に入ることから一致を導く。",
       "steps": [
-        "v が 2通りの方法で v = w_1 + w_2 = u_1 + u_2 (w_1, u_1 \\in W_1, w_2, u_2 \\in W_2) と表せたとする。",
+        "$\\displaystyle v = w_1 + w_2 = u_1 + u_2 \\quad (w_1,u_1 \\in W_1,\\ w_2,u_2 \\in W_2)$ と2通りに表せたとする。",
         "移項して変形すると、w_1 - u_1 = u_2 - w_2 となる。",
-        "左辺は W_1 の元の差なので W_1 に属し、右辺は W_2 の元の差なので W_2 に属する。",
-        "したがって、このベクトル x = w_1 - u_1 = u_2 - w_2 は W_1 \\cap W_2 に属する。",
-        "仮定より W_1 \\cap W_2 = \\{0\\} であるから、x = 0。すなわち w_1 = u_1 かつ w_2 = u_2 となり、表現は一意である。"
+        "左辺は $\\displaystyle W_1$ の元の差なので $\\displaystyle W_1$ に属し、右辺は $\\displaystyle W_2$ の元の差なので $\\displaystyle W_2$ に属する。",
+        "したがって、$\\displaystyle x = w_1-u_1 = u_2-w_2$ は $\\displaystyle W_1 \\cap W_2$ に属する。",
+        "仮定より $\\displaystyle W_1 \\cap W_2 = \\{0\\}$ であるから、$\\displaystyle x=0$。すなわち $\\displaystyle w_1=u_1$ かつ $\\displaystyle w_2=u_2$ となり、表現は一意である。"
       ],
       "knowledge": [
         {
           "title": "直和",
-          "body": "和空間の任意の元が一意に分解できるとき、その和空間を直和と呼び W_1 \\oplus W_2 と書く。共通部分が零ベクトルのみであることが同値条件。"
+          "body": "和空間の任意の元が一意に分解できるとき、その和空間を直和と呼び $\\displaystyle W_1 \\oplus W_2$ と書く。共通部分が零ベクトルのみであることが同値条件。"
         }
       ]
     },
@@ -7786,7 +7787,7 @@
           "移項する"
         ],
         [
-          "W_1 \\cap W_2 に属する",
+          "$\\displaystyle W_1 \\cap W_2$ に属する",
           "両方の部分空間に含まれる"
         ],
         [
@@ -7795,7 +7796,7 @@
           "一意である"
         ]
       ],
-      "hint": "2通りの分解があると仮定して等号で結び、移項して両辺が W_1∩W_2 に属することを利用せよ。"
+      "hint": "2通りの分解があると仮定して等号で結び、移項して両辺が $\\displaystyle W_1 \\cap W_2$ に属することを利用せよ。"
     },
     "sourceModel": "Gemini Pro"
   },
