@@ -237,6 +237,34 @@ export default function MathLoopApp() {
     return () => window.clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    function applyLocation() {
+      const url = new URL(window.location.href);
+      const problemId = url.searchParams.get("problem");
+      const problem = problemId ? problems.find((item) => item.id === problemId) : undefined;
+
+      if (problem) {
+        const draft = localStorage.getItem(`mathabc-draft-${problem.id}`) || "";
+        setActiveProblem(problem);
+        setView("problems");
+        setAnswer(draft);
+        setResult(null);
+        setAnswerPhoto(null);
+        setPhotoPreview(null);
+        setExplanationOpen(false);
+        setOpenedAt(Date.now());
+        return;
+      }
+
+      setActiveProblem(null);
+      setView(url.searchParams.get("view") === "stats" ? "stats" : "problems");
+    }
+
+    applyLocation();
+    window.addEventListener("popstate", applyLocation);
+    return () => window.removeEventListener("popstate", applyLocation);
+  }, []);
+
   const solved = Object.values(progress).filter((row) => row.status === "AC").length;
   const attempted = Object.keys(progress).length;
   const attempts = Object.values(progress).reduce((sum, row) => sum + row.attempts, 0);
@@ -281,6 +309,11 @@ export default function MathLoopApp() {
   }, [filtered]);
 
   function navigate(next: "problems" | "stats") {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("problem");
+    if (next === "stats") url.searchParams.set("view", "stats");
+    else url.searchParams.delete("view");
+    window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
     setView(next);
     setActiveProblem(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -296,6 +329,10 @@ export default function MathLoopApp() {
     setAnswerPhoto(null);
     setExplanationOpen(false);
     setOpenedAt(Date.now());
+    const url = new URL(window.location.href);
+    url.searchParams.set("problem", problem.id);
+    url.searchParams.delete("view");
+    window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -535,7 +572,7 @@ export default function MathLoopApp() {
             answerPhoto={answerPhoto}
             photoPreview={photoPreview}
             onPhotoChange={updatePhoto}
-            onBack={() => setActiveProblem(null)}
+            onBack={() => navigate("problems")}
             onSubmit={submit}
             onNext={nextProblem}
             onInsert={insertSymbol}
