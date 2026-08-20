@@ -10296,4 +10296,4090 @@
     },
     "sourceModel": "Gemini Pro"
   }
+,
+
+  {
+    "id": "L3-003-A",
+    "contest": "Level 3 #003",
+    "difficulty": "A",
+    "score": 250,
+    "title": "有限測度空間上のLp包含",
+    "field": "実解析・関数解析",
+    "tags": [
+      "Lp空間",
+      "Hölderの不等式",
+      "有限測度",
+      "反例"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "測度空間 $(X,\\mathcal{M},\\mu)$ が $0<\\mu(X)<\\infty$ を満たし、$1\\le q<p<\\infty$ とする。$f\\in L^p(X)$ に対して $f\\in L^q(X)$ であることを示し、ノルム評価を求めよ。",
+      "$\\displaystyle \\|f\\|*{L^q}\\le \\mu(X)^{\\frac{1}{q}-\\frac{1}{p}}\\|f\\|*{L^p}$",
+      "さらに、この定数が一般には改善できないことを示せ。また、有限測度という仮定を外すと $L^p\\subset L^q$ が一般に成立しないことを、$X=(1,\\infty)$、Lebesgue測度の場合の具体例で示せ。"
+    ],
+    "explanation": {
+      "summary": "Hölderの不等式を $|f|^q$ と定数関数 $1$ に適用すると有限測度による $L^p\\to L^q$ の包含が得られる。定数関数で評価の鋭さを確認でき、無限測度空間ではべき減衰関数を用いて包含が破れる。",
+      "steps": [
+        "$r=p/q>1$ とし、その共役指数を $r'=p/(p-q)$ とする。$|f|^q\\in L^r$ であり、有限測度性から $1\\in L^{r'}$ である。",
+        "Hölderの不等式より $\\int_X|f|^q\\,d\\mu\\le (\\int_X|f|^p\\,d\\mu)^{q/p}\\mu(X)^{1-q/p}$ を得る。",
+        "両辺の $1/q$ 乗を取ると、要求された評価 $\\|f\\|*q\\le\\mu(X)^{1/q-1/p}\\|f\\|*p$ が得られる。",
+        "$f\\equiv1$ とすると両辺がともに $\\mu(X)^{1/q}$ となるため、測度だけに依存する定数としては鋭い。",
+        "$X=(1,\\infty)$ では $\\alpha=(1/p+1/q)/2$ として $f(x)=x^{-\\alpha}$ と置くと $\\alpha p>1$ だが $\\alpha q<1$ である。したがって $f\\in L^p$ だが $f\\notin L^q$ である。"
+      ],
+      "knowledge": [
+        {
+          "title": "Hölderの不等式",
+          "body": "$1<r,r'<\\infty$、$1/r+1/r'=1$ のとき、$u\\in L^r$、$v\\in L^{r'}$ に対して $\\int|uv|\\le\\|u\\|*r\\|v\\|*{r'}$ が成立する。"
+        },
+        {
+          "title": "有限測度が効く場所",
+          "body": "証明では定数関数 $1$ が $L^{p/(p-q)}$ に属することを使う。この条件は $\\mu(X)<\\infty$ と同値であり、包含の本質である。"
+        },
+        {
+          "title": "Lp包含の向き",
+          "body": "有限測度空間では $p>q$ なら $L^p\\subset L^q$ である。一方、無限測度空間ではこの単純な包含関係は一般に成立しない。"
+        },
+        {
+          "title": "べき関数の可積分性",
+          "body": "$\\int_1^\\infty x^{-\\beta}\\,dx$ は $\\beta>1$ のとき、かつそのときに限って有限である。反例ではこの境界を $p$ と $q$ の間に置く。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$r=p/q$ と共役指数を用いてHölderを適用",
+          "$|f|^q$ と $1$ にHölderの不等式を適用"
+        ],
+        [
+          "$\\|f\\|*q\\le\\mu(X)^{1/q-1/p}\\|f\\|*p$",
+          "$\\mu(X)^{\\frac1q-\\frac1p}$ を含むノルム評価"
+        ],
+        [
+          "$f\\equiv1$ で等号",
+          "定数関数により定数の鋭さを確認"
+        ],
+        [
+          "$f(x)=x^{-\\alpha}$ で $\\alpha p>1$ かつ $\\alpha q\\le1$",
+          "無限測度上で $L^p\\not\\subset L^q$ のべき関数反例"
+        ]
+      ],
+      "hint": "$\\int|f|^q$ を $|f|^q\\cdot1$ と見てHölderを適用し、無限区間ではべき関数の積分判定を使う。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-003-B",
+    "contest": "Level 3 #003",
+    "difficulty": "B",
+    "score": 400,
+    "title": "零点の集積と恒等定理",
+    "field": "複素解析",
+    "tags": [
+      "正則関数",
+      "恒等定理",
+      "Taylor展開",
+      "連結性"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "$\\Omega\\subset\\mathbb{C}$ を連結な領域、$f:\\Omega\\to\\mathbb{C}$ を正則関数とする。相異なる零点の列 $(z_n)$ が $z_n\\to z**\\in\\Omega$ を満たすと仮定する。",
+      "$f\\equiv0$ on $\\Omega$ を示せ。証明では、零でない正則関数の零点が孤立することをTaylor展開から導いてよい。",
+      "さらに、$\\Omega$ の連結性を外すと結論が成立しない具体例を構成せよ。"
+    ],
+    "explanation": {
+      "summary": "集積点 $z**$ で $f$ が零でないTaylor係数を最初に持つなら、$f(z)=(z-z**)^m g(z)$ かつ $g(z**)\\ne0$ と因数分解でき、近傍で零点は $z_*$ だけになる。したがって $f$ は $z_*$ の近傍で恒等的に零であり、零集合の内部を連結性により全領域へ拡張する。",
+      "steps": [
+        "連続性から $f(z_*)=\\lim_n f(z_n)=0$ である。",
+        "$f$ が $z_*$ の近傍で恒等的に零でないと仮定し、Taylor展開で最初の非零係数の次数を $m$ とする。このとき $f(z)=(z-z_*)^m g(z)$、$g$ は正則で $g(z_*)\\ne0$ と書ける。",
+        "$g(z_*)\\ne0$ と連続性から、十分小さい近傍では $g(z)\\ne0$ である。したがってその近傍の零点は $z_*$ のみであり、$z_n\\to z_*$ と矛盾する。",
+        "よって $f$ は $z_*$ のある近傍で恒等的に零である。集合 $A=\\{z\\in\\Omega: f\\text{ は }z\\text{ の近傍で恒等的に零}\\}$ は開であり、同じ孤立零点の議論により閉でもある。",
+        "$A$ は空でなく、$\\Omega$ が連結なので $A=\\Omega$。したがって $f\\equiv0$ である。",
+        "連結性を外す反例として $\\Omega=D(0,1)\\cup D(3,1)$ とし、第1成分で $f=0$、第2成分で $f=1$ と定めればよい。"
+      ],
+      "knowledge": [
+        {
+          "title": "零点の位数",
+          "body": "正則関数 $f$ が $a$ で零となり恒等的に零でないとき、唯一の $m\\ge1$ と正則関数 $g$ が存在して $f(z)=(z-a)^m g(z)$、$g(a)\\ne0$ と書ける。"
+        },
+        {
+          "title": "孤立零点",
+          "body": "上の因数分解と $g(a)\\ne0$ から、十分小さい円板内では $a$ 以外に零点を持たない。これが恒等定理の局所的核心である。"
+        },
+        {
+          "title": "連結性の役割",
+          "body": "正則性は連結成分を越えて情報を伝えない。恒等定理の結論は正確には、零点が集積する連結成分上で $f$ が恒等的に零になるというものである。"
+        },
+        {
+          "title": "解析接続との関係",
+          "body": "二つの正則関数が集積点を持つ集合上で一致すれば、その差に恒等定理を適用して同じ連結領域上で一致する。解析接続の一意性はこの原理に基づく。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$f(z_*)=0$",
+          "零点列の極限と連続性から集積点も零点"
+        ],
+        [
+          "$f(z)=(z-z_*)^m g(z)$ かつ $g(z_*)\\ne0$",
+          "最初の非零Taylor係数による因数分解"
+        ],
+        [
+          "零でない正則関数の零点は孤立",
+          "近傍で $g\\ne0$ なので零点列と矛盾"
+        ],
+        [
+          "連結性から零である成分が全体に一致",
+          "開閉集合と連結性により $f\\equiv0$"
+        ],
+        [
+          "非連結領域の成分ごとに $0$ と $1$ を定める反例",
+          "$D(0,1)\\cup D(3,1)$ 上の反例"
+        ]
+      ],
+      "hint": "集積点でTaylor展開し、最初の非零係数が存在すると零点が孤立してしまうことを使う。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-003-C",
+    "contest": "Level 3 #003",
+    "difficulty": "C",
+    "score": 550,
+    "title": "位数21の群の構造",
+    "field": "抽象代数・ガロア理論",
+    "tags": [
+      "Sylowの定理",
+      "半直積",
+      "群作用",
+      "有限群"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "$|G|=21=3\\cdot7$ とする。Sylowの定理を用いて $G$ の同型類を決定せよ。",
+      "特に、$G$ が非可換ならSylow $7$-部分群が正規であり、Sylow $3$-部分群の個数が $7$ であることを示せ。",
+      "さらに、非可換の場合に $G\\cong C_7\\rtimes C_3$ となり、その非自明な半直積が同型を除いて一意であることを示せ。"
+    ],
+    "explanation": {
+      "summary": "Sylow数の合同条件から $n_7=1$、$n_3=1$ または $7$ となる。両方が正規なら群は $C_7\\times C_3\\cong C_{21}$。非可換なら $n_3=7$ で、正規な $C_7$ への共役作用 $C_3\\to\\operatorname{Aut}(C_7)\\cong C_6$ が非自明となり、$C_6$ の位数3の部分群が一意なので非可換半直積も一意である。",
+      "steps": [
+        "Sylowの定理より $n_7\\mid3$ かつ $n_7\\equiv1\\pmod7$ なので $n_7=1$。したがってSylow $7$-部分群 $N$ は正規で、$N\\cong C_7$。",
+        "$n_3\\mid7$ かつ $n_3\\equiv1\\pmod3$ なので $n_3=1$ または $7$。",
+        "$n_3=1$ のときSylow $3$-部分群 $H$ も正規である。$N\\cap H=1$ であり、正規部分群同士の交換子は $N\\cap H$ に入るため $NH\\cong N\\times H$。よって $G\\cong C_7\\times C_3\\cong C_{21}$。",
+        "非可換なら $n_3=7$。任意のSylow $3$-部分群 $H\\cong C_3$ に対し $G=NH$ であり、共役により準同型 $\\varphi:H\\to\\operatorname{Aut}(N)$ が得られる。",
+        "$\\operatorname{Aut}(C_7)\\cong(\\mathbb{Z}/7\\mathbb{Z})^\\times\\cong C_6$。$\\varphi$ が自明なら直積となって可換なので、非可換の場合 $\\varphi$ は単射で像は位数3の部分群である。",
+        "$C_6$ には位数3の部分群が一つしかない。生成元の取り替えによる作用の違いも半直積の同型を変えないため、非可換群は一意である。"
+      ],
+      "knowledge": [
+        {
+          "title": "Sylow数の条件",
+          "body": "$|G|=p^am$、$p\\nmid m$ のときSylow $p$-部分群の個数 $n_p$ は $n_p\\mid m$ かつ $n_p\\equiv1\\pmod p$ を満たす。"
+        },
+        {
+          "title": "正規Sylow部分群",
+          "body": "Sylow部分群が一意なら共役で不変なので正規である。位数が素数の群は巡回群である。"
+        },
+        {
+          "title": "半直積",
+          "body": "正規部分群 $N$ と部分群 $H$ が $G=NH$、$N\\cap H=1$ を満たすとき、$G$ は共役作用 $H\\to\\operatorname{Aut}(N)$ による半直積 $N\\rtimes H$ と同型である。"
+        },
+        {
+          "title": "Aut(Cp)",
+          "body": "$\\operatorname{Aut}(C_p)\\cong(\\mathbb{Z}/p\\mathbb{Z})^\\times$ であり、$p=7$ では位数6の巡回群となる。非自明な $C_3$ 作用が存在することが非可換群の存在を与える。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$n_7=1$",
+          "$n_7\\mid3$ かつ $n_7\\equiv1\\pmod7$"
+        ],
+        [
+          "$n_3=1$ または $7$",
+          "$n_3\\mid7$ かつ $n_3\\equiv1\\pmod3$"
+        ],
+        [
+          "$n_3=1$ なら $G\\cong C_{21}$",
+          "両Sylow部分群が正規なら直積"
+        ],
+        [
+          "非可換なら $G\\cong C_7\\rtimes C_3$",
+          "共役作用 $C_3\\to\\operatorname{Aut}(C_7)$ が非自明"
+        ],
+        [
+          "$\\operatorname{Aut}(C_7)\\cong C_6$ の位数3部分群は一意",
+          "非可換半直積は同型を除いて一意"
+        ]
+      ],
+      "hint": "まず二つのSylow数を完全に絞り、正規な $C_7$ への $C_3$ の共役作用を見る。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-003-D",
+    "contest": "Level 3 #003",
+    "difficulty": "D",
+    "score": 700,
+    "title": "円周の連結被覆の分類",
+    "field": "位相空間論・代数トポロジー",
+    "tags": [
+      "被覆空間",
+      "基本群",
+      "部分群分類",
+      "デッキ変換"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "$p:E\\to S^1$ を連結な被覆写像とし、$E$ は弧状連結かつ局所弧状連結とする。基点を固定する。",
+      "使用可能な命題として、$S^1$ の基本群は $\\pi_1(S^1)\\cong\\mathbb{Z}$ であり、十分良い空間の連結な基点付き被覆は $\\pi_1(S^1)$ の部分群と一対一に対応する被覆空間分類定理を用いてよい。",
+      "$p_*(\\pi_1(E))=n\\mathbb{Z}$（$n\\ge1$）の場合には $E\\cong S^1$ かつ被覆が $z\\mapsto z^n$ と同値であり、部分群が $\\{0\\}$ の場合には $E\\cong\\mathbb{R}$ かつ被覆が $t\\mapsto e^{2\\pi i t}$ と同値であることを示せ。",
+      "さらに、それぞれのデッキ変換群を求めよ。"
+    ],
+    "explanation": {
+      "summary": "$\\mathbb{Z}$ の部分群は $n\\mathbb{Z}$ と $0$ しかないので、被覆分類定理が円周の被覆を完全に分類する。指数 $n$ の部分群には $n$ 重被覆 $z\\mapsto z^n$、零部分群には普遍被覆 $\\mathbb{R}\\to S^1$ が対応し、デッキ変換群はそれぞれ $C_n$ と $\\mathbb{Z}$ である。",
+      "steps": [
+        "$\\pi_1(S^1)\\cong\\mathbb{Z}$ の部分群は、ある $n\\ge1$ に対する $n\\mathbb{Z}$ または零部分群である。",
+        "$q_n:S^1\\to S^1$、$q_n(z)=z^n$ は $n$ 重被覆であり、誘導準同型は $\\pi_1(S^1)\\cong\\mathbb{Z}$ 上で $k\\mapsto nk$。したがって像は $n\\mathbb{Z}$ である。",
+        "被覆空間分類定理により、$p_*(\\pi_1(E))=n\\mathbb{Z}$ なら $p$ は $q_n$ と基点付き被覆として同値である。したがって $E\\cong S^1$。",
+        "$q_\\infty:\\mathbb{R}\\to S^1$、$q_\\infty(t)=e^{2\\pi it}$ は普遍被覆であり、$\\pi_1(\\mathbb{R})=0$ なので対応部分群は $0$。したがって零部分群に対応する被覆はこれと同値である。",
+        "$q_n$ のデッキ変換は $z\\mapsto\\zeta z$、$\\zeta^n=1$ であり、群は $\\mu_n\\cong C_n$。",
+        "$q_\\infty$ のデッキ変換は $t\\mapsto t+k$、$k\\in\\mathbb{Z}$ であり、群は $\\mathbb{Z}$ である。"
+      ],
+      "knowledge": [
+        {
+          "title": "被覆と基本群の部分群",
+          "body": "連結・局所弧状連結・半局所単連結な空間では、連結な基点付き被覆の同値類は基本群の部分群に対応する。基点を外すと共役類で分類される。"
+        },
+        {
+          "title": "円周の基本群",
+          "body": "$\\pi_1(S^1)\\cong\\mathbb{Z}$。生成元は円周を正方向に1周するループのホモトピー類である。"
+        },
+        {
+          "title": "被覆次数と指数",
+          "body": "連結被覆に対応する部分群 $H$ の指数 $[\\pi_1(X):H]$ は被覆のシート数に等しい。$n\\mathbb{Z}$ の指数は $n$ である。"
+        },
+        {
+          "title": "正規被覆とデッキ変換",
+          "body": "対応部分群が正規なら被覆は正規被覆で、デッキ変換群は $\\pi_1(X)/H$ と同型になる。$\\mathbb{Z}$ は可換なので円周の連結被覆はすべて正規である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\mathbb{Z}$ の部分群は $n\\mathbb{Z}$ または $0$",
+          "円周の基本群の部分群分類"
+        ],
+        [
+          "$z\\mapsto z^n$ の基本群像は $n\\mathbb{Z}$",
+          "$n$ 重被覆が $n\\mathbb{Z}$ に対応"
+        ],
+        [
+          "$t\\mapsto e^{2\\pi it}$ が零部分群に対応",
+          "普遍被覆 $\\mathbb{R}\\to S^1$"
+        ],
+        [
+          "有限被覆のデッキ変換群は $C_n$",
+          "$z\\mapsto\\zeta z$, $\\zeta^n=1$"
+        ],
+        [
+          "普遍被覆のデッキ変換群は $\\mathbb{Z}$",
+          "$t\\mapsto t+k$"
+        ]
+      ],
+      "hint": "被覆そのものを直接変形するより、まず $\\pi_1(S^1)=\\mathbb{Z}$ の部分群を分類する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-003-E",
+    "contest": "Level 3 #003",
+    "difficulty": "E",
+    "score": 900,
+    "title": "回転対称計量の測地線と曲率",
+    "field": "微分幾何・リーマン幾何・テンソル",
+    "tags": [
+      "Christoffel記号",
+      "測地線",
+      "Gaussian曲率",
+      "Clairaut関係"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "$I\\subset\\mathbb{R}$ を開区間、$f:I\\to(0,\\infty)$ を滑らかな関数とする。$M=I\\times S^1$ に座標 $(r,\\theta)$ を取り、Riemann計量を",
+      "$\\displaystyle g=dr^2+f(r)^2d\\theta^2$",
+      "とする。Levi-Civita接続のChristoffel記号を計算し、測地線方程式を求めよ。",
+      "さらに、任意の測地線について $f(r)^2\\dot\\theta$ が保存されることを示し、Gaussian曲率が $K=-f''(r)/f(r)$ であることを導け。",
+      "最後に $f(r)=\\sin r$ と $f(r)=\\sinh r$ の場合の曲率を求め、前者が単位球面、後者が曲率 $-1$ の双曲平面の極座標表示に対応することを説明せよ。"
+    ],
+    "explanation": {
+      "summary": "対角計量 $g_{rr}=1$、$g_{\\theta\\theta}=f^2$ から非零Christoffel記号は $\\Gamma^r_{\\theta\\theta}=-ff'$ と $\\Gamma^\\theta_{r\\theta}=\\Gamma^\\theta_{\\theta r}=f'/f$ のみである。$\\theta$ が循環座標なので $f^2\\dot\\theta$ が保存され、曲率テンソルを計算すると $K=-f''/f$ を得る。",
+      "steps": [
+        "$g_{rr}=1$、$g_{\\theta\\theta}=f^2$、$g^{rr}=1$、$g^{\\theta\\theta}=f^{-2}$ であり、$r$ 微分以外の計量係数の微分は零である。",
+        "Christoffel公式から $\\Gamma^r_{\\theta\\theta}=-(1/2)\\partial_r(f^2)=-ff'$、$\\Gamma^\\theta_{r\\theta}=\\Gamma^\\theta_{\\theta r}=(1/2)f^{-2}\\partial_r(f^2)=f'/f$ を得る。",
+        "測地線 $(r(t),\\theta(t))$ は $\\ddot r-ff'\\dot\\theta^2=0$、$\\ddot\\theta+2(f'/f)\\dot r\\dot\\theta=0$ を満たす。",
+        "第2式に $f^2$ を掛けると $\\frac{d}{dt}(f(r)^2\\dot\\theta)=0$。これは回転対称性に対応する角運動量保存である。",
+        "曲率テンソルを計算すると $R^r{}*{\\theta r\\theta}=-ff''$。したがって $R*{r\\theta r\\theta}=-ff''$ であり、$K=R_{r\\theta r\\theta}/(g_{rr}g_{\\theta\\theta})=-f''/f$。",
+        "$f=\\sin r$ では $K=1$、$f=\\sinh r$ では $K=-1$。それぞれ球面計量 $dr^2+\\sin^2r\\,d\\theta^2$ と双曲計量 $dr^2+\\sinh^2r\\,d\\theta^2$ に一致する。"
+      ],
+      "knowledge": [
+        {
+          "title": "Levi-Civita接続",
+          "body": "Riemann計量に対し、計量整合的かつ捩率零の接続は一意であり、その座標表示は $\\Gamma^k_{ij}=\\frac12g^{k\\ell}(\\partial_i g_{j\\ell}+\\partial_j g_{i\\ell}-\\partial_\\ell g_{ij})$ である。"
+        },
+        {
+          "title": "測地線方程式",
+          "body": "曲線 $x^k(t)$ が測地線であることは $\\ddot x^k+\\Gamma^k_{ij}\\dot x^i\\dot x^j=0$ と同値である。"
+        },
+        {
+          "title": "Clairaut型保存則",
+          "body": "計量が $\\theta$ に依存しないため、エネルギーLagrangianの共役運動量 $\\partial L/\\partial\\dot\\theta=f^2\\dot\\theta$ が保存される。回転面のClairaut関係の座標版である。"
+        },
+        {
+          "title": "二次元のGaussian曲率",
+          "body": "二次元では曲率テンソルは一つの関数 $K$ によって決まり、座標 $(x^1,x^2)$ では $K=R_{1212}/\\det(g)$ で求められる。"
+        },
+        {
+          "title": "モデル空間",
+          "body": "$f(r)=r,\\sin r,\\sinh r$ はそれぞれEuclid平面、単位球面、曲率 $-1$ の双曲平面の極座標計量に対応し、公式 $K=-f''/f$ が三つを統一する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\Gamma^r_{\\theta\\theta}=-ff'$",
+          "$\\Gamma^\\theta_{r\\theta}=\\Gamma^\\theta_{\\theta r}=f'/f$"
+        ],
+        [
+          "$\\ddot r-ff'\\dot\\theta^2=0$",
+          "$\\ddot\\theta+2(f'/f)\\dot r\\dot\\theta=0$"
+        ],
+        [
+          "$\\frac{d}{dt}(f^2\\dot\\theta)=0$",
+          "$f(r)^2\\dot\\theta$ が保存"
+        ],
+        [
+          "$K=-f''/f$",
+          "$R_{r\\theta r\\theta}=-ff''$ から曲率を算出"
+        ],
+        [
+          "$f=\\sin r$ で $K=1$、$f=\\sinh r$ で $K=-1$",
+          "球面と双曲平面の曲率"
+        ]
+      ],
+      "hint": "計量行列が対角で $r$ のみに依存することを最大限利用する。曲率は $R^r{}*{\\theta r\\theta}$ 一成分を計算すれば足りる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-004-A",
+    "contest": "Level 3 #004",
+    "difficulty": "A",
+    "score": 250,
+    "title": "有限次元Riesz表現",
+    "field": "線形代数・関数解析の初歩",
+    "tags": [
+      "内積空間",
+      "双対空間",
+      "Riesz表現",
+      "作用素ノルム"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "$H$ を有限次元の実または複素内積空間とし、$\\ell:H\\to\\mathbb{F}$ を線形汎関数とする。複素の場合、内積は第1変数について線形とする。",
+      "一意的な $y\\in H$ が存在して $\\ell(x)=\\langle x,y\\rangle$ がすべての $x\\in H$ について成立することを示せ。",
+      "さらに作用素ノルムについて $\\|\\ell\\|=\\|y\\|$ を示し、$\\ell\\ne0$ のとき $\\ker\\ell=y^\\perp$ であることを示せ。"
+    ],
+    "explanation": {
+      "summary": "正規直交基底で汎関数の値を係数としてベクトル $y$ を構成すれば表現が得られる。Cauchy-Schwarzで $\\|\\ell\\|\\le\\|y\\|$、$x=y/\\|y\\|$ を代入して逆向きの評価を得る。",
+      "steps": [
+        "正規直交基底 $e_1,\\dots,e_n$ を取り、複素の場合の内積規約に合わせて $y=\\sum_j\\overline{\\ell(e_j)}e_j$ と置く。実の場合は共役を外す。",
+        "$x=\\sum_jx_je_j$ に対して $\\langle x,y\\rangle=\\sum_jx_j\\ell(e_j)=\\ell(x)$ となる。",
+        "二つのベクトル $y,y'$ が同じ表現を与えれば $\\langle x,y-y'\\rangle=0$ が全 $x$ で成立し、$x=y-y'$ として $y=y'$。",
+        "Cauchy-Schwarzより $|\\ell(x)|\\le\\|x\\|\\|y\\|$ なので $\\|\\ell\\|\\le\\|y\\|$。$y\\ne0$ なら $x=y/\\|y\\|$ として等号を得る。",
+        "$\\ell(x)=0$ と $\\langle x,y\\rangle=0$ は同値なので $\\ker\\ell=y^\\perp$。"
+      ],
+      "knowledge": [
+        {
+          "title": "双対空間",
+          "body": "ノルム空間 $H$ の連続線形汎関数全体を $H^*$ と書く。有限次元ではすべての線形写像は連続である。"
+        },
+        {
+          "title": "Riesz表現",
+          "body": "Hilbert空間では有限次元に限らず、各連続線形汎関数は内積によって一意的なベクトルから表現される。"
+        },
+        {
+          "title": "作用素ノルム",
+          "body": "$\\|\\ell\\|=\\sup*{\\|x\\|\\le1}|\\ell(x)|$。Riesz表現ではこのノルムが表現ベクトルのノルムと一致する。"
+        },
+        {
+          "title": "直交補空間",
+          "body": "$y^\\perp=\\{x:\\langle x,y\\rangle=0\\}$。非零線形汎関数の核は余次元1の超平面であり、内積を使うと直交補空間として表現できる。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "正規直交基底から $y$ を構成",
+          "$y=\\sum\\overline{\\ell(e_j)}e_j$"
+        ],
+        [
+          "$\\ell(x)=\\langle x,y\\rangle$",
+          "基底展開から表現を確認"
+        ],
+        [
+          "Cauchy-Schwarzと $x=y/\\|y\\|$ から $\\|\\ell\\|=\\|y\\|$",
+          "作用素ノルムと表現ベクトルのノルムが一致"
+        ],
+        [
+          "$\\ker\\ell=y^\\perp$",
+          "核と直交補空間の一致"
+        ]
+      ],
+      "hint": "正規直交基底上での $\\ell(e_j)$ を、そのまま表現ベクトルの座標に組み込む。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-004-B",
+    "contest": "Level 3 #004",
+    "difficulty": "B",
+    "score": 400,
+    "title": "周期Poisson方程式のFourier解法",
+    "field": "フーリエ解析",
+    "tags": [
+      "Fourier級数",
+      "Sobolev空間",
+      "Poisson方程式",
+      "弱解"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "$\\mathbb{T}=\\mathbb{R}/2\\pi\\mathbb{Z}$ とし、$f\\in L^2(\\mathbb{T})$ が平均零、すなわち $\\widehat f(0)=0$ を満たすとする。Fourier係数を $\\widehat f(n)=\\frac{1}{2\\pi}\\int_0^{2\\pi}f(x)e^{-inx}\\,dx$ とする。",
+      "方程式 $-u''=f$ を分布の意味で満たし、かつ平均零である $u\\in H^2(\\mathbb{T})$ が一意に存在することを示せ。",
+      "$H^2$ ノルムを $\\|u\\|*{H^2}^2=\\sum*{n\\in\\mathbb{Z}}(1+n^2)^2|\\widehat u(n)|^2$ と定めたとき、$\\|u\\|*{H^2}\\le2\\|f\\|*{L^2_*}$ 型の評価を示せ。ただしParsevalの定数は採用したFourier係数の規約に合わせてよく、$\\|f\\|*{L^2**}^2=\\sum_n|\\widehat f(n)|^2$ と置いてよい。"
+    ],
+    "explanation": {
+      "summary": "Fourier係数ごとに $n^2\\widehat u(n)=\\widehat f(n)$ を解く。零周波数で可解性条件として平均零が必要であり、平均零条件で解の定数不定性も除かれる。$n\\ne0$ では $(1+n^2)^2/n^4\\le4$ なので $H^2$ 評価が得られる。",
+      "steps": [
+        "$n\\ne0$ に対し $\\widehat u(n)=\\widehat f(n)/n^2$、$\\widehat u(0)=0$ と定める。",
+        "$\\sum_{n\\ne0}(1+n^2)^2|\\widehat f(n)|^2/n^4\\le4\\sum_n|\\widehat f(n)|^2<\\infty$ なので $u\\in H^2(\\mathbb{T})$ が定まる。",
+        "分布微分のFourier係数は $\\widehat{u''}(n)=-n^2\\widehat u(n)$ なので、全ての $n$ で $\\widehat{-u''}(n)=\\widehat f(n)$。したがって $-u''=f$。",
+        "二つの平均零解の差 $v$ は $v''=0$ を満たす。Fourier係数では $n^2\\widehat v(n)=0$、さらに $\\widehat v(0)=0$ なので $v=0$。",
+        "上の級数評価から $\\|u\\|*{H^2}\\le2\\|f\\|*{L^2_*}$ を得る。"
+      ],
+      "knowledge": [
+        {
+          "title": "周期Sobolev空間",
+          "body": "$H^s(\\mathbb{T})$ はFourier係数が $\\sum_n(1+n^2)^s|\\widehat u(n)|^2<\\infty$ を満たす分布として特徴付けられる。"
+        },
+        {
+          "title": "零モードと可解性",
+          "body": "周期関数では $\\int_0^{2\\pi}u''=0$ なので、$-u''=f$ が解を持つには $f$ の平均が零でなければならない。"
+        },
+        {
+          "title": "定数不定性",
+          "body": "$-u''=f$ の周期解が存在すれば定数を加えても解である。平均零条件はこの核を除き一意性を回復する。"
+        },
+        {
+          "title": "Fourier multiplier",
+          "body": "逆作用素は零モードを除いて記号 $m(n)=1/n^2$ のFourier multiplierである。二階微分の逆が二階分の正則性を回復することが $H^2$ 評価に現れる。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\widehat u(n)=\\widehat f(n)/n^2$ for $n\\ne0$、$\\widehat u(0)=0$",
+          "Fourier係数で解を定義"
+        ],
+        [
+          "$(1+n^2)^2/n^4\\le4$",
+          "$u\\in H^2$ の級数評価"
+        ],
+        [
+          "$\\widehat{-u''}(n)=n^2\\widehat u(n)=\\widehat f(n)$",
+          "分布の意味でPoisson方程式を満たす"
+        ],
+        [
+          "平均零により一意",
+          "差の全Fourier係数が零"
+        ],
+        [
+          "$\\|u\\|*{H^2}\\le2\\|f\\|*{L^2_*}$",
+          "二階正則性評価"
+        ]
+      ],
+      "hint": "微分作用素 $-d^2/dx^2$ はFourier基底 $e^{inx}$ 上で固有値 $n^2$ を持つ。問題は $n=0$ だけである。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-004-C",
+    "contest": "Level 3 #004",
+    "difficulty": "C",
+    "score": 550,
+    "title": "確率変数の収束概念と反例",
+    "field": "確率論・確率過程",
+    "tags": [
+      "概収束",
+      "確率収束",
+      "分布収束",
+      "Lp収束",
+      "反例"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "同一確率空間上の確率変数列 $(X_n)$ と $X$ を考える。次の含意を証明せよ：$X_n\\to X$ 概収束なら確率収束、$L^p$ 収束（$p>0$）なら確率収束、確率収束なら分布収束。",
+      "さらに、それぞれの逆が一般には成立しないことを具体例で示せ。",
+      "特に、確率収束するが概収束しない例、分布収束するが確率収束しない例、確率収束するが $L^p$ 収束しない例を、標準的な確率空間上で明示せよ。"
+    ],
+    "explanation": {
+      "summary": "概収束から確率収束は指示関数への優収束、$L^p$ から確率収束はMarkov型評価、確率収束から分布収束は有界連続関数または分布関数の標準定理で従う。逆向きはtypewriter列、同分布だが離れた確率変数、希薄だが大きいspikeで破れる。",
+      "steps": [
+        "概収束なら各 $\\varepsilon>0$ に対して $1_{\\{|X_n-X|>\\varepsilon\\}}\\to0$ 概収束し、$0\\le1_{\\{\\cdot\\}}\\le1$ なので優収束定理から確率が零へ収束する。",
+        "$L^p$ 収束なら $\\mathbb{P}(|X_n-X|>\\varepsilon)\\le\\varepsilon^{-p}\\mathbb{E}|X_n-X|^p\\to0$。",
+        "確率収束からは任意の部分列から概収束する部分列を抽出できる。したがって任意の有界連続 $\\varphi$ に対して $\\mathbb{E}\\varphi(X_n)\\to\\mathbb{E}\\varphi(X)$ が従い、分布収束する。",
+        "確率収束するが概収束しない例として、$[0,1)$ のLebesgue空間で各dyadic区間をレベルごとに順に並べた指示関数、いわゆるtypewriter列を取る。各項の支持測度は $2^{-k}\\to0$ だが、ほぼ全ての点で値1が無限回現れる。",
+        "分布収束するが確率収束しない例として、$X$ を $\\pm1$ を確率 $1/2$ で取る変数とし $X_n=-X$ とする。各 $X_n$ は $X$ と同分布だが $\\mathbb{P}(|X_n-X|=2)=1$。",
+        "確率収束するが $L^p$ 収束しない例として $X_n=n^{1/p}1_{[0,1/n]}$ を取ると、$X_n\\to0$ in probability だが $\\mathbb{E}|X_n|^p=1$。"
+      ],
+      "knowledge": [
+        {
+          "title": "概収束",
+          "body": "$X_n\\to X$ almost surely とは、確率1の集合上で各標本 $\\omega$ について $X_n(\\omega)\\to X(\\omega)$ が成立することをいう。"
+        },
+        {
+          "title": "確率収束",
+          "body": "任意の $\\varepsilon>0$ に対して $\\mathbb{P}(|X_n-X|>\\varepsilon)\\to0$ となることをいう。概収束より弱い。"
+        },
+        {
+          "title": "分布収束",
+          "body": "任意の有界連続関数 $\\varphi$ に対し $\\mathbb{E}\\varphi(X_n)\\to\\mathbb{E}\\varphi(X)$ となることと同値である。極限変数は同一確率空間上にある必要すらない。"
+        },
+        {
+          "title": "Lp収束と尾部",
+          "body": "$L^p$ 収束は大きな値を取る希少事象も期待値で制御する。確率収束だけではspikeの高さを制御できないため、$L^p$ 収束は従わない。"
+        },
+        {
+          "title": "部分列原理",
+          "body": "確率収束する列の任意の部分列には、さらに概収束する部分列が存在する。この事実は確率収束から分布収束を示す便利な手段である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "概収束から指示関数に優収束定理",
+          "$\\mathbb{P}(|X_n-X|>\\varepsilon)\\to0$"
+        ],
+        [
+          "$\\mathbb{P}(|X_n-X|>\\varepsilon)\\le\\varepsilon^{-p}\\mathbb{E}|X_n-X|^p$",
+          "$L^p$ 収束からMarkov評価"
+        ],
+        [
+          "確率収束なら分布収束",
+          "有界連続関数または概収束部分列を用いる"
+        ],
+        [
+          "typewriter列で確率収束するが概収束しない",
+          "dyadic区間の指示関数列"
+        ],
+        [
+          "$X_n=-X$ で同分布だが確率収束しない",
+          "分布収束の逆の反例"
+        ],
+        [
+          "$n^{1/p}1_{[0,1/n]}$ で確率収束するが $L^p$ ノルム1",
+          "spike反例"
+        ]
+      ],
+      "hint": "正方向の含意には優収束・Markov不等式・部分列抽出を使い、逆向きでは「小さい支持」と「大きい振幅」を使い分ける。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-004-D",
+    "contest": "Level 3 #004",
+    "difficulty": "D",
+    "score": 700,
+    "title": "線形常微分方程式の安定性判定",
+    "field": "常微分方程式",
+    "tags": [
+      "線形系",
+      "Jordan標準形",
+      "Lyapunov安定性",
+      "固有値"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "$A\\in M_2(\\mathbb{R})$ とし、線形系 $\\dot x=Ax$ の平衡点 $x=0$ を考える。",
+      "$0$ が漸近安定であるための必要十分条件が、$A$ の全固有値 $\\lambda$ について $\\operatorname{Re}\\lambda<0$ であることを示せ。",
+      "さらにLyapunov安定であるための必要十分条件が、全固有値について $\\operatorname{Re}\\lambda\\le0$ であり、実部零の固有値に対応するJordanブロックがすべて1次であることであることを、$2\\times2$ の場合についてJordan標準形または実標準形を用いて証明せよ。"
+    ],
+    "explanation": {
+      "summary": "解は $x(t)=e^{tA}x_0$。Jordanブロック $J=\\lambda I+N$ に対して $e^{tJ}=e^{\\lambda t}(I+tN)$ となるため、固有値の実部とJordanブロック由来の多項式成長が安定性を完全に決める。",
+      "steps": [
+        "線形系の解は一意に $x(t)=e^{tA}x_0$ と表される。相似変換は有限次元でノルムの同値性により安定性の種類を変えない。",
+        "実固有値の1次ブロックでは $e^{\\lambda t}$、2次Jordanブロックでは $e^{\\lambda t}\\begin{pmatrix}1&t\\\\0&1\\end{pmatrix}$ が現れる。",
+        "複素共役固有値 $a\\pm ib$ に対する実2次ブロックの指数は $e^{at}$ と回転行列の積であり、ノルムの増減は $e^{at}$ で決まる。",
+        "すべての固有値の実部が負なら、Jordan因子の高々一次の $t$ を指数減衰が上回り $\\|e^{tA}\\|\\to0$。したがって漸近安定である。",
+        "実部が正の固有値があればその固有方向で解が増大する。実部零ならその固有方向は減衰しないので漸近安定ではない。",
+        "Lyapunov安定性については、実部負の成分は有界かつ減衰し、実部零の半単純成分は回転または定数として有界である。一方、実部零の非自明Jordanブロックは $t$ に比例して増大するため不安定である。"
+      ],
+      "knowledge": [
+        {
+          "title": "行列指数",
+          "body": "$e^{tA}=\\sum_{n=0}^\\infty t^nA^n/n!$ で定義され、$\\dot x=Ax$ の基本解行列となる。"
+        },
+        {
+          "title": "Jordanブロックの指数",
+          "body": "$J=\\lambda I+N$、$N^2=0$ なら $e^{tJ}=e^{\\lambda t}(I+tN)$。実部零でも $N\\ne0$ なら多項式成長が残る。"
+        },
+        {
+          "title": "漸近安定",
+          "body": "平衡点がLyapunov安定で、かつ十分近い初期値からの解が時間無限大で平衡点へ収束するとき漸近安定という。線形系では全固有値の実部が負であることと同値である。"
+        },
+        {
+          "title": "半単純固有値",
+          "body": "固有値が半単純とは、その固有値に関するJordanブロックがすべて1次であることをいう。虚軸上の固有値では半単純性が有界性に必要になる。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$x(t)=e^{tA}x_0$",
+          "行列指数による解表示"
+        ],
+        [
+          "$e^{tJ}=e^{\\lambda t}(I+tN)$",
+          "Jordanブロックによる多項式因子"
+        ],
+        [
+          "全固有値で $\\operatorname{Re}\\lambda<0$ iff 漸近安定",
+          "指数減衰がJordan因子を支配"
+        ],
+        [
+          "実部正の固有値があれば不安定",
+          "正の指数成長方向"
+        ],
+        [
+          "Lyapunov安定 iff $\\operatorname{Re}\\lambda\\le0$ かつ虚軸上半単純",
+          "実部零の非自明Jordanブロックは $t$ 成長"
+        ]
+      ],
+      "hint": "安定性を直接 $\\varepsilon$-$\\delta$ で追う前に、各Jordanブロックの $e^{tJ}$ を明示する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-004-E",
+    "contest": "Level 3 #004",
+    "difficulty": "E",
+    "score": 900,
+    "title": "奇素数pにおけるp進平方類",
+    "field": "数論",
+    "tags": [
+      "p進数",
+      "Henselの補題",
+      "平方類",
+      "付値"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "$p$ を奇素数とする。任意の $x\\in\\mathbb{Q}*p^\\times$ は一意に $x=p^v u$、$v\\in\\mathbb{Z}$、$u\\in\\mathbb{Z}*p^\\times$ と書ける。",
+      "使用可能な命題としてHenselの補題を用いてよい：$F\\in\\mathbb{Z}*p[T]$ と $a_0\\in\\mathbb{Z}*p$ が $F(a_0)\\equiv0\\pmod p$、$F'(a_0)\\not\\equiv0\\pmod p$ を満たせば、$a\\equiv a_0\\pmod p$ かつ $F(a)=0$ を満たす一意な $a\\in\\mathbb{Z}*p$ が存在する。",
+      "$x$ が $\\mathbb{Q}*p$ の平方であるための必要十分条件が、$v$ が偶数であり、$u\\bmod p\\in\\mathbb{F}*p^\\times$ が平方であることであることを示せ。",
+      "さらに $\\varepsilon\\in\\mathbb{Z}*p^\\times$ を剰余体で非平方となる単元とすると、$\\mathbb{Q}*p^\\times/(\\mathbb{Q}*p^\\times)^2$ の各元が $1,\\varepsilon,p,\\varepsilon p$ のちょうど一つで代表されることを示せ。"
+    ],
+    "explanation": {
+      "summary": "平方の付値は必ず偶数であり、単元部分の平方性は奇素数では剰余体上の平方性だけで判定できる。後者の十分性は $T^2-u$ にHenselを適用する。付値の偶奇と剰余単元の平方・非平方の二つの二値情報により平方類は4個となる。",
+      "steps": [
+        "$x=y^2$ なら $v_p(x)=2v_p(y)$ は偶数である。また $y=p^m a$、$a\\in\\mathbb{Z}*p^\\times$ と書けば $u=a^2$ なので $u\\bmod p$ は平方。",
+        "逆に $v=2m$ かつ $u\\bmod p$ が平方とする。$a_0^2\\equiv u\\pmod p$ を満たす $a_0\\not\\equiv0\\pmod p$ を取る。",
+        "$F(T)=T^2-u$ とすると $F(a_0)\\equiv0\\pmod p$、$F'(a_0)=2a_0\\not\\equiv0\\pmod p$。$p$ が奇数なのでHenselの補題が適用でき、$a^2=u$ を満たす $a\\in\\mathbb{Z}*p^\\times$ が存在する。",
+        "したがって $x=(p^m a)^2$ であり十分性が示された。",
+        "任意の $x=p^vu$ について $v$ の偶数部分と単元の平方部分を平方として取り除くと、付値の偶奇 $\\delta\\in\\{0,1\\}$ と、剰余単元が平方か非平方かの情報だけが残る。",
+        "$\\mathbb{F}*p^\\times/(\\mathbb{F}*p^\\times)^2$ は2元なので、代表元は $1,\\varepsilon$。よって平方類代表は $1,\\varepsilon,p,\\varepsilon p$。必要条件からこれらは互いに異なる平方類である。"
+      ],
+      "knowledge": [
+        {
+          "title": "p進付値",
+          "body": "$v_p(xy)=v_p(x)+v_p(y)$ なので平方の付値は必ず偶数である。$\\mathbb{Q}*p^\\times\\cong p^\\mathbb{Z}\\times\\mathbb{Z}*p^\\times$ と考えられる。"
+        },
+        {
+          "title": "Henselの補題",
+          "body": "剰余体上の単純根は $\\mathbb{Z}*p$ 上の根へ一意に持ち上がる。平方根問題では導関数 $2a_0$ が $p$ で消えないことが奇素数という条件に対応する。"
+        },
+        {
+          "title": "有限体の平方類",
+          "body": "$\\mathbb{F}*p^\\times$ は位数 $p-1$ の巡回群であり、平方部分群の指数は2。したがって非零元は平方と非平方の二種類に分かれる。"
+        },
+        {
+          "title": "p=2が特別な理由",
+          "body": "$p=2$ では $F'(a_0)=2a_0$ が必ず2で割れるため、この単純なHensel判定は使えず、$\\mathbb{Q}*2^\\times$ の平方類は4個ではなく8個になる。"
+        },
+        {
+          "title": "局所体の平方類",
+          "body": "付値部分と単元部分を分離する方法は局所体で頻出する。二次拡大やHilbert記号の初歩にもつながる構造である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "平方なら $v_p(x)$ は偶数",
+          "$v_p(y^2)=2v_p(y)$"
+        ],
+        [
+          "$u\\bmod p$ が平方なら $T^2-u$ にHenselを適用",
+          "$F'(a_0)=2a_0\\not\\equiv0\\pmod p$"
+        ],
+        [
+          "$v$ 偶数かつ剰余単元平方なら $x$ は平方",
+          "$x=(p^m a)^2$"
+        ],
+        [
+          "$\\mathbb{F}*p^\\times/(\\mathbb{F}*p^\\times)^2$ は2元",
+          "単元平方類は $1,\\varepsilon$"
+        ],
+        [
+          "平方類代表は $1,\\varepsilon,p,\\varepsilon p$",
+          "$\\mathbb{Q}*p^\\times/(\\mathbb{Q}*p^\\times)^2$ は4元"
+        ]
+      ],
+      "hint": "まず付値を平方で取り除き、残った単元について $T^2-u$ をHenselで持ち上げる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-005-A",
+    "contest": "Level 3 #005",
+    "difficulty": "A",
+    "score": 250,
+    "title": "Yoneda補題",
+    "field": "圏論",
+    "tags": [
+      "Yoneda補題",
+      "表現可能関手",
+      "自然変換",
+      "Hom関手"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "$\\mathcal{C}$ を局所小圏、$A\\in\\mathcal{C}$、$F:\\mathcal{C}\\to\\mathbf{Set}$ を共変関手とする。表現可能関手 $h^A=\\operatorname{Hom}*{\\mathcal{C}}(A,-)$ を考える。",
+      "写像 $\\Phi:\\operatorname{Nat}(h^A,F)\\to F(A)$ を $\\Phi(\\eta)=\\eta_A(\\operatorname{id}*A)$ と定める。",
+      "$\\Phi$ が全単射であることを証明し、その逆写像を明示せよ。",
+      "さらに、自然同型 $h^A\\cong h^B$ が存在すれば $A\\cong B$ であることを導け。"
+    ],
+    "explanation": {
+      "summary": "自然変換は恒等射の像だけで完全に決まる。$x\\in F(A)$ から $\\eta_X(f)=F(f)(x)$ と定義すると自然変換が得られ、Yoneda対応の逆になる。表現可能関手の自然同型は対応する射を互いに逆な同型射へ変換する。",
+      "steps": [
+        "$x\\in F(A)$ に対し、各 $X$ で $\\eta^x_X:\\operatorname{Hom}(A,X)\\to F(X)$ を $\\eta^x_X(f)=F(f)(x)$ と定める。",
+        "$g:X\\to Y$ に対して $F(g)(\\eta^x_X(f))=F(g\\circ f)(x)=\\eta^x_Y(g\\circ f)$ なので自然性が成立する。",
+        "$\\Phi(\\eta^x)=\\eta^x_A(\\operatorname{id}*A)=F(\\operatorname{id}*A)(x)=x$。",
+        "逆に自然変換 $\\eta$ に対して $x=\\eta_A(\\operatorname{id}*A)$ とすると、自然性を射 $f:A\\to X$ に適用して $\\eta_X(f)=F(f)(x)$。したがって $\\eta=\\eta^x$。",
+        "$h^A\\cong h^B$ の自然同型とその逆をYoneda対応で射 $u:B\\to A$、$v:A\\to B$ に対応させる。自然変換の合成が恒等変換になることから $uv=\\operatorname{id}$、$vu=\\operatorname{id}$ が従い $A\\cong B$。"
+      ],
+      "knowledge": [
+        {
+          "title": "自然変換",
+          "body": "関手 $F,G:\\mathcal{C}\\to\\mathcal{D}$ の自然変換 $\\eta:F\\Rightarrow G$ は各対象 $X$ の射 $\\eta_X:F(X)\\to G(X)$ で、全ての射に対して自然性の可換図式を満たすもの。"
+        },
+        {
+          "title": "表現可能関手",
+          "body": "$h^A=\\operatorname{Hom}(A,-)$ の形の関手を表現可能という。対象 $A$ 自体の情報がHom集合全体に符号化されている。"
+        },
+        {
+          "title": "Yoneda補題の意味",
+          "body": "自然変換 $h^A\\Rightarrow F$ は $F(A)$ の元と同じ情報しか持たない。この原理は普遍性の議論を集合の元の計算へ変換する。"
+        },
+        {
+          "title": "Yoneda埋め込み",
+          "body": "反変版を用いると $A\\mapsto\\operatorname{Hom}(-,A)$ は忠実充満な関手を与える。したがって対象は全ての対象からの射の振る舞いによって同型を除き決定される。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\eta^x_X(f)=F(f)(x)$",
+          "$x\\in F(A)$ から自然変換を構成"
+        ],
+        [
+          "$F(g)F(f)(x)=F(g\\circ f)(x)$",
+          "自然性を確認"
+        ],
+        [
+          "$\\eta_X(f)=F(f)(\\eta_A(\\operatorname{id}*A))$",
+          "自然変換が恒等射の像で決まる"
+        ],
+        [
+          "$\\operatorname{Nat}(h^A,F)\\cong F(A)$",
+          "Yoneda対応が全単射"
+        ],
+        [
+          "$h^A\\cong h^B$ なら $A\\cong B$",
+          "自然同型から互いに逆な射を得る"
+        ]
+      ],
+      "hint": "$A$ から $X$ への射 $f$ を、自然性の正方形にそのまま入れる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-005-B",
+    "contest": "Level 3 #005",
+    "difficulty": "B",
+    "score": 400,
+    "title": "双曲線型アファイン多様体の座標環",
+    "field": "代数幾何",
+    "tags": [
+      "アファイン多様体",
+      "座標環",
+      "素イデアル",
+      "Laurent多項式"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "$k$ を体とし、$X\\subset\\mathbb{A}^3_k$ を",
+      "$\\displaystyle X=V(xy-1,xz-1)$",
+      "で定める。$I=(xy-1,xz-1)\\subset k[x,y,z]$ とする。",
+      "$X$ が $\\mathbb{G}*m=\\mathbb{A}^1\\setminus\\{0\\}$ と同型であることを明示的な射で示せ。",
+      "さらに座標環 $k[X]=k[x,y,z]/I$ が $k[t,t^{-1}]$ と同型であることを示し、$I$ が素イデアル、したがって根基イデアルであること、および $X$ が既約であることを示せ。"
+    ],
+    "explanation": {
+      "summary": "方程式 $xy=xz=1$ から $x\\ne0$ かつ $y=z=x^{-1}$。したがって $t\\mapsto(t,t^{-1},t^{-1})$ が $\\mathbb{G}*m$ と $X$ の同型を与える。座標環はLaurent多項式環となり整域なので定義イデアルは素である。",
+      "steps": [
+        "$X$ の点では $xy=1$ なので $x\\ne0$、また $y=x^{-1}$。同様に $z=x^{-1}$ なので $y=z$。",
+        "$\\phi:\\mathbb{G}*m\\to X$ を $t\\mapsto(t,t^{-1},t^{-1})$、$\\psi:X\\to\\mathbb{G}*m$ を $(x,y,z)\\mapsto x$ と定めると互いに逆である。",
+        "環準同型 $k[x,y,z]\\to k[t,t^{-1}]$、$x\\mapsto t$、$y,z\\mapsto t^{-1}$ は $I$ を核に含み、商から全射 $k[x,y,z]/I\\to k[t,t^{-1}]$ を誘導する。",
+        "商環では $y=z$ かつ $xy=1$ なので $x$ は可逆で逆元は $y$。これにより逆準同型 $k[t,t^{-1}]\\to k[x,y,z]/I$、$t\\mapsto\\bar x$ が定まり同型となる。",
+        "$k[t,t^{-1}]$ は整域なので $I$ は素イデアル。素イデアルは根基であり、アファイン代数集合の座標環が整域であることと既約性は同値なので $X$ は既約である。"
+      ],
+      "knowledge": [
+        {
+          "title": "座標環",
+          "body": "アファイン代数集合 $X=V(I)$ の座標環は、$I$ が消去イデアルなら $k[X]=k[x_1,\\dots,x_n]/I(X)$。本問では直接商環を計算できる。"
+        },
+        {
+          "title": "Laurent多項式環",
+          "body": "$k[t,t^{-1}]$ は $k[t]$ で $t$ を可逆化した局所化であり、$\\mathbb{G}*m$ の座標環である。"
+        },
+        {
+          "title": "素イデアルと整域",
+          "body": "$R/I$ が整域であることと $I$ が素イデアルであることは同値。素イデアルは常に根基イデアルである。"
+        },
+        {
+          "title": "既約性",
+          "body": "アファイン代数集合 $X$ が既約であることは、その座標環 $k[X]$ が整域であることと対応する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$y=z=x^{-1}$",
+          "$xy=xz=1$ から $x\\ne0$"
+        ],
+        [
+          "$t\\mapsto(t,t^{-1},t^{-1})$ と $(x,y,z)\\mapsto x$ が互いに逆",
+          "$X\\cong\\mathbb{G}*m$"
+        ],
+        [
+          "$k[x,y,z]/I\\cong k[t,t^{-1}]$",
+          "商環で $x$ の逆元が $y=z$"
+        ],
+        [
+          "商環が整域なので $I$ は素",
+          "$I$ は素イデアルかつ根基"
+        ],
+        [
+          "$X$ は既約",
+          "座標環が整域"
+        ]
+      ],
+      "hint": "幾何的には最初の座標 $x$ を自由変数とし、他の二つはその逆数で決まる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-005-C",
+    "contest": "Level 3 #005",
+    "difficulty": "C",
+    "score": 550,
+    "title": "短完全列の分裂条件",
+    "field": "加群・表現論・ホモロジー代数",
+    "tags": [
+      "短完全列",
+      "split exact",
+      "直和分解",
+      "加群"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "$R$ を環とし、$R$-加群の短完全列",
+      "$\\displaystyle 0\\longrightarrow A\\xrightarrow{i}B\\xrightarrow{p}C\\longrightarrow0$",
+      "を考える。次の条件が同値であることを示せ。",
+      "(i) $p$ の右逆 $s:C\\to B$ が存在し $p\\circ s=\\operatorname{id}*C$、(ii) $i$ の左逆 $r:B\\to A$ が存在し $r\\circ i=\\operatorname{id}*A$、(iii) $B\\cong A\\oplus C$ で、この同型のもとで $i$ と $p$ が標準的包含・射影に対応する。",
+      "さらに $0\\to\\mathbb{Z}\\xrightarrow{\\times n}\\mathbb{Z}\\to\\mathbb{Z}/n\\mathbb{Z}\\to0$（$n\\ge2$）が分裂しないこと、および体上のベクトル空間の短完全列は常に分裂することを示せ。"
+    ],
+    "explanation": {
+      "summary": "sectionがあれば任意の $b\\in B$ を $i(a)+s(c)$ と一意に分解できる。retractionからも同様に補空間 $\\ker r$ を得る。整数の例では分裂すれば有限位数元が $\\mathbb{Z}$ に存在することになり矛盾するが、ベクトル空間では基底を持ち上げてsectionを構成できる。",
+      "steps": [
+        "(i)を仮定する。$b\\in B$ に対し $c=p(b)$ とし、$b-s(c)\\in\\ker p=\\operatorname{im}i$ なので一意な $a$ が存在して $b=i(a)+s(c)$ と書ける。",
+        "写像 $A\\oplus C\\to B$、$(a,c)\\mapsto i(a)+s(c)$ は全単射な $R$-線形写像であり、$i,p$ と標準包含・射影を対応させる。よって(i)から(iii)。",
+        "(iii)からは標準射影または包含を同型で移せば(ii)および(i)が直ちに得られる。したがって三条件は同値。",
+        "また(ii)から直接 $B=i(A)\\oplus\\ker r$ と分解でき、$p|*{\\ker r}:\\ker r\\to C$ が同型となることでも(iii)が得られる。",
+        "整数の列が分裂すれば $s:\\mathbb{Z}/n\\to\\mathbb{Z}$ が存在する。$1\\bmod n$ の像 $m$ は $nm=0$ を満たすため $m=0$、しかし商写像との合成が恒等写像にならず矛盾。",
+        "ベクトル空間では $C$ の基底を取り、それぞれの基底ベクトルの $B$ への逆像を一つ選び、線形に延長すればsection $s:C\\to B$ が得られる。"
+      ],
+      "knowledge": [
+        {
+          "title": "短完全列",
+          "body": "$0\\to A\\xrightarrow{i}B\\xrightarrow{p}C\\to0$ が完全とは、$i$ が単射、$p$ が全射、$\\operatorname{im}i=\\ker p$ であることをいう。"
+        },
+        {
+          "title": "分裂完全列",
+          "body": "短完全列が分裂するとは、同値な条件としてsectionまたはretractionが存在し、中項が外項の直和に分解することをいう。"
+        },
+        {
+          "title": "射影加群",
+          "body": "加群 $C$ が射影的なら、$C$ を右端に持つ任意の短完全列は分裂する。体上のベクトル空間はすべて自由、したがって射影的である。"
+        },
+        {
+          "title": "Extとの接続",
+          "body": "一般に $0\\to A\\to B\\to C\\to0$ の拡大の同値類は $\\operatorname{Ext}^1_R(C,A)$ と関係し、零元が分裂拡大に対応する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$b=i(a)+s(p(b))$ 型の一意分解",
+          "sectionから $B\\cong A\\oplus C$"
+        ],
+        [
+          "$B=i(A)\\oplus\\ker r$",
+          "retractionから直和分解"
+        ],
+        [
+          "(i),(ii),(iii) が同値",
+          "section・retraction・直和分解の同値性"
+        ],
+        [
+          "$\\mathbb{Z}/n\\to\\mathbb{Z}$ のsectionは存在しない",
+          "$nm=0$ なら $m=0$ による非分裂"
+        ],
+        [
+          "ベクトル空間では基底の持ち上げでsection",
+          "体上の短完全列は分裂"
+        ]
+      ],
+      "hint": "sectionがあるなら、$b$ からまず $s(p(b))$ を引き、残りが $\\ker p=\\operatorname{im}i$ に入る。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-005-D",
+    "contest": "Level 3 #005",
+    "difficulty": "D",
+    "score": 700,
+    "title": "弱収束列の有界性と強収束",
+    "field": "実解析・関数解析",
+    "tags": [
+      "弱収束",
+      "一様有界性原理",
+      "Hahn-Banach",
+      "Hilbert空間"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "$X$ をBanach空間とし、$x_n\\rightharpoonup x$、すなわち任意の $f\\in X^*$ に対して $f(x_n)\\to f(x)$ と仮定する。",
+      "使用可能な定理として一様有界性原理とHahn-Banachの定理を用いてよい。",
+      "このとき $\\sup_n\\|x_n\\|<\\infty$ を示せ。",
+      "さらに $H$ がHilbert空間で $x_n\\rightharpoonup x$ かつ $\\|x_n\\|\\to\\|x\\|$ なら $x_n\\to x$ がノルム収束することを示せ。"
+    ],
+    "explanation": {
+      "summary": "各 $x_n$ を双対空間 $X^*$ 上の評価汎関数 $J_n(f)=f(x_n)$ とみなす。弱収束により $J_n$ は各点で有界なので、一様有界性原理から作用素ノルムが一様有界となる。Hahn-Banachで $\\|J_n\\|=\\|x_n\\|$。Hilbert空間では内積展開に弱収束を代入して強収束を得る。",
+      "steps": [
+        "$J_n:X^*\\to\\mathbb{F}$ を $J_n(f)=f(x_n)$ と定める。$X^*$ はBanach空間で、各 $J_n$ は連続線形汎関数である。",
+        "任意の固定 $f\\in X^*$ に対し $J_n(f)=f(x_n)\\to f(x)$ なので $\\sup_n|J_n(f)|<\\infty$。",
+        "一様有界性原理により $\\sup_n\\|J_n\\|<\\infty$。",
+        "常に $\\|J_n\\|\\le\\|x_n\\|$。逆にHahn-Banachにより $x_n\\ne0$ なら $\\|f_n\\|=1$ かつ $f_n(x_n)=\\|x_n\\|$ となる $f_n$ が存在するので $\\|J_n\\|=\\|x_n\\|$。よって $(x_n)$ はノルム有界。",
+        "Hilbert空間では $\\|x_n-x\\|^2=\\|x_n\\|^2+\\|x\\|^2-2\\operatorname{Re}\\langle x_n,x\\rangle$。",
+        "弱収束から $\\langle x_n,x\\rangle\\to\\langle x,x\\rangle=\\|x\\|^2$、ノルム収束から $\\|x_n\\|^2\\to\\|x\\|^2$。したがって右辺は零へ収束する。"
+      ],
+      "knowledge": [
+        {
+          "title": "弱収束",
+          "body": "$x_n\\rightharpoonup x$ とは、全ての連続線形汎関数 $f\\in X^*$ に対して $f(x_n)\\to f(x)$ となること。ノルム収束より一般に弱い。"
+        },
+        {
+          "title": "一様有界性原理",
+          "body": "Banach空間上の連続線形作用素族が各点で一様有界なら、作用素ノルムも一様有界である。完備性が本質的な仮定である。"
+        },
+        {
+          "title": "標準埋め込み",
+          "body": "$J:X\\to X^{**}$、$J(x)(f)=f(x)$ はHahn-Banachにより等長埋め込みで、$\\|J(x)\\|=\\|x\\|$。反射性はこの写像が全射かどうかを問う。"
+        },
+        {
+          "title": "Hilbert空間のKadec型性質",
+          "body": "Hilbert空間では弱収束にノルムの収束を加えると強収束が従う。これは内積による平方ノルム展開に由来する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$J_n(f)=f(x_n)$ を $X^*$ 上の汎関数とみなす",
+          "標準埋め込み $X\\to X^{**}$ を利用"
+        ],
+        [
+          "各 $f$ で $\\sup_n|J_n(f)|<\\infty$ なので一様有界性原理",
+          "弱収束からpointwise bounded"
+        ],
+        [
+          "Hahn-Banachにより $\\|J_n\\|=\\|x_n\\|$",
+          "$\\sup_n\\|x_n\\|<\\infty$"
+        ],
+        [
+          "$\\|x_n-x\\|^2=\\|x_n\\|^2+\\|x\\|^2-2\\operatorname{Re}\\langle x_n,x\\rangle$",
+          "Hilbert空間のノルム展開"
+        ],
+        [
+          "弱収束とノルム収束から強収束",
+          "$\\|x_n-x\\|\\to0$"
+        ]
+      ],
+      "hint": "$x_n$ 自身ではなく、$X^*$ 上の評価作用素として見ると一様有界性原理が適用できる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-005-E",
+    "contest": "Level 3 #005",
+    "difficulty": "E",
+    "score": 900,
+    "title": "Kleinの壺の基本群とホモロジー",
+    "field": "位相空間論・代数トポロジー",
+    "tags": [
+      "van Kampen",
+      "CW複体",
+      "cellular homology",
+      "被覆空間"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "Kleinの壺 $K$ を、1個の0-cell、二つの1-cell $a,b$、一つの2-cellを持ち、その2-cellの付着語が $aba^{-1}b$ であるCW複体として扱う。",
+      "van Kampenの定理を用いて $\\pi_1(K)$ の表示を求めよ。",
+      "cellular homologyを用いて整数係数ホモロジー群 $H_0(K;\\mathbb{Z})$、$H_1(K;\\mathbb{Z})$、$H_2(K;\\mathbb{Z})$ を計算せよ。",
+      "さらに準同型 $\\pi_1(K)\\to\\mathbb{Z}/2\\mathbb{Z}$ を $a\\mapsto1$、$b\\mapsto0$ で定め、その核に対応する2重被覆の基本群が $\\mathbb{Z}^2$ であることを示し、この被覆がトーラスであることを説明せよ。"
+    ],
+    "explanation": {
+      "summary": "1-skeletonは $S^1\\vee S^1$ で、2-cellの付着語から $\\pi_1(K)=\\langle a,b\\mid aba^{-1}=b^{-1}\\rangle$。cellular境界 $d_2$ は付着語の可換化により $(0,2)$ となり、$H_1\\cong\\mathbb{Z}\\oplus\\mathbb{Z}/2$、$H_2=0$。指数2部分群は $a^2,b$ で生成され可換となり $\\mathbb{Z}^2$、対応する閉曲面被覆はトーラスである。",
+      "steps": [
+        "1-skeletonは二つの円のwedgeなので基本群は自由群 $F(a,b)$。2-cellを語 $aba^{-1}b$ に沿って付着するとvan Kampenより $\\pi_1(K)=\\langle a,b\\mid aba^{-1}b=1\\rangle$。",
+        "関係は $aba^{-1}=b^{-1}$ と同値である。",
+        "cellular chain complexは $0\\to\\mathbb{Z}\\xrightarrow{d_2}\\mathbb{Z}^2\\xrightarrow{d_1}\\mathbb{Z}\\to0$。一つの0-cellしかないため $d_1=0$。",
+        "$d_2$ は付着語における各1-cellの総指数で与えられる。$a$ の指数和は0、$b$ の指数和は2なので $d_2(1)=(0,2)$。",
+        "したがって $H_2=\\ker d_2=0$、$H_1=\\mathbb{Z}^2/\\langle(0,2)\\rangle\\cong\\mathbb{Z}\\oplus\\mathbb{Z}/2$、$H_0\\cong\\mathbb{Z}$。",
+        "$\\varphi(a)=1$、$\\varphi(b)=0$ の核は指数2。関係 $aba^{-1}=b^{-1}$ から $a^2ba^{-2}=b$ なので $a^2$ と $b$ は可換する。Reidemeister-Schreierまたは被覆CW複体の解析により核は $\\langle a^2,b\\mid[a^2,b]=1\\rangle\\cong\\mathbb{Z}^2$。",
+        "指数2被覆は閉連結曲面で基本群が $\\mathbb{Z}^2$ となり、標準的な2-cell構造はトーラスのものに一致するので、この被覆は $T^2$ である。"
+      ],
+      "knowledge": [
+        {
+          "title": "van Kampenの定理",
+          "body": "1-skeletonに2-cellをループ $w$ に沿って付着すると、基本群は1-skeletonの基本群を $w$ の正規閉包で割った群になる。"
+        },
+        {
+          "title": "cellular boundary",
+          "body": "2次元CW複体で一つの0-cellを持つ場合、$d_2$ は付着写像の各1-cellへの次数から計算できる。基本群の関係式を可換化した指数和と一致する。"
+        },
+        {
+          "title": "H1と可換化",
+          "body": "弧状連結空間では $H_1(X;\\mathbb{Z})\\cong\\pi_1(X)^{\\mathrm{ab}}$。Kleinの壺の関係を可換化すると $2b=0$ が現れる。"
+        },
+        {
+          "title": "向き付け二重被覆",
+          "body": "Kleinの壺は非向き付け可能で、その向きを反転するループの符号を記録する準同型の核が向き付け二重被覆を与える。この被覆はトーラスである。"
+        },
+        {
+          "title": "被覆と部分群",
+          "body": "連結被覆の基本群は基底空間の基本群の部分群として現れ、シート数はその指数に等しい。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\pi_1(K)=\\langle a,b\\mid aba^{-1}=b^{-1}\\rangle$",
+          "付着語 $aba^{-1}b$ にvan Kampen"
+        ],
+        [
+          "$d_2(1)=(0,2)$",
+          "付着語の指数和からcellular境界"
+        ],
+        [
+          "$H_0\\cong\\mathbb{Z}$、$H_1\\cong\\mathbb{Z}\\oplus\\mathbb{Z}/2$、$H_2=0$",
+          "Kleinの壺の整数ホモロジー"
+        ],
+        [
+          "指数2部分群は $\\langle a^2,b\\rangle$",
+          "$a^2$ と $b$ が可換"
+        ],
+        [
+          "核の基本群は $\\mathbb{Z}^2$ で被覆はトーラス",
+          "向き付け二重被覆 $T^2\\to K$"
+        ]
+      ],
+      "hint": "基本群の関係式を一度可換化するとcellular boundaryも見える。二重被覆では $a$ を2回通ると向き反転が打ち消される。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-006-A",
+    "contest": "Level 3 #006",
+    "difficulty": "A",
+    "score": 250,
+    "title": "三角積分と留数",
+    "field": "複素解析",
+    "tags": [
+      "留数定理",
+      "単位円",
+      "三角積分",
+      "極"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "$a,b\\in\\mathbb{R}$、$a>|b|$ とする。積分",
+      "$\\displaystyle I=\\int_0^{2\\pi}\\frac{d\\theta}{a+b\\cos\\theta}$",
+      "を留数定理によって計算せよ。",
+      "$b=0$ の場合も含め、最終結果を一つの式で与えよ。"
+    ],
+    "explanation": {
+      "summary": "$z=e^{i\\theta}$ と置くと単位円上の有理関数の積分に変わる。二次式 $bz^2+2az+b$ の二根の積は1で、$a>|b|$ により一方だけが単位円内に入る。その留数から $2\\pi/\\sqrt{a^2-b^2}$ を得る。",
+      "steps": [
+        "$b=0$ なら直接 $I=2\\pi/a$ で、求める公式に一致する。以下 $b\\ne0$ とする。",
+        "$z=e^{i\\theta}$、$d\\theta=dz/(iz)$、$\\cos\\theta=(z+z^{-1})/2$ より",
+        "$\\displaystyle I=\\oint*{|z|=1}\\frac{2\\,dz}{i(bz^2+2az+b)}$",
+        "となる。",
+        "二次式の根は $z*\\pm=(-a\\pm\\sqrt{a^2-b^2})/b$。積が1で、実根かつ一方の絶対値が1未満、もう一方が1より大きい。",
+        "内側の根を $z_0$ とすると留数は $1/(i(bz_0+a))$ であり、符号を整理すると $1/(i\\sqrt{a^2-b^2})$ に対応する。",
+        "留数定理により $I=2\\pi/\\sqrt{a^2-b^2}$。"
+      ],
+      "knowledge": [
+        {
+          "title": "単位円置換",
+          "body": "$z=e^{i\\theta}$ により $\\cos\\theta=(z+z^{-1})/2$、$\\sin\\theta=(z-z^{-1})/(2i)$ となり、三角積分を有理関数の周回積分へ変換できる。"
+        },
+        {
+          "title": "留数定理",
+          "body": "閉曲線内部の孤立特異点 $a_j$ に対して $\\oint f(z)dz=2\\pi i\\sum_j\\operatorname{Res}(f,a_j)$。極が境界上にないことの確認が必要である。"
+        },
+        {
+          "title": "単純極の留数",
+          "body": "$P(z)/Q(z)$ で $Q(z_0)=0$、$Q'(z_0)\\ne0$ なら留数は $P(z_0)/Q'(z_0)$。"
+        },
+        {
+          "title": "条件a>|b|",
+          "body": "実積分の分母が零にならないことを保証すると同時に、変換後の二つの極が単位円上に来ないことを保証する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$z=e^{i\\theta}$ で単位円積分へ変換",
+          "$\\cos\\theta=(z+z^{-1})/2$"
+        ],
+        [
+          "極は $z*\\pm=(-a\\pm\\sqrt{a^2-b^2})/b$",
+          "二次式 $bz^2+2az+b$ の根"
+        ],
+        [
+          "一方の極だけが $|z|<1$",
+          "根の積が1で境界上にない"
+        ],
+        [
+          "$I=\\frac{2\\pi}{\\sqrt{a^2-b^2}}$",
+          "留数定理による最終値"
+        ]
+      ],
+      "hint": "$z=e^{i\\theta}$ を使うと分母は二次多項式になる。二根の積に注目すると内側の極を判定しやすい。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-006-B",
+    "contest": "Level 3 #006",
+    "difficulty": "B",
+    "score": 400,
+    "title": "Gaussian整数と素数3 mod 4",
+    "field": "数論",
+    "tags": [
+      "Gaussian整数",
+      "Euclid整域",
+      "ノルム",
+      "素元"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "Gaussian整数環 $\\mathbb{Z}[i]$ にノルム $N(a+bi)=a^2+b^2$ を入れる。",
+      "任意の $\\alpha,\\beta\\in\\mathbb{Z}[i]$、$\\beta\\ne0$ に対して $\\alpha=q\\beta+r$ かつ $N(r)<N(\\beta)$ を満たす $q,r\\in\\mathbb{Z}[i]$ が存在することを示し、$\\mathbb{Z}[i]$ がEuclid整域であることを示せ。",
+      "これを用いて、素数 $p\\equiv3\\pmod4$ が $\\mathbb{Z}[i]$ でも素元であることを示せ。",
+      "また $2=-i(1+i)^2$ を確認せよ。"
+    ],
+    "explanation": {
+      "summary": "複素平面上で $\\alpha/\\beta$ に最も近いGaussian整数を選べば余りのノルムが小さくなる。したがって $\\mathbb{Z}[i]$ はEuclid整域、ゆえにUFD。$p\\equiv3\\pmod4$ が可約ならノルム $p$ のGaussian整数が必要だが、$a^2+b^2=p$ はmod 4で不可能である。",
+      "steps": [
+        "$z=\\alpha/\\beta\\in\\mathbb{C}$ とし、実部・虚部をそれぞれ最も近い整数に丸めて $q\\in\\mathbb{Z}[i]$ を取る。",
+        "$|z-q|^2\\le1/2<1$ なので $r=\\alpha-q\\beta$ とすると $N(r)=N(\\beta)|z-q|^2<N(\\beta)$。",
+        "よってノルムをEuclid関数として除法が成立し、$\\mathbb{Z}[i]$ はEuclid整域。特にPIDかつUFDであり、既約元は素元である。",
+        "$p\\equiv3\\pmod4$ が可約と仮定して $p=\\alpha\\beta$、両方非単元とする。ノルムを取ると $p^2=N(\\alpha)N(\\beta)$。非単元のノルムは2以上なので、整数の因数分解から $N(\\alpha)=N(\\beta)=p$。",
+        "すると $p=a^2+b^2$ となるが、平方数はmod 4で0または1なので和は0,1,2のいずれかであり3にはならない。矛盾。ゆえに $p$ は既約、したがって素元。",
+        "$(1+i)^2=2i$ なので $-i(1+i)^2=2$。"
+      ],
+      "knowledge": [
+        {
+          "title": "Gaussian整数のノルム",
+          "body": "$N(zw)=N(z)N(w)$ であり、$N(z)=1$ の元 $\\pm1,\\pm i$ がちょうど単元である。"
+        },
+        {
+          "title": "Euclid整域",
+          "body": "除法算法を持つ整域ではEuclid互除法が働き、全てのイデアルが単項となる。したがってEuclid整域はPID、PIDはUFDである。"
+        },
+        {
+          "title": "既約元と素元",
+          "body": "一般の整域では既約元と素元は異なる概念だが、UFDでは一致する。証明でEuclid整域性を先に示す理由である。"
+        },
+        {
+          "title": "有理素数の分解",
+          "body": "$\\mathbb{Z}[i]$ では $p\\equiv3\\pmod4$ は惰性的に素のまま、$p\\equiv1\\pmod4$ は二つの共役素元に分解し、$2$ は分岐する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$q$ を $\\alpha/\\beta$ に最も近いGaussian整数に取る",
+          "$|\\alpha/\\beta-q|^2\\le1/2$"
+        ],
+        [
+          "$N(r)<N(\\beta)$ なのでEuclid整域",
+          "ノルムによる除法算法"
+        ],
+        [
+          "可約なら $N(\\alpha)=p$ となる",
+          "$p^2=N(\\alpha)N(\\beta)$"
+        ],
+        [
+          "$a^2+b^2\\equiv3\\pmod4$ は不可能",
+          "$p\\equiv3\\pmod4$ は既約かつ素"
+        ],
+        [
+          "$2=-i(1+i)^2$",
+          "2はGaussian整数で分岐"
+        ]
+      ],
+      "hint": "除法では複素数を整数格子点へ丸める。素数の議論ではノルムを取ると整数の問題になる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-006-C",
+    "contest": "Level 3 #006",
+    "difficulty": "C",
+    "score": 550,
+    "title": "星型領域上のPoincaré補題",
+    "field": "微分幾何・リーマン幾何・テンソル",
+    "tags": [
+      "微分形式",
+      "Poincaré補題",
+      "完全形式",
+      "閉形式"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "$U\\subset\\mathbb{R}^n$ を原点に関して星型な開集合とし、$C^1$ 級1-form",
+      "$\\displaystyle \\omega=\\sum*{i=1}^n a_i(x)\\,dx_i$",
+      "が閉じている、すなわち $\\partial_j a_i=\\partial_i a_j$ を全ての $i,j$ について満たすとする。",
+      "$\\displaystyle F(x)=\\int_0^1\\sum*{i=1}^n a_i(tx)x_i\\,dt$",
+      "と定める。$dF=\\omega$ を直接計算で示せ。",
+      "また星型性がこの構成のどこで使われるかを明確にせよ。"
+    ],
+    "explanation": {
+      "summary": "$F$ を座標微分し、閉形式条件を使って積分内を $t$ 微分 $\\frac{d}{dt}[t a_j(tx)]$ にまとめる。端点評価で $\\partial_jF=a_j(x)$ が得られる。星型性は線分 $tx$ が全て $U$ 内に留まることを保証する。",
+      "steps": [
+        "星型性により、任意の $x\\in U$ と $0\\le t\\le1$ に対して $tx\\in U$ なので $F(x)$ は定義される。",
+        "積分内を微分して $\\partial_jF(x)=\\int_0^1[a_j(tx)+t\\sum_i x_i\\partial_j a_i(tx)]dt$。",
+        "閉形式条件 $\\partial_j a_i=\\partial_i a_j$ を用いると $\\sum_i x_i\\partial_j a_i(tx)=\\sum_i x_i\\partial_i a_j(tx)$。",
+        "chain ruleから $\\frac{d}{dt}a_j(tx)=\\sum_i x_i\\partial_i a_j(tx)$。したがって積分内は $a_j(tx)+t\\frac{d}{dt}a_j(tx)=\\frac{d}{dt}[t a_j(tx)]$。",
+        "よって $\\partial_jF(x)=[t a_j(tx)]*{t=0}^{t=1}=a_j(x)$。",
+        "全ての $j$ で成立するため $dF=\\sum_j\\partial_jFdx_j=\\omega$。"
+      ],
+      "knowledge": [
+        {
+          "title": "閉形式と完全形式",
+          "body": "1-form $\\omega$ が閉じているとは $d\\omega=0$、完全とはある関数 $F$ が存在して $\\omega=dF$ と書けること。常に完全なら閉だが逆は大域的には一般に偽である。"
+        },
+        {
+          "title": "Poincaré補題",
+          "body": "星型領域、より一般に可縮な十分良い領域では正次数の閉微分形式は完全である。本問は1-formの場合の明示的ホモトピー公式である。"
+        },
+        {
+          "title": "星型性",
+          "body": "原点と任意の点 $x$ を結ぶ線分 $\\{tx:0\\le t\\le1\\}$ が領域内に含まれること。積分による原始関数構成を大域的に定義するために必要である。"
+        },
+        {
+          "title": "位相的障害",
+          "body": "$\\mathbb{R}^2\\setminus\\{0\\}$ 上の $(-y\\,dx+x\\,dy)/(x^2+y^2)$ は閉じているが完全ではない。円周に沿う積分が $2\\pi$ となるためである。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "星型性から $tx\\in U$",
+          "線分積分が全区間で定義可能"
+        ],
+        [
+          "$\\partial_jF=\\int_0^1[a_j(tx)+t\\sum_i x_i\\partial_j a_i(tx)]dt$",
+          "積分内微分"
+        ],
+        [
+          "$\\partial_j a_i=\\partial_i a_j$",
+          "閉形式条件で微分添字を交換"
+        ],
+        [
+          "積分内が $\\frac{d}{dt}[t a_j(tx)]$",
+          "chain ruleで全微分にまとめる"
+        ],
+        [
+          "$\\partial_jF=a_j$ したがって $dF=\\omega$",
+          "Poincaré補題の結論"
+        ]
+      ],
+      "hint": "$\\partial_jF$ を計算した後、$\\partial_j a_i$ を $\\partial_i a_j$ に交換すると $t$ 微分が見える。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-006-D",
+    "contest": "Level 3 #006",
+    "difficulty": "D",
+    "score": 700,
+    "title": "有界停止時刻とGambler's Ruin",
+    "field": "確率論・確率過程",
+    "tags": [
+      "martingale",
+      "停止時刻",
+      "optional stopping",
+      "ランダムウォーク"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "$(M_n,\\mathcal{F}*n)$ を可積分martingaleとし、$\\tau$ を $\\tau\\le N$ almost surely を満たす停止時刻とする。$\\mathbb{E}[M*\\tau]=\\mathbb{E}[M_0]$ を、martingale差分を用いて直接証明せよ。",
+      "次に単純対称ランダムウォーク $S_n=i+\\sum*{k=1}^n\\xi_k$、$1\\le i\\le N-1$、$\\mathbb{P}(\\xi_k=\\pm1)=1/2$ を考え、$\\tau=\\inf\\{n\\ge0:S_n\\in\\{0,N\\}\\}$ とする。",
+      "$\\mathbb{P}*i(S*\\tau=N)=i/N$ と $\\mathbb{E}*i[\\tau]=i(N-i)$ を導け。必要に応じて $\\tau\\wedge m$ に有界停止時刻の結果を適用し、極限操作を正当化せよ。"
+    ],
+    "explanation": {
+      "summary": "有界停止時刻では $M*\\tau-M_0$ を予測可能な指示関数とmartingale差分の和に書ける。Gambler's Ruinでは $S_n$ と $S_n^2-n$ の二つのmartingaleを $\\tau\\wedge m$ に停止して、それぞれ吸収確率と期待停止時間を得る。",
+      "steps": [
+        "$D_k=M_k-M*{k-1}$ とすると $M*\\tau=M_0+\\sum*{k=1}^N1*{\\{\\tau\\ge k\\}}D_k$。",
+        "$\\{\\tau\\ge k\\}\\in\\mathcal{F}*{k-1}$ なので $\\mathbb{E}[1*{\\{\\tau\\ge k\\}}D_k]=\\mathbb{E}[1*{\\{\\tau\\ge k\\}}\\mathbb{E}[D_k|\\mathcal{F}*{k-1}]]=0$。よって $\\mathbb{E}M*\\tau=\\mathbb{E}M_0$。",
+        "ランダムウォークでは $S_n$ がmartingale。$\\tau_m=\\tau\\wedge m$ に適用すると $\\mathbb{E}*iS*{\\tau_m}=i$。",
+        "$0\\le S*{\\tau_m}\\le N$ であり、有限区間からの単純対称歩行はほぼ確実に吸収されるので $S*{\\tau_m}\\to S*\\tau$。優収束定理から $\\mathbb{E}S*\\tau=i$。$S*\\tau$ は0または $N$ なので $N\\mathbb{P}(S*\\tau=N)=i$。",
+        "$S_n^2-n$ もmartingaleである。停止して $\\mathbb{E}[S*{\\tau_m}^2-\\tau_m]=i^2$、従って $\\mathbb{E}\\tau_m=\\mathbb{E}S*{\\tau_m}^2-i^2\\le N^2-i^2$。",
+        "単調収束から $\\mathbb{E}\\tau<\\infty$。さらに $S*{\\tau_m}^2\\to S*\\tau^2$ を優収束させると $\\mathbb{E}\\tau=\\mathbb{E}S*\\tau^2-i^2=N^2(i/N)-i^2=i(N-i)$。"
+      ],
+      "knowledge": [
+        {
+          "title": "停止時刻",
+          "body": "$\\tau$ が停止時刻とは、各 $n$ に対して事象 $\\{\\tau\\le n\\}$ が $\\mathcal{F}*n$ に属すること。特に $\\{\\tau\\ge k\\}\\in\\mathcal{F}*{k-1}$ である。"
+        },
+        {
+          "title": "Optional stopping",
+          "body": "停止定理には複数のバージョンがあり、無条件に任意の停止時刻へ適用してはいけない。有界停止時刻なら本問の差分展開で安全に証明できる。"
+        },
+        {
+          "title": "平方martingale",
+          "body": "平均0、分散1の独立増分を持つランダムウォークでは $S_n^2-n$ がmartingale。二次モーメントから期待停止時間を抽出できる。"
+        },
+        {
+          "title": "極限操作",
+          "body": "$S*{\\tau\\wedge m}$ は $[0,N]$ に一様に有界なので優収束が使える。一方 $\\tau\\wedge m$ には単調収束を用いる。"
+        },
+        {
+          "title": "調和関数との接続",
+          "body": "吸収確率 $h(i)=i/N$ は離散Laplace方程式 $h(i)=\\frac12h(i-1)+\\frac12h(i+1)$ と境界条件 $h(0)=0,h(N)=1$ の解でもある。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$M*\\tau=M_0+\\sum1*{\\{\\tau\\ge k\\}}(M_k-M*{k-1})$",
+          "停止されたmartingaleの差分表示"
+        ],
+        [
+          "$\\{\\tau\\ge k\\}\\in\\mathcal{F}*{k-1}$ なので各差分の期待値0",
+          "有界optional stoppingの直接証明"
+        ],
+        [
+          "$\\mathbb{P}*i(S*\\tau=N)=i/N$",
+          "$S_n$ を $\\tau\\wedge m$ で停止"
+        ],
+        [
+          "$S_n^2-n$ がmartingale",
+          "二次martingaleを停止"
+        ],
+        [
+          "$\\mathbb{E}*i\\tau=i(N-i)$",
+          "単調収束と優収束で極限を正当化"
+        ]
+      ],
+      "hint": "$\\tau$ が有界なら $M*\\tau$ は有限個の差分の和に展開できる。二つ目の量には $S_n^2-n$ を試す。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-006-E",
+    "contest": "Level 3 #006",
+    "difficulty": "E",
+    "score": 900,
+    "title": "円周上の熱方程式と平滑化",
+    "field": "フーリエ解析",
+    "tags": [
+      "熱方程式",
+      "Fourier級数",
+      "Sobolev正則性",
+      "半群",
+      "エネルギー"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "$f\\in L^2(\\mathbb{T})$ に対し、周期熱方程式",
+      "$\\displaystyle \\partial_tu=\\partial_x^2u,\\qquad u(0,x)=f(x)$",
+      "を考える。Fourier係数を用いて $t>0$ における解を構成せよ。",
+      "$\\widehat u(t,n)=e^{-n^2t}\\widehat f(n)$ を導き、$\\|u(t)\\|*{L^2}\\le\\|f\\|*{L^2}$ を示せ。",
+      "さらに任意の整数 $m\\ge0$ と $t>0$ に対して $u(t)\\in H^m(\\mathbb{T})$ であることを示し、熱方程式が即時平滑化を起こすことを説明せよ。",
+      "平均値が保存されること、および $\\bar f=\\widehat f(0)$ とすると $\\|u(t)-\\bar f\\|*{L^2}\\le e^{-t}\\|f-\\bar f\\|*{L^2}$ を示せ。",
+      "十分滑らかな場合に $\\frac{d}{dt}\\|u(t)\\|*{L^2}^2=-2\\|u_x(t)\\|*{L^2}^2$ も導け。"
+    ],
+    "explanation": {
+      "summary": "Fourier基底ではLaplace作用素が固有値 $-n^2$ の対角作用素になるため、各モードは独立なODE $\\partial_t\\widehat u=-n^2\\widehat u$ を満たす。高周波ほど $e^{-n^2t}$ で急速に減衰し、$L^2$ 収縮、任意階Sobolev正則化、平均への指数収束が一つの式から従う。",
+      "steps": [
+        "Fourier展開を熱方程式に代入すると各 $n\\in\\mathbb{Z}$ で $\\partial_t\\widehat u(t,n)=-n^2\\widehat u(t,n)$、$\\widehat u(0,n)=\\widehat f(n)$。",
+        "従って $\\widehat u(t,n)=e^{-n^2t}\\widehat f(n)$。Parsevalにより $\\|u(t)\\|*2^2=\\sum_ne^{-2n^2t}|\\widehat f(n)|^2\\le\\sum_n|\\widehat f(n)|^2$。",
+        "$t>0$ と固定すると $(1+n^2)^m e^{-2n^2t}$ は $n$ について有界なので $\\sum_n(1+n^2)^m|\\widehat u(t,n)|^2<\\infty$。よって全ての $m$ について $u(t)\\in H^m$。",
+        "$n=0$ モードは $e^0=1$ なので平均値は保存される。",
+        "$u-\\bar f$ では $n=0$ モードが消え、$n\\ne0$ なら $e^{-n^2t}\\le e^{-t}$。従って $\\|u(t)-\\bar f\\|*2\\le e^{-t}\\|f-\\bar f\\|*2$。",
+        "滑らかな解では $\\frac{d}{dt}\\|u\\|*2^2=2\\operatorname{Re}\\int u_t\\bar u=2\\operatorname{Re}\\int u*{xx}\\bar u=-2\\int|u_x|^2$。周期境界条件により境界項は消える。"
+      ],
+      "knowledge": [
+        {
+          "title": "熱半群",
+          "body": "$e^{t\\Delta}$ はFourier側で乗数 $e^{-n^2t}$ として作用する。半群性 $e^{(t+s)\\Delta}=e^{t\\Delta}e^{s\\Delta}$ は指数法則から直ちに分かる。"
+        },
+        {
+          "title": "平滑化",
+          "body": "指数減衰 $e^{-n^2t}$ は任意の多項式 $(1+n^2)^m$ より速いので、初期値が単に $L^2$ でも任意の正時刻には全てのSobolev階数を得る。"
+        },
+        {
+          "title": "スペクトルギャップ",
+          "body": "平均零部分では最小の非零固有値が1であるため、$e^{-t}$ の指数減衰が生じる。一般のcompact多様体でもLaplace作用素の第1固有値が同じ役割を持つ。"
+        },
+        {
+          "title": "エネルギー散逸",
+          "body": "熱方程式はDirichletエネルギーに対応する拡散であり、$L^2$ ノルムは時間とともに増加しない。"
+        },
+        {
+          "title": "ODEとの接続",
+          "body": "偏微分方程式がFourier変換によって無限個の独立な一次線形ODEへ分解されることがFourier法の基本原理である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\widehat u(t,n)=e^{-n^2t}\\widehat f(n)$",
+          "各FourierモードのODEを解く"
+        ],
+        [
+          "$\\|u(t)\\|*2\\le\\|f\\|*2$",
+          "Parsevalと $e^{-n^2t}\\le1$"
+        ],
+        [
+          "$(1+n^2)^m e^{-2n^2t}$ が有界",
+          "$t>0$ で任意の $H^m$ に入る"
+        ],
+        [
+          "零モード保存と $e^{-t}$ の平均への減衰",
+          "$\\|u(t)-\\bar f\\|*2\\le e^{-t}\\|f-\\bar f\\|*2$"
+        ],
+        [
+          "$\\frac{d}{dt}\\|u\\|*2^2=-2\\|u_x\\|*2^2$",
+          "部分積分によるエネルギー恒等式"
+        ]
+      ],
+      "hint": "Fourier変換後は各 $n$ ごとに一次ODEになる。平滑化は $e^{-n^2t}$ と任意の多項式の大小比較に帰着する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-007-A",
+    "contest": "Level 3 #007",
+    "difficulty": "A",
+    "score": 250,
+    "title": "位数p二乗の群",
+    "field": "抽象代数・ガロア理論",
+    "tags": [
+      "有限p群",
+      "中心",
+      "類等式",
+      "有限Abel群"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "$p$ を素数、$|G|=p^2$ とする。$G$ が可換群であることを証明せよ。",
+      "そのうえで、$G$ が $C*{p^2}$ または $C_p\\times C_p$ のいずれかと同型であることを示せ。"
+    ],
+    "explanation": {
+      "summary": "有限p群の中心は非自明なので $|Z(G)|$ は $p$ または $p^2$。前者でも商群 $G/Z(G)$ は位数 $p$ の巡回群となり、中心による巡回商を持つ群は可換になるため矛盾する。よって $G$ は可換。元の位数が $p^2$ なら巡回、そうでなければ全非単位元の位数が $p$ で $C_p^2$。",
+      "steps": [
+        "類等式より有限p群の中心は非自明である。したがって $|Z(G)|=p$ または $p^2$。",
+        "$|Z(G)|=p^2$ なら $Z(G)=G$ で可換。",
+        "$|Z(G)|=p$ と仮定すると $G/Z(G)$ は位数 $p$ なので巡回群。$G/Z(G)=\\langle gZ(G)\\rangle$ とすると任意の元は $g^az$、$z\\in Z(G)$ と書け、二元は互いに可換する。したがって $G$ 自体が可換となり、結局 $Z(G)=G$。",
+        "可換群 $G$ に位数 $p^2$ の元が存在すれば、その元が全群を生成するため $G\\cong C*{p^2}$。",
+        "そうでなければ全ての非単位元の位数は $p$。非単位元 $a$ を取り、$b\\notin\\langle a\\rangle$ を取ると $\\langle a\\rangle\\cap\\langle b\\rangle=1$ で、積が全群となるので $G\\cong C_p\\times C_p$。"
+      ],
+      "knowledge": [
+        {
+          "title": "有限p群の中心",
+          "body": "有限p群では共役類の大きさがpの冪であり、類等式をmod pで見ると中心の位数がpで割り切れる。特に中心は非自明。"
+        },
+        {
+          "title": "中心商が巡回",
+          "body": "$G/Z(G)$ が巡回群なら $G$ は可換である。一般の商 $G/N$ が巡回でも $G$ が可換とは限らず、$N=Z(G)$ が重要。"
+        },
+        {
+          "title": "位数p二乗の分類",
+          "body": "位数 $p^2$ の群は同型を除いて $C*{p^2}$ と $C_p\\times C_p$ の二つだけで、どちらも可換である。"
+        },
+        {
+          "title": "高次p群との違い",
+          "body": "位数 $p^3$ から非可換p群が現れる。例えばHeisenberg型群や $p=2$ の二面体群 $D_8$ がある。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "有限p群なので $Z(G)\\ne1$",
+          "類等式から中心が非自明"
+        ],
+        [
+          "$G/Z(G)$ が巡回なら $G$ は可換",
+          "$|Z(G)|=p$ の場合も可換"
+        ],
+        [
+          "$G\\cong C*{p^2}$ または $C_p\\times C_p$",
+          "元の位数により二分類"
+        ]
+      ],
+      "hint": "中心の位数は $p$ か $p^2$。$G/Z(G)$ が巡回になったとき何が起こるかを確認する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-007-B",
+    "contest": "Level 3 #007",
+    "difficulty": "B",
+    "score": 400,
+    "title": "自由ベクトル空間と随伴",
+    "field": "圏論",
+    "tags": [
+      "随伴関手",
+      "自由ベクトル空間",
+      "普遍性",
+      "余積"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "$k$ を体とし、$U:\\mathbf{Vect}*k\\to\\mathbf{Set}$ を忘却関手とする。集合 $S$ に対し $F(S)$ を $S$ を基底とする自由 $k$-ベクトル空間、すなわち有限台関数 $S\\to k$ の空間とする。",
+      "自然な全単射",
+      "$\\displaystyle \\operatorname{Hom}*{\\mathbf{Vect}*k}(F(S),V)\\cong\\operatorname{Hom}*{\\mathbf{Set}}(S,U(V))$",
+      "を構成し、$S$ と $V$ の双方について自然であることを示せ。",
+      "したがって $F\\dashv U$ であること、および $F(S\\sqcup T)\\cong F(S)\\oplus F(T)$ を導け。"
+    ],
+    "explanation": {
+      "summary": "線形写像 $F(S)\\to V$ は基底 $S$ 上での値だけで一意に決まり、任意の集合写像 $S\\to U(V)$ は線形に一意延長できる。この対応は写像の前合成・線形写像の後合成と可換なので自然であり、自由関手が忘却関手の左随伴となる。",
+      "steps": [
+        "$\\Phi*{S,V}(L)=L|*S$ と定める。$S$ を $F(S)$ の標準基底として埋め込んでいる。",
+        "集合写像 $f:S\\to U(V)$ に対し、$\\widetilde f(\\sum*{s\\in S}a_ss)=\\sum_sa_sf(s)$ と定めると一意な線形延長が得られる。",
+        "制限と線形延長は互いに逆なのでHom集合間の全単射が得られる。",
+        "集合写像 $\\alpha:S'\\to S$ による前合成、および線形写像 $g:V\\to W$ による後合成について、制限・線形延長と可換する。従って対応は両変数で自然。",
+        "これは定義通り $F\\dashv U$ を意味する。",
+        "$F$ は左随伴なので余極限を保存する。特にSetの余積 $S\\sqcup T$ はVectの余積である直和へ送られ、$F(S\\sqcup T)\\cong F(S)\\oplus F(T)$。これは基底の直和分解から直接も確認できる。"
+      ],
+      "knowledge": [
+        {
+          "title": "随伴",
+          "body": "$F:\\mathcal{C}\\to\\mathcal{D}$ が $G:\\mathcal{D}\\to\\mathcal{C}$ の左随伴とは、$\\operatorname{Hom}*{\\mathcal{D}}(F(X),Y)\\cong\\operatorname{Hom}*{\\mathcal{C}}(X,G(Y))$ が自然に成立すること。"
+        },
+        {
+          "title": "自由対象",
+          "body": "自由対象は生成元集合からの任意の写像を構造を保つ射へ一意に延長できるという普遍性を持つ。"
+        },
+        {
+          "title": "左随伴と余極限",
+          "body": "左随伴は存在する余極限を保存する。双対的に右随伴は極限を保存する。"
+        },
+        {
+          "title": "Vectの余積",
+          "body": "有限個のベクトル空間では直和が積でも余積でもありbiproductを成す。無限個の場合、余積は有限台直和で積とは異なる。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "線形写像を基底 $S$ に制限",
+          "$L\\mapsto L|*S$"
+        ],
+        [
+          "集合写像を $\\widetilde f(\\sum a_ss)=\\sum a_sf(s)$ と線形延長",
+          "一意な線形延長"
+        ],
+        [
+          "対応が $S,V$ の両方で自然",
+          "前合成・後合成と可換"
+        ],
+        [
+          "$F\\dashv U$",
+          "自由関手は忘却関手の左随伴"
+        ],
+        [
+          "$F(S\\sqcup T)\\cong F(S)\\oplus F(T)$",
+          "左随伴が余積を保存"
+        ]
+      ],
+      "hint": "自由ベクトル空間の線形写像は、基底上の値を指定すれば完全に決まる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-007-C",
+    "contest": "Level 3 #007",
+    "difficulty": "C",
+    "score": 550,
+    "title": "射影直線上の正則関数",
+    "field": "代数幾何",
+    "tags": [
+      "射影直線",
+      "正則関数",
+      "アファインチャート",
+      "Liouvilleの定理"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "$k$ を体とし、射影直線 $\\mathbb{P}^1_k$ の標準アファインチャート $U_0=\\{X_0\\ne0\\}$、$U_1=\\{X_1\\ne0\\}$ を考える。座標をそれぞれ $t=X_1/X_0$、$s=X_0/X_1$ とし、重なりでは $s=t^{-1}$ とする。",
+      "$\\mathbb{P}^1_k$ 上の大域正則関数が定数だけであることを示せ。$U_0\\cong\\mathbb{A}^1$、$U_1\\cong\\mathbb{A}^1$ 上の正則関数がそれぞれ $k[t]$、$k[s]$ であることを用いてよい。",
+      "さらに $k=\\mathbb{C}$ の場合、Riemann球面上の正則関数という観点からLiouvilleの定理または無限遠点での正則性を使った別証明を与えよ。"
+    ],
+    "explanation": {
+      "summary": "大域正則関数は二つのチャート上で多項式 $p(t)$ と $q(s)$ に表され、重なりで $p(t)=q(t^{-1})$。左辺は非負次数、右辺は非正次数のLaurent多項式なので共通部分は定数だけである。複素解析的にはRiemann球面上で無限遠点にも正則な整関数は有界となり、Liouvilleで定数。",
+      "steps": [
+        "大域正則関数 $f$ の $U_0$ への制限は $p(t)\\in k[t]$、$U_1$ への制限は $q(s)\\in k[s]$ と書ける。",
+        "重なり $U_0\\cap U_1\\cong\\mathbb{G}*m$ では $s=t^{-1}$ なので $p(t)=q(t^{-1})$ が $k[t,t^{-1}]$ 内で成立する。",
+        "$p(t)$ は指数 $\\ge0$ の項しか持たず、$q(t^{-1})$ は指数 $\\le0$ の項しか持たない。したがって両者が一致するには指数0の項しか残れず、$p,q$ は同じ定数。",
+        "よって $\\Gamma(\\mathbb{P}^1_k,\\mathcal{O})=k$。",
+        "$k=\\mathbb{C}$ では $U_0\\cong\\mathbb{C}$ 上で $f$ は整関数。無限遠点で正則であることは $f(1/s)$ が $s=0$ 近傍で正則、従って $|z|$ が大きい領域で $f(z)$ が有界であることを意味する。",
+        "コンパクトな円板上でも連続関数として有界なので $f$ は全平面で有界。Liouvilleの定理により定数である。"
+      ],
+      "knowledge": [
+        {
+          "title": "射影直線のチャート",
+          "body": "$\\mathbb{P}^1$ は二つのアファイン直線を $t\\ne0$ の部分で $s=1/t$ と貼り合わせて得られる。"
+        },
+        {
+          "title": "射影多様体の大域関数",
+          "body": "連結な射影多様体上では、適切な仮定の下で大域正則関数は非常に制限される。$\\mathbb{P}^1$ では完全に定数だけになる。"
+        },
+        {
+          "title": "Laurent多項式の次数",
+          "body": "$k[t]\\cap k[t^{-1}]$ を共通のLaurent環 $k[t,t^{-1}]$ 内で取ると $k$ になる。これが代数的証明の核心。"
+        },
+        {
+          "title": "複素解析との対応",
+          "body": "$\\mathbb{P}^1(\\mathbb{C})$ はRiemann球面である。代数的な無限遠点での正則性は、複素解析における $z=\\infty$ での正則性に対応する。"
+        },
+        {
+          "title": "Liouvilleの定理",
+          "body": "全平面上の有界整関数は定数。Riemann球面のコンパクト性と最大値原理からも同じ結論が得られる。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$f|*{U_0}=p(t)$、$f|*{U_1}=q(s)$",
+          "二つのアファインチャートで多項式表示"
+        ],
+        [
+          "重なりで $p(t)=q(t^{-1})$",
+          "$s=t^{-1}$ による貼り合わせ条件"
+        ],
+        [
+          "$k[t]\\cap k[t^{-1}]=k$",
+          "非負次数と非正次数の共通部分は定数"
+        ],
+        [
+          "$\\Gamma(\\mathbb{P}^1,\\mathcal{O})=k$",
+          "大域正則関数は定数"
+        ],
+        [
+          "複素数体では無限遠点で正則なので有界、Liouvilleで定数",
+          "Riemann球面による別証明"
+        ]
+      ],
+      "hint": "二つのチャートの重なりをLaurent多項式環の中で比較する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-007-D",
+    "contest": "Level 3 #007",
+    "difficulty": "D",
+    "score": 700,
+    "title": "Fourier乗数型コンパクト作用素のスペクトル",
+    "field": "線形代数・関数解析の初歩",
+    "tags": [
+      "コンパクト作用素",
+      "スペクトル",
+      "Fourier基底",
+      "自己共役作用素"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "$H=L^2(\\mathbb{T})$ とし、正規直交Fourier基底 $e_n(x)=(2\\pi)^{-1/2}e^{inx}$ を用いる。作用素 $T:H\\to H$ を",
+      "$\\displaystyle T\\left(\\sum*{n\\in\\mathbb{Z}}c_ne_n\\right)=\\sum*{n\\in\\mathbb{Z}}\\frac{c_n}{1+n^2}e_n$",
+      "で定める。",
+      "$T$ が有界・自己共役・コンパクトであることを示せ。",
+      "さらにスペクトル $\\sigma(T)$ を完全に求め、$0$ が固有値ではないがスペクトルに属する理由を説明せよ。"
+    ],
+    "explanation": {
+      "summary": "Fourier基底上で $T$ は実数係数 $m_n=(1+n^2)^{-1}$ の対角作用素。係数が零へ収束するため有限ランク切断で作用素ノルム近似でき、コンパクトである。非零スペクトルは対角値そのもので、0は固有値ではないが対角値の集積点であり、逆作用素が有界でないためスペクトルに入る。",
+      "steps": [
+        "Parsevalより $\\|Tf\\|*2^2=\\sum_n|c_n|^2/(1+n^2)^2\\le\\sum_n|c_n|^2$ なので $\\|T\\|=1$。",
+        "$m_n=(1+n^2)^{-1}$ は実数なので、Fourier係数の内積表示から $\\langle Tf,g\\rangle=\\langle f,Tg\\rangle$。従って自己共役。",
+        "$T_N$ を $|n|\\le N$ のモードだけ残す作用素とすると有限ランクであり、$\\|T-T_N\\|=\\sup*{|n|>N}(1+n^2)^{-1}\\to0$。コンパクト作用素の作用素ノルム極限はコンパクトなので $T$ はコンパクト。",
+        "各 $e_n$ は固有値 $m_n$ の固有ベクトル。従って $\\{1/(1+n^2):n\\in\\mathbb{Z}\\}\\subset\\sigma(T)$。",
+        "$\\lambda$ が0でもどの $m_n$ でもないとする。対角作用素 $(\\lambda I-T)^{-1}$ の係数は $(\\lambda-m_n)^{-1}$。$m_n\\to0$ かつ $\\lambda\\ne0$ なので $\\inf_n|\\lambda-m_n|>0$ で、有界逆作用素が存在する。",
+        "$T$ は単射なので0は固有値でない。しかし $Te_n=m_ne_n$ で $m_n\\to0$ なので、もし $T^{-1}$ が有界なら $1=\\|e_n\\|\\le\\|T^{-1}\\|m_n$ となり矛盾。従って0はスペクトル。",
+        "よって $\\sigma(T)=\\{0\\}\\cup\\{1/(1+n^2):n\\in\\mathbb{Z}\\}$。"
+      ],
+      "knowledge": [
+        {
+          "title": "コンパクト作用素",
+          "body": "有界集合を相対コンパクト集合へ写す作用素。Hilbert空間上で有限ランク作用素の作用素ノルム極限はコンパクトである。"
+        },
+        {
+          "title": "コンパクト作用素のスペクトル",
+          "body": "無限次元Banach空間上のコンパクト作用素では、0以外のスペクトル点は固有値で、0だけが非零固有値列の集積点になりうる。"
+        },
+        {
+          "title": "対角作用素",
+          "body": "正規直交基底に関して対角な有界作用素のスペクトルは、一般に対角係数集合の閉包となる。"
+        },
+        {
+          "title": "Fourierと楕円作用素",
+          "body": "本作用素は形式的に $(I-\\partial_x^2)^{-1}$ に対応する。高周波を $n^{-2}$ 程度抑えるため正則化作用とコンパクト性が現れる。"
+        },
+        {
+          "title": "0が連続スペクトルに入る例",
+          "body": "単射でも全射でない、または逆作用素が非有界なら0はスペクトルに入る。有限次元の行列とは異なる無限次元特有の現象である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\|T\\|=1$ かつ対角係数が実数なので自己共役",
+          "Parsevalによる有界性と自己共役性"
+        ],
+        [
+          "有限ランク $T_N$ に対し $\\|T-T_N\\|\\to0$",
+          "対角係数が0へ収束するのでコンパクト"
+        ],
+        [
+          "各 $e_n$ の固有値は $1/(1+n^2)$",
+          "Fourier基底で対角化"
+        ],
+        [
+          "$\\lambda\\ne0,m_n$ なら $(\\lambda I-T)^{-1}$ が有界",
+          "スペクトル外の点の逆作用素"
+        ],
+        [
+          "0は固有値でないが $T^{-1}$ が非有界",
+          "$\\sigma(T)=\\{0\\}\\cup\\{1/(1+n^2)\\}$"
+        ]
+      ],
+      "hint": "対角係数の列だけを見れば、有限ランク近似と逆作用素の有界性の両方を判定できる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-007-E",
+    "contest": "Level 3 #007",
+    "difficulty": "E",
+    "score": 900,
+    "title": "強凸関数の勾配流",
+    "field": "常微分方程式",
+    "tags": [
+      "勾配流",
+      "強凸性",
+      "Gronwall不等式",
+      "大域存在",
+      "収束率"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "$V\\in C^2(\\mathbb{R}^d)$ が定数 $0<m\\le L$ に対して",
+      "$\\displaystyle mI\\le D^2V(x)\\le LI\\qquad(x\\in\\mathbb{R}^d)$",
+      "を二次形式の意味で満たすとする。勾配流",
+      "$\\displaystyle \\dot x(t)=-\\nabla V(x(t))$",
+      "を考える。",
+      "$V$ が一意な最小点 $x_*$ を持つことを示し、任意の初期値について解が全時間 $t\\ge0$ 存在することを示せ。",
+      "さらに二つの解 $x(t),y(t)$ について $|x(t)-y(t)|\\le e^{-mt}|x(0)-y(0)|$ を証明し、特に $|x(t)-x_*|\\le e^{-mt}|x(0)-x_*|$ を導け。",
+      "加えて $V(x(t))-V(x_*)$ が指数的に減衰する評価を一つ与えよ。"
+    ],
+    "explanation": {
+      "summary": "Hessianの下界は強凸性と強単調性、上界は勾配の大域Lipschitz性を与える。強凸性から $V$ はcoerciveで一意な最小点を持ち、Lipschitzベクトル場により解は大域存在する。二解の差の平方を微分すると強単調性からGrönwall型の指数収縮が得られる。",
+      "steps": [
+        "Taylorの積分表示から $V(y)\\ge V(x)+\\nabla V(x)\\cdot(y-x)+\\frac m2|y-x|^2$。従って $V$ は強凸である。",
+        "$x=0$ として下界を用いると $V(y)\\ge V(0)+\\nabla V(0)\\cdot y+\\frac m2|y|^2$ なので $V(y)\\to\\infty$ as $|y|\\to\\infty$。よって最小点が存在し、強凸性から一意。最小点では $\\nabla V(x_*)=0$。",
+        "$D^2V\\le LI$ から $|\\nabla V(x)-\\nabla V(y)|\\le L|x-y|$。従ってベクトル場 $-\\nabla V$ は大域LipschitzでPicard-Lindelöfにより大域解が存在する。",
+        "Hessian下界から $(\\nabla V(x)-\\nabla V(y))\\cdot(x-y)\\ge m|x-y|^2$。",
+        "$z=x-y$ とすると $\\frac12\\frac d{dt}|z|^2=-z\\cdot(\\nabla V(x)-\\nabla V(y))\\le-m|z|^2$。Grönwallにより $|z(t)|\\le e^{-mt}|z(0)|$。",
+        "$y(t)\\equiv x_*$ と取れば最小点への指数収束が得られる。",
+        "上Hessian評価から $V(x)-V(x_*)\\le\\frac L2|x-x_*|^2$ なので $V(x(t))-V(x_*)\\le\\frac L2e^{-2mt}|x(0)-x_*|^2$。"
+      ],
+      "knowledge": [
+        {
+          "title": "強凸性",
+          "body": "$D^2V\\ge mI$ は $V(y)\\ge V(x)+\\nabla V(x)\\cdot(y-x)+\\frac m2|y-x|^2$ と同値な形の強凸性を与える。"
+        },
+        {
+          "title": "Lipschitz勾配",
+          "body": "$\\|D^2V\\|\\le L$ なら平均値積分から $|\\nabla V(x)-\\nabla V(y)|\\le L|x-y|$。ODEの大域一意性に使われる。"
+        },
+        {
+          "title": "強単調性",
+          "body": "$D^2V\\ge mI$ から $\\nabla V$ は $m$-strongly monotoneとなる。これが勾配流の解同士の距離を指数的に縮める。"
+        },
+        {
+          "title": "Lyapunov関数",
+          "body": "勾配流では $\\frac d{dt}V(x(t))=-|\\nabla V(x(t))|^2\\le0$。従って $V$ 自身が自然なLyapunov関数となる。"
+        },
+        {
+          "title": "最適化との接続",
+          "body": "強凸関数の勾配流は連続時間最適化の基本モデルであり、指数収束率 $m$ は離散勾配法の条件数解析にも対応する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$V(y)\\ge V(x)+\\nabla V(x)\\cdot(y-x)+\\frac m2|y-x|^2$",
+          "Hessian下界から強凸性"
+        ],
+        [
+          "coerciveかつ強凸なので一意な最小点 $x_*$",
+          "$\\nabla V(x_*)=0$"
+        ],
+        [
+          "$|\\nabla V(x)-\\nabla V(y)|\\le L|x-y|$",
+          "大域Lipschitzにより大域解"
+        ],
+        [
+          "$\\frac12\\frac d{dt}|x-y|^2\\le-m|x-y|^2$",
+          "強単調性による距離微分評価"
+        ],
+        [
+          "$|x(t)-y(t)|\\le e^{-mt}|x(0)-y(0)|$",
+          "指数収縮"
+        ],
+        [
+          "$V(x(t))-V(x_*)\\le\\frac L2e^{-2mt}|x(0)-x_*|^2$",
+          "関数値の指数減衰"
+        ]
+      ],
+      "hint": "Hessianの下界と上界は、それぞれ強単調性とLipschitz性に変換する。二解の距離の平方を微分する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-008-A",
+    "contest": "Level 3 #008",
+    "difficulty": "A",
+    "score": 250,
+    "title": "コンパクト空間からHausdorff空間への全単射",
+    "field": "位相空間論・代数トポロジー",
+    "tags": [
+      "コンパクト性",
+      "Hausdorff空間",
+      "商空間",
+      "連続全単射"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "$X$ をコンパクト空間、$Y$ をHausdorff空間とし、$f:X\\to Y$ が連続全単射であるとする。$f$ が同相写像であることを示せ。",
+      "これを用いて、商空間 $[0,1]/(0\\sim1)$ が $S^1$ と同相であることを証明せよ。"
+    ],
+    "explanation": {
+      "summary": "コンパクト集合の連続像はコンパクトで、Hausdorff空間ではコンパクト集合は閉集合なので $f$ は閉写像となる。連続全単射な閉写像の逆写像は連続。商空間から円周への自然な写像にこの定理を適用すればよい。",
+      "steps": [
+        "閉集合 $F\\subset X$ はコンパクトである。",
+        "$f$ は連続なので $f(F)$ は $Y$ でコンパクト。$Y$ がHausdorffなので $f(F)$ は閉集合。",
+        "従って $f$ は閉写像。全単射なので $(f^{-1})^{-1}(F)=f(F)$ という関係から $f^{-1}$ は連続である。",
+        "$q:[0,1]\\to[0,1]/(0\\sim1)$ を商写像とし、$g(t)=e^{2\\pi it}$ と置く。$g(0)=g(1)$ なので商の普遍性から連続写像 $\\bar g:[0,1]/(0\\sim1)\\to S^1$ が誘導される。",
+        "$\\bar g$ は全単射。商空間はコンパクトで $S^1$ はHausdorffなので、上の定理から $\\bar g$ は同相写像。"
+      ],
+      "knowledge": [
+        {
+          "title": "Hausdorff空間のコンパクト集合",
+          "body": "Hausdorff空間ではコンパクト部分集合は閉である。コンパクト性と分離公理を結ぶ重要な事実。"
+        },
+        {
+          "title": "連続全単射",
+          "body": "一般には連続全単射でも逆写像が連続とは限らない。compact-to-Hausdorffという条件が逆連続性を保証する。"
+        },
+        {
+          "title": "商位相",
+          "body": "$q:X\\to X/{\\sim}$ に対し、写像 $g:X\\to Y$ が同値類上一定なら一意な $\\bar g:X/{\\sim}\\to Y$ が存在する。$g$ が連続なら $\\bar g$ も連続。"
+        },
+        {
+          "title": "円周の商表示",
+          "body": "区間の両端点を同一視すると円周が得られる。この表示は基本群・CW複体・商空間の標準例である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "閉集合の像がcompactかつHausdorff内でclosed",
+          "$f$ は閉写像"
+        ],
+        [
+          "連続全単射な閉写像なので逆写像が連続",
+          "$f$ は同相"
+        ],
+        [
+          "$t\\mapsto e^{2\\pi it}$ が端点同一視を通じて商へ降りる",
+          "商の普遍性"
+        ],
+        [
+          "商から $S^1$ への写像が連続全単射",
+          "compact-to-Hausdorffで同相"
+        ]
+      ],
+      "hint": "逆写像の連続性を直接調べる代わりに、$f$ が閉写像であることを示す。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-008-B",
+    "contest": "Level 3 #008",
+    "difficulty": "B",
+    "score": 400,
+    "title": "分布微分とFourier変換",
+    "field": "フーリエ解析",
+    "tags": [
+      "分布",
+      "Heaviside関数",
+      "Fourier変換",
+      "分布微分"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "Schwartz関数 $\\varphi\\in\\mathcal{S}(\\mathbb{R})$ に対してFourier変換を $\\widehat\\varphi(\\xi)=\\int_{\\mathbb{R}}e^{-ix\\xi}\\varphi(x)\\,dx$ とする。",
+      "$\\widehat{\\varphi'}(\\xi)=i\\xi\\widehat\\varphi(\\xi)$ および $\\widehat{x\\varphi}(\\xi)=i\\partial_\\xi\\widehat\\varphi(\\xi)$ を証明せよ。",
+      "分布 $T$ の微分を $\\langle T',\\varphi\\rangle=-\\langle T,\\varphi'\\rangle$ と定める。Heaviside関数 $H(x)=1_{(0,\\infty)}(x)$ を正則分布とみなしたとき $H'=\\delta_0$ を示せ。",
+      "さらに分布Fourier変換において微分公式が $\\widehat{T'}=i\\xi\\widehat T$ と拡張されることを説明し、$i\\xi\\widehat H=1$ という分布恒等式を得よ。"
+    ],
+    "explanation": {
+      "summary": "Schwartz関数では部分積分とFourier積分のパラメータ微分から二つの基本公式が得られる。分布微分は部分積分を定義へ組み込んだもので、Heaviside関数を微分すると境界値 $\\varphi(0)$ が残る。Fourier変換を双対性で分布へ拡張すれば微分公式もそのまま成立する。",
+      "steps": [
+        "$\\widehat{\\varphi'}(\\xi)=\\int e^{-ix\\xi}\\varphi'(x)dx$ を部分積分する。Schwartz減衰で境界項が消え、$i\\xi\\widehat\\varphi(\\xi)$ を得る。",
+        "$\\partial_\\xi\\widehat\\varphi(\\xi)=\\int(-ix)e^{-ix\\xi}\\varphi(x)dx=-i\\widehat{x\\varphi}(\\xi)$ なので $\\widehat{x\\varphi}=i\\partial_\\xi\\widehat\\varphi$。",
+        "$\\langle H',\\varphi\\rangle=-\\int_0^\\infty\\varphi'(x)dx=\\varphi(0)=\\langle\\delta_0,\\varphi\\rangle$。よって $H'=\\delta_0$。",
+        "分布Fourier変換をテスト関数への双対作用で定義すると、Schwartz関数での微分公式と分布微分の定義から $\\widehat{T'}=i\\xi\\widehat T$ が得られる。",
+        "$H'=\\delta_0$ と $\\widehat{\\delta_0}=1$ から $i\\xi\\widehat H=1$。なお $\\xi=0$ で単純に割ることはできず、$\\widehat H$ の決定には $\\delta_0$ に比例する項の自由度が残りうる。"
+      ],
+      "knowledge": [
+        {
+          "title": "Schwartz空間",
+          "body": "関数と全ての導関数が任意の多項式より速く減衰する関数空間。Fourier変換で不変であり、部分積分の境界項が消える。"
+        },
+        {
+          "title": "分布微分",
+          "body": "通常の微分が存在しない関数でも、テスト関数側へ微分を移すことで微分を定義できる。jumpはDirac deltaを生む。"
+        },
+        {
+          "title": "HeavisideとDirac",
+          "body": "階段関数の0での跳躍量が1なので分布微分は $\\delta_0$。一般にpiecewise smooth関数のjumpはdelta項を生む。"
+        },
+        {
+          "title": "Fourier変換と微分",
+          "body": "微分はFourier側で $i\\xi$ の乗算に変わる。PDEを代数的な乗算方程式へ変換する基本原理である。"
+        },
+        {
+          "title": "分布での除算",
+          "body": "$\\xi T=0$ を満たす非零分布として $\\delta_0$ があるため、$i\\xi\\widehat H=1$ から通常関数のように一意に $\\widehat H=1/(i\\xi)$ とすることはできない。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\widehat{\\varphi'}=i\\xi\\widehat\\varphi$",
+          "部分積分で微分公式"
+        ],
+        [
+          "$\\widehat{x\\varphi}=i\\partial_\\xi\\widehat\\varphi$",
+          "Fourier積分を $\\xi$ で微分"
+        ],
+        [
+          "$\\langle H',\\varphi\\rangle=\\varphi(0)$",
+          "$H'=\\delta_0$"
+        ],
+        [
+          "分布でも $\\widehat{T'}=i\\xi\\widehat T$",
+          "双対性によるFourier公式の拡張"
+        ],
+        [
+          "$i\\xi\\widehat H=1$",
+          "$\\widehat{\\delta_0}=1$"
+        ]
+      ],
+      "hint": "通常関数の二公式は部分積分とパラメータ微分。Heavisideでは積分区間の端点 $0$ が残る。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-008-C",
+    "contest": "Level 3 #008",
+    "difficulty": "C",
+    "score": 550,
+    "title": "Torとtensor積の非左完全性",
+    "field": "加群・表現論・ホモロジー代数",
+    "tags": [
+      "Tor",
+      "自由分解",
+      "tensor積",
+      "完全列"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "$m,n\\ge1$ とする。$\\mathbb{Z}/n\\mathbb{Z}$ の自由分解",
+      "$\\displaystyle 0\\longrightarrow\\mathbb{Z}\\xrightarrow{\\times n}\\mathbb{Z}\\longrightarrow\\mathbb{Z}/n\\mathbb{Z}\\longrightarrow0$",
+      "を用い、$\\operatorname{Tor}*1^{\\mathbb{Z}}(\\mathbb{Z}/n\\mathbb{Z},\\mathbb{Z}/m\\mathbb{Z})$ を計算せよ。",
+      "ここでは、この自由分解に $-\\otimes*{\\mathbb{Z}}\\mathbb{Z}/m\\mathbb{Z}$ を適用した複体の1次ホモロジーを $\\operatorname{Tor}*1$ と定義してよい。",
+      "また $(\\mathbb{Z}/n)\\otimes(\\mathbb{Z}/m)$ も計算し、tensor積が一般には左完全でないことを具体例で示せ。"
+    ],
+    "explanation": {
+      "summary": "自由分解をtensorすると $\\mathbb{Z}/m\\xrightarrow{\\times n}\\mathbb{Z}/m$ となる。その核がTor、余核がtensor積であり、どちらも $d=\\gcd(m,n)$ を用いて $\\mathbb{Z}/d$ と同型になる。特に単射 $\\mathbb{Z}\\xrightarrow{\\times n}\\mathbb{Z}$ は $\\mathbb{Z}/n$ をtensorすると零写像になり、単射性が失われる。",
+      "steps": [
+        "自由分解に $-\\otimes\\mathbb{Z}/m$ を適用すると $0\\to\\mathbb{Z}/m\\xrightarrow{\\times n}\\mathbb{Z}/m\\to0$ という複体を得る。",
+        "従って $\\operatorname{Tor}*1^{\\mathbb{Z}}(\\mathbb{Z}/n,\\mathbb{Z}/m)=\\ker(\\times n:\\mathbb{Z}/m\\to\\mathbb{Z}/m)$。",
+        "$d=\\gcd(m,n)$ とすると、この核は位数 $d$ の巡回群であり $\\mathbb{Z}/d\\mathbb{Z}$ と同型。",
+        "tensor積は同じ写像の余核なので $(\\mathbb{Z}/n)\\otimes(\\mathbb{Z}/m)\\cong\\operatorname{coker}(\\times n)\\cong\\mathbb{Z}/d\\mathbb{Z}$。",
+        "例えば $m=n\\ge2$ として元の単射 $\\mathbb{Z}\\xrightarrow{\\times n}\\mathbb{Z}$ に $-\\otimes\\mathbb{Z}/n$ を適用すると $\\mathbb{Z}/n\\xrightarrow{0}\\mathbb{Z}/n$ となる。これは単射でないためtensor関手は左完全ではない。"
+      ],
+      "knowledge": [
+        {
+          "title": "tensor積の右完全性",
+          "body": "$M\\otimes_R-$ は余核を保存するため右完全だが、一般には核や単射を保存しない。"
+        },
+        {
+          "title": "Tor",
+          "body": "$\\operatorname{Tor}*1$ はtensor積が左完全でない度合いを測る導来関手。射影または自由分解をtensorして得られるホモロジーとして計算する。"
+        },
+        {
+          "title": "Z上の計算",
+          "body": "$\\mathbb{Z}/n\\otimes\\mathbb{Z}/m\\cong\\mathbb{Z}/\\gcd(n,m)$、$\\operatorname{Tor}*1^{\\mathbb{Z}}(\\mathbb{Z}/n,\\mathbb{Z}/m)\\cong\\mathbb{Z}/\\gcd(n,m)$。"
+        },
+        {
+          "title": "flat加群",
+          "body": "$M\\otimes_R-$ が単射を保存、すなわち完全関手になるとき $M$ をflatという。自由加群や射影加群はflat。"
+        },
+        {
+          "title": "ホモロジー代数の視点",
+          "body": "非完全な関手に対して分解を取り、その失われた完全性をホモロジー群で測るという方法が導来関手の基本思想である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "tensor後の写像は $\\mathbb{Z}/m\\xrightarrow{\\times n}\\mathbb{Z}/m$",
+          "自由分解をtensor"
+        ],
+        [
+          "Torはこの写像の核",
+          "$\\operatorname{Tor}*1\\cong\\ker(\\times n)$"
+        ],
+        [
+          "$\\operatorname{Tor}*1\\cong\\mathbb{Z}/\\gcd(m,n)$",
+          "核の位数が gcd"
+        ],
+        [
+          "$(\\mathbb{Z}/n)\\otimes(\\mathbb{Z}/m)\\cong\\mathbb{Z}/\\gcd(m,n)$",
+          "余核の計算"
+        ],
+        [
+          "$\\times n$ の単射がtensor後に零写像になる",
+          "tensor積は左完全でない"
+        ]
+      ],
+      "hint": "自由分解をtensorした後は、有限巡回群上の「$n$ 倍写像」の核と余核を計算するだけになる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-008-D",
+    "contest": "Level 3 #008",
+    "difficulty": "D",
+    "score": 700,
+    "title": "Q(√-5)の類数",
+    "field": "数論",
+    "tags": [
+      "代数的数論",
+      "類群",
+      "Minkowski境界",
+      "イデアルノルム"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "$K=\\mathbb{Q}(\\sqrt{-5})$、$\\mathcal{O}*K=\\mathbb{Z}[\\sqrt{-5}]$ とする。判別式は $D_K=-20$ である。",
+      "使用可能な命題として、虚二次体のMinkowski境界：各イデアル類はノルム $N(I)\\le\\frac{2}{\\pi}\\sqrt{|D_K|}$ を満たす整イデアル $I$ を含む、としてよい。またイデアルノルムの乗法性を用いてよい。",
+      "$\\mathfrak{p}=(2,1+\\sqrt{-5})$ とおく。$N(\\mathfrak{p})=2$、$\\mathfrak{p}$ が単項でないこと、$\\mathfrak{p}^2=(2)$ を示せ。",
+      "さらにMinkowski境界を用いて $\\operatorname{Cl}(\\mathcal{O}*K)\\cong\\mathbb{Z}/2\\mathbb{Z}$、すなわち類数が2であることを証明せよ。"
+    ],
+    "explanation": {
+      "summary": "Minkowski境界は各イデアル類にノルム1または2の代表があることを保証する。ノルム2のイデアルは $\\mathfrak p$ 一つだけで、これは単項ではないが平方が $(2)$ になる。従って主類と $[\\mathfrak p]$ の二類だけが存在し、後者の位数は2。",
+      "steps": [
+        "$\\mathcal{O}*K/\\mathfrak p$ では $2=0$、$1+\\sqrt{-5}=0$ なので $\\sqrt{-5}=1$。従って商は $\\mathbb{F}*2$ と同型で $N(\\mathfrak p)=2$。",
+        "$\\mathfrak p$ が $(\\alpha)$、$\\alpha=a+b\\sqrt{-5}$ と単項なら $|N*{K/\\mathbb{Q}}(\\alpha)|=a^2+5b^2=2$ が必要だが整数解はない。よって非単項。",
+        "$\\mathfrak p^2\\subset(2)$ は生成元を掛ければ確認できる。またノルムは $N(\\mathfrak p^2)=4=N((2))$ なので包含と指数の一致から $\\mathfrak p^2=(2)$。",
+        "Minkowski境界は $\\frac{2}{\\pi}\\sqrt{20}<3$。従って各類にはノルム1または2の整イデアル代表がある。",
+        "ノルム1のイデアルは全環で主イデアル。ノルム2のイデアルは商が $\\mathbb{F}*2$ となる極大イデアルである。",
+        "$\\mathbb{Z}[X]/(X^2+5)$ をmod 2で見ると $X^2+5\\equiv X^2+1=(X+1)^2$。従って2の上にある素イデアルは $\\mathfrak p=(2,1+\\sqrt{-5})$ 一つだけ。",
+        "よって全てのイデアル類は $[1]$ または $[\\mathfrak p]$。$\\mathfrak p$ は非単項なので二つは異なり、$\\mathfrak p^2=(2)$ から $[\\mathfrak p]^2=1$。したがって類群は $\\mathbb{Z}/2$。"
+      ],
+      "knowledge": [
+        {
+          "title": "イデアル類群",
+          "body": "非零分数イデアルを主分数イデアルで割った群を類群と呼ぶ。類群が自明であることはDedekind整域ではPID性と対応する。"
+        },
+        {
+          "title": "Minkowski境界",
+          "body": "数体の各イデアル類に小さいノルムの整イデアル代表が存在することを保証する。類数の具体計算を有限問題へ還元する。"
+        },
+        {
+          "title": "イデアルノルム",
+          "body": "整イデアル $I$ のノルムは有限商 $|\\mathcal{O}*K/I|$。非零イデアルについて $N(IJ)=N(I)N(J)$。"
+        },
+        {
+          "title": "非一意分解との関係",
+          "body": "$\\mathbb{Z}[\\sqrt{-5}]$ では $6=2\\cdot3=(1+\\sqrt{-5})(1-\\sqrt{-5})$ という元の非一意分解が起こるが、イデアル分解は一意であり、類群が障害を測る。"
+        },
+        {
+          "title": "分岐",
+          "body": "$2$ は判別式 $-20$ を割るため分岐し、$(2)=\\mathfrak p^2$ となる。この現象が $\\mathfrak p$ の類の位数2と結びつく。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\mathcal{O}*K/\\mathfrak p\\cong\\mathbb{F}*2$ なので $N(\\mathfrak p)=2$",
+          "商環からイデアルノルム2"
+        ],
+        [
+          "$a^2+5b^2=2$ に整数解がないので $\\mathfrak p$ 非単項",
+          "ノルム2の元が存在しない"
+        ],
+        [
+          "$\\mathfrak p^2=(2)$",
+          "包含とノルム4の一致"
+        ],
+        [
+          "Minkowski境界が3未満なので代表ノルムは1または2",
+          "$\\frac2\\pi\\sqrt{20}<3$"
+        ],
+        [
+          "ノルム2のイデアルは $\\mathfrak p$ のみ",
+          "$X^2+5\\equiv(X+1)^2\\pmod2$"
+        ],
+        [
+          "$\\operatorname{Cl}(\\mathcal{O}*K)\\cong\\mathbb{Z}/2$",
+          "主類と $[\\mathfrak p]$ の二類"
+        ]
+      ],
+      "hint": "Minkowski境界で候補ノルムを1と2に絞った後、2の上のイデアルをmod 2の多項式因数分解で調べる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-008-E",
+    "contest": "Level 3 #008",
+    "difficulty": "E",
+    "score": 900,
+    "title": "Gauss-Bonnetと曲率符号",
+    "field": "微分幾何・リーマン幾何・テンソル",
+    "tags": [
+      "Gauss-Bonnet",
+      "Euler標数",
+      "Gaussian曲率",
+      "閉曲面"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "$M$ を種数 $g$ の閉連結向き付け可能曲面とし、Riemann計量のGaussian曲率を $K$、面積要素を $dA$ とする。",
+      "使用可能な定理としてGauss-Bonnet定理",
+      "$\\displaystyle \\int_MK\\,dA=2\\pi\\chi(M)=4\\pi(1-g)$",
+      "を用いてよい。",
+      "(1) $K\\ge0$ かつある点で $K>0$ なら $g=0$ を示せ。",
+      "(2) $g=1$ かつ $K\\ge0$ または $K\\le0$ なら $K\\equiv0$ を示せ。",
+      "(3) $K\\equiv-1$ の計量が存在するなら $g\\ge2$ であり、その面積が $4\\pi(g-1)$ であることを示せ。",
+      "(4) $T^2=\\mathbb{R}^2/\\Lambda$ にEuclid計量が降りて平坦計量 $K\\equiv0$ を与えることを説明し、(2)と整合することを確認せよ。",
+      "最後に、これらの結論が局所的な曲率と大域的な位相を結ぶ結果である理由を説明せよ。"
+    ],
+    "explanation": {
+      "summary": "Gauss-Bonnetにより曲率の全積分は計量に依らずEuler標数だけで決まる。曲率に符号条件があれば積分の符号から種数が制限され、定数負曲率では面積まで位相から決定される。トーラスの平坦計量はEuler標数0と一致する。",
+      "steps": [
+        "$K\\ge0$ かつ一点で正なら連続性から正の面積を持つ近傍で $K>0$ となり、$\\int_MK\\,dA>0$。Gauss-Bonnetより $4\\pi(1-g)>0$、従って整数 $g\\ge0$ から $g=0$。",
+        "$g=1$ では $\\int_MK\\,dA=0$。$K\\ge0$ なら非負連続関数の積分が0なので $K\\equiv0$。$K\\le0$ も $-K$ に同じ議論を適用する。",
+        "$K\\equiv-1$ なら $-\\operatorname{Area}(M)=4\\pi(1-g)$。面積は正なので $g>1$、従って $g\\ge2$。また $\\operatorname{Area}(M)=4\\pi(g-1)$。",
+        "格子 $\\Lambda\\subset\\mathbb{R}^2$ の平行移動はEuclid計量の等長変換なので、商 $\\mathbb{R}^2/\\Lambda$ に計量が降りる。局所的にEuclid平面と等長なので $K=0$。",
+        "$T^2$ は種数1でEuler標数0だからGauss-Bonnetは $\\int K=0$ を与え、平坦計量と一致する。",
+        "Gaussian曲率は各点近傍で計算される局所量だが、その積分がEuler標数という純位相的不変量に固定されるため、局所幾何と大域位相が直接結ばれる。"
+      ],
+      "knowledge": [
+        {
+          "title": "Euler標数",
+          "body": "閉向き付け可能曲面 $\\Sigma_g$ のEuler標数は $\\chi(\\Sigma_g)=2-2g$。種数は穴の個数を表す。"
+        },
+        {
+          "title": "Gauss-Bonnet",
+          "body": "閉向き付け可能Riemann曲面ではGaussian曲率の全積分が $2\\pi\\chi(M)$ に等しい。右辺は計量に依存しない。"
+        },
+        {
+          "title": "曲率符号の位相的制約",
+          "body": "正曲率・負曲率が大域的に存在できるかはEuler標数によって制限される。例えばトーラスに至る所正のGaussian曲率は存在しない。"
+        },
+        {
+          "title": "定数負曲率",
+          "body": "種数 $g\\ge2$ の閉曲面は双曲計量を持つという一様化定理がある。本問では存在は証明せず、存在した場合の面積をGauss-Bonnetから決定している。"
+        },
+        {
+          "title": "平坦トーラス",
+          "body": "Euclid平面を格子で割った商は局所Euclid的なcompact曲面であり、Gaussian曲率は恒等的に0。格子の形によって異なる平坦計量が得られる。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$K\\ge0$ かつ一部で正なら $\\int K>0$ なので $g=0$",
+          "Gauss-Bonnetと曲率正値"
+        ],
+        [
+          "$g=1$ かつ片側符号なら $K\\equiv0$",
+          "積分0と符号条件"
+        ],
+        [
+          "$K=-1$ なら $\\operatorname{Area}=4\\pi(g-1)$ かつ $g\\ge2$",
+          "定数負曲率とEuler標数"
+        ],
+        [
+          "$\\mathbb{R}^2/\\Lambda$ にEuclid計量が降り $K=0$",
+          "平坦トーラス"
+        ],
+        [
+          "曲率積分がEuler標数に一致",
+          "局所幾何と大域位相の接続"
+        ]
+      ],
+      "hint": "全ての小問で最初に $\\int_MK\\,dA=4\\pi(1-g)$ の符号を見る。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-009-A",
+    "contest": "Level 3 #009",
+    "difficulty": "A",
+    "score": 250,
+    "title": "条件付き期待値のL2射影性",
+    "field": "確率論・確率過程",
+    "tags": [
+      "条件付き期待値",
+      "Hilbert空間",
+      "直交射影",
+      "最小二乗"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "$(\\Omega,\\mathcal{F},\\mathbb{P})$ を確率空間、$\\mathcal{G}\\subset\\mathcal{F}$ を部分σ-加法族、$X\\in L^2(\\mathcal{F})$ とする。$Z=\\mathbb{E}[X\\mid\\mathcal{G}]$ とする。",
+      "任意の $Y\\in L^2(\\mathcal{G})$ に対して $\\mathbb{E}[(X-Z)Y]=0$ を示せ。",
+      "これを用いて",
+      "$\\displaystyle \\mathbb{E}|X-Y|^2=\\mathbb{E}|X-Z|^2+\\mathbb{E}|Z-Y|^2$",
+      "を示し、$Z$ が $L^2(\\mathcal{G})$ の中で $\\mathbb{E}|X-Y|^2$ を一意に最小化することを証明せよ。"
+    ],
+    "explanation": {
+      "summary": "条件付き期待値の定義は $X-Z$ が $\\mathcal G$-可測関数に対して平均的に直交することを意味する。まず有界な $Y$ で確認し、切断により $L^2$ まで拡張する。あとはHilbert空間のPythagoras。",
+      "steps": [
+        "$Z$ は $\\mathcal G$-可測で、任意の $A\\in\\mathcal G$ について $\\int_AZ=\\int_AX$。",
+        "従って単関数、さらに有界な $\\mathcal G$-可測 $Y$ について $\\mathbb E[(X-Z)Y]=0$。",
+        "一般の $Y\\in L^2(\\mathcal G)$ には切断 $Y_n=(-n)\\vee(Y\\wedge n)$ を使い、$Y_n\\to Y$ in $L^2$。Cauchy-Schwarzにより極限を通して直交性が得られる。",
+        "$X-Y=(X-Z)+(Z-Y)$ と分解し、交差項の期待値が零なのでPythagoras型恒等式を得る。",
+        "右辺の第1項は $Y$ に依存せず、第2項は非負。最小値は $Y=Z$ で達成し、等号条件から一意である。"
+      ],
+      "knowledge": [
+        {
+          "title": "条件付き期待値",
+          "body": "$Z=\\mathbb E[X|\\mathcal G]$ は $\\mathcal G$-可測で、全 $A\\in\\mathcal G$ に対し $\\int_AZ=\\int_AX$ を満たす可積分確率変数。almost surelyの意味で一意。"
+        },
+        {
+          "title": "Hilbert射影",
+          "body": "$L^2(\\mathcal G)$ は $L^2(\\mathcal F)$ の閉部分空間で、条件付き期待値はこの閉部分空間への直交射影である。"
+        },
+        {
+          "title": "最小二乗予測",
+          "body": "$\\mathcal G$ の情報だけを用いて $X$ を二乗誤差で最良予測すると条件付き期待値になる。統計・確率過程で重要な解釈。"
+        },
+        {
+          "title": "Lpでの違い",
+          "body": "$L^2$ では内積構造により直交射影が使える。$L^1$ や一般の $L^p$ では同じPythagoras恒等式は存在しない。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "条件付き期待値の定義から有界 $\\mathcal G$-可測 $Y$ に対し直交",
+          "$\\mathbb E[(X-Z)Y]=0$"
+        ],
+        [
+          "切断とCauchy-Schwarzで $Y\\in L^2$ へ拡張",
+          "有界近似から一般のL2へ"
+        ],
+        [
+          "$\\mathbb E|X-Y|^2=\\mathbb E|X-Z|^2+\\mathbb E|Z-Y|^2$",
+          "Pythagoras恒等式"
+        ],
+        [
+          "$Y=Z$ が一意な最小化解",
+          "条件付き期待値はL2直交射影"
+        ]
+      ],
+      "hint": "最初は $Y=1_A$、$A\\in\\mathcal G$ で考え、線形結合と近似で一般の $Y$ へ広げる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-009-B",
+    "contest": "Level 3 #009",
+    "difficulty": "B",
+    "score": 400,
+    "title": "単位円板の正則自己同型",
+    "field": "複素解析",
+    "tags": [
+      "Schwarzの補題",
+      "Möbius変換",
+      "単位円板",
+      "正則同型"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "$\\mathbb{D}=\\{z\\in\\mathbb{C}:|z|<1\\}$ とする。$a\\in\\mathbb{D}$ に対し",
+      "$\\displaystyle \\phi_a(z)=\\frac{z-a}{1-\\overline a z}$",
+      "とおく。",
+      "$\\phi_a$ が $\\mathbb{D}$ の正則自己同型で $\\phi_a(a)=0$ であることを示せ。",
+      "Schwarzの補題を用いて、任意の正則自己同型 $F:\\mathbb{D}\\to\\mathbb{D}$ が",
+      "$\\displaystyle F(z)=e^{i\\theta}\\frac{z-a}{1-\\overline a z}$",
+      "という形に書けることを証明せよ。"
+    ],
+    "explanation": {
+      "summary": "Möbius変換 $\\phi_a$ は恒等式 $1-|\\phi_a(z)|^2=((1-|a|^2)(1-|z|^2))/|1-\\bar az|^2$ により円板を保つ。一般の自己同型を $\\phi$ で正規化して0を固定させ、Schwarzの補題を写像と逆写像の両方へ適用すると回転しか残らない。",
+      "steps": [
+        "直接計算で $1-|\\phi_a(z)|^2=\\frac{(1-|a|^2)(1-|z|^2)}{|1-\\bar az|^2}>0$。従って $\\phi_a(\\mathbb D)\\subset\\mathbb D$。",
+        "$\\phi_a(a)=0$。また逆写像は $\\phi_a^{-1}(w)=(w+a)/(1+\\bar aw)$ であり、これも円板を円板へ写すため自己同型。",
+        "$F$ の零点 $a=F^{-1}(0)$ を取る。$G=F\\circ\\phi_a^{-1}$ は円板の自己同型で $G(0)=0$。",
+        "Schwarzの補題より $|G(z)|\\le|z|$。逆写像 $G^{-1}$ にも適用すると $|z|=|G^{-1}(G(z))|\\le|G(z)|$。従って $|G(z)|=|z|$。",
+        "Schwarzの補題の等号成立条件から $G(z)=e^{i\\theta}z$。",
+        "従って $F(z)=G(\\phi_a(z))=e^{i\\theta}\\phi_a(z)$。"
+      ],
+      "knowledge": [
+        {
+          "title": "Schwarzの補題",
+          "body": "$f:\\mathbb D\\to\\mathbb D$ が正則で $f(0)=0$ なら $|f(z)|\\le|z|$、$|f'(0)|\\le1$。非零点で等号なら $f(z)=e^{i\\theta}z$。"
+        },
+        {
+          "title": "Möbius変換",
+          "body": "$\\phi_a$ は $a$ を0へ送る円板自己同型。円板上の問題を0を固定する場合へ正規化するための基本変換。"
+        },
+        {
+          "title": "自己同型群",
+          "body": "$\\operatorname{Aut}(\\mathbb D)$ は回転と $\\phi_a$ の合成で全て記述できる。3実パラメータのLie群である。"
+        },
+        {
+          "title": "双曲幾何との接続",
+          "body": "これらのMöbius変換はPoincaré円板計量の等長変換であり、複素解析の自己同型群と双曲幾何が一致する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$1-|\\phi_a(z)|^2=\\frac{(1-|a|^2)(1-|z|^2)}{|1-\\bar az|^2}$",
+          "$\\phi_a$ が円板を保つ"
+        ],
+        [
+          "$\\phi_a(a)=0$ かつ逆写像もMöbius変換",
+          "$\\phi_a$ は自己同型"
+        ],
+        [
+          "$G=F\\circ\\phi_a^{-1}$ が $G(0)=0$",
+          "零点を0へ正規化"
+        ],
+        [
+          "$G$ と $G^{-1}$ にSchwarzを適用して $|G(z)|=|z|$",
+          "Schwarzの等号条件"
+        ],
+        [
+          "$F(z)=e^{i\\theta}(z-a)/(1-\\bar az)$",
+          "円板自己同型の分類"
+        ]
+      ],
+      "hint": "一般の自己同型を、零点を0へ送るMöbius変換で正規化してからSchwarzの補題を二方向に使う。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-009-C",
+    "contest": "Level 3 #009",
+    "difficulty": "C",
+    "score": 550,
+    "title": "Hahn-Banachによる点と部分空間の分離",
+    "field": "線形代数・関数解析の初歩",
+    "tags": [
+      "Hahn-Banach",
+      "双対ノルム",
+      "閉部分空間",
+      "分離定理"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "$X$ を実または複素ノルム空間とする。Hahn-Banachの定理を用いて、任意の $x\\in X$ について",
+      "$\\displaystyle \\|x\\|=\\sup\\{|f(x)|:f\\in X^*,\\ \\|f\\|\\le1\\}$",
+      "を示せ。",
+      "さらに $M\\subset X$ を閉線形部分空間、$x_0\\notin M$ とする。$d=\\operatorname{dist}(x_0,M)>0$ とおく。",
+      "$f|_M=0$、$\\|f\\|=1$、$f(x_0)=d$ を満たす $f\\in X^*$ が存在することを示せ。複素の場合は必要に応じて位相を調整してよい。"
+    ],
+    "explanation": {
+      "summary": "一点のノルムはその一次元部分空間上でノルム1の汎関数を定義してHahn-Banachで延長すれば双対から再現できる。閉部分空間の分離では $M+\\mathbb{F}x_0$ 上に $g(m+\\alpha x_0)=\\alpha d$ を定義し、距離の定義から $|g(y)|\\le\\|y\\|$ を示して延長する。",
+      "steps": [
+        "任意の $f$ で $\\|f\\|\\le1$ なら $|f(x)|\\le\\|x\\|$ なのでsupは $\\|x\\|$ 以下。",
+        "$x\\ne0$ とし、$\\operatorname{span}\\{x\\}$ 上で $g(\\alpha x)=\\alpha\\|x\\|$ と定めると $\\|g\\|=1$。Hahn-Banachで $f\\in X^*$、$\\|f\\|=1$ に延長でき、$f(x)=\\|x\\|$。従って等号。",
+        "$M$ が閉かつ $x_0\\notin M$ なので $d=\\inf*{m\\in M}\\|x_0-m\\|>0$。",
+        "$Y=M+\\mathbb F x_0$ 上で $g(m+\\alpha x_0)=\\alpha d$ と定める。$x_0\\notin M$ なので表現は一意。",
+        "$\\alpha\\ne0$ なら $\\|m+\\alpha x_0\\|=|\\alpha|\\|x_0+m/\\alpha\\|\\ge|\\alpha|d=|g(m+\\alpha x_0)|$。従って $\\|g\\|\\le1$。また $g(x_0)=d$ かつ $d\\le\\|x_0\\|$ から、実際に延長後のノルムを1に調整できる。より正確には距離を実現する近似列から $\\|g\\|=1$。",
+        "Hahn-Banachで $g$ を $X$ 全体の $f$ にノルムを保って延長すると $f|*M=0$、$f(x_0)=d$、$\\|f\\|=1$。"
+      ],
+      "knowledge": [
+        {
+          "title": "Hahn-Banachの定理",
+          "body": "部分空間上の有界線形汎関数はノルムを増やさず全空間へ延長できる。関数解析で双対空間を十分豊かにする基本定理。"
+        },
+        {
+          "title": "双対によるノルム表示",
+          "body": "任意のノルム空間で元のノルムは単位双対球を用いて完全に復元できる。これにより標準写像 $X\\to X^{**}$ は等長。"
+        },
+        {
+          "title": "閉性の必要性",
+          "body": "$M$ が閉でないと $x_0\\notin M$ でも $\\operatorname{dist}(x_0,M)=0$ があり得る。その場合、連続汎関数で正の距離を持って分離することはできない。"
+        },
+        {
+          "title": "分離定理",
+          "body": "本問は点と閉部分空間を連続線形汎関数で分離する最も基本的な形。凸集合の分離定理へ一般化される。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "一次元部分空間上で $g(\\alpha x)=\\alpha\\|x\\|$",
+          "Hahn-Banachでノルムを達成する汎関数を構成"
+        ],
+        [
+          "$\\|x\\|=\\sup*{\\|f\\|\\le1}|f(x)|$",
+          "双対ノルム表示"
+        ],
+        [
+          "$d=\\operatorname{dist}(x_0,M)>0$",
+          "閉部分空間なので距離正"
+        ],
+        [
+          "$g(m+\\alpha x_0)=\\alpha d$",
+          "商方向の汎関数を構成"
+        ],
+        [
+          "$|g(m+\\alpha x_0)|\\le\\|m+\\alpha x_0\\|$",
+          "距離定義から有界性"
+        ],
+        [
+          "Hahn-Banach延長で $f|*M=0$, $f(x_0)=d$, $\\|f\\|=1$",
+          "点と閉部分空間の分離"
+        ]
+      ],
+      "hint": "分離問題では $M$ を全部0へ送り、$x_0$ の成分だけを距離 $d$ へ送る汎関数をまず小さい部分空間上に定義する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-009-D",
+    "contest": "Level 3 #009",
+    "difficulty": "D",
+    "score": 700,
+    "title": "x三乗マイナス2のGalois群",
+    "field": "抽象代数・ガロア理論",
+    "tags": [
+      "Galois群",
+      "分解体",
+      "Galois対応",
+      "可解群"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "$f(X)=X^3-2\\in\\mathbb{Q}[X]$ とし、$\\alpha=\\sqrt[3]{2}$、$\\omega=e^{2\\pi i/3}$ とする。",
+      "$f$ の分解体が $K=\\mathbb{Q}(\\alpha,\\omega)$ であり、$[K:\\mathbb{Q}]=6$ であることを示せ。",
+      "$\\operatorname{Gal}(K/\\mathbb{Q})\\cong S_3$ を証明し、生成元 $\\sigma,\\tau$ を具体的に与えよ。",
+      "Galois対応を用いて、位数3の部分群の固定体と一つの位数2部分群の固定体を求めよ。",
+      "さらに $S_3$ が可解群であることを示し、Galois理論の可解性判定定理を用いて $X^3-2$ が根号で解けることと整合することを説明せよ。"
+    ],
+    "explanation": {
+      "summary": "$X^3-2$ はEisensteinで既約、$\\mathbb Q(\\alpha)$ は実三次拡大。非実数 $\\omega$ はそこに入らないので分解体の次数は6。根の置換作用でGalois群は $S_3$ となり、三周期と複素共役で生成される。$A_3$ の固定体は $\\mathbb Q(\\omega)$、複素共役の固定体は $\\mathbb Q(\\alpha)$。",
+      "steps": [
+        "$X^3-2$ は素数2に関するEisensteinの判定法で既約。従って $[\\mathbb Q(\\alpha):\\mathbb Q]=3$。",
+        "根は $\\alpha,\\omega\\alpha,\\omega^2\\alpha$ なので分解体は $K=\\mathbb Q(\\alpha,\\omega)$。",
+        "$\\mathbb Q(\\alpha)\\subset\\mathbb R$ だが $\\omega\\notin\\mathbb R$ なので $\\omega\\notin\\mathbb Q(\\alpha)$。$[\\mathbb Q(\\omega):\\mathbb Q]=2$ なので $[K:\\mathbb Q]=6$。",
+        "$\\sigma(\\alpha)=\\omega\\alpha$、$\\sigma(\\omega)=\\omega$ とし、$\\tau$ を複素共役、すなわち $\\tau(\\alpha)=\\alpha$、$\\tau(\\omega)=\\omega^2$ とする。$\\sigma^3=\\tau^2=1$、$\\tau\\sigma\\tau=\\sigma^{-1}$。",
+        "従って生成群は $S_3$ の標準表示を持ち、位数6なので全Galois群。",
+        "$\\langle\\sigma\\rangle=A_3$ は $\\omega$ を固定するので、その固定体は次数2の $\\mathbb Q(\\omega)$。$\\langle\\tau\\rangle$ の固定体は次数3で $\\alpha$ を含むため $\\mathbb Q(\\alpha)$。",
+        "$S_3\\triangleright A_3\\triangleright1$ は正規列で、商 $S_3/A_3\\cong C_2$、$A_3\\cong C_3$ は可換。よって $S_3$ は可解群であり、標数0のGalois可解性判定から三次方程式が根号で解けることと一致する。"
+      ],
+      "knowledge": [
+        {
+          "title": "分解体",
+          "body": "多項式の全ての根を含む最小の体拡大。標数0では分解体は分離的かつ正規なのでGalois拡大となる。"
+        },
+        {
+          "title": "Galois群の根への作用",
+          "body": "Galois自己同型は係数体を固定するため多項式の根を根へ送る。分離多項式ならこの作用は忠実で、Galois群を対称群の部分群として見ることができる。"
+        },
+        {
+          "title": "Galois対応",
+          "body": "有限Galois拡大 $K/F$ では部分群 $H\\le G$ と中間体 $K^H$ が包含反転で対応し、$[K:K^H]=|H|$。"
+        },
+        {
+          "title": "可解群",
+          "body": "正規列の各商が可換になる群を可解群という。$S_3$ は可解だが $S_n$ は $n\\ge5$ で一般に可解ではない。"
+        },
+        {
+          "title": "根号による可解性",
+          "body": "標数0の多項式は、その分解体のGalois群が可解群であることと根号によって解けることが対応する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "Eisensteinで $X^3-2$ 既約",
+          "$[\\mathbb Q(\\alpha):\\mathbb Q]=3$"
+        ],
+        [
+          "$K=\\mathbb Q(\\alpha,\\omega)$ かつ次数6",
+          "$\\omega\\notin\\mathbb Q(\\alpha)$"
+        ],
+        [
+          "$\\sigma(\\alpha)=\\omega\\alpha$, $\\tau$ は複素共役",
+          "$\\tau\\sigma\\tau=\\sigma^{-1}$"
+        ],
+        [
+          "$\\operatorname{Gal}(K/\\mathbb Q)\\cong S_3$",
+          "位数6で三周期と反転により生成"
+        ],
+        [
+          "$K^{A_3}=\\mathbb Q(\\omega)$、$K^{\\langle\\tau\\rangle}=\\mathbb Q(\\alpha)$",
+          "Galois対応による固定体"
+        ],
+        [
+          "$S_3\\triangleright A_3\\triangleright1$ で可解",
+          "商が $C_2,C_3$"
+        ]
+      ],
+      "hint": "三次既約性だけでなく、実三次体 $\\mathbb Q(\\alpha)$ に $\\omega$ が入らないことが次数6の鍵になる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-009-E",
+    "contest": "Level 3 #009",
+    "difficulty": "E",
+    "score": 900,
+    "title": "尖点曲線の正規化",
+    "field": "代数幾何",
+    "tags": [
+      "cusp",
+      "正規化",
+      "整閉包",
+      "有限射",
+      "座標環"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "$k$ を代数閉体とし、アファイン曲線 $C=V(y^2-x^3)\\subset\\mathbb A^2_k$ を考える。",
+      "射 $\\nu:\\mathbb A^1_k\\to C$ を $\\nu(t)=(t^2,t^3)$ と定める。",
+      "座標環 $k[C]$ が部分環 $k[t^2,t^3]\\subset k[t]$ と同型であることを示せ。",
+      "$\\nu$ が点集合として全単射であることを示しつつ、代数多様体の同型ではないことを証明せよ。",
+      "さらに $t$ が $k[t^2,t^3]$ 上整であるが $k[t^2,t^3]$ に属さないことを示し、$k[t^2,t^3]$ がその分数体内で整閉でないことを結論せよ。",
+      "整拡大 $k[t^2,t^3]\\subset k[t]$ が有限であることを示し、この写像が尖点の正規化と呼ばれる理由を説明せよ。"
+    ],
+    "explanation": {
+      "summary": "パラメータ表示 $x=t^2,y=t^3$ により座標環は $k[t^2,t^3]$。点としては各尖点曲線上の点に一意な $t$ が対応するが、逆写像は原点で正則でない。$t$ は $T^2-t^2=0$ を満たす整元なのに元の環に入らず、尖点環の非正規性を検出する。$k[t]$ はその整閉包である。",
+      "steps": [
+        "準同型 $\\phi:k\\to k[t]$、$x\\mapsto t^2$、$y\\mapsto t^3$ の像は $k[t^2,t^3]$。$y^2-x^3$ は核に含まれる。",
+        "$k[x,y]/(y^2-x^3)$ の次元や多項式の $y$ に関する除法、または $y^2-x^3$ の既約性を用いて核がちょうど $(y^2-x^3)$ であることを示し、$k[C]\\cong k[t^2,t^3]$。",
+        "$t\\mapsto(t^2,t^3)$ は全射である。$(x,y)\\ne(0,0)$ なら $t=y/x$ と復元でき、原点には $t=0$ のみが対応するので単射でもある。",
+        "もし $\\nu$ が同型なら座標環準同型 $k[t^2,t^3]\\hookrightarrow k[t]$ は同型でなければならない。しかし $t\\notin k[t^2,t^3]$。実際、右辺の非零単項式の指数は $2a+3b$ であり1は表せない。",
+        "$t$ はモニック多項式 $T^2-t^2\\in k[t^2,t^3][T]$ の根なので整元。したがって $k[t^2,t^3]$ は分数体 $k(t)$ 内で整閉でない。",
+        "$k[t]=k[t^2,t^3]+t\\,k[t^2,t^3]$ と書けるため、$k[t]$ は元 $1,t$ で生成される有限加群である。",
+        "$k[t]$ はUFDなので整閉であり、尖点環をその分数体内の整閉環へ置き換える有限双有理写像が正規化である。"
+      ],
+      "knowledge": [
+        {
+          "title": "整元",
+          "body": "$b$ が環 $A$ 上整とは、$b$ が係数を $A$ に持つmonic多項式を満たすこと。有限 $A$-加群として生成される代数は整拡大になる。"
+        },
+        {
+          "title": "整閉環",
+          "body": "整域 $A$ が分数体内の全ての $A$ 上整な元を含むとき整閉という。UFDは整閉である。"
+        },
+        {
+          "title": "正規化",
+          "body": "既約アファイン多様体の座標環をその分数体内の整閉包へ置き換える操作。曲線では特異点を解消する最初の基本例になる。"
+        },
+        {
+          "title": "全単射と同型の違い",
+          "body": "代数幾何では点集合として全単射でも、逆写像が正則でなければ同型ではない。尖点のパラメータ表示は代表例。"
+        },
+        {
+          "title": "尖点の特異性",
+          "body": "$y^2=x^3$ の原点ではJacobianの全偏微分が零となり接空間次元が増える。正規化ではこの尖点が滑らかな直線へ置き換わる。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$k[C]\\cong k[t^2,t^3]$",
+          "$x\\mapsto t^2$, $y\\mapsto t^3$ の核が $(y^2-x^3)$"
+        ],
+        [
+          "$\\nu$ は点集合として全単射",
+          "非原点では $t=y/x$、原点では $t=0$"
+        ],
+        [
+          "$t\\notin k[t^2,t^3]$",
+          "指数1は $2a+3b$ で表せない"
+        ],
+        [
+          "$t$ は $T^2-t^2=0$ を満たす整元",
+          "尖点環は整閉でない"
+        ],
+        [
+          "$k[t]$ は $1,t$ で有限加群生成",
+          "整拡大は有限"
+        ],
+        [
+          "$k[t]$ が正規化",
+          "有限双有理な整閉包への写像"
+        ]
+      ],
+      "hint": "点の全単射性と座標環の同型性は別問題である。逆関数候補 $t=y/x$ が原点でどうなるかを見る。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-010-A",
+    "contest": "Level 3 #010",
+    "difficulty": "A",
+    "score": 250,
+    "title": "局所Lipschitz条件の破れと非一意解",
+    "field": "常微分方程式",
+    "tags": [
+      "Picard-Lindelöf",
+      "存在一意性",
+      "非Lipschitz",
+      "反例"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "$0<\\alpha<1$ とし、初期値問題",
+      "$\\displaystyle y'(t)=|y(t)|^\\alpha,\\qquad y(0)=0$",
+      "を $t\\ge0$ で考える。",
+      "右辺は連続だが $y=0$ の近傍で局所Lipschitzではないことを示せ。",
+      "任意の $c\\ge0$ に対して、ある時刻 $c$ まで零に留まり、その後正に動き出す解を明示し、一意性が失敗することを示せ。",
+      "Picard-Lindelöfの定理のどの仮定が欠けているかを説明せよ。"
+    ],
+    "explanation": {
+      "summary": "$|y|^\\alpha$ はHölder連続だが0付近で微分係数が発散するためLipschitzでない。分離形方程式の非零解を時刻 $c$ から接続すると $C^1$ 解が得られ、任意の待機時間を選べるため初期値解は無限個存在する。",
+      "steps": [
+        "$y>0$ で導関数は $\\alpha y^{\\alpha-1}$ であり、$\\alpha-1<0$ なので $y\\downarrow0$ で発散する。より直接に $|h|^\\alpha/|h|=|h|^{\\alpha-1}\\to\\infty$ なので0近傍のLipschitz定数は存在しない。",
+        "正の領域で変数分離すると $y^{1-\\alpha}=(1-\\alpha)(t-c)$。",
+        "従って",
+        "$\\displaystyle y_c(t)=\\begin{cases}0,&0\\le t\\le c,\\\\((1-\\alpha)(t-c))^{1/(1-\\alpha)},&t\\ge c\\end{cases}$",
+        "と定める。",
+        "$t=c$ で右側微分は0へ収束し、左側微分も0なので $y_c$ は $C^1$ で方程式を満たす。",
+        "$c$ を任意に選べるほか恒等的零解も存在するため一意性は失敗する。",
+        "Picard-Lindelöfでは未知変数 $y$ に関する局所Lipschitz性が一意性を保証する。本問では連続性による存在は残るが、そのLipschitz仮定が欠けている。"
+      ],
+      "knowledge": [
+        {
+          "title": "Picard-Lindelöfの定理",
+          "body": "$f(t,y)$ が連続かつ $y$ に関して局所Lipschitzなら、初期値問題 $y'=f(t,y)$ は局所的に一意解を持つ。"
+        },
+        {
+          "title": "Peanoの存在定理",
+          "body": "右辺が連続なら局所解の存在は保証されるが、一意性までは保証されない。本問は両定理の差を示す典型例。"
+        },
+        {
+          "title": "Hölder連続",
+          "body": "$0<\\alpha<1$ では $|y|^\\alpha$ は指数 $\\alpha$ のHölder連続だがLipschitzではない。Hölder連続だけではODEの一意性に不十分。"
+        },
+        {
+          "title": "待機時間解",
+          "body": "平衡点で任意時間停止してから動き出す解が存在することは、ベクトル場が平衡点近傍で一意性を強制できないことを具体的に示す。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$|h|^{\\alpha-1}\\to\\infty$ なので0で局所Lipschitzでない",
+          "導関数 $\\alpha y^{\\alpha-1}$ が発散"
+        ],
+        [
+          "$y_c(t)=0$ for $t\\le c$、その後 $((1-\\alpha)(t-c))^{1/(1-\\alpha)}$",
+          "待機時間付き解を構成"
+        ],
+        [
+          "$t=c$ でも微分が0で方程式を満たす",
+          "接続点でC1"
+        ],
+        [
+          "異なる $c$ で異なる解",
+          "初期値解の非一意性"
+        ],
+        [
+          "Picard-Lindelöfの局所Lipschitz仮定が欠落",
+          "連続性だけでは一意性なし"
+        ]
+      ],
+      "hint": "非零部分は変数分離で解き、その解を任意の時刻から始められないか調べる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-010-B",
+    "contest": "Level 3 #010",
+    "difficulty": "B",
+    "score": 400,
+    "title": "概収束とL1収束の隔たり",
+    "field": "実解析・関数解析",
+    "tags": [
+      "Lebesgue積分",
+      "概収束",
+      "測度収束",
+      "優収束定理"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "$([0,1],\\mathcal{B},m)$ をLebesgue測度空間とし、",
+      "$\\displaystyle f_n(x)=n\\,1*{(0,1/n)}(x)$",
+      "とする。",
+      "$f_n\\to0$ almost everywhere および測度収束することを示せ。",
+      "一方で $\\|f_n\\|*{L^1}=1$ なので $L^1$ 収束しないことを示せ。",
+      "さらに、全ての $f_n$ を支配する単一の $g\\in L^1([0,1])$ は存在しないことを証明し、この例が優収束定理のどの仮定の重要性を示すか説明せよ。"
+    ],
+    "explanation": {
+      "summary": "各固定点 $x>0$ は十分大きい $n$ でsupportの外へ出るため概収束する。閾値超過集合もsupportに含まれ測度が $1/n$ なので測度収束する。しかし面積は高さ $n$ と幅 $1/n$ が相殺して常に1。もし共通の可積分支配関数があれば優収束定理により積分が0へ行くので矛盾する。",
+      "steps": [
+        "$x>0$ を固定すると $n>1/x$ で $x\\notin(0,1/n)$。従って $f_n(x)=0$ が最終的に成立し、$f_n\\to0$ a.e.",
+        "任意の $\\varepsilon>0$ について $n>\\varepsilon$ なら $\\{|f_n|>\\varepsilon\\}=(0,1/n)$ なので、その測度は $1/n\\to0$。従って測度収束。",
+        "$\\|f_n\\|*1=\\int_0^{1/n}n\\,dx=1$ なので $0$ へ $L^1$ 収束しない。",
+        "もし $|f_n|\\le g$ a.e. を満たす $g\\in L^1$ が存在すれば、$f_n\\to0$ a.e. と合わせて優収束定理から $\\int|f_n|\\to0$ が従う。",
+        "これは $\\int|f_n|=1$ に矛盾する。従って共通の可積分支配関数は存在しない。",
+        "この例は、概収束だけでは積分の極限交換ができず、優収束定理の可積分な支配関数という仮定が本質的であることを示す。"
+      ],
+      "knowledge": [
+        {
+          "title": "測度収束",
+          "body": "$f_n\\to f$ in measure とは、任意の $\\varepsilon>0$ に対して $m(|f_n-f|>\\varepsilon)\\to0$ となること。有限測度空間では概収束から測度収束が従う。"
+        },
+        {
+          "title": "優収束定理",
+          "body": "$f_n\\to f$ a.e. かつ $|f_n|\\le g\\in L^1$ なら $f\\in L^1$ で $\\|f_n-f\\|*1\\to0$。支配関数の可積分性が重要。"
+        },
+        {
+          "title": "mass concentration",
+          "body": "本列ではsupportが一点へ縮む一方、高さが増大して総質量が1に保たれる。集中現象の最も基本的な例。"
+        },
+        {
+          "title": "一様可積分性",
+          "body": "確率論では概収束や確率収束に一様可積分性を加えることで $L^1$ 収束を得るVitali型定理がある。本例は一様可積分でない。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "固定 $x>0$ では最終的に $x>1/n$",
+          "$f_n\\to0$ almost everywhere"
+        ],
+        [
+          "$m(|f_n|>\\varepsilon)\\le1/n\\to0$",
+          "測度収束"
+        ],
+        [
+          "$\\|f_n\\|*1=1$",
+          "$L^1$ 収束しない"
+        ],
+        [
+          "可積分支配関数があれば優収束定理で $\\|f_n\\|*1\\to0$",
+          "共通 $g\\in L^1$ は存在しない"
+        ],
+        [
+          "優収束定理の支配関数仮定が本質的",
+          "概収束だけでは積分極限交換不可"
+        ]
+      ],
+      "hint": "高さではなくsupportの幅を見ると点wise収束が分かり、積分では高さと幅の積を見る。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-010-C",
+    "contest": "Level 3 #010",
+    "difficulty": "C",
+    "score": 550,
+    "title": "右随伴は極限を保存する",
+    "field": "圏論",
+    "tags": [
+      "随伴",
+      "積",
+      "equalizer",
+      "極限",
+      "普遍性"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "$F:\\mathcal{C}\\rightleftarrows\\mathcal{D}:G$ が随伴 $F\\dashv G$ を成すとする。必要な積およびequalizerが存在すると仮定する。",
+      "対象 $Y_1,Y_2\\in\\mathcal{D}$ に対し、自然な射",
+      "$\\displaystyle G(Y_1\\times Y_2)\\longrightarrow G(Y_1)\\times G(Y_2)$",
+      "が同型であることを普遍性から証明せよ。",
+      "さらに平行射 $u,v:Y\\rightrightarrows Z$ のequalizer $E\\to Y$ に対し、$G(E)\\to G(Y)$ が $G(u),G(v)$ のequalizerであることを示せ。",
+      "有限極限が有限積とequalizerから構成できることを用いて、右随伴が有限極限を保存することを結論せよ。"
+    ],
+    "explanation": {
+      "summary": "随伴同型をHom集合へ適用すると、$G$ を通した極限対象への射が元の圏でのconeと同じデータになる。積ではHomが直積に分解し、equalizerでは等式条件がそのまま随伴を通る。Yonedaの原理から対応対象が同型となる。",
+      "steps": [
+        "任意の $X\\in\\mathcal C$ に対して $\\operatorname{Hom}*{\\mathcal C}(X,G(Y_1\\times Y_2))\\cong\\operatorname{Hom}*{\\mathcal D}(F(X),Y_1\\times Y_2)$。",
+        "積の普遍性により右辺は $\\operatorname{Hom}*{\\mathcal D}(F(X),Y_1)\\times\\operatorname{Hom}*{\\mathcal D}(F(X),Y_2)$。",
+        "随伴を各因子に再度使うと $\\operatorname{Hom}*{\\mathcal C}(X,G(Y_1))\\times\\operatorname{Hom}*{\\mathcal C}(X,G(Y_2))$、これは積の普遍性から $\\operatorname{Hom}*{\\mathcal C}(X,G(Y_1)\\times G(Y_2))$。",
+        "この同型は $X$ に自然なのでYonedaにより $G(Y_1\\times Y_2)\\cong G(Y_1)\\times G(Y_2)$。",
+        "equalizerについて、$h:X\\to G(Y)$ が $G(u)h=G(v)h$ を満たすことは、随伴対応する $\\widetilde h:F(X)\\to Y$ が $u\\widetilde h=v\\widetilde h$ を満たすことと同値。従って $\\widetilde h$ は一意に $E$ を通過し、再び随伴によって $h$ は一意に $G(E)$ を通過する。",
+        "従って $G(E)$ はequalizer。有限極限は有限積とequalizerから作れるため、$G$ は有限極限を保存する。"
+      ],
+      "knowledge": [
+        {
+          "title": "右随伴",
+          "body": "$F\\dashv G$ では $G$ が右随伴。一般定理として右随伴は存在する全ての極限を保存し、左随伴は余極限を保存する。"
+        },
+        {
+          "title": "積の普遍性",
+          "body": "$P=Y_1\\times Y_2$ は任意の $X$ について $\\operatorname{Hom}(X,P)\\cong\\operatorname{Hom}(X,Y_1)\\times\\operatorname{Hom}(X,Y_2)$ を自然に満たす対象。"
+        },
+        {
+          "title": "equalizer",
+          "body": "$u,v:Y\\rightrightarrows Z$ のequalizerは、$u\\circ e=v\\circ e$ を満たす射の中で普遍的な $e:E\\to Y$。"
+        },
+        {
+          "title": "有限極限の生成",
+          "body": "終対象・有限積・equalizerがあれば任意の有限図式の極限を構成できる。したがってこれらの保存を示せば有限極限保存が従う。"
+        },
+        {
+          "title": "Yoneda的証明",
+          "body": "全ての $X$ からのHom集合が自然同型なら対象自体が同型というYoneda原理は、普遍性の保存を証明する標準手法である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "随伴と積の普遍性でHom集合を連続的に同型変形",
+          "$\\operatorname{Hom}(X,G(Y_1\\times Y_2))\\cong\\operatorname{Hom}(X,GY_1\\times GY_2)$"
+        ],
+        [
+          "自然性とYonedaから $G(Y_1\\times Y_2)\\cong GY_1\\times GY_2$",
+          "右随伴が積を保存"
+        ],
+        [
+          "$G(u)h=G(v)h$ iff $u\\tilde h=v\\tilde h$",
+          "equalizer条件が随伴対応で保存"
+        ],
+        [
+          "$G(E)$ がequalizer",
+          "普遍的因子分解を随伴で移す"
+        ],
+        [
+          "右随伴は有限極限を保存",
+          "有限積とequalizerの保存から結論"
+        ]
+      ],
+      "hint": "対象を直接比較するより、任意の $X$ からそこへのHom集合を随伴で変形する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-010-D",
+    "contest": "Level 3 #010",
+    "difficulty": "D",
+    "score": 700,
+    "title": "実射影平面の基本群とホモロジー",
+    "field": "位相空間論・代数トポロジー",
+    "tags": [
+      "実射影平面",
+      "CW複体",
+      "基本群",
+      "cellular homology",
+      "retraction"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "$\\mathbb{RP}^2$ は各次元 $0,1,2$ に一つずつcellを持ち、1-skeleton $\\mathbb{RP}^1\\cong S^1$ に2-cellを次数2の写像 $S^1\\to S^1$ で付着して得られることを用いてよい。",
+      "van Kampenの定理から $\\pi_1(\\mathbb{RP}^2)\\cong\\mathbb{Z}/2\\mathbb{Z}$ を示せ。",
+      "整数係数cellular homologyを計算し、$H_0,H_1,H_2$ を求めよ。",
+      "さらに包含 $i:\\mathbb{RP}^1\\hookrightarrow\\mathbb{RP}^2$ に対するretraction $r:\\mathbb{RP}^2\\to\\mathbb{RP}^1$ は存在しないことを、誘導される $H_1$ の準同型から示せ。"
+    ],
+    "explanation": {
+      "summary": "$S^1$ に次数2の2-cellを付けると、基本群の生成元に関係 $a^2=1$ が追加される。cellular boundaryも同じ次数2なので、$H_1=\\mathbb Z/2$、$H_2=0$。retractionがあれば $H_1(S^1)=\\mathbb Z$ 上の恒等写像が $\\mathbb Z/2$ を経由して因数分解するが不可能。",
+      "steps": [
+        "1-skeletonの基本群は $\\pi_1(S^1)=\\langle a\\rangle\\cong\\mathbb Z$。2-cellの付着写像は次数2なのでvan Kampenにより関係 $a^2=1$ を加える。",
+        "従って $\\pi_1(\\mathbb{RP}^2)=\\langle a\\mid a^2=1\\rangle\\cong\\mathbb Z/2$。",
+        "cellular chain complexは $0\\to\\mathbb Z\\xrightarrow{\\times2}\\mathbb Z\\xrightarrow{0}\\mathbb Z\\to0$。",
+        "したがって $H_2=\\ker(\\times2)=0$、$H_1=\\mathbb Z/2\\mathbb Z$、$H_0=\\mathbb Z$。",
+        "retraction $r$ があれば $r\\circ i=\\operatorname{id}*{\\mathbb{RP}^1}$。従ってホモロジー上で $r**\\circ i**=\\operatorname{id}*{\\mathbb Z}$。",
+        "しかし $i**:\\mathbb Z\\to\\mathbb Z/2$ の後の $r**:\\mathbb Z/2\\to\\mathbb Z$ は、有限群からtorsion-free群への準同型なので零写像。合成は恒等写像になれず矛盾。"
+      ],
+      "knowledge": [
+        {
+          "title": "RPnのCW構造",
+          "body": "$\\mathbb{RP}^n$ は各次元0からnまで一つずつcellを持つ。隣接次元のcellular boundaryは次数に応じて0または2となる。"
+        },
+        {
+          "title": "2-cell付着と基本群",
+          "body": "1-skeletonに2-cellをループ $w$ で付着すると、基本群は元の基本群を $w$ の正規閉包で割る。"
+        },
+        {
+          "title": "cellular homology",
+          "body": "CW複体の各次元cellを自由Abel群の基底とするchain complexから特異ホモロジーを計算できる。"
+        },
+        {
+          "title": "retraction obstruction",
+          "body": "$r\\circ i=\\operatorname{id}$ なら任意の函手的不変量でも $r**\\circ i**=\\operatorname{id}$。ホモロジーがこの因数分解を許さなければretractionは存在しない。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\pi_1(\\mathbb{RP}^2)=\\langle a\\mid a^2=1\\rangle\\cong\\mathbb Z/2$",
+          "次数2の2-cell付着にvan Kampen"
+        ],
+        [
+          "cellular chain complexは $0\\to\\mathbb Z\\xrightarrow{2}\\mathbb Z\\xrightarrow0\\mathbb Z\\to0$",
+          "境界写像が2倍"
+        ],
+        [
+          "$H_0=\\mathbb Z$, $H_1=\\mathbb Z/2$, $H_2=0$",
+          "整数係数ホモロジー"
+        ],
+        [
+          "retractionなら $r**i_*=\\operatorname{id}*{\\mathbb Z}$",
+          "函手性"
+        ],
+        [
+          "$\\operatorname{Hom}(\\mathbb Z/2,\\mathbb Z)=0$ なので矛盾",
+          "retraction不存在"
+        ]
+      ],
+      "hint": "基本群とcellular boundaryの両方に、付着写像の「次数2」が同じ形で現れる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-010-E",
+    "contest": "Level 3 #010",
+    "difficulty": "E",
+    "score": 900,
+    "title": "Möbius反転とEuler積",
+    "field": "数論",
+    "tags": [
+      "Möbius関数",
+      "Dirichlet畳み込み",
+      "Euler積",
+      "Eulerのφ関数",
+      "Dirichlet級数"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "Möbius関数 $\\mu$ を、$n$ が相異なる $r$ 個の素数の積なら $\\mu(n)=(-1)^r$、平方因子を持つなら $\\mu(n)=0$、$\\mu(1)=1$ と定める。",
+      "$\\displaystyle \\sum*{d\\mid n}\\mu(d)=\\begin{cases}1,&n=1,\\\\0,&n>1\\end{cases}$",
+      "を示し、Möbius反転公式を証明せよ。",
+      "$\\sum_{d\\mid n}\\varphi(d)=n$ を用いて",
+      "$\\displaystyle \\varphi(n)=n\\prod_{p\\mid n}\\left(1-\\frac1p\\right)$",
+      "を導け。",
+      "さらに $s>1$ に対し $\\zeta(s)=\\sum_{n\\ge1}n^{-s}$ のEuler積 $\\zeta(s)=\\prod_p(1-p^{-s})^{-1}$ を絶対収束を用いて証明し、$s>2$ に対して",
+      "$\\displaystyle \\sum_{n=1}^{\\infty}\\frac{\\varphi(n)}{n^s}=\\frac{\\zeta(s-1)}{\\zeta(s)}$",
+      "を示せ。"
+    ],
+    "explanation": {
+      "summary": "Möbius関数は定数1関数のDirichlet畳み込み逆元である。これにより約数和の恒等式を反転してφの積表示が得られる。絶対収束領域では素因数分解に沿って級数をEuler積へ展開でき、φのDirichlet級数は畳み込み恒等式からζ関数の比になる。",
+      "steps": [
+        "$n=p_1^{a_1}\\cdots p_r^{a_r}$、$r\\ge1$ とする。$\\mu(d)\\ne0$ となる約数は素数集合の部分集合に対応するので $\\sum_{d|n}\\mu(d)=\\sum_{S\\subset\\{1,\\dots,r\\}}(-1)^{|S|}=(1-1)^r=0$。",
+        "$1*\\mu=\\varepsilon$ と書ける。$F(n)=\\sum_{d|n}f(d)$、すなわち $F=1*f$ なら $\\mu*F=(\\mu*1)*f=f$。従って $f(n)=\\sum_{d|n}\\mu(d)F(n/d)$。",
+        "$\\sum_{d|n}\\varphi(d)=n$ に反転を適用すると $\\varphi(n)=\\sum_{d|n}\\mu(d)n/d=n\\sum_{d|n}\\mu(d)/d$。",
+        "平方自由約数について積を展開すると $\\sum_{d|n}\\mu(d)/d=\\prod_{p|n}(1-1/p)$。",
+        "$s>1$ では $\\sum_nn^{-s}$ が絶対収束し、各素数について幾何級数を掛け合わせる操作が正当化される。算術の基本定理により各整数が一意に一つの項として現れ、$\\zeta(s)=\\prod_p(1-p^{-s})^{-1}$。",
+        "$\\varphi=\\mu*\\operatorname{id}$ とみなせるので、絶対収束する $s>2$ ではDirichlet級数の積により $D_\\varphi(s)=D_\\mu(s)D_{\\operatorname{id}}(s)$。",
+        "$D_\\mu(s)=1/\\zeta(s)$、$D_{\\operatorname{id}}(s)=\\zeta(s-1)$ なので $\\sum\\varphi(n)n^{-s}=\\zeta(s-1)/\\zeta(s)$。"
+      ],
+      "knowledge": [
+        {
+          "title": "Dirichlet畳み込み",
+          "body": "$(f*g)(n)=\\sum_{d|n}f(d)g(n/d)$。単位元は $\\varepsilon(1)=1$、$\\varepsilon(n)=0$ for $n>1$。"
+        },
+        {
+          "title": "Möbius反転",
+          "body": "$F(n)=\\sum_{d|n}f(d)$ なら $f(n)=\\sum_{d|n}\\mu(d)F(n/d)$。約数和の情報を元の算術関数へ戻す。"
+        },
+        {
+          "title": "Euler積",
+          "body": "絶対収束領域では素数ごとの局所因子を掛けると、素因数分解の一意性により整数全体のDirichlet級数が復元される。"
+        },
+        {
+          "title": "φ関数",
+          "body": "$\\varphi(n)$ は $1\\le a\\le n$ で $\\gcd(a,n)=1$ となる整数の個数。素数ごとの排除により積表示も組合せ的に理解できる。"
+        },
+        {
+          "title": "解析的数論への入口",
+          "body": "算術関数のDirichlet級数は畳み込みを積へ変換する。ζ関数の解析的性質を使って平均的な算術情報を引き出すのが解析的数論の基本戦略である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\sum_{d|n}\\mu(d)=0$ for $n>1$",
+          "$(1-1)^r$ による約数和"
+        ],
+        [
+          "$F=1*f$ なら $f=\\mu*F$",
+          "Möbius反転公式"
+        ],
+        [
+          "$\\varphi(n)=n\\prod_{p|n}(1-1/p)$",
+          "$\\varphi=\\mu*\\operatorname{id}$"
+        ],
+        [
+          "$\\zeta(s)=\\prod_p(1-p^{-s})^{-1}$ for $s>1$",
+          "絶対収束と一意素因数分解によるEuler積"
+        ],
+        [
+          "$\\sum\\varphi(n)n^{-s}=\\zeta(s-1)/\\zeta(s)$ for $s>2$",
+          "Dirichlet級数と畳み込み"
+        ]
+      ],
+      "hint": "Möbius関数を「約数和を取る作用の逆元」と考える。最後は畳み込みがDirichlet級数の積に移る。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-011-A",
+    "contest": "Level 3 #011",
+    "difficulty": "A",
+    "score": 250,
+    "title": "Fourier乗数による楕円方程式",
+    "field": "フーリエ解析",
+    "tags": [
+      "Fourier変換",
+      "Sobolev空間",
+      "Fourier multiplier",
+      "楕円方程式"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "$f\\in L^2(\\mathbb{R})$ に対して、弱い意味で",
+      "$\\displaystyle -u''+u=f$",
+      "を満たす $u\\in H^2(\\mathbb{R})$ を求める。",
+      "Plancherelの定理と $\\widehat{u''}(\\xi)=-\\xi^2\\widehat u(\\xi)$ を用いて、解が一意に存在することを示せ。",
+      "$H^2$ ノルムをFourier側で $\\|u\\|*{H^2}^2=\\int(1+\\xi^2)^2|\\widehat u(\\xi)|^2d\\xi$ と定めた規約のもとで、$\\|u\\|*{H^2}=\\|f\\|*{L^2}$ 型の評価を示せ。Fourier変換の正規化定数は一貫していればよい。"
+    ],
+    "explanation": {
+      "summary": "Fourier変換すると $(1+\\xi^2)\\widehat u=\\widehat f$ なので、乗数 $(1+\\xi^2)^{-1}$ で逆作用素を構成できる。重み付き $H^2$ ノルムでは分母が正確に相殺されるため二階正則性評価も直ちに得られる。",
+      "steps": [
+        "方程式をFourier変換すると $(\\xi^2+1)\\widehat u(\\xi)=\\widehat f(\\xi)$。",
+        "$\\widehat u(\\xi)=\\widehat f(\\xi)/(1+\\xi^2)$ と定める。",
+        "$\\int(1+\\xi^2)^2|\\widehat u|^2=\\int|\\widehat f|^2<\\infty$ なので $u\\in H^2$。",
+        "Fourier変換を逆に戻せば分布の意味で $-u''+u=f$。",
+        "二解の差 $v$ は $(1+\\xi^2)\\widehat v=0$ を満たすため $\\widehat v=0$、従って一意。",
+        "Plancherelの規約を合わせれば $\\|u\\|*{H^2}=\\|f\\|*2$。"
+      ],
+      "knowledge": [
+        {
+          "title": "Fourier multiplier",
+          "body": "Fourier側で関数 $m(\\xi)$ を掛ける作用素をmultiplierという。本問の逆作用素の記号は $(1+\\xi^2)^{-1}$。"
+        },
+        {
+          "title": "楕円正則性の模型",
+          "body": "$-u''+u=f$ では二階微分の記号 $1+\\xi^2$ が零にならず、$L^2$ の右辺から $H^2$ の解が得られる。高次元の楕円型PDEの基本模型。"
+        },
+        {
+          "title": "Sobolev空間",
+          "body": "$H^2(\\mathbb R)$ はFourier側で $(1+\\xi^2)\\widehat u\\in L^2$ と特徴付けられる。"
+        },
+        {
+          "title": "零周波数の違い",
+          "body": "$-u''=f$ だけでは記号 $\\xi^2$ が0で消えるが、$-u''+u$ では $1+\\xi^2\\ge1$ のため全周波数で可逆になる。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$(1+\\xi^2)\\widehat u=\\widehat f$",
+          "Fourier変換後の代数方程式"
+        ],
+        [
+          "$\\widehat u=\\widehat f/(1+\\xi^2)$",
+          "Fourier multiplierで解を構成"
+        ],
+        [
+          "$\\int(1+\\xi^2)^2|\\widehat u|^2=\\int|\\widehat f|^2$",
+          "$u\\in H^2$ と評価"
+        ],
+        [
+          "差のFourier変換が0なので一意",
+          "弱解の一意性"
+        ]
+      ],
+      "hint": "作用素 $-d^2/dx^2+1$ のFourier記号は $1+\\xi^2$ で、零にならない。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-011-B",
+    "contest": "Level 3 #011",
+    "difficulty": "B",
+    "score": 400,
+    "title": "二次元共形計量の曲率",
+    "field": "微分幾何・リーマン幾何・テンソル",
+    "tags": [
+      "共形計量",
+      "Christoffel記号",
+      "Gaussian曲率",
+      "双曲平面"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "$U\\subset\\mathbb{R}^2$ 上のRiemann計量",
+      "$\\displaystyle g=e^{2\\phi(x,y)}(dx^2+dy^2)$",
+      "を考える。$\\phi\\in C^2(U)$ とする。",
+      "Christoffel記号が",
+      "$\\displaystyle \\Gamma^k*{ij}=\\delta^k_j\\partial_i\\phi+\\delta^k_i\\partial_j\\phi-\\delta_{ij}\\partial^k\\phi$",
+      "で与えられることを示せ。",
+      "これを用いてGaussian曲率が",
+      "$\\displaystyle K=-e^{-2\\phi}(\\phi_{xx}+\\phi_{yy})$",
+      "となることを導け。",
+      "上半平面 $y>0$ で $\\phi=-\\log y$ とした場合に $K=-1$ を確認せよ。"
+    ],
+    "explanation": {
+      "summary": "$g_{ij}=e^{2\\phi}\\delta_{ij}$ をLevi-Civita公式へ代入すると共形計量特有の簡潔なChristoffel公式が得られる。曲率テンソルを代入整理すると二次元ではLaplace作用素だけが残り $K=-e^{-2\\phi}\\Delta\\phi$。$e^{2\\phi}=y^{-2}$ はPoincaré上半平面計量で定曲率 $-1$。",
+      "steps": [
+        "$g_{ij}=e^{2\\phi}\\delta_{ij}$、$g^{ij}=e^{-2\\phi}\\delta^{ij}$、$\\partial_i g_{j\\ell}=2e^{2\\phi}(\\partial_i\\phi)\\delta_{j\\ell}$。",
+        "Levi-Civita公式へ代入し共通因子を消すと $\\Gamma^k_{ij}=\\delta^k_j\\phi_i+\\delta^k_i\\phi_j-\\delta_{ij}\\phi^k$。",
+        "例えば $R^1{}*{212}$ を $\\partial_1\\Gamma^1*{22}-\\partial_2\\Gamma^1_{21}+\\Gamma^1_{1m}\\Gamma^m_{22}-\\Gamma^1_{2m}\\Gamma^m_{21}$ の規約で計算し、$R_{1212}=-e^{2\\phi}(\\phi_{xx}+\\phi_{yy})$ を得る。",
+        "$\\det g=e^{4\\phi}$ なので $K=R_{1212}/\\det g=-e^{-2\\phi}\\Delta\\phi$。",
+        "$\\phi=-\\log y$ なら $\\phi_{xx}=0$、$\\phi_{yy}=1/y^2$、$e^{-2\\phi}=y^2$。従って $K=-1$。"
+      ],
+      "knowledge": [
+        {
+          "title": "共形計量",
+          "body": "二つの計量が正の関数倍で関係すると共形同値という。角度を保つが長さと曲率は変化する。"
+        },
+        {
+          "title": "二次元の共形曲率公式",
+          "body": "平坦計量 $g_0$ に対し $g=e^{2\\phi}g_0$ なら $K_g=-e^{-2\\phi}\\Delta_{g_0}\\phi$。二次元幾何で極めて重要。"
+        },
+        {
+          "title": "Poincaré上半平面",
+          "body": "$g=(dx^2+dy^2)/y^2$ は上半平面上の完全な双曲計量で、Gaussian曲率は恒等的に $-1$。"
+        },
+        {
+          "title": "一様化への接続",
+          "body": "曲率を指定して共形因子 $\\phi$ を求める問題は非線形楕円方程式 $-\\Delta\\phi=Ke^{2\\phi}$ に帰着し、Riemann面の一様化と関係する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$g_{ij}=e^{2\\phi}\\delta_{ij}$ と逆行列をChristoffel公式へ代入",
+          "共形計量の接続計算"
+        ],
+        [
+          "$\\Gamma^k_{ij}=\\delta^k_j\\phi_i+\\delta^k_i\\phi_j-\\delta_{ij}\\phi^k$",
+          "Christoffel記号の公式"
+        ],
+        [
+          "$R_{1212}=-e^{2\\phi}\\Delta\\phi$",
+          "曲率テンソルの計算"
+        ],
+        [
+          "$K=-e^{-2\\phi}\\Delta\\phi$",
+          "Gaussian曲率公式"
+        ],
+        [
+          "$\\phi=-\\log y$ で $K=-1$",
+          "Poincaré上半平面"
+        ]
+      ],
+      "hint": "まず共形因子 $e^{2\\phi}$ をChristoffel公式で完全に約分してから、必要な曲率成分一つだけを計算する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-011-C",
+    "contest": "Level 3 #011",
+    "difficulty": "C",
+    "score": 550,
+    "title": "Birth-Death連鎖の可逆定常分布",
+    "field": "確率論・確率過程",
+    "tags": [
+      "Markov連鎖",
+      "定常分布",
+      "詳細釣合",
+      "可逆性"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "状態空間 $S=\\{0,1,\\dots,N\\}$ 上のMarkov連鎖を考える。$0\\le i<N$ で $P(i,i+1)=p_i>0$、$0<i\\le N$ で $P(i,i-1)=q_i>0$ とし、残りの確率を $P(i,i)=1-p_i-q_i$ とする。境界では存在しない遷移の確率を0とし、各行の確率が非負で和1になるとする。",
+      "$\\pi_0=1$ と仮置きし、",
+      "$\\displaystyle \\widetilde\\pi_i=\\prod_{k=0}^{i-1}\\frac{p_k}{q_{k+1}}\\qquad(i\\ge1)$",
+      "と定める。正規化して得られる $\\pi$ が定常分布であることを詳細釣合条件から示せ。",
+      "さらに連鎖が可逆であること、および有限既約Markov連鎖の定常分布の一意性を用いて、この $\\pi$ が唯一の定常分布であることを説明せよ。"
+    ],
+    "explanation": {
+      "summary": "隣接状態間の詳細釣合 $\\pi_ip_i=\\pi_{i+1}q_{i+1}$ を再帰的に解くと積表示が得られる。自己遷移は詳細釣合に自動的に適合し、隣接以外の遷移は双方0。詳細釣合を状態について和を取れば定常性が従う。",
+      "steps": [
+        "$\\widetilde\\pi_{i+1}=\\widetilde\\pi_i p_i/q_{i+1}$ なので $\\widetilde\\pi_i p_i=\\widetilde\\pi_{i+1}q_{i+1}$。",
+        "$Z=\\sum_{i=0}^N\\widetilde\\pi_i<\\infty$ として $\\pi_i=\\widetilde\\pi_i/Z$ とすれば確率分布になる。",
+        "隣接状態について $\\pi_iP(i,i+1)=\\pi_{i+1}P(i+1,i)$。同一状態では自明、非隣接状態では両辺0なので全 $i,j$ に対し $\\pi_iP(i,j)=\\pi_jP(j,i)$。",
+        "詳細釣合を $i$ について和を取ると $\\sum_i\\pi_iP(i,j)=\\pi_j\\sum_iP(j,i)=\\pi_j$。ここで最後の和は固定した出発状態 $j$ の行和で1。",
+        "従って $\\pi P=\\pi$ で定常分布。また詳細釣合が成立するため定常過程として時間反転不変、すなわち可逆。",
+        "$p_i,q_i>0$ により任意の状態間を隣接移動で到達できるので既約。有限既約連鎖の定常分布一意性から $\\pi$ が唯一。"
+      ],
+      "knowledge": [
+        {
+          "title": "定常分布",
+          "body": "確率ベクトル $\\pi$ が $\\pi P=\\pi$ を満たすとき定常分布という。この分布から開始すれば各時刻の周辺分布が不変。"
+        },
+        {
+          "title": "詳細釣合",
+          "body": "$\\pi_iP(i,j)=\\pi_jP(j,i)$ が全状態で成立すれば $\\pi$ は定常分布。定常性より強い条件である。"
+        },
+        {
+          "title": "可逆性",
+          "body": "定常Markov連鎖の有限次元分布が時間反転しても同じとき可逆という。詳細釣合はその標準的な特徴付け。"
+        },
+        {
+          "title": "Birth-Death chain",
+          "body": "一次元格子で隣接状態間のみ遷移するMarkov連鎖。定常分布が積の形で明示できることが多い。"
+        },
+        {
+          "title": "有限既約性",
+          "body": "有限状態の既約Markov連鎖は一意な正の定常分布を持つ。収束そのものには周期性の検討が別途必要。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\widetilde\\pi_i p_i=\\widetilde\\pi_{i+1}q_{i+1}$",
+          "積表示が隣接詳細釣合を満たす"
+        ],
+        [
+          "正規化 $\\pi_i=\\widetilde\\pi_i/\\sum_j\\widetilde\\pi_j$",
+          "確率分布を構成"
+        ],
+        [
+          "$\\pi_iP(i,j)=\\pi_jP(j,i)$",
+          "全状態で詳細釣合"
+        ],
+        [
+          "詳細釣合を和して $\\pi P=\\pi$",
+          "定常性"
+        ],
+        [
+          "有限既約なので定常分布は一意",
+          "$p_i,q_i>0$ から既約"
+        ]
+      ],
+      "hint": "定常方程式を一気に解くより、隣接辺ごとの流量を等しくする詳細釣合を再帰的に解く。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-011-D",
+    "contest": "Level 3 #011",
+    "difficulty": "D",
+    "score": 700,
+    "title": "Maschkeの定理と不変部分関手",
+    "field": "加群・表現論・ホモロジー代数",
+    "tags": [
+      "Maschkeの定理",
+      "群表現",
+      "完全列",
+      "不変部分空間"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "$G$ を有限群、$k$ を体とし、$\\operatorname{char}k$ は $|G|$ を割らないとする。有限次元 $kG$-加群 $V$ と部分加群 $W\\subset V$ を考える。",
+      "任意の $k$-線形射影 $P:V\\to W$ から",
+      "$\\displaystyle \\overline P=\\frac1{|G|}\\sum_{g\\in G}gPg^{-1}$",
+      "を定め、$\\overline P$ が $G$-同変な射影であることを示せ。",
+      "これにより $V=W\\oplus W'$ となる $G$-安定補空間 $W'$ が存在すること、すなわちMaschkeの定理を証明せよ。",
+      "さらに有限次元 $kG$-加群の任意の短完全列が分裂することを導き、不変部分を取る関手 $V\\mapsto V^G$ が完全関手であることを証明せよ。"
+    ],
+    "explanation": {
+      "summary": "任意の線形射影を群平均すると、像を変えずにG-同変性だけを獲得できる。$|G|$ が体で可逆であることが平均操作の核心。これにより全表現が半単純となり、短完全列が分裂し、不変部分関手の全射性も平均によって回復する。",
+      "steps": [
+        "$P|_W=\\operatorname{id}_W$ を満たす線形射影を選ぶ。$W$ が $G$-安定なので各 $gPg^{-1}$ も像を $W$ に持つ。",
+        "$h\\overline Ph^{-1}=|G|^{-1}\\sum_ghgP(hg)^{-1}=\\overline P$ なので $\\overline P$ は $G$-同変。",
+        "$w\\in W$ なら $g^{-1}w\\in W$ なので $P(g^{-1}w)=g^{-1}w$、従って各 $gPg^{-1}(w)=w$。よって $\\overline P|*W=\\operatorname{id}*W$。",
+        "従って $\\overline P$ は $W$ への射影で、$W'=\\ker\\overline P$ は $G$-安定。$V=W\\oplus W'$。",
+        "短完全列 $0\\to A\\to B\\to C\\to0$ では $A$ を $B$ の部分加群と見てG-安定補空間を取り、商写像を補空間へ制限すれば $C$ との同型が得られ分裂する。",
+        "不変部分関手は常に左完全。全射 $B\\to C$ に対し $c\\in C^G$ の逆像 $b\\in B$ を選び、$\\bar b=|G|^{-1}\\sum_ggb$ と置くと $\\bar b\\in B^G$ で像は $c$。従って不変部分上でも全射となり完全。"
+      ],
+      "knowledge": [
+        {
+          "title": "Maschkeの定理",
+          "body": "$\\operatorname{char}k\\nmid|G|$ なら有限群の有限次元表現は完全可約、すなわち任意の部分表現に不変補空間が存在する。"
+        },
+        {
+          "title": "平均化",
+          "body": "群作用と両立しない対象を有限群全体で平均し、G-不変またはG-同変にする手法。$1/|G|$ が存在することが必要。"
+        },
+        {
+          "title": "半単純圏",
+          "body": "全ての短完全列が分裂するAbel圏は半単純。Maschke条件下の有限次元 $kG$-加群圏は典型例。"
+        },
+        {
+          "title": "不変部分関手",
+          "body": "$V^G=\\{v:gv=v\\ \\forall g\\}$。一般には左完全だが全射を保たない。Maschke条件では平均化により完全になる。"
+        },
+        {
+          "title": "群コホモロジーとの接続",
+          "body": "不変部分関手の右導来関手が群コホモロジー $H^n(G,-)$。Maschke条件では高次群コホモロジーが消える状況と対応する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\overline P=|G|^{-1}\\sum gPg^{-1}$",
+          "射影の群平均"
+        ],
+        [
+          "$h\\overline Ph^{-1}=\\overline P$",
+          "$\\overline P$ はG-同変"
+        ],
+        [
+          "$\\overline P|*W=\\operatorname{id}*W$ かつ $V=W\\oplus\\ker\\overline P$",
+          "G-安定補空間"
+        ],
+        [
+          "任意の短完全列が分裂",
+          "Maschkeから半単純性"
+        ],
+        [
+          "$b$ を平均して invariant preimage を作る",
+          "不変部分関手が全射を保存"
+        ],
+        [
+          "$V\\mapsto V^G$ は完全",
+          "左完全性に加えて右端全射"
+        ]
+      ],
+      "hint": "平均化した射影が $W$ 上で恒等写像のままかどうかと、群作用と可換するかを別々に確認する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-011-E",
+    "contest": "Level 3 #011",
+    "difficulty": "E",
+    "score": 900,
+    "title": "偏角原理と零点計数",
+    "field": "複素解析",
+    "tags": [
+      "偏角原理",
+      "留数定理",
+      "Rouchéの定理",
+      "零点",
+      "巻き数"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "$\\gamma$ を正向きの単純閉曲線とし、その内部を $D$ とする。$f$ は $\\gamma$ の近傍を含む領域でmeromorphicであり、$\\gamma$ 上に零点も極も持たないとする。",
+      "留数定理を用いて偏角原理",
+      "$\\displaystyle \\frac{1}{2\\pi i}\\int*\\gamma\\frac{f'(z)}{f(z)}\\,dz=N-P$",
+      "を証明せよ。ここで $N,P$ は $D$ 内の零点・極を重複度付きで数えた個数である。",
+      "これを用いて、多項式 $P(z)$ が次数 $n\\ge1$ なら複素平面上に重複度込みでちょうど $n$ 個の零点を持つことを示せ。",
+      "さらにRouchéの定理を用いて $z^5+3z+1$ が単位円板内に持つ零点の個数を求めよ。"
+    ],
+    "explanation": {
+      "summary": "零点または極 $a$ の近傍で $f=(z-a)^m g$ と因数分解すると $f'/f=m/(z-a)+g'/g$ なので留数が位数 $m$ になる。これを全特異点で足せば偏角原理。大円上では多項式の最高次項が支配し、零点総数が次数と一致する。最後は $3z$ が単位円上で残りの項を厳密に支配する。",
+      "steps": [
+        "$a$ が位数 $m>0$ の零点なら $f(z)=(z-a)^mg(z)$、$g(a)\\ne0$。従って $f'/f=m/(z-a)+g'/g$ で、留数は $m$。",
+        "$a$ が位数 $m$ の極なら $f=(z-a)^{-m}g$ と書け、$f'/f=-m/(z-a)+g'/g$。留数は $-m$。",
+        "$f'/f$ の他の特異点はなく、留数定理から積分は零点位数の総和から極位数の総和を引いたものに等しい。",
+        "次数 $n$ の多項式 $P(z)=a_nz^n+\\cdots$ に対し、十分大きい円 $|z|=R$ 上で $|P(z)-a_nz^n|<|a_nz^n|$。",
+        "Rouchéの定理から $P$ と $a_nz^n$ は $|z|<R$ 内に同じ個数の零点を持ち、それは $n$。十分大きな円は全零点を含むので代数学の基本定理が得られる。偏角原理を直接 $P'/P$ に適用しても同じ。",
+        "$|z|=1$ 上で $|z^5+1|\\le2<3=|3z|$。従って $z^5+3z+1$ と $3z$ は単位円板内に同じ個数の零点を持つ。",
+        "$3z$ の零点は0に1個なので、求める個数は重複度込みで1個。"
+      ],
+      "knowledge": [
+        {
+          "title": "偏角原理",
+          "body": "$f'/f$ の周回積分は、曲線を一周したとき $f(\\gamma)$ の偏角が何回転するかを測る。その整数が零点数と極数の差。"
+        },
+        {
+          "title": "対数微分",
+          "body": "$f'/f$ は積を和へ変え、零点・極の位数を単純極の留数として抽出する。零点計数に非常に適した量。"
+        },
+        {
+          "title": "Rouchéの定理",
+          "body": "閉曲線上で $|g|<|f|$ なら $f$ と $f+g$ は内部に同じ個数の零点を重複度付きで持つ。"
+        },
+        {
+          "title": "代数学の基本定理",
+          "body": "複素係数の次数 $n$ の多項式は重複度込みで $n$ 個の根を持つ。複素解析ではRouchéや偏角原理から自然に証明できる。"
+        },
+        {
+          "title": "巻き数",
+          "body": "偏角原理の左辺は $f\\circ\\gamma$ の0に関する巻き数と解釈でき、解析的零点計数と位相的不変量を結びつける。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "零点位数 $m$ で $\\operatorname{Res}(f'/f)=m$",
+          "局所因数分解 $f=(z-a)^mg$"
+        ],
+        [
+          "極位数 $m$ で留数 $-m$",
+          "$f=(z-a)^{-m}g$"
+        ],
+        [
+          "$\\frac1{2\\pi i}\\int f'/f=N-P$",
+          "留数定理による偏角原理"
+        ],
+        [
+          "大円上で最高次項が支配し多項式の零点数は次数 $n$",
+          "Rouchéによる代数学の基本定理"
+        ],
+        [
+          "$|z^5+1|\\le2<3=|3z|$ on $|z|=1$",
+          "Rouchéの不等式"
+        ],
+        [
+          "単位円板内の零点は1個",
+          "$3z$ と同じ零点数"
+        ]
+      ],
+      "hint": "$f'/f$ の留数は零点や極の位数そのものになる。最後はどの項を支配項に選ぶと境界上で厳密不等式になるか考える。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-012-A",
+    "contest": "Level 3 #012",
+    "difficulty": "A",
+    "score": 250,
+    "title": "尖点曲線のZariski接空間",
+    "field": "代数幾何",
+    "tags": [
+      "Zariski接空間",
+      "特異点",
+      "Jacobian",
+      "アファイン曲線"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "$k$ を標数 $2,3$ でない代数閉体とし、$C=V(y^2-x^3)\\subset\\mathbb{A}^2_k$ とする。$F(x,y)=y^2-x^3$ とおく。",
+      "$p=(a,b)\\in C$ におけるZariski接空間を",
+      "$\\displaystyle T_pC=\\{(u,v)\\in k^2:F_x(p)u+F_y(p)v=0\\}$",
+      "で定義する。",
+      "$p=(0,0)$ では $\\dim T_pC=2$ であり、$p\\ne(0,0)$ では $\\dim T_pC=1$ であることを示せ。",
+      "したがって原点が特異点で、その他の点が滑らかな点であることを説明せよ。"
+    ],
+    "explanation": {
+      "summary": "$F_x=-3x^2$、$F_y=2y$。原点では両偏微分が零なので接空間条件が消えて全 $k^2$ になる。非原点の曲線上では両偏微分が同時に零になることはなく、一つの非自明な線形方程式で定義されるため接空間は1次元。",
+      "steps": [
+        "$F_x=-3x^2$、$F_y=2y$。",
+        "原点では $F_x(0,0)=F_y(0,0)=0$ なので $T*{(0,0)}C=k^2$、従って次元2。",
+        "$p=(a,b)\\ne(0,0)$ で両偏微分が0なら、標数条件から $a=0$ かつ $b=0$ となり矛盾。",
+        "従って非原点では線形形式 $F_x(p)u+F_y(p)v$ は非零で、その核は $k^2$ の1次元部分空間。",
+        "曲線 $C$ の局所次元は1なので、接空間次元が1の点は滑らか、2に跳ぶ原点は特異点である。"
+      ],
+      "knowledge": [
+        {
+          "title": "Zariski接空間",
+          "body": "アファイン多様体を方程式 $F_1=\\cdots=F_r=0$ で定めたとき、点 $p$ の接空間はJacobian行列 $J(p)$ の核として計算できる。"
+        },
+        {
+          "title": "滑らかさ",
+          "body": "局所次元とZariski接空間次元が一致する点を滑らかな点と呼ぶ。接空間次元が大きくなる点は特異点。"
+        },
+        {
+          "title": "尖点",
+          "body": "$y^2=x^3$ の原点では一階情報が全て消えるため接空間が平面全体に膨らむが、実際の曲線は1次元。これが特異性を表す。"
+        },
+        {
+          "title": "標数条件",
+          "body": "標数2または3では偏微分の係数2,3が消えるためJacobian判定の形が変わる。本問で標数を除外する理由。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$F_x=-3x^2$, $F_y=2y$",
+          "Jacobianの計算"
+        ],
+        [
+          "原点では両偏微分が零なので $T_0C=k^2$",
+          "$\\dim T_0C=2$"
+        ],
+        [
+          "非原点では勾配が非零",
+          "$a,b$ が同時に0でないのでJacobian rank 1"
+        ],
+        [
+          "非原点の接空間次元は1",
+          "一つの非自明な線形方程式の核"
+        ],
+        [
+          "原点のみ特異",
+          "接空間次元が局所次元1より大きい"
+        ]
+      ],
+      "hint": "特異点判定は $F=F_x=F_y=0$ を同時に解くことに帰着する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-012-B",
+    "contest": "Level 3 #012",
+    "difficulty": "B",
+    "score": 400,
+    "title": "作用素の像と随伴の核",
+    "field": "線形代数・関数解析の初歩",
+    "tags": [
+      "Hilbert空間",
+      "随伴作用素",
+      "閉包",
+      "直交補空間"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "$H,K$ をHilbert空間、$T:H\\to K$ を有界線形作用素とし、随伴を $T^*:K\\to H$ とする。",
+      "$\\displaystyle (\\operatorname{Ran}T)^\\perp=\\ker T^*$",
+      "を示し、そこから",
+      "$\\displaystyle \\overline{\\operatorname{Ran}T}=(\\ker T^*)^\\perp$",
+      "を導け。",
+      "さらに $\\operatorname{Ran}T$ が稠密であることと $T^*$ が単射であることが同値であること、および $T$ が単射であることと $\\operatorname{Ran}T^*$ が稠密であることが同値であることを示せ。"
+    ],
+    "explanation": {
+      "summary": "$y$ が $\\operatorname{Ran}T$ に直交することは全 $x$ で $\\langle Tx,y\\rangle=0$ ということで、随伴の定義により $T^*y=0$ と同値。あとはHilbert空間で $M^{\\perp\\perp}=\\overline M$ を使えば全ての結論が得られる。",
+      "steps": [
+        "$y\\in(\\operatorname{Ran}T)^\\perp$ iff 全 $x\\in H$ で $\\langle Tx,y\\rangle_K=0$。",
+        "随伴の定義 $\\langle Tx,y\\rangle_K=\\langle x,T^*y\\rangle_H$ により、これは全 $x$ で $\\langle x,T^*y\\rangle=0$ と同値。",
+        "内積の非退化性から $T^*y=0$。従って $(\\operatorname{Ran}T)^\\perp=\\ker T^*$。",
+        "両辺の直交補を取って $((\\operatorname{Ran}T)^\\perp)^\\perp=(\\ker T^*)^\\perp$。Hilbert空間では $M^{\\perp\\perp}=\\overline M$ なので結論。",
+        "$\\overline{\\operatorname{Ran}T}=K$ iff $(\\ker T^*)^\\perp=K$ iff $\\ker T^*=0$。",
+        "$T^*$ に同じ公式を適用し $\\overline{\\operatorname{Ran}T^*}=(\\ker T^{**})^\\perp=(\\ker T)^\\perp$。Hilbert空間で $T^{**}=T$ と同一視できるので、$\\ker T=0$ iff $\\overline{\\operatorname{Ran}T^*}=H$。"
+      ],
+      "knowledge": [
+        {
+          "title": "随伴作用素",
+          "body": "$T^*$ は $\\langle Tx,y\\rangle_K=\\langle x,T^*y\\rangle_H$ を満たす一意な有界作用素。Hilbert空間の内積構造が本質。"
+        },
+        {
+          "title": "直交補",
+          "body": "$M^\\perp=\\{x:\\langle x,m\\rangle=0\\ \\forall m\\in M\\}$。任意の部分集合に対し $M^{\\perp\\perp}=\\overline{\\operatorname{span}M}$。部分空間なら閉包だけでよい。"
+        },
+        {
+          "title": "dense range criterion",
+          "body": "作用素の像が稠密かどうかは随伴の核で判定できる。この原理は弱解の一意性や偏微分方程式でも頻繁に使われる。"
+        },
+        {
+          "title": "有限次元との比較",
+          "body": "有限次元では像は自動的に閉なので閉包記号は不要。無限次元では像が非閉になることがあるため閉包が不可欠。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$y\\perp\\operatorname{Ran}T$ iff $\\langle Tx,y\\rangle=0$ for all $x$",
+          "像の直交補の定義"
+        ],
+        [
+          "随伴の定義から iff $T^*y=0$",
+          "$(\\operatorname{Ran}T)^\\perp=\\ker T^*$"
+        ],
+        [
+          "$M^{\\perp\\perp}=\\overline M$",
+          "$\\overline{\\operatorname{Ran}T}=(\\ker T^*)^\\perp$"
+        ],
+        [
+          "Ran T dense iff ker $T^*=0$",
+          "稠密像と随伴単射の同値"
+        ],
+        [
+          "ker T=0 iff Ran $T^*$ dense",
+          "$T^*$ に同じ公式を適用"
+        ]
+      ],
+      "hint": "像に直交するという条件を随伴の定義式へそのまま代入する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-012-C",
+    "contest": "Level 3 #012",
+    "difficulty": "C",
+    "score": 550,
+    "title": "変分定数法と初期値依存性",
+    "field": "常微分方程式",
+    "tags": [
+      "変分定数法",
+      "Gronwall不等式",
+      "Lipschitz連続",
+      "線形半群"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "$A\\in M_d(\\mathbb{R})$ とし、$f:[0,\\infty)\\times\\mathbb{R}^d\\to\\mathbb{R}^d$ は連続で、$x$ について一様にLipschitz定数 $L$ を持つとする。",
+      "$\\displaystyle \\dot x=Ax+f(t,x),\\qquad x(0)=x_0$",
+      "の解が変分定数公式",
+      "$\\displaystyle x(t)=e^{tA}x_0+\\int_0^te^{(t-s)A}f(s,x(s))\\,ds$",
+      "を満たすことを示せ。",
+      "$\\|e^{tA}\\|\\le Me^{\\omega t}$（$t\\ge0$）と仮定し、同じ方程式の二解 $x,y$ について",
+      "$\\displaystyle |x(t)-y(t)|\\le M e^{(\\omega+ML)t}|x(0)-y(0)|$",
+      "をGronwallの不等式から導け。",
+      "この評価から解の一意性と初期値に対する連続依存性を説明せよ。"
+    ],
+    "explanation": {
+      "summary": "$e^{-tA}x(t)$ を微分すれば非線形項だけが残り、積分して変分定数公式を得る。二解の差へ公式を適用するとVolterra型不等式が生じ、指数因子を取り除いてGronwallを使えば明示的な初期値依存評価になる。",
+      "steps": [
+        "$z(t)=e^{-tA}x(t)$ とおくと $z'=e^{-tA}(x'-Ax)=e^{-tA}f(t,x(t))$。",
+        "0から $t$ まで積分して $e^{-tA}x(t)=x_0+\\int_0^te^{-sA}f(s,x(s))ds$。左から $e^{tA}$ を掛けて変分定数公式を得る。",
+        "二解の差 $d(t)=|x(t)-y(t)|$ について",
+        "$\\displaystyle d(t)\\le Me^{\\omega t}d(0)+ML\\int_0^te^{\\omega(t-s)}d(s)ds$。",
+        "$h(t)=e^{-\\omega t}d(t)$ とすると $h(t)\\le Md(0)+ML\\int_0^th(s)ds$。",
+        "Gronwallの不等式より $h(t)\\le Md(0)e^{MLt}$。従って $d(t)\\le Me^{(\\omega+ML)t}d(0)$。",
+        "$d(0)=0$ なら全ての $t$ で $d(t)=0$ なので一意性。有限時間区間では右辺が初期差の定数倍なので初期値へのLipschitz連続依存性が得られる。"
+      ],
+      "knowledge": [
+        {
+          "title": "変分定数公式",
+          "body": "線形非斉次系の基本解行列を用いて強制項を積分する公式。非線形方程式でも $f(t,x(t))$ を未知の強制項とみなして使える。"
+        },
+        {
+          "title": "Gronwall不等式",
+          "body": "$h(t)\\le a+b\\int_0^th(s)ds$ なら $h(t)\\le ae^{bt}$。ODEの一意性・安定性・誤差評価の基本工具。"
+        },
+        {
+          "title": "行列指数評価",
+          "body": "有限次元では任意の行列 $A$ に対しある $M\\ge1,\\omega\\in\\mathbb R$ が存在して $\\|e^{tA}\\|\\le Me^{\\omega t}$。スペクトルとJordan構造から選べる。"
+        },
+        {
+          "title": "連続依存性",
+          "body": "初期値を少し変えたとき有限時間内の解も少ししか変わらないこと。力学系のwell-posednessの一部である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$\\frac d{dt}(e^{-tA}x)=e^{-tA}f(t,x)$",
+          "変分定数公式の導出"
+        ],
+        [
+          "$x(t)=e^{tA}x_0+\\int_0^te^{(t-s)A}f(s,x(s))ds$",
+          "Duhamel公式"
+        ],
+        [
+          "差に対し $d(t)\\le Me^{\\omega t}d(0)+ML\\int e^{\\omega(t-s)}d(s)ds$",
+          "Lipschitz性と半群評価"
+        ],
+        [
+          "$h=e^{-\\omega t}d$ にGronwall",
+          "指数因子を除去"
+        ],
+        [
+          "$d(t)\\le Me^{(\\omega+ML)t}d(0)$",
+          "初期値依存評価"
+        ],
+        [
+          "初期差0なら一意、有限時間で連続依存",
+          "well-posednessの結論"
+        ]
+      ],
+      "hint": "$e^{-tA}x(t)$ を微分すると $Ax$ が打ち消される。差の評価では先に $e^{\\omega t}$ を取り除く。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-012-D",
+    "contest": "Level 3 #012",
+    "difficulty": "D",
+    "score": 700,
+    "title": "Tensor-Hom随伴と特異環上の非flat性",
+    "field": "圏論",
+    "tags": [
+      "Tensor-Hom随伴",
+      "flat加群",
+      "node",
+      "完全列",
+      "座標環"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "$A$ を可換環とし、$A$-加群 $M,N,P$ に対して自然同型",
+      "$\\displaystyle \\operatorname{Hom}*A(M\\otimes_A N,P)\\cong\\operatorname{Hom}*A(M,\\operatorname{Hom}*A(N,P))$",
+      "を構成し、tensor積が各変数について左随伴であることを説明せよ。",
+      "次に $A=k[x,y]/(xy)$ とし、$M=A/(x)$ とする。単射 $(x)\\hookrightarrow A$ に $-\\otimes_AM$ を適用した写像",
+      "$\\displaystyle (x)\\otimes_AM\\longrightarrow A\\otimes_AM\\cong M$",
+      "が零写像である一方、$(x)\\otimes_AM\\cong k$ で非零であることを示せ。",
+      "従って $M$ がflatでないことを示し、この失敗が節点 $xy=0$ の座標環上の加群構造と関係していることを説明せよ。"
+    ],
+    "explanation": {
+      "summary": "双線形写像 $M\\times N\\to P$ をカリー化すると $M\\to\\operatorname{Hom}(N,P)$ となり、tensor積の普遍性がTensor-Hom随伴を与える。節点環ではイデアル $(x)$ は $A/(y)$ と同型なので、$A/(x)$ とtensorすると交点 $A/(x,y)=k$ が残るが、包含から誘導される写像は $x=0$ の商で消える。よって単射が保たれず非flat。",
+      "steps": [
+        "$\\Phi(F)(m)(n)=F(m\\otimes n)$ と定める。$F$ の $A$-線形性とtensor関係式から $\\Phi(F):M\\to\\operatorname{Hom}*A(N,P)$ は $A$-線形。",
+        "逆に $G:M\\to\\operatorname{Hom}*A(N,P)$ から $(m,n)\\mapsto G(m)(n)$ というbalanced双線形写像を作り、tensor積の普遍性で一意な $\\widetilde G:M\\otimes N\\to P$ を得る。両構成は互いに逆で自然。",
+        "従って固定した $N$ に対して $-\\otimes_AN$ は $\\operatorname{Hom}*A(N,-)$ の左随伴であり、特に余極限を保存して右完全。",
+        "$A=k[x,y]/(xy)$ で写像 $A/(y)\\to(x)$、$\\bar a\\mapsto ax$ は同型。核は $\\operatorname{Ann}(x)=(y)$。",
+        "従って $(x)\\otimes_AA/(x)\\cong A/(y)\\otimes_AA/(x)\\cong A/(x,y)\\cong k$ で非零。",
+        "一方、包含 $(x)\\hookrightarrow A$ から誘導される写像は $ax\\otimes\\bar b\\mapsto axb\\bmod(x)=0$ なので零写像。",
+        "元の写像は単射だがtensor後は非零加群からの零写像となり単射でない。従って $M=A/(x)$ はflatでない。"
+      ],
+      "knowledge": [
+        {
+          "title": "Tensor-Hom随伴",
+          "body": "tensor積はbalanced双線形写像を線形写像として表現する普遍対象であり、Homとの随伴がその普遍性の圏論的表現。"
+        },
+        {
+          "title": "flat加群",
+          "body": "$M$ がflatとは $-\\otimes_AM$ が完全、同値に単射を保存すること。一般のtensor関手は右完全にとどまる。"
+        },
+        {
+          "title": "節点xy=0",
+          "body": "$\\operatorname{Spec}A$ は二本の座標軸が原点で交わる可約曲線。$A/(x)$ と $A/(y)$ はそれぞれ一方の成分の座標環である。"
+        },
+        {
+          "title": "交点とtensor積",
+          "body": "$A/(x)\\otimes_AA/(y)\\cong A/(x,y)\\cong k$ は二成分の交点原点に対応する。代数幾何ではtensor積がscheme-theoretic intersectionを表す。"
+        },
+        {
+          "title": "Torとの接続",
+          "body": "単射性の失敗は $\\operatorname{Tor}*1^A(A/(x),A/(x))$ などの非消滅として測定でき、特異点上のhomological情報に結びつく。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "$F\\mapsto(m\\mapsto(n\\mapsto F(m\\otimes n)))$",
+          "Tensor-Hom自然同型を構成"
+        ],
+        [
+          "balanced写像からtensor積の普遍性で逆写像",
+          "随伴の逆対応"
+        ],
+        [
+          "$(x)\\cong A/(y)$",
+          "$\\operatorname{Ann}(x)=(y)$"
+        ],
+        [
+          "$(x)\\otimes_AA/(x)\\cong A/(x,y)\\cong k$",
+          "tensor後の始域が非零"
+        ],
+        [
+          "包含から誘導されるtensor写像は零",
+          "$x=0$ mod $(x)$"
+        ],
+        [
+          "単射を保存しないので $A/(x)$ は非flat",
+          "flatnessの失敗"
+        ]
+      ],
+      "hint": "イデアル $(x)$ を抽象的に扱うより、$A/(y)$ と同型であることを先に示すとtensor積が一行で計算できる。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-012-E",
+    "contest": "Level 3 #012",
+    "difficulty": "E",
+    "score": 900,
+    "title": "Volterra作用素のコンパクト性とスペクトル",
+    "field": "実解析・関数解析",
+    "tags": [
+      "Volterra作用素",
+      "Arzelà-Ascoli",
+      "スペクトル",
+      "Neumann級数",
+      "コンパクト作用素"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "$X=C([0,1])$ に一様ノルムを入れ、Volterra作用素 $T:X\\to X$ を",
+      "$\\displaystyle (Tf)(x)=\\int_0^xf(t)\\,dt$",
+      "で定める。",
+      "$T$ が有界かつコンパクトであることをArzelà-Ascoliの定理を用いて示せ。",
+      "さらに $n\\ge1$ に対して",
+      "$\\displaystyle (T^nf)(x)=\\frac{1}{(n-1)!}\\int_0^x(x-t)^{n-1}f(t)\\,dt$",
+      "を証明し、$\\|T^n\\|\\le1/n!$ を導け。",
+      "任意の $\\lambda\\ne0$ に対して $\\lambda I-T$ が有界逆作用素を持つことを、Neumann型級数",
+      "$\\displaystyle (\\lambda I-T)^{-1}=\\frac1\\lambda\\sum*{n=0}^{\\infty}\\frac{T^n}{\\lambda^n}$",
+      "の収束から示せ。",
+      "最後に $0\\in\\sigma(T)$ だが $0$ は固有値ではないことを示し、$\\sigma(T)=\\{0\\}$ を結論せよ。"
+    ],
+    "explanation": {
+      "summary": "単位球の像は一様有界かつ一様LipschitzなのでArzelà-Ascoliにより相対compact。反復積分には単体の体積 $1/n!$ が現れ、作用素冪がfactorial速度で小さくなる。このため通常の $\\|T/\\lambda\\|<1$ 条件なしに全ての $\\lambda\\ne0$ でresolvent級数が収束する。0は単射性を壊さないが全射性を壊すため唯一のスペクトル点。",
+      "steps": [
+        "$|Tf(x)|\\le x\\|f\\|*\\infty\\le\\|f\\|*\\infty$ なので $\\|T\\|\\le1$。$f\\equiv1$ で $\\|Tf\\|*\\infty=1$ だから $\\|T\\|=1$。",
+        "$\\|f\\|*\\infty\\le1$ なら $|Tf(x)|\\le1$、また $|Tf(x)-Tf(y)|\\le|x-y|$。従って単位球の像は一様有界かつ同程度連続。Arzelà-Ascoliにより相対compactなので $T$ はcompact。",
+        "反復積分とFubiniにより帰納的に $T^nf(x)=((n-1)!)^{-1}\\int_0^x(x-t)^{n-1}f(t)dt$。",
+        "従って $|T^nf(x)|\\le\\|f\\|*\\infty x^n/n!\\le\\|f\\|*\\infty/n!$、ゆえに $\\|T^n\\|\\le1/n!$。",
+        "$\\lambda\\ne0$ なら $\\sum*{n\\ge0}\\|T^n/\\lambda^n\\|\\le\\sum*{n\\ge0}1/(n!|\\lambda|^n)=e^{1/|\\lambda|}<\\infty$。従って作用素ノルムで級数が収束する。",
+        "部分和に $(I-T/\\lambda)$ を掛けるとtelescopingし、極限で恒等作用素になる。従って表示された級数が $(\\lambda I-T)^{-1}$。",
+        "$Tf=0$ なら $Tf$ を微分して $f=0$ なので $T$ は単射。従って0は固有値でない。",
+        "一方 $Tf$ は常に $C^1$ で $(Tf)(0)=0$。例えば定数関数1は像に入らないので $T$ は全射でなく、有界逆作用素を持たない。従って $0\\in\\sigma(T)$。",
+        "全ての $\\lambda\\ne0$ はresolvent集合に属するので $\\sigma(T)=\\{0\\}$。"
+      ],
+      "knowledge": [
+        {
+          "title": "Arzelà-Ascoliの定理",
+          "body": "$C(K)$ で一様有界かつ同程度連続な関数族は、$K$ がcompactなら相対compact。積分作用素のcompact性を示す基本手法。"
+        },
+        {
+          "title": "Volterra作用素",
+          "body": "上端が変数の積分作用素。三角型積分作用素の原型で、compactだが非零固有値を持たないquasinilpotent作用素の標準例。"
+        },
+        {
+          "title": "スペクトル",
+          "body": "$\\sigma(T)=\\{\\lambda:\\lambda I-T\\text{ が有界可逆でない}\\}$。無限次元では単射でも全射でないためスペクトルに入る場合がある。"
+        },
+        {
+          "title": "Neumann級数",
+          "body": "通常は $\\|A\\|<1$ なら $(I-A)^{-1}=\\sum A^n$。本問では $\\|T^n\\|\\le1/n!$ が強いため、任意のスカラー倍でも級数が収束する。"
+        },
+        {
+          "title": "spectral radius",
+          "body": "Gelfand公式 $r(T)=\\lim_n\\|T^n\\|^{1/n}$ を使えば $1/n!$ の評価から $r(T)=0$ と分かる。本問ではresolventを直接構成してさらに強く示している。"
+        },
+        {
+          "title": "compact作用素の特異な例",
+          "body": "非零スペクトル点を一つも持たない非零compact作用素が存在することは、有限次元行列との大きな違いである。Volterra作用素がその代表例。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "単位球の像が一様有界かつ $|Tf(x)-Tf(y)|\\le|x-y|$",
+          "Arzelà-Ascoliでcompact"
+        ],
+        [
+          "$T^nf(x)=\\frac1{(n-1)!}\\int_0^x(x-t)^{n-1}f(t)dt$",
+          "反復積分公式"
+        ],
+        [
+          "$\\|T^n\\|\\le1/n!$",
+          "factorial減衰"
+        ],
+        [
+          "$\\sum\\|T^n/\\lambda^n\\|<\\infty$ for every $\\lambda\\ne0$",
+          "Neumann型resolvent級数"
+        ],
+        [
+          "$\\lambda\\ne0$ なら $\\lambda I-T$ は有界可逆",
+          "非零複素数はresolvent集合"
+        ],
+        [
+          "$Tf=0$ なら $f=0$ なので0は固有値でない",
+          "Volterra作用素は単射"
+        ],
+        [
+          "定数関数1はRan Tに入らないので $0\\in\\sigma(T)$",
+          "Tは全射でない"
+        ],
+        [
+          "$\\sigma(T)=\\{0\\}$",
+          "唯一のスペクトル点"
+        ]
+      ],
+      "hint": "compact性には微分可能性そのものより、単位球の像が一様Lipschitzになることを使う。スペクトルには $T^n$ のfactorial評価が決定的。"
+    },
+    "sourceModel": "Gemini Pro"
+  }
+
 ]
