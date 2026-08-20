@@ -45,6 +45,16 @@ function displayContest(value: string) {
 
 const localProgressKey = "mathabc-progress-v2";
 const localAttemptsKey = "mathabc-attempt-history-v1";
+const saveDataFormat = "mathloop-save-data";
+const saveDataVersion = 1;
+
+type SaveData = {
+  format: typeof saveDataFormat;
+  version: typeof saveDataVersion;
+  exportedAt: string;
+  progress: Record<string, Progress>;
+  attempts: Record<string, Attempt[]>;
+};
 
 function readLocalProgress() {
   try {
@@ -60,6 +70,31 @@ function readLocalAttempts() {
   } catch {
     return {};
   }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isSaveData(value: unknown): value is SaveData {
+  return isRecord(value)
+    && value.format === saveDataFormat
+    && value.version === saveDataVersion
+    && isRecord(value.progress)
+    && isRecord(value.attempts);
+}
+
+function downloadSaveData(data: SaveData) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  const day = data.exportedAt.slice(0, 10);
+  anchor.href = url;
+  anchor.download = `mathloop-save-${day}.json`;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
 }
 
 function fromProgressRow(row: Record<string, unknown>): Progress {
@@ -178,6 +213,7 @@ export default function MathLoopApp() {
   const [email, setEmail] = useState("");
   const [authMessage, setAuthMessage] = useState("");
   const [authSending, setAuthSending] = useState(false);
+  const [saveDataOpen, setSaveDataOpen] = useState(false);
   const [openedAt, setOpenedAt] = useState(0);
   const [now, setNow] = useState(0);
   const [virtualUntil, setVirtualUntil] = useState<number | null>(null);
@@ -388,6 +424,26 @@ export default function MathLoopApp() {
     setSyncState("local");
   }
 
+  function exportSaveData() {
+    downloadSaveData({
+      format: saveDataFormat,
+      version: saveDataVersion,
+      exportedAt: new Date().toISOString(),
+      progress,
+      attempts: attemptsByProblem,
+    });
+  }
+
+  async function importSaveData(file: File) {
+    const parsed: unknown = JSON.parse(await file.text());
+    if (!isSaveData(parsed)) throw new Error("MathLoopのセーブデータではないか、形式が古いため読み込めません。");
+    localStorage.setItem(localProgressKey, JSON.stringify(parsed.progress));
+    localStorage.setItem(localAttemptsKey, JSON.stringify(parsed.attempts));
+    setProgress(parsed.progress);
+    setAttemptsByProblem(parsed.attempts);
+    setSyncState("local");
+  }
+
   async function submit() {
     if (!activeProblem || (!answer.trim() && !answerPhoto) || submitting) return;
     if (answerPhoto && !user) {
@@ -552,6 +608,7 @@ export default function MathLoopApp() {
           </div>
           <div className="topActions">
             {virtualSeconds !== null && virtualSeconds > 0 && <span className="contestClock"><i>●</i> 集中モード {formatTime(virtualSeconds)}</span>}
+            <button className="saveDataButton" onClick={() => setSaveDataOpen(true)}>保存データ</button>
             <button className={`syncButton ${user ? "connected" : ""}`} onClick={() => user ? void signOut() : setAuthOpen(true)}>{user ? "● 同期中" : "端末間で同期"}</button>
             <div className="streak"><span>学習日</span><b>{uniqueStudyDays}</b><small>days</small></div>
           </div>
@@ -656,6 +713,12 @@ export default function MathLoopApp() {
         sending={authSending}
         onSend={() => void sendMagicLink()}
         onClose={() => setAuthOpen(false)}
+      />}
+      {saveDataOpen && <SaveDataDialog
+        signedIn={Boolean(user)}
+        onExport={exportSaveData}
+        onImport={importSaveData}
+        onClose={() => setSaveDataOpen(false)}
       />}
     </main>
   );
@@ -820,6 +883,42 @@ function AuthDialog({ email, setEmail, message, sending, onSend, onClose }: {
       <button className="authSubmit" disabled={!email.trim() || sending} onClick={onSend}>{sending ? "送信中…" : "ログインリンクを送る"}</button>
       {message && <div className="authMessage" aria-live="polite">{message}</div>}
       <small>ログインしない場合も、この端末内だけで回答記録を保存できます。</small>
+    </section>
+  </div>;
+}
+
+function SaveDataDialog({ signedIn, onExport, onImport, onClose }: {
+  signedIn: boolean; onExport: () => void; onImport: (file: File) => Promise<void>; onClose: () => void;
+}) {
+  const [message, setMessage] = useState("");
+  const [importing, setImporting] = useState(false);
+
+  async function handleImport(file: File | null) {
+    if (!file || importing) return;
+    setImporting(true);
+    try {
+      await onImport(file);
+      setMessage("読み込みました。この端末の学習記録として復元されています。");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "読み込めませんでした。JSONファイルを確認してください。");
+    } finally {
+      setImporting(false);
+    }
+  }
+
+  return <div className="dialogBackdrop">
+    <section className="authDialog saveDataDialog" role="dialog" aria-modal="true" aria-labelledby="save-data-title">
+      <button className="dialogClose" onClick={onClose} aria-label="閉じる">×</button>
+      <span className="authMark">↓</span>
+      <span className="eyebrow">LOCAL BACKUP</span>
+      <h2 id="save-data-title">学習記録を保存</h2>
+      <p>正解状況、提出した回答、採点結果、学習時間をJSONファイルに保存します。写真そのものは含まれません。</p>
+      <button className="authSubmit" onClick={() => { onExport(); setMessage("JSONファイルを保存しました。大切な場所に保管してください。"); }}>JSONを保存する</button>
+      <label className="importLabel">保存済みJSONを読み込む
+        <input type="file" accept="application/json,.json" disabled={importing} onChange={(event) => void handleImport(event.target.files?.[0] || null)} />
+      </label>
+      {signedIn && <small>読み込んだ内容はこの端末に復元されます。クラウド上の記録は変更しません。</small>}
+      {message && <div className="authMessage" aria-live="polite">{message}</div>}
     </section>
   </div>;
 }

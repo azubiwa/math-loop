@@ -55,6 +55,8 @@ h1 { margin: 6px 0 0; font-family: Georgia, "Yu Mincho", serif; font-size: 27px;
 .streak small { font-size: 9px; text-transform: uppercase; letter-spacing: .1em; }
 .syncButton { padding: 7px 10px; color: #555; background: #f5f5f3; border: 1px solid #ddd; border-radius: 7px; font-size: 8px; font-weight: 700; cursor: pointer; }
 .syncButton.connected { color: #111; background: #e9e9e6; border-color: #ccc; }
+.saveDataButton { padding: 7px 10px; color: #355a48; background: #f2f8f3; border: 1px solid #cfe0d3; border-radius: 7px; font-size: 8px; font-weight: 700; cursor: pointer; }
+.saveDataButton:hover { background: #e4f1e6; }
 
 .content { width: 100%; max-width: 1320px; margin: 0 auto; padding: 31px clamp(24px, 4.5vw, 68px) 64px; }
 .heroCard { min-height: 182px; padding: 33px 39px; background: #e9e9e6; border: 1px solid #d8d8d4; border-radius: 17px; display: flex; justify-content: space-between; align-items: center; overflow: hidden; position: relative; }
@@ -327,6 +329,9 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .authSubmit:disabled { opacity: .45; cursor: not-allowed; }
 .authMessage { margin-top: 12px; padding: 10px; color: #333; background: #efefed; border-radius: 7px; font-size: 9px; line-height: 1.55; }
 .authDialog > small { display: block; margin-top: 15px; color: #929d97; font-size: 8px; line-height: 1.5; }
+.importLabel { margin-top: 12px; padding: 11px 12px; background: #f5f7f5; border: 1px dashed #bdccc0; border-radius: 7px; cursor: pointer; }
+.importLabel input { margin-top: 2px; padding: 0; border: 0; background: transparent; font-size: 9px; box-shadow: none; }
+.importLabel input:focus { box-shadow: none; }
 .difficultyGrid { margin-top: 20px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
 .difficultyGrid > div { padding: 13px 8px; display: grid; justify-items: center; border: 1px solid #e7ece9; border-radius: 8px; }
 .difficultyGrid b { margin-top: 9px; font: 600 18px Georgia, serif; }
@@ -364,6 +369,7 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
   h1 { font-size: 21px; }
   .topActions { gap: 8px; }
   .syncButton { padding: 7px 8px; }
+  .saveDataButton { padding: 7px 8px; }
   .contestClock { padding: 6px 8px; font-size: 8px; }
   .streak span, .streak small { display: none; }
   .streak b { font-size: 21px; }
@@ -421,5 +427,7 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
   .statsHero p { display: none; }
   .syncButton { font-size: 0; }
   .syncButton::after { content: "同期"; font-size: 8px; }
+  .saveDataButton { font-size: 0; }
+  .saveDataButton::after { content: "保存"; font-size: 8px; }
   .tagStatsList { grid-template-columns: 1fr; }
 }
