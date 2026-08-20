@@ -10,6 +10,8 @@ export type Problem = {
   contest: string;
   difficulty: Difficulty;
   score: number;
+  /** 内部の出所管理用。学習画面には表示しない。 */
+  sourceModel?: string;
   title: string;
   field: string;
   tags: string[];
