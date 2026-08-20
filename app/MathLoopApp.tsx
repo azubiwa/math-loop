@@ -20,7 +20,19 @@ type Progress = {
   solvedAt: string | null;
   updatedAt: string;
 };
-type Result = { status: Status; score: number; feedback: string };
+type GradingMethod = "sakura" | "rule" | "exact" | "photo";
+type Result = { status: Status; score: number; feedback: string; method?: GradingMethod };
+type Attempt = {
+  id: string;
+  problemId: string;
+  status: Status;
+  score: number;
+  answer: string;
+  answerType: "text" | "text_photo";
+  imagePath: string | null;
+  durationSeconds: number;
+  createdAt: string;
+};
 
 const symbols = ["ε", "δ", "∀", "∃", "→", "⇒", "∈", "⊂", "∪", "∩", "∫", "√", "∞", "⁻¹"];
 const difficultyLabel: Record<Difficulty, string> = { A: "定義・基本", B: "典型", C: "標準", D: "証明・発展", E: "総合・最難関" };
@@ -28,10 +40,19 @@ const difficulties: Difficulty[] = ["A", "B", "C", "D", "E"];
 const contestSeries = ["すべて", ...Array.from(new Set(problems.map((problem) => problem.contest.replace(/\s+#\d+$/, ""))))];
 
 const localProgressKey = "mathabc-progress-v2";
+const localAttemptsKey = "mathabc-attempt-history-v1";
 
 function readLocalProgress() {
   try {
     return JSON.parse(localStorage.getItem(localProgressKey) || "{}") as Record<string, Progress>;
+  } catch {
+    return {};
+  }
+}
+
+function readLocalAttempts() {
+  try {
+    return JSON.parse(localStorage.getItem(localAttemptsKey) || "{}") as Record<string, Attempt[]>;
   } catch {
     return {};
   }
@@ -53,16 +74,49 @@ function fromProgressRow(row: Record<string, unknown>): Progress {
   };
 }
 
+function fromAttemptRow(row: Record<string, unknown>): Attempt {
+  return {
+    id: String(row.id),
+    problemId: String(row.problem_id),
+    status: row.status as Status,
+    score: Number(row.score),
+    answer: String(row.answer || ""),
+    answerType: row.answer_type as Attempt["answerType"],
+    imagePath: row.image_path ? String(row.image_path) : null,
+    durationSeconds: Number(row.duration_seconds),
+    createdAt: String(row.created_at),
+  };
+}
+
+function groupAttempts(rows: Attempt[]) {
+  return rows.reduce<Record<string, Attempt[]>>((grouped, attempt) => {
+    (grouped[attempt.problemId] ||= []).push(attempt);
+    return grouped;
+  }, {});
+}
+
 function statusRank(status: Status) {
   return status === "AC" ? 3 : status === "REVIEW" ? 2 : 1;
 }
 
 async function gradeWithSakura(problem: Problem, answer: string): Promise<Result | null> {
   const { data, error } = await supabase.functions.invoke("grade-answer", {
-    body: { title: problem.title, prompt: problem.prompt, answer, grade: problem.grade },
+    body: {
+      title: problem.title,
+      prompt: problem.prompt,
+      answer,
+      answerType: problem.answerType,
+      grade: problem.grade,
+      explanation: {
+        summary: problem.explanation.summary,
+        steps: problem.explanation.steps,
+      },
+    },
   });
   if (error || !data || !["AC", "REVIEW", "WA"].includes(data.status)) return null;
-  return { status: data.status as Status, score: Number(data.score), feedback: String(data.feedback) };
+  const score = Number(data.score);
+  if (!Number.isFinite(score)) return null;
+  return { status: data.status as Status, score, feedback: String(data.feedback), method: "sakura" };
 }
 
 function formatTime(seconds: number) {
@@ -77,8 +131,18 @@ function shortDate(value: string | null) {
   return new Intl.DateTimeFormat("ja-JP", { month: "short", day: "numeric" }).format(new Date(value));
 }
 
+function attemptDate(value: string) {
+  return new Intl.DateTimeFormat("ja-JP", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(value));
+}
+
 function isFormula(line: string) {
-  return /[=∫Σlim]|T:|ker|Im |Var|E\[|det |A°|Ā|∂A/.test(line);
+  return /\$|[=∫Σlim]|T:|ker|Im |Var|E\[|det |A°|Ā|∂A/.test(line);
 }
 
 function StatusBadge({ status }: { status?: Status }) {
@@ -91,6 +155,7 @@ export default function MathLoopApp() {
   const [view, setView] = useState<"problems" | "stats">("problems");
   const [activeProblem, setActiveProblem] = useState<Problem | null>(null);
   const [progress, setProgress] = useState<Record<string, Progress>>({});
+  const [attemptsByProblem, setAttemptsByProblem] = useState<Record<string, Attempt[]>>({});
   const [query, setQuery] = useState("");
   const [field, setField] = useState("すべて");
   const [contestFilter, setContestFilter] = useState("すべて");
@@ -121,21 +186,33 @@ export default function MathLoopApp() {
       setUser(nextUser);
       if (!nextUser) {
         setProgress(readLocalProgress());
+        setAttemptsByProblem(readLocalAttempts());
         setSyncState("local");
         return;
       }
       setSyncState("loading");
-      const { data, error } = await supabase
-        .from("math_abc_progress")
-        .select("*")
-        .order("updated_at", { ascending: false });
+      const [progressResponse, attemptsResponse] = await Promise.all([
+        supabase
+          .from("math_abc_progress")
+          .select("*")
+          .eq("user_id", nextUser.id)
+          .order("updated_at", { ascending: false }),
+        supabase
+          .from("math_abc_attempts")
+          .select("id,problem_id,status,score,answer,answer_type,image_path,duration_seconds,created_at")
+          .eq("user_id", nextUser.id)
+          .order("created_at", { ascending: false })
+          .limit(1000),
+      ]);
       if (!active) return;
-      if (error) {
+      if (progressResponse.error || attemptsResponse.error) {
         setSyncState("error");
         return;
       }
-      const rows = (data || []).map((row) => fromProgressRow(row));
+      const rows = (progressResponse.data || []).map((row) => fromProgressRow(row));
+      const attemptRows = (attemptsResponse.data || []).map((row) => fromAttemptRow(row));
       setProgress(Object.fromEntries(rows.map((row) => [row.problemId, row])));
+      setAttemptsByProblem(groupAttempts(attemptRows));
       setSyncState("saved");
       setAuthOpen(false);
     }
@@ -201,9 +278,11 @@ export default function MathLoopApp() {
   }
 
   function openProblem(problem: Problem) {
+    const previous = progress[problem.id];
+    const draft = localStorage.getItem(`mathabc-draft-${problem.id}`) || "";
     setActiveProblem(problem);
     setView("problems");
-    setAnswer(progress[problem.id]?.lastAnswer || localStorage.getItem(`mathabc-draft-${problem.id}`) || "");
+    setAnswer(draft || (previous?.status === "AC" ? "" : previous?.lastAnswer || ""));
     setResult(null);
     setAnswerPhoto(null);
     setExplanationOpen(false);
@@ -259,6 +338,7 @@ export default function MathLoopApp() {
   async function signOut() {
     await supabase.auth.signOut();
     setProgress(readLocalProgress());
+    setAttemptsByProblem(readLocalAttempts());
     setSyncState("local");
   }
 
@@ -272,11 +352,18 @@ export default function MathLoopApp() {
     setSubmitting(true);
     setSyncState("loading");
     try {
-      let graded: Result = answer.trim()
-        ? gradeAnswer(activeProblem, answer)
-        : { status: "REVIEW", score: 0, feedback: "写真を保存しました。現在は写真だけの自動採点には未対応です。要点をテキストでも入力すると採点できます。" };
-      if (user && answer.trim()) {
-        graded = await gradeWithSakura(activeProblem, answer) || graded;
+      const submittedAnswer = answer;
+      const ruleResult = submittedAnswer.trim() ? gradeAnswer(activeProblem, submittedAnswer) : null;
+      let graded: Result = ruleResult
+        ? { ...ruleResult, method: activeProblem.answerType === "short" ? "exact" : "rule" }
+        : { status: "REVIEW", score: 0, feedback: "写真を保存しました。現在は写真だけの自動採点には未対応です。要点をテキストでも入力すると採点できます。", method: "photo" };
+      if (user && submittedAnswer.trim() && activeProblem.answerType === "proof") {
+        const aiResult = await gradeWithSakura(activeProblem, submittedAnswer);
+        graded = aiResult || {
+          ...graded,
+          feedback: `${graded.feedback} さくらAIに接続できなかったため、今回は必須論点による簡易採点です。`,
+          method: "rule",
+        };
       }
       const durationSeconds = Math.round((Date.now() - openedAt) / 1000);
       const previous = progress[activeProblem.id];
@@ -299,7 +386,7 @@ export default function MathLoopApp() {
         status: recordedStatus,
         bestScore: Math.max(previous?.bestScore || 0, graded.score),
         attempts: attemptNumber,
-        lastAnswer: answer,
+        lastAnswer: submittedAnswer,
         durationSeconds: (previous?.durationSeconds || 0) + durationSeconds,
         firstStatus: previous?.firstStatus || graded.status,
         firstScore: previous?.firstScore ?? graded.score,
@@ -307,19 +394,35 @@ export default function MathLoopApp() {
         solvedAt: previous?.solvedAt || (graded.status === "AC" ? timestamp : null),
         updatedAt: timestamp,
       };
+      let savedAttempt: Attempt = {
+        id: crypto.randomUUID(),
+        problemId: activeProblem.id,
+        status: graded.status,
+        score: graded.score,
+        answer: submittedAnswer,
+        answerType: imagePath ? "text_photo" : "text",
+        imagePath,
+        durationSeconds,
+        createdAt: timestamp,
+      };
 
       if (user) {
-        const { error: attemptError } = await supabase.from("math_abc_attempts").insert({
-          user_id: user.id,
-          problem_id: activeProblem.id,
-          status: graded.status,
-          score: graded.score,
-          answer,
-          answer_type: imagePath ? "text_photo" : "text",
-          image_path: imagePath,
-          duration_seconds: durationSeconds,
-        });
+        const { data: attemptRow, error: attemptError } = await supabase
+          .from("math_abc_attempts")
+          .insert({
+            user_id: user.id,
+            problem_id: activeProblem.id,
+            status: graded.status,
+            score: graded.score,
+            answer: submittedAnswer,
+            answer_type: imagePath ? "text_photo" : "text",
+            image_path: imagePath,
+            duration_seconds: durationSeconds,
+          })
+          .select("id,problem_id,status,score,answer,answer_type,image_path,duration_seconds,created_at")
+          .single();
         if (attemptError) throw attemptError;
+        savedAttempt = fromAttemptRow(attemptRow);
 
         const { error: progressError } = await supabase.from("math_abc_progress").upsert({
           user_id: user.id,
@@ -338,14 +441,28 @@ export default function MathLoopApp() {
         if (progressError) throw progressError;
       } else {
         const nextLocal = { ...progress, [nextProgress.problemId]: nextProgress };
+        const currentAttempts = readLocalAttempts();
+        const nextLocalAttempts = {
+          ...currentAttempts,
+          [activeProblem.id]: [savedAttempt, ...(currentAttempts[activeProblem.id] || [])],
+        };
         localStorage.setItem(localProgressKey, JSON.stringify(nextLocal));
+        localStorage.setItem(localAttemptsKey, JSON.stringify(nextLocalAttempts));
       }
 
       setResult(graded);
       setProgress((current) => ({ ...current, [nextProgress.problemId]: nextProgress }));
+      setAttemptsByProblem((current) => ({
+        ...current,
+        [activeProblem.id]: [savedAttempt, ...(current[activeProblem.id] || [])],
+      }));
       setSyncState(user ? "saved" : "local");
       setAnswerPhoto(null);
-      localStorage.removeItem(`mathabc-draft-${activeProblem.id}`);
+      setPhotoPreview(null);
+      if (graded.status === "AC") {
+        setAnswer("");
+        localStorage.removeItem(`mathabc-draft-${activeProblem.id}`);
+      }
     } catch (error) {
       setSyncState("error");
       setResult({ status: "REVIEW", score: 0, feedback: `採点記録を保存できませんでした。${error instanceof Error ? error.message : "少し待ってからもう一度提出してください。"}` });
@@ -401,6 +518,7 @@ export default function MathLoopApp() {
             setAnswer={updateAnswer}
             result={result}
             progress={progress[activeProblem.id]}
+            attempts={attemptsByProblem[activeProblem.id] || []}
             elapsedSeconds={elapsedSeconds}
             explanationOpen={explanationOpen}
             setExplanationOpen={setExplanationOpen}
@@ -498,10 +616,10 @@ export default function MathLoopApp() {
 }
 
 function ProblemView({
-  problem, answer, setAnswer, result, progress, elapsedSeconds, explanationOpen, setExplanationOpen,
+  problem, answer, setAnswer, result, progress, attempts, elapsedSeconds, explanationOpen, setExplanationOpen,
   submitting, answerPhoto, photoPreview, onPhotoChange, onBack, onSubmit, onNext, onInsert, textareaRef,
 }: {
-  problem: Problem; answer: string; setAnswer: (value: string) => void; result: Result | null; progress?: Progress;
+  problem: Problem; answer: string; setAnswer: (value: string) => void; result: Result | null; progress?: Progress; attempts: Attempt[];
   elapsedSeconds: number; explanationOpen: boolean; setExplanationOpen: (value: boolean) => void;
   submitting: boolean; onBack: () => void; onSubmit: () => void; onNext: () => void; onInsert: (symbol: string) => void;
   answerPhoto: File | null; photoPreview: string | null; onPhotoChange: (file: File | null) => void;
@@ -517,14 +635,14 @@ function ProblemView({
             <div><span className="problemKicker">{difficultyLabel[problem.difficulty]} · {problem.score} pts</span><h2>{problem.title}</h2></div>
           </div>
           <div className="statementBody">
-            {problem.prompt.map((line, index) => <p key={index} className={isFormula(line) ? "formula" : ""}>{line}</p>)}
+            {problem.prompt.map((line, index) => <p key={index} className={isFormula(line) ? "formula" : ""}><MathText text={line} /></p>)}
           </div>
-          {problem.note && <p className="problemNote">注：{problem.note}</p>}
+          {problem.note && <p className="problemNote">注：<MathText text={problem.note} /></p>}
         </section>
 
         <section className="answerCard">
           <div className="answerHeading">
-            <div><span className="stepNumber">01</span><div><h3>回答を書く</h3><p>{problem.grade.hint}</p></div></div>
+            <div><span className="stepNumber">01</span><div><h3>回答を書く</h3><p><MathText text={problem.grade.hint} /></p></div></div>
             <span className="answerMode">{problem.answerType === "short" ? "短答" : "記述・証明"}</span>
           </div>
           <div className="symbolBar" aria-label="数式記号パレット">{symbols.map((symbol) => <button key={symbol} onClick={() => onInsert(symbol)} title={`${symbol} を挿入`}>{symbol}</button>)}</div>
@@ -547,20 +665,43 @@ function ProblemView({
 
         {result && <section className={`resultCard resultCard${result.status}`}>
           <span className="resultMark">{result.status === "AC" ? "✓" : result.status === "REVIEW" ? "△" : "×"}</span>
-          <div><small>{result.status === "AC" ? "ACCEPTED" : result.status === "REVIEW" ? "NEEDS REVIEW" : "TRY AGAIN"}</small><h3>{result.status === "AC" ? "正解です！" : result.status === "REVIEW" ? "もう一歩です" : "見直してみましょう"}</h3><p>{result.feedback}</p></div>
+          <div><small>{result.status === "AC" ? "ACCEPTED" : result.status === "REVIEW" ? "NEEDS REVIEW" : "TRY AGAIN"}{result.method && <span className="judgeLabel">{result.method === "sakura" ? "さくらAI採点" : result.method === "exact" ? "完全一致採点" : result.method === "photo" ? "写真を保存" : "簡易採点"}</span>}</small><h3>{result.status === "AC" ? "正解です！" : result.status === "REVIEW" ? "もう一歩です" : "見直してみましょう"}</h3><p>{result.feedback}</p></div>
           <b>{result.score}<small>/100</small></b>
         </section>}
+
+        <section className="attemptHistorySection">
+          <div className="attemptHistoryHeading">
+            <div><span className="stepNumber">02</span><div><h3>回答履歴</h3><p>送信した回答と採点結果を振り返れます</p></div></div>
+            <span className="attemptCount">{attempts.length} 件</span>
+          </div>
+          {attempts.length ? <div className="attemptList">
+            {attempts.map((attempt, index) => <details className={`attemptItem attempt${attempt.status}`} key={attempt.id} open={index === 0}>
+              <summary>
+                <span className="attemptNumber">#{attempts.length - index}</span>
+                <StatusBadge status={attempt.status} />
+                <span className="attemptDate">{attemptDate(attempt.createdAt)}</span>
+                <b>{attempt.score}<small>/100</small></b>
+                <i aria-hidden="true">⌄</i>
+              </summary>
+              <div className="attemptBody">
+                <span>送信した回答</span>
+                {attempt.answer.trim() ? <AnswerPreview answer={attempt.answer} /> : <p className="photoOnlyAnswer">写真のみで提出しました</p>}
+                <div className="attemptMeta"><span>解答時間 {formatTime(attempt.durationSeconds)}</span>{attempt.imagePath && <span>⌑ 写真付き</span>}</div>
+              </div>
+            </details>)}
+          </div> : <div className="attemptEmpty"><span>↻</span><p><b>まだ回答履歴はありません</b><small>回答を提出すると、ここに内容と採点結果が残ります。</small></p></div>}
+        </section>
 
         <section className={`explanationCard ${explanationOpen ? "open" : ""}`}>
           <button className="explanationToggle" onClick={() => setExplanationOpen(!explanationOpen)} aria-expanded={explanationOpen}>
             <span className="bookIcon">▤</span><span><b>解説と周辺知識</b><small>方針・詳しい解法・使った定理</small></span><i>{explanationOpen ? "−" : "+"}</i>
           </button>
           {explanationOpen && <div className="explanationBody">
-            <p className="explanationSummary">{problem.explanation.summary}</p>
+            <p className="explanationSummary"><MathText text={problem.explanation.summary} /></p>
             <h4>解答の流れ</h4>
-            <ol>{problem.explanation.steps.map((step, index) => <li key={index}><span>{index + 1}</span><p>{step}</p></li>)}</ol>
+            <ol>{problem.explanation.steps.map((step, index) => <li key={index}><span>{index + 1}</span><p><MathText text={step} /></p></li>)}</ol>
             <h4>周辺知識</h4>
-            <div className="knowledgeGrid">{problem.explanation.knowledge.map((item) => <div key={item.title}><b>{item.title}</b><p>{item.body}</p></div>)}</div>
+            <div className="knowledgeGrid">{problem.explanation.knowledge.map((item) => <div key={item.title}><b><MathText text={item.title} /></b><p><MathText text={item.body} /></p></div>)}</div>
           </div>}
         </section>
 
@@ -578,18 +719,22 @@ function ProblemView({
 }
 
 function AnswerPreview({ answer }: { answer: string }) {
-  const parts = answer.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g).filter(Boolean);
   return <div className="answerPreview">
     <span className="previewLabel">TeX PREVIEW</span>
-    <div>{parts.map((part, index) => {
-      const display = part.startsWith("$$") && part.endsWith("$$");
-      const inline = !display && part.startsWith("$") && part.endsWith("$");
-      if (!display && !inline) return <span key={index} className="previewText">{part}</span>;
-      const source = part.slice(display ? 2 : 1, display ? -2 : -1);
-      const html = katex.renderToString(source, { throwOnError: false, displayMode: display, strict: false });
-      return <span key={index} className={display ? "previewFormula display" : "previewFormula"} dangerouslySetInnerHTML={{ __html: html }} />;
-    })}</div>
+    <div><MathText text={answer} /></div>
   </div>;
+}
+
+function MathText({ text }: { text: string }) {
+  const parts = text.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g).filter(Boolean);
+  return <>{parts.map((part, index) => {
+    const display = part.startsWith("$$") && part.endsWith("$$");
+    const inline = !display && part.startsWith("$") && part.endsWith("$");
+    if (!display && !inline) return <span key={index} className="previewText">{part}</span>;
+    const source = part.slice(display ? 2 : 1, display ? -2 : -1);
+    const html = katex.renderToString(source, { throwOnError: false, displayMode: display, strict: false });
+    return <span key={index} className={display ? "previewFormula display" : "previewFormula"} dangerouslySetInnerHTML={{ __html: html }} />;
+  })}</>;
 }
 
 function AuthDialog({ email, setEmail, message, sending, onSend, onClose }: {

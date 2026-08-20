@@ -28,5 +28,10 @@ test("bundles Supabase sync and Sakura grading integration", async () => {
   const source = await readFile(new URL(appChunkName, chunkRoot), "utf8");
   assert.match(source, /hocqvxcobesonakkultw\.supabase\.co/);
   assert.match(source, /grade-answer/);
+  assert.match(source, /さくらAI採点/);
+  assert.match(source, /explanation/);
   assert.match(source, /math-abc-answers/);
+  assert.match(source, /mathabc-attempt-history-v1/);
+  assert.match(source, /回答履歴/);
+  assert.match(source, /math_abc_attempts/);
 });
