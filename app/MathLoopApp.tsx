@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import katex from "katex";
+import { usesAiGrading } from "@/lib/grading-policy";
 import { gradeAnswer, problems, type Difficulty, type Problem } from "@/lib/problems";
 import { supabase } from "@/lib/supabase";
 
@@ -459,11 +460,18 @@ export default function MathLoopApp() {
       let graded: Result = ruleResult
         ? { ...ruleResult, method: activeProblem.answerType === "short" ? "exact" : "rule" }
         : { status: "REVIEW", score: 0, feedback: "写真を保存しました。現在は写真だけの自動採点には未対応です。要点をテキストでも入力すると採点できます。", method: "photo" };
-      if (user && submittedAnswer.trim() && activeProblem.answerType === "proof") {
+      const needsAiGrading = usesAiGrading(activeProblem);
+      if (user && submittedAnswer.trim() && needsAiGrading) {
         const aiResult = await gradeWithSakura(activeProblem, submittedAnswer);
         graded = aiResult || {
           ...graded,
           feedback: `${graded.feedback} さくらAIに接続できなかったため、今回は必須論点による簡易採点です。`,
+          method: "rule",
+        };
+      } else if (!user && submittedAnswer.trim() && needsAiGrading) {
+        graded = {
+          ...graded,
+          feedback: `${graded.feedback} 記述答案のさくらAI採点にはログインが必要です。`,
           method: "rule",
         };
       }
