@@ -17,15 +17,16 @@ const notoSansJP = Noto_Sans_JP({
 const publicBase = new URL("https://azubiwa.github.io/math-loop/");
 const title = "MathLoop — 学部数学の演習記録";
 const description = "定義から証明まで、学部数学をAtCoderのように解いて記録する演習サイト。";
+const faviconUrl = new URL("favicon.svg?v=2", publicBase).toString();
 
 export const metadata: Metadata = {
   metadataBase: publicBase,
   title,
   description,
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: faviconUrl,
+    shortcut: faviconUrl,
+    apple: faviconUrl,
   },
   openGraph: { title, description, type: "website", images: [{ url: new URL("og.png", publicBase).toString(), width: 1672, height: 941, alt: "MathLoop — 解く。" }] },
   twitter: { card: "summary_large_image", title, description, images: [new URL("og.png", publicBase).toString()] },
