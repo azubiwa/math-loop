@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --font-sans: var(--font-inter), var(--font-noto-sans-jp), sans-serif;
+  --app-font-sans: var(--font-inter), var(--font-noto-sans-jp), sans-serif;
   --ink: #171717;
   --muted: #747474;
   --line: #e1e1de;
@@ -18,7 +18,7 @@
 
 * { box-sizing: border-box; }
 html { background: var(--paper); scroll-behavior: smooth; }
-body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font-sans); }
+body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--app-font-sans); }
 button, input, textarea, select { font: inherit; }
 button { color: inherit; }
 
