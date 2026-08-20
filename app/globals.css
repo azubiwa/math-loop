@@ -17,7 +17,7 @@
 
 * { box-sizing: border-box; }
 html { background: var(--paper); scroll-behavior: smooth; }
-body { margin: 0; color: var(--ink); background: var(--paper); font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif; }
+body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font-inter), var(--font-noto-sans-jp), sans-serif; }
 button, input, textarea, select { font: inherit; }
 button { color: inherit; }
 

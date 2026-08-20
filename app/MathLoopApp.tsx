@@ -726,7 +726,17 @@ function AnswerPreview({ answer }: { answer: string }) {
 }
 
 function MathText({ text }: { text: string }) {
-  const parts = text.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g).filter(Boolean);
+  const normalized = text.replace(/lim_\{([^}]+)\}\s*\(([^)]+)\)\/\(([^)]+)\)/g, (_match, limit, numerator, denominator) => {
+    const tex = (value: string) => value
+      .replace(/→/g, "\\to ")
+      .replace(/∞/g, "\\infty")
+      .replace(/²/g, "^2")
+      .replace(/³/g, "^3")
+      .replace(/⁴/g, "^4")
+      .replace(/−/g, "-");
+    return `$\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
+  });
+  const parts = normalized.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g).filter(Boolean);
   return <>{parts.map((part, index) => {
     const display = part.startsWith("$$") && part.endsWith("$$");
     const inline = !display && part.startsWith("$") && part.endsWith("$");
