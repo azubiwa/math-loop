@@ -9537,5 +9537,763 @@
       "hint": "点 x ごとに {x}×Y を有限被覆で覆い、それらが共通して有効な X の開近傍 W_x (チューブ W_x × Y) を作り、最後に X のコンパクト性を使う。"
     },
     "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-001-A",
+    "contest": "Level 3 #001",
+    "difficulty": "A",
+    "score": 250,
+    "title": "バナッハ空間における一様有界性原理",
+    "field": "実解析・関数解析",
+    "tags": [
+      "関数解析",
+      "一様有界性原理",
+      "バナッハ空間"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "$\\displaystyle X, Y$ をバナッハ空間とし、$\\displaystyle \\\\{T_n\\\\}_{n=1}^{\\infty}$ を $\\displaystyle X$ から $\\displaystyle Y$ への有界線形作用素の列とする。",
+      "任意の $\\displaystyle x \\in X$ に対して $\\displaystyle \\sup_{n} \\\\|T_n x\\\\|_Y < \\infty$ であるとき、$\\displaystyle \\sup_{n} \\\\|T_n\\\\| < \\infty$ であることを証明せよ。"
+    ],
+    "explanation": {
+      "summary": "ベールのカテゴリー定理を用い、各点有界な作用素列が一様有界であることを示す。",
+      "steps": [
+        "$\\displaystyle X_k = \\\\{x \\in X \\mid \\sup_{n} \\\\|T_n x\\\\|_Y \\leq k\\\\}$ とおく。",
+        "$\\displaystyle T_n$ は連続なので $\\displaystyle X_k$ は閉集合であり、仮定より $\\displaystyle X = \\bigcup_{k=1}^{\\infty} X_k$ である。",
+        "$\\displaystyle X$ は完備距離空間なので、ベールのカテゴリー定理よりある $\\displaystyle X_{k_0}$ は内点を持つ。",
+        "$\\displaystyle X_{k_0}$ が閉球 $\\displaystyle \\overline{B}(x_0, r)$ を含むとすると、任意の $\\displaystyle \\\\|x\\\\| \\leq 1$ に対し $\\displaystyle x_0 + rx \\in X_{k_0}$ である。",
+        "$\\displaystyle \\\\|T_n x\\\\|_Y \\leq \\frac{1}{r}(\\\\|T_n(x_0+rx)\\\\|_Y + \\\\|T_n x_0\\\\|_Y) \\leq \\frac{2k_0}{r}$ となり、作用素ノルムが一様有界であることが従う。"
+      ],
+      "knowledge": [
+        {
+          "title": "ベールのカテゴリー定理",
+          "body": "完備距離空間は、疎な閉集合の可算和として表すことができない。したがって、可算個の閉集合で空間全体が覆われるなら、少なくとも1つの閉集合は内点を持つ。"
+        },
+        {
+          "title": "有界線形作用素",
+          "body": "$\\displaystyle T: X \\to Y$ が線形かつ $\\displaystyle \\\\|T x\\\\|_Y \\leq C \\\\|x\\\\|_X$ を満たす定数 $\\displaystyle C$ が存在すること。ノルム空間間では連続性と同値である。"
+        },
+        {
+          "title": "一様有界性原理",
+          "body": "各点で有界な有界線形作用素族は、作用素ノルムとして一様有界であるという定理（共鳴定理とも呼ばれる）。"
+        },
+        {
+          "title": "バナッハ空間の仮定",
+          "body": "定義域 $\\displaystyle X$ の完備性は必須である。$\\displaystyle X$ が完備でない場合、各点有界だが一様有界でない作用素列の反例が存在する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "ベールのカテゴリー定理",
+          "Baireのカテゴリー定理"
+        ],
+        [
+          "X_k は閉集合",
+          "閉集合の可算和"
+        ],
+        [
+          "内点を持つ",
+          "空でない開集合を含む"
+        ],
+        [
+          "\\|T_n\\| < \\infty",
+          "作用素ノルムが有界"
+        ]
+      ],
+      "hint": "各点有界性から閉集合の可算和を構成し、完備性に基づくベールのカテゴリー定理を適用せよ。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-001-B",
+    "contest": "Level 3 #001",
+    "difficulty": "B",
+    "score": 400,
+    "title": "群作用とシローの定理",
+    "field": "抽象代数・ガロア理論",
+    "tags": [
+      "群論",
+      "シローの定理",
+      "群作用"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "位数が $\\displaystyle 15$ の群 $\\displaystyle G$ は巡回群であることを証明せよ。"
+    ],
+    "explanation": {
+      "summary": "シローの定理を用いて部分群の個数を決定し、直積に分解できることを示す。",
+      "steps": [
+        "$\\displaystyle |G| = 3 \\times 5$ であり、シロー3-部分群およびシロー5-部分群の個数をそれぞれ $\\displaystyle n_3, n_5$ とする。",
+        "シローの定理より、$\\displaystyle n_3 \\equiv 1 \\pmod 3$ かつ $\\displaystyle n_3$ は $\\displaystyle 5$ の約数。これを満たすのは $\\displaystyle n_3 = 1$ のみ。",
+        "同様に、$\\displaystyle n_5 \\equiv 1 \\pmod 5$ かつ $\\displaystyle n_5$ は $\\displaystyle 3$ の約数。これを満たすのは $\\displaystyle n_5 = 1$ のみ。",
+        "$\\displaystyle n_3 = n_5 = 1$ であるから、シロー3-部分群 $\\displaystyle P_3$ とシロー5-部分群 $\\displaystyle P_5$ は正規部分群である。",
+        "$\\displaystyle |P_3| = 3$, $\\displaystyle |P_5| = 5$ より $\\displaystyle P_3 \\cap P_5 = \\\\{e\\\\}$ であり、$\\displaystyle G \\cong P_3 \\times P_5 \\cong \\mathbb{Z}/3\\mathbb{Z} \\times \\mathbb{Z}/5\\mathbb{Z}$ となる。",
+        "$\\displaystyle 3$ と $\\displaystyle 5$ は互いに素なので、$\\displaystyle G \\cong \\mathbb{Z}/15\\mathbb{Z}$ となり巡回群である。"
+      ],
+      "knowledge": [
+        {
+          "title": "シローの定理",
+          "body": "有限群の位数が $\\displaystyle p^k m$ (pは素数, pとmは互いに素) のとき、位数 $\\displaystyle p^k$ の部分群(シローp-部分群)が存在し、その個数 $\\displaystyle n_p$ は $\\displaystyle n_p \\equiv 1 \\pmod p$ および $\\displaystyle n_p \\mid m$ を満たす。"
+        },
+        {
+          "title": "シロー部分群の正規性",
+          "body": "シローp-部分群の個数が1つだけであるとき、かつそのときに限り、それは正規部分群となる。"
+        },
+        {
+          "title": "直積への分解",
+          "body": "$\\displaystyle G$ の正規部分群 $\\displaystyle H, K$ が $\\displaystyle H \\cap K = \\\\{e\\\\}$ かつ $\\displaystyle HK = G$ を満たすとき、$\\displaystyle G \\cong H \\times K$ となる。"
+        },
+        {
+          "title": "中国剰余定理 (群論)",
+          "body": "$\\displaystyle m, n$ が互いに素な整数のとき、$\\displaystyle \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z} \\cong \\mathbb{Z}/mn\\mathbb{Z}$ が成り立つ。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "n_3 = 1",
+          "シロー3-部分群は1個"
+        ],
+        [
+          "n_5 = 1",
+          "シロー5-部分群は1個"
+        ],
+        [
+          "正規部分群",
+          "正規である"
+        ],
+        [
+          "G \\cong P_3 \\times P_5",
+          "直積と同型"
+        ],
+        [
+          "互いに素",
+          "3と5は互いに素"
+        ]
+      ],
+      "hint": "シローの定理を用いて部分群の個数を絞り込み、正規部分群の直積になることを示せ。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-001-C",
+    "contest": "Level 3 #001",
+    "difficulty": "C",
+    "score": 550,
+    "title": "ルベーグ積分の極限移行定理の反例",
+    "field": "実解析・関数解析",
+    "tags": [
+      "測度論",
+      "ルベーグ積分",
+      "反例構成"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "測度空間 $\\displaystyle (\\mathbb{R}, \\mathcal{B}(\\mathbb{R}), m)$ (ルベーグ測度) を考える。",
+      "ルベーグ積分において、優収束定理や単調収束定理の仮定を満たさず、各点収束するが積分の極限と極限の積分が一致しない関数列 $\\displaystyle \\\\{f_n\\\\}_{n=1}^{\\infty}$ の具体例を1つ挙げ、極限が一致しない理由を証明せよ。"
+    ],
+    "explanation": {
+      "summary": "幅が狭く高さが高い「移動するパルス」または「無限遠へ逃げるパルス」を構成する。",
+      "steps": [
+        "関数列 $\\displaystyle f_n(x) = n \\chi_{(0, 1/n)}(x)$ を考える。（$\\displaystyle \\chi_A$ は集合 $\\displaystyle A$ の定義関数）",
+        "任意の $\\displaystyle x > 0$ に対して、$\\displaystyle n > 1/x$ となれば $\\displaystyle f_n(x) = 0$ となるため、極限は $\\displaystyle f(x) = \\lim_{n \\to \\infty} f_n(x) = 0$ である。$\\displaystyle x \\leq 0$ でも $\\displaystyle f_n(x)=0$。よって $\\displaystyle f(x) = 0$ (各点収束)。",
+        "極限関数の積分は $\\displaystyle \\int_{\\mathbb{R}} f(x) dm = 0$ である。",
+        "一方、各 $\\displaystyle n$ における積分は $\\displaystyle \\int_{\\mathbb{R}} f_n(x) dm = n \\times \\frac{1}{n} = 1$ である。",
+        "したがって $\\displaystyle \\lim_{n \\to \\infty} \\int_{\\mathbb{R}} f_n(x) dm = 1 \\neq 0 = \\int_{\\mathbb{R}} \\lim_{n \\to \\infty} f_n(x) dm$ となり一致しない。",
+        "この列は各点で $\\displaystyle f_n \\to 0$ に収束するが、可積分な優関数 $\\displaystyle g(x)$ で抑えられないため優収束定理の仮定を満たさない。"
+      ],
+      "knowledge": [
+        {
+          "title": "ルベーグの優収束定理",
+          "body": "関数列 $\\displaystyle f_n$ が $\\displaystyle f$ に各点収束し、ある可積分関数 $\\displaystyle g$ で $\\displaystyle |f_n(x)| \\leq g(x)$ と抑えられるならば、積分の極限と極限の積分は一致する。"
+        },
+        {
+          "title": "反例の2つの典型",
+          "body": "質量が原点に集中していく例（$\\displaystyle n \\chi_{(0,1/n)}$）と、質量が無限遠に逃げていく例（$\\displaystyle \\chi_{(n, n+1)}$）が代表的な反例である。"
+        },
+        {
+          "title": "ファトゥの補題",
+          "body": "この反例においても、$\\displaystyle \\int \\liminf f_n \\leq \\liminf \\int f_n$ （$\\displaystyle 0 \\leq 1$）というファトゥの補題の不等式は成立している。"
+        },
+        {
+          "title": "一様可積分性",
+          "body": "このような質量流出を防ぐ条件として一様可積分性（Vitaliの収束定理）があり、測度論における重要な概念である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "f_n(x)",
+          "関数列の具体例"
+        ],
+        [
+          "各点収束",
+          "極限関数は0"
+        ],
+        [
+          "極限の積分は0",
+          "\\int f dx = 0"
+        ],
+        [
+          "積分の極限は",
+          "\\int f_n dx = 1"
+        ],
+        [
+          "一致しない",
+          "1 \\neq 0"
+        ]
+      ],
+      "hint": "面積が一定で、サポートが原点に縮退する（または無限遠へ逃げる）関数列を構成せよ。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-001-D",
+    "contest": "Level 3 #001",
+    "difficulty": "D",
+    "score": 700,
+    "title": "コーシーの積分定理と留数計算",
+    "field": "複素解析",
+    "tags": [
+      "留数定理",
+      "実積分",
+      "ジョルダンの補題"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "実積分 $\\displaystyle I = \\int_{-\\infty}^{\\infty} \\frac{\\cos x}{x^2 + a^2} dx \\quad (a > 0)$ の値を複素積分と留数定理を用いて求めよ。",
+      "積分経路と極限の評価を厳密に示すこと。"
+    ],
+    "explanation": {
+      "summary": "被積分関数を複素化し、上半平面の半円周を経路として留数定理を適用する。",
+      "steps": [
+        "被積分関数を $\\displaystyle f(z) = \\frac{e^{iz}}{z^2 + a^2}$ と定義する。",
+        "実軸上の線分 $\\displaystyle [-R, R]$ と上半平面の半円周 $\\displaystyle C_R = \\\\{R e^{i\\theta} \\mid 0 \\leq \\theta \\leq \\pi\\\\}$ からなる閉曲線 $\\displaystyle \\Gamma_R$ を考える。",
+        "$\\displaystyle f(z)$ の極は $\\displaystyle z = \\pm ai$ であり、$\\displaystyle \\Gamma_R$ の内部にあるのは $\\displaystyle z = ai$ のみである（$R > a$ とする）。",
+        "$\\displaystyle z = ai$ は1位の極であり、留数は $\\displaystyle \\mathrm{Res}(f, ai) = \\lim_{z \\to ai} (z - ai) \\frac{e^{iz}}{(z - ai)(z + ai)} = \\frac{e^{-a}}{2ai}$ である。",
+        "留数定理より、$\\displaystyle \\oint_{\\Gamma_R} f(z) dz = 2\\pi i \\frac{e^{-a}}{2ai} = \\frac{\\pi e^{-a}}{a}$。",
+        "$\\displaystyle \\int_{\\Gamma_R} f(z) dz = \\int_{-R}^{R} \\frac{e^{ix}}{x^2 + a^2} dx + \\int_{C_R} f(z) dz$ である。",
+        "ジョルダンの補題より、$\\displaystyle \\lim_{R \\to \\infty} \\int_{C_R} f(z) dz = 0$ が成り立つ。",
+        "したがって $\\displaystyle \\lim_{R \\to \\infty} \\int_{-R}^{R} \\frac{e^{ix}}{x^2 + a^2} dx = \\frac{\\pi e^{-a}}{a}$。実部を比較して $\\displaystyle \\int_{-\\infty}^{\\infty} \\frac{\\cos x}{x^2 + a^2} dx = \\frac{\\pi e^{-a}}{a}$ を得る。"
+      ],
+      "knowledge": [
+        {
+          "title": "留数定理",
+          "body": "領域内の孤立特異点の周りの積分は、その特異点における留数の $\\displaystyle 2\\pi i$ 倍の和に等しい。"
+        },
+        {
+          "title": "ジョルダンの補題",
+          "body": "$\\displaystyle C_R$ を上半平面の半円弧としたとき、$\\displaystyle R \\to \\infty$ で $\\displaystyle f(z) \\to 0$ ならば $\\displaystyle \\int_{C_R} e^{i\\alpha z} f(z) dz \\to 0 \\quad (\\alpha > 0)$ となる定理。"
+        },
+        {
+          "title": "実積分の複素化の注意",
+          "body": "$\\displaystyle \\cos z$ をそのまま使うと虚軸上で指数的に発散するため、実軸上で $\\displaystyle \\cos x$ と等しい実部を持つ $\\displaystyle e^{iz}$ を用いる必要がある。"
+        },
+        {
+          "title": "極限の存在",
+          "body": "広義積分の収束性は $\\displaystyle |\\frac{\\cos x}{x^2+a^2}| \\leq \\frac{1}{x^2}$ による優収束定理で保証されている。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "f(z) = e^{iz}/(z^2+a^2)",
+          "複素化する"
+        ],
+        [
+          "z = ai",
+          "極はai"
+        ],
+        [
+          "\\frac{e^{-a}}{2ai}",
+          "留数の計算"
+        ],
+        [
+          "ジョルダンの補題",
+          "半円周上の積分が0に収束"
+        ],
+        [
+          "\\frac{\\pi e^{-a}}{a}",
+          "最終的な積分値"
+        ]
+      ],
+      "hint": "被積分関数として $\\cos z$ ではなく $e^{iz}$ を選択し、上半平面の半円を経路としてジョルダンの補題を適用する。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-001-E",
+    "contest": "Level 3 #001",
+    "difficulty": "E",
+    "score": 900,
+    "title": "ド・ラーム・コホモロジーとポアンカレの補題",
+    "field": "微分幾何・リーマン幾何・テンソル",
+    "tags": [
+      "多様体",
+      "微分形式",
+      "コホモロジー",
+      "ポアンカレの補題"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "$\\displaystyle \\mathbb{R}^n$ 上のド・ラーム・コホモロジー群について、$\\displaystyle k \\geq 1$ のとき $\\displaystyle H^k_{dR}(\\mathbb{R}^n) = 0$ であること（ポアンカレの補題）を証明せよ。",
+      "具体的には、任意の閉 $\\displaystyle k$-形式 $\\displaystyle \\omega$ に対し、$\\displaystyle \\omega = d\\eta$ を満たす $\\displaystyle (k-1)$-形式 $\\displaystyle \\eta$ をホモトピー演算子（homotopy operator）を用いて構成し、その性質を示せ。"
+    ],
+    "explanation": {
+      "summary": "放射状のホモトピー演算子を構成し、カルタンの公式 $d(H\\omega) + H(d\\omega) = \\omega$ を用いて閉形式が完全形式であることを示す。",
+      "steps": [
+        "微分形式 $\\displaystyle \\omega = \\sum_I \\omega_I(x) dx_I$ を考える。$\\displaystyle \\mathbb{R}^n$ 上の原点中心のホモトピー縮小を考え、ホモトピー演算子 $\\displaystyle H: \\Omega^k(\\mathbb{R}^n) \\to \\Omega^{k-1}(\\mathbb{R}^n)$ を構成する。",
+        "具体的に $\\displaystyle (H\\omega)_x = \\sum_I \\sum_{j=1}^k (-1)^{j-1} \\left( \\int_0^1 t^{k-1} \\omega_I(tx) dt \\right) x_{i_j} dx_{i_1} \\wedge \\dots \\widehat{dx_{i_j}} \\dots \\wedge dx_{i_k}$ と定義する。",
+        "この作用素が $\\displaystyle \\omega = d(H\\omega) + H(d\\omega)$ を満たすことを、外微分の定義と合成関数の微分則を用いて直接計算で示す（カルタンの公式の特別な場合）。",
+        "いま $\\displaystyle \\omega$ は閉形式であると仮定するので、$\\displaystyle d\\omega = 0$ である。",
+        "したがって $\\displaystyle \\omega = d(H\\omega) + 0 = d(H\\omega)$ となる。",
+        "$\\displaystyle \\eta = H\\omega$ とおけば $\\displaystyle \\eta \\in \\Omega^{k-1}(\\mathbb{R}^n)$ であり $\\displaystyle \\omega = d\\eta$ となるため、$\\displaystyle \\omega$ は完全形式である。よって $\\displaystyle H^k_{dR}(\\mathbb{R}^n) = 0$。"
+      ],
+      "knowledge": [
+        {
+          "title": "閉形式と完全形式",
+          "body": "$\\displaystyle d\\omega = 0$ となる微分形式を閉形式（closed form）、$\\displaystyle \\omega = d\\eta$ となる微分形式を完全形式（exact form）と呼ぶ。$\\displaystyle d^2 = 0$ より完全形式は常に閉形式である。"
+        },
+        {
+          "title": "ド・ラーム・コホモロジー",
+          "body": "$\\displaystyle H^k_{dR}(M) = \\frac{\\ker(d: \\Omega^k \\to \\Omega^{k+1})}{\\mathrm{Im}(d: \\Omega^{k-1} \\to \\Omega^k)}$ で定義され、多様体の位相的性質（穴の数など）を反映する。"
+        },
+        {
+          "title": "ポアンカレの補題",
+          "body": "可縮な空間（例えば $\\displaystyle \\mathbb{R}^n$）上の閉形式はすべて完全形式であるという定理。局所的にはすべての閉形式が完全であることを意味する。"
+        },
+        {
+          "title": "ホモトピー演算子",
+          "body": "鎖複体におけるチェインホモトピーを与える演算子。微積分学の基本定理の高次バージョンに対応する。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "ホモトピー演算子",
+          "作用素 H",
+          "Homotopy operator"
+        ],
+        [
+          "\\int_0^1 t^{k-1} \\omega_I(tx) dt",
+          "積分公式",
+          "原点へのホモトピー"
+        ],
+        [
+          "d(H\\omega) + H(d\\omega) = \\omega",
+          "カルタンの公式",
+          "チェインホモトピー"
+        ],
+        [
+          "d\\omega = 0",
+          "閉形式なので"
+        ],
+        [
+          "\\omega = d(H\\omega)",
+          "\\omega = d\\eta",
+          "完全形式である"
+        ]
+      ],
+      "hint": "空間が星型（可縮）であることを利用し、原点からの経路に沿った積分を用いて $k-1$ 形式 $\\eta$ を具体的に書き下せ。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-002-A",
+    "contest": "Level 3 #002",
+    "difficulty": "A",
+    "score": 250,
+    "title": "チコノフの定理と選択公理",
+    "field": "位相空間論・代数トポロジー",
+    "tags": [
+      "コンパクト性",
+      "積位相",
+      "選択公理"
+    ],
+    "minutes": 25,
+    "answerType": "proof",
+    "prompt": [
+      "位相空間の族 $\\displaystyle \\\\{X_i\\\\}_{i \\in I}$ について、それぞれの $\\displaystyle X_i$ がコンパクトであるとき、積空間 $\\displaystyle \\prod_{i \\in I} X_i$ は積位相に関してコンパクトであることを主張する定理名を答えよ。",
+      "また、この定理の証明に不可欠な集合論の公理を1つ挙げ、その公理が証明のどのステップ（例えば、Alexanderの準開被覆定理やZornの補題の適用など）で必要とされるかを簡潔に説明せよ。"
+    ],
+    "explanation": {
+      "summary": "チコノフの定理と選択公理について、極大イデアルや極大フィルターの存在証明に不可欠であることを述べる。",
+      "steps": [
+        "この定理は「チコノフ（Tychonoff）の定理」と呼ばれる。",
+        "証明には「選択公理」（またはそれと同値なツォルンの補題や整列可能定理）が不可欠である。",
+        "アレクサンダーの準開被覆定理を用いる証明では、有限交叉性を持つ閉集合族を、ツォルンの補題を用いて極大なる有限交叉族へ拡張するステップで選択公理が使われる。",
+        "あるいは超フィルター（ultrafilter）を用いる証明では、任意のフィルターを包含関係に関して極大な超フィルターに拡張する際にツォルンの補題（選択公理）が使用される。",
+        "この拡張された族について各座標での収束を調べ、再び選択公理を用いて積空間の点として極限を構成する。"
+      ],
+      "knowledge": [
+        {
+          "title": "チコノフの定理",
+          "body": "任意の個数のコンパクト空間の積は、積位相に関してコンパクトである。位相空間論における最も重要な定理の一つ。"
+        },
+        {
+          "title": "選択公理との同値性",
+          "body": "実は、チコノフの定理（一般の位相空間の場合）はZF集合論上において選択公理と同値であることが知られている。"
+        },
+        {
+          "title": "有限交差性 (Finite Intersection Property)",
+          "body": "集合族の任意の有限部分族が空でない共通部分を持つ性質。コンパクト性の定義は「FIPを持つ任意の閉集合族の全共通部分が空でない」と言い換えられる。"
+        },
+        {
+          "title": "アレクサンダーの準開被覆定理",
+          "body": "基底の要素のみからなる開被覆が有限部分被覆を持てば、任意の開被覆も有限部分被覆を持つという定理。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "チコノフの定理",
+          "Tychonoffの定理"
+        ],
+        [
+          "選択公理",
+          "Zornの補題",
+          "ツォルンの補題"
+        ],
+        [
+          "極大",
+          "超フィルター",
+          "有限交叉族の拡張"
+        ]
+      ],
+      "hint": "定理の名称と、集合論の有名な公理（極大元の存在を保証するもの）を答えよ。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-002-B",
+    "contest": "Level 3 #002",
+    "difficulty": "B",
+    "score": 400,
+    "title": "エルミート演算子のスペクトル",
+    "field": "線形代数・関数解析の初歩",
+    "tags": [
+      "関数解析",
+      "ヒルベルト空間",
+      "自己共役作用素"
+    ],
+    "minutes": 40,
+    "answerType": "proof",
+    "prompt": [
+      "複素ヒルベルト空間 $\\displaystyle \\mathcal{H}$ 上の有界自己共役作用素 $\\displaystyle A$ を考える。（すなわち $\\displaystyle A = A^*$）",
+      "$\\displaystyle A$ のスペクトル $\\displaystyle \\sigma(A)$ は実軸 $\\displaystyle \\mathbb{R}$ 上に含まれることを証明せよ。"
+    ],
+    "explanation": {
+      "summary": "複素数が虚部を持つとき、作用素 $A - \\lambda I$ が下に有界かつ稠密な値域を持つことを示し、有界な逆が存在することを導く。",
+      "steps": [
+        "任意の $\\displaystyle \\lambda = \\alpha + i\\beta \\in \\mathbb{C} \\setminus \\mathbb{R}$ （$\\beta \\neq 0$）について、$\\displaystyle \\lambda \\notin \\sigma(A)$ すなわち $\\displaystyle A - \\lambda I$ が有界な逆作用素を持つことを示す。",
+        "任意の $\\displaystyle x \\in \\mathcal{H}$ に対して $\\displaystyle \\langle (A - \\lambda I)x, x \\rangle = \\langle Ax, x \\rangle - \\lambda \\\\|x\\\\|^2$。",
+        "$\\displaystyle A$ は自己共役なので $\\displaystyle \\langle Ax, x \\rangle$ は実数である。虚部をとると $\\displaystyle \\mathrm{Im}\\langle (A - \\lambda I)x, x \\rangle = -\\beta \\\\|x\\\\|^2$。",
+        "コーシー・シュワルツの不等式より $\\displaystyle |\\beta| \\\\|x\\\\|^2 = |\\mathrm{Im}\\langle (A - \\lambda I)x, x \\rangle| \\leq |\\langle (A - \\lambda I)x, x \\rangle| \\leq \\\\| (A - \\lambda I)x \\\\| \\\\|x\\\\|$。",
+        "$\\displaystyle \\\\|x\\\\| \\neq 0$ で割ると $\\displaystyle \\\\| (A - \\lambda I)x \\\\| \\geq |\\beta| \\\\|x\\\\|$ を得る。これは $\\displaystyle A - \\lambda I$ が単射であり、値域が閉であることを示す。",
+        "また $\\displaystyle (A - \\lambda I)^*$ の核も同様に $\\displaystyle A - \\bar{\\lambda}I$ について考えると $\\displaystyle \\\\{0\\\\}$ となる。直交分解定理より値域は稠密である。",
+        "閉かつ稠密なので値域は $\\displaystyle \\mathcal{H}$ 全体であり、有界逆作用素定理より $\\displaystyle (A - \\lambda I)^{-1}$ は有界作用素となる。よって $\\displaystyle \\lambda$ はレゾルベント集合に属し、スペクトルは実数である。"
+      ],
+      "knowledge": [
+        {
+          "title": "自己共役作用素",
+          "body": "ヒルベルト空間上の作用素で、任意の $x, y$ に対し $\\displaystyle \\langle Ax, y \\rangle = \\langle x, Ay \\rangle$ を満たすもの。"
+        },
+        {
+          "title": "スペクトルとレゾルベント",
+          "body": "$\\displaystyle A - \\lambda I$ が有界な全単射逆作用素を持たないような $\\displaystyle \\lambda$ の集合をスペクトル $\\sigma(A)$ と呼ぶ。逆を持つ $\\lambda$ の集合をレゾルベント集合と呼ぶ。"
+        },
+        {
+          "title": "下の有界性と閉値域",
+          "body": "$\\displaystyle \\\\|Tx\\\\| \\geq c\\\\|x\\\\|$ (c>0) を満たす有界線形作用素 $T$ は単射であり、その値域は閉集合となる。"
+        },
+        {
+          "title": "値域の稠密性",
+          "body": "自己共役作用素において、$\\displaystyle \\mathrm{Im}(A - \\lambda I)^\\perp = \\ker((A - \\lambda I)^*) = \\ker(A - \\bar{\\lambda}I)$ という関係が成り立つ。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "\\mathrm{Im}\\langle (A-\\lambda I)x, x \\rangle = -\\beta \\|x\\|^2",
+          "虚部を比較"
+        ],
+        [
+          "\\| (A-\\lambda I)x \\| \\geq |\\beta| \\|x\\|",
+          "下から評価",
+          "下に有界"
+        ],
+        [
+          "単射",
+          "値域が閉"
+        ],
+        [
+          "値域が稠密",
+          "核が0",
+          "全射"
+        ],
+        [
+          "有界逆作用素定理",
+          "逆が存在"
+        ]
+      ],
+      "hint": "虚部 $\\beta \\neq 0$ とし、$\\langle (A-\\lambda I)x, x \\rangle$ の虚部を評価して $\\\\|(A-\\lambda I)x\\\\| \\geq |\\beta|\\\\|x\\\\|$ を示せ。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-002-C",
+    "contest": "Level 3 #002",
+    "difficulty": "C",
+    "score": 550,
+    "title": "マルチンゲール収束定理",
+    "field": "確率論・確率過程",
+    "tags": [
+      "確率論",
+      "マルチンゲール",
+      "収束定理"
+    ],
+    "minutes": 60,
+    "answerType": "proof",
+    "prompt": [
+      "確率空間 $\\displaystyle (\\Omega, \\mathcal{F}, P)$ 上の離散時間マルチンゲール $\\displaystyle \\\\{X_n\\\\}_{n=1}^{\\infty}$ （フィルトレーション $\\displaystyle \\\\{\\mathcal{F}_n\\\\}$）が $\\displaystyle L^1$ 有界、すなわち $\\displaystyle \\sup_{n} E[|X_n|] < \\infty$ であるとする。",
+      "Doobのアップクロッシング（上方交差）不等式を用いて、$\\displaystyle X_n$ が確率1で（ほとんど確実に）ある確率変数 $\\displaystyle X_{\\infty}$ に収束することを証明せよ。"
+    ],
+    "explanation": {
+      "summary": "任意の有理数区間を上下する回数が有限であることを示し、極限の上極限と下極限が一致することを導く。",
+      "steps": [
+        "任意の実数 $\\displaystyle a < b$ に対して、時間 $\\displaystyle N$ までの間に区間 $\\displaystyle [a, b]$ を下から上へ横切る回数を $\\displaystyle U_N(a,b)$ とする。",
+        "Doobのアップクロッシング不等式より、$\\displaystyle E[U_N(a,b)] \\leq \\frac{E[(X_N - a)^+]}{b - a} \\leq \\frac{E[|X_N|] + |a|}{b - a}$ が成り立つ。",
+        "$\\displaystyle L^1$ 有界性より $\\displaystyle \\sup_N E[|X_N|] < \\infty$ であるから、単調収束定理により $\\displaystyle E[U_\\infty(a,b)] = \\sup_N E[U_N(a,b)] < \\infty$。",
+        "期待値が有限であることから、確率1で $\\displaystyle U_\\infty(a,b) < \\infty$ となる。",
+        "$\\displaystyle \\liminf X_n < \\limsup X_n$ となる事象は、ある有理数 $\\displaystyle a < b$ が存在して $\\displaystyle \\liminf X_n < a < b < \\limsup X_n$ となる事象の可算和に等しい。",
+        "このとき $\\displaystyle X_n$ は $\\displaystyle [a, b]$ を無限回横切るため $\\displaystyle U_\\infty(a,b) = \\infty$ となるが、これは確率0である。",
+        "したがって、確率1で $\\displaystyle \\liminf X_n = \\limsup X_n$ となり、$\\displaystyle X_n$ は極限 $\\displaystyle X_\\infty$ にほとんど確実に収束する。"
+      ],
+      "knowledge": [
+        {
+          "title": "マルチンゲール",
+          "body": "条件付き期待値が過去の値に等しい確率過程。$\\displaystyle E[X_{n+1} \\mid \\mathcal{F}_n] = X_n$。"
+        },
+        {
+          "title": "Doobのアップクロッシング不等式",
+          "body": "マルチンゲールの変動幅を抑える基本的な不等式。ギャンブルで「安い時に買い、高い時に売る」戦略の期待利益が、最終状態の期待値によって抑えられることに由来する。"
+        },
+        {
+          "title": "一様可積分性と $L^1$ 収束",
+          "body": "$L^1$ 有界性だけでは $L^1$ 収束は保証されない（例：非対称ランダムウォークの吸収確率）。$L^1$ 収束にはマルチンゲールが一様可積分であることが必要十分である。"
+        },
+        {
+          "title": "上極限と下極限の一致",
+          "body": "数列が収束することと、上極限と下極限が一致し有限値をとることは同値である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "アップクロッシング不等式",
+          "上方交差不等式",
+          "Doobの不等式"
+        ],
+        [
+          "E[U_\\infty(a,b)] < \\infty",
+          "横切る回数の期待値が有限"
+        ],
+        [
+          "U_\\infty(a,b) < \\infty",
+          "横切る回数が有限"
+        ],
+        [
+          "有理数",
+          "可算和"
+        ],
+        [
+          "\\liminf X_n = \\limsup X_n",
+          "上極限と下極限が一致"
+        ]
+      ],
+      "hint": "アップクロッシング不等式を用いて任意の有理数区間 $[a,b]$ を横切る回数が確率1で有限であることを示せ。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-002-D",
+    "contest": "Level 3 #002",
+    "difficulty": "D",
+    "score": 700,
+    "title": "ガロア群の決定と代数方程式",
+    "field": "抽象代数・ガロア理論",
+    "tags": [
+      "ガロア理論",
+      "最小多項式",
+      "ガロア群"
+    ],
+    "minutes": 90,
+    "answerType": "proof",
+    "prompt": [
+      "多項式 $\\displaystyle f(x) = x^4 - 2 \\in \\mathbb{Q}[x]$ の有理数体 $\\displaystyle \\mathbb{Q}$ 上の最小分解体 $\\displaystyle K$ を求める。",
+      "1. $\\displaystyle K$ を具体的な元の添加で表し、拡大次数 $\\displaystyle [K:\\mathbb{Q}]$ を決定せよ。",
+      "2. ガロア群 $\\displaystyle G = \\mathrm{Gal}(K/\\mathbb{Q})$ の構造を決定し、同型な有限群の名称を答えよ。"
+    ],
+    "explanation": {
+      "summary": "最小分解体が $\\mathbb{Q}(\\sqrt[4]{2}, i)$ であることを示し、自己同型の元の作用からガロア群が位数8の二面体群になることを示す。",
+      "steps": [
+        "$\\displaystyle f(x)$ の根は $\\displaystyle \\pm \\sqrt[4]{2}, \\pm i\\sqrt[4]{2}$ である。これらを全て含む最小の体は $\\displaystyle K = \\mathbb{Q}(\\sqrt[4]{2}, i)$ である。",
+        "$\\displaystyle \\mathbb{Q}(\\sqrt[4]{2})$ の $\\displaystyle \\mathbb{Q}$ 上の次数は、$\\displaystyle x^4-2$ がアイゼンシュタインの判定法(p=2)により既約なので 4 である。",
+        "$\\displaystyle \\mathbb{Q}(\\sqrt[4]{2}) \\subset \\mathbb{R}$ であり、$\\displaystyle i \\notin \\mathbb{R}$ なので、$\\displaystyle x^2+1$ は $\\displaystyle \\mathbb{Q}(\\sqrt[4]{2})$ 上既約。よって $\\displaystyle [K:\\mathbb{Q}] = 4 \\times 2 = 8$。",
+        "$\\displaystyle K/\\mathbb{Q}$ はガロア拡大であるため、ガロア群 $\\displaystyle G$ の位数は 8 である。",
+        "$\\displaystyle G$ の元は $\\displaystyle \\sqrt[4]{2}$ を $\\displaystyle \\sqrt[4]{2}$ の共役元（4通り）に、$\\displaystyle i$ を $\\displaystyle \\pm i$（2通り）に写す。",
+        "自己同型 $\\displaystyle \\sigma: \\sqrt[4]{2} \\mapsto i\\sqrt[4]{2}, i \\mapsto i$ と $\\displaystyle \\tau: \\sqrt[4]{2} \\mapsto \\sqrt[4]{2}, i \\mapsto -i$ を考える。",
+        "$\\displaystyle \\sigma^4 = \\mathrm{id}, \\tau^2 = \\mathrm{id}$ であり、$\\displaystyle \\tau \\sigma \\tau^{-1} = \\sigma^{-1}$ の関係式を満たす。",
+        "これは正方形の対称性を表す群であり、$\\displaystyle G$ は位数8の二面体群 $\\displaystyle D_4$ （または $\\displaystyle D_8$ と表記される）と同型である。"
+      ],
+      "knowledge": [
+        {
+          "title": "最小分解体",
+          "body": "ある多項式が1次式の積に完全に分解し、かつその根たちによって生成される最小の拡大体。"
+        },
+        {
+          "title": "ガロア拡大と拡大次数",
+          "body": "最小分解体への拡大は正規かつ分離的であるためガロア拡大となる。ガロア群の位数は拡大次数 $\\displaystyle [K:\\mathbb{Q}]$ に等しい。"
+        },
+        {
+          "title": "二面体群 $D_n$",
+          "body": "正n角形の対称性を表す位数 $2n$ の非可換群。生成元 $r, s$ を持ち、$r^n=1, s^2=1, srs=r^{-1}$ の関係式を満たす。"
+        },
+        {
+          "title": "アイゼンシュタインの判定法",
+          "body": "整数係数多項式 $f(x) = a_n x^n + \\dots + a_0$ について、ある素数 $p$ で $p \\nmid a_n, p \\mid a_i (i<n), p^2 \\nmid a_0$ ならば有理数体上で既約である。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "K = \\mathbb{Q}(\\sqrt[4]{2}, i)",
+          "添加される元"
+        ],
+        [
+          "[K:\\mathbb{Q}] = 8",
+          "拡大次数は8"
+        ],
+        [
+          "既約",
+          "アイゼンシュタインの判定法"
+        ],
+        [
+          "\\tau \\sigma \\tau^{-1} = \\sigma^{-1}",
+          "生成元の関係式",
+          "\\tau \\sigma = \\sigma^3 \\tau"
+        ],
+        [
+          "二面体群",
+          "D_4",
+          "D_8"
+        ]
+      ],
+      "hint": "根をすべて求め、基礎体への添加元を決定せよ。またガロア群の元が添加元をどう置換するか調べよ。"
+    },
+    "sourceModel": "Gemini Pro"
+  },
+  {
+    "id": "L3-002-E",
+    "contest": "Level 3 #002",
+    "difficulty": "E",
+    "score": 900,
+    "title": "シュワルツ超関数とフーリエ変換",
+    "field": "フーリエ解析",
+    "tags": [
+      "超関数",
+      "フーリエ変換",
+      "微分方程式"
+    ],
+    "minutes": 120,
+    "answerType": "proof",
+    "prompt": [
+      "急減少関数の空間（シュワルツ空間）$\\displaystyle \\mathcal{S}(\\mathbb{R})$ 上の緩増加超関数（tempered distribution）の空間を $\\displaystyle \\mathcal{S}'(\\mathbb{R})$ とする。",
+      "定数係数常微分方程式 $\\displaystyle -u'' + u = \\delta$ （$\\delta$ はディラックのデルタ関数）を考える。",
+      "1. 超関数の意味でのフーリエ変換を用いて、この方程式の解 $\\displaystyle u \\in \\mathcal{S}'(\\mathbb{R})$ のフーリエ変換 $\\displaystyle \\hat{u}(\\xi)$ を求めよ。",
+      "2. 逆フーリエ変換を計算し、$\\displaystyle u(x)$ を通常の関数として具体的に求めよ。（複素積分による評価を用いること）"
+    ],
+    "explanation": {
+      "summary": "微分方程式をフーリエ変換して代数方程式にし、留数定理を用いて逆変換を計算する。",
+      "steps": [
+        "両辺の超関数としてのフーリエ変換をとる。微分の性質 $\\displaystyle \\widehat{f'} = i\\xi \\hat{f}$ より、$\\displaystyle -u''$ のフーリエ変換は $\\displaystyle -(i\\xi)^2 \\hat{u}(\\xi) = \\xi^2 \\hat{u}(\\xi)$ となる。",
+        "$\\displaystyle \\delta$ のフーリエ変換は $\\displaystyle \\hat{\\delta}(\\xi) = 1$ である。",
+        "方程式は $\\displaystyle (\\xi^2 + 1)\\hat{u}(\\xi) = 1$ となるため、$\\displaystyle \\hat{u}(\\xi) = \\frac{1}{\\xi^2 + 1}$ を得る。",
+        "逆フーリエ変換 $\\displaystyle u(x) = \\frac{1}{2\\pi} \\int_{-\\infty}^{\\infty} \\frac{e^{ix\\xi}}{\\xi^2 + 1} d\\xi$ を計算する。",
+        "$\\displaystyle x > 0$ のとき、積分経路を上半平面に閉じる。極は $\\displaystyle \\xi = i$ で留数は $\\displaystyle \\frac{e^{-x}}{2i}$。留数定理より $\\displaystyle \\frac{1}{2\\pi} 2\\pi i \\frac{e^{-x}}{2i} = \\frac{1}{2} e^{-x}$。",
+        "$\\displaystyle x < 0$ のとき、積分経路を下半平面に閉じる。極は $\\displaystyle \\xi = -i$ で、計算により $\\displaystyle \\frac{1}{2} e^{x}$ を得る。",
+        "まとめて、$\\displaystyle u(x) = \\frac{1}{2} e^{-|x|}$ が求める基本解である。"
+      ],
+      "knowledge": [
+        {
+          "title": "シュワルツ空間と緩増加超関数",
+          "body": "無限回微分可能で、自身およびその全ての導関数が多項式よりも速く減衰する関数の空間 $\\displaystyle \\mathcal{S}$。その連続線形汎関数の空間が $\\displaystyle \\mathcal{S}'$。"
+        },
+        {
+          "title": "超関数のフーリエ変換",
+          "body": "$\\displaystyle T \\in \\mathcal{S}'$ のフーリエ変換 $\\displaystyle \\hat{T}$ は、任意の $\\displaystyle \\phi \\in \\mathcal{S}$ に対して $\\displaystyle \\langle \\hat{T}, \\phi \\rangle = \\langle T, \\hat{\\phi} \\rangle$ で定義される。"
+        },
+        {
+          "title": "微分のフーリエ変換",
+          "body": "$\\displaystyle \\widehat{\\partial_x u}(\\xi) = i\\xi \\hat{u}(\\xi)$。これにより微分方程式が代数方程式に変換される。"
+        },
+        {
+          "title": "基本解 (Fundamental Solution)",
+          "body": "線形微分作用素 $L$ に対して $Lu = \\delta$ を満たす解。これと任意の関数 $f$ の畳み込み $u * f$ が $Lu = f$ の解を与える。"
+        }
+      ]
+    },
+    "grade": {
+      "type": "keywords",
+      "groups": [
+        [
+          "\\xi^2 \\hat{u}(\\xi) + \\hat{u}(\\xi)",
+          "微分のフーリエ変換",
+          "(\\xi^2+1)\\hat{u}(\\xi)"
+        ],
+        [
+          "\\hat{\\delta}(\\xi) = 1",
+          "デルタのフーリエ変換"
+        ],
+        [
+          "\\frac{1}{\\xi^2 + 1}",
+          "代数方程式の解"
+        ],
+        [
+          "留数定理",
+          "複素積分"
+        ],
+        [
+          "\\frac{1}{2} e^{-|x|}",
+          "e^{-|x|}/2"
+        ]
+      ],
+      "hint": "微分方程式全体をフーリエ変換して $\\hat{u}(\\xi)$ について解き、逆フーリエ変換を複素積分（留数定理）を用いて評価せよ。"
+    },
+    "sourceModel": "Gemini Pro"
   }
 ]
