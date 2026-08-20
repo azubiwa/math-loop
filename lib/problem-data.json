@@ -1,7 +1,7 @@
 [
   {
     "id": "MABC001-A",
-    "contest": "数学ABC #001",
+    "contest": "Level 1 #001",
     "difficulty": "A",
     "score": 100,
     "title": "因数分解による極限",
@@ -36,7 +36,7 @@
   },
   {
     "id": "MABC001-B",
-    "contest": "数学ABC #001",
+    "contest": "Level 1 #001",
     "difficulty": "B",
     "score": 200,
     "title": "2次正方行列の行列式",
@@ -71,7 +71,7 @@
   },
   {
     "id": "MABC001-C",
-    "contest": "数学ABC #001",
+    "contest": "Level 1 #001",
     "difficulty": "C",
     "score": 300,
     "title": "条件付き確率と組合せ",
@@ -109,7 +109,7 @@
   },
   {
     "id": "MABC001-D",
-    "contest": "数学ABC #001",
+    "contest": "Level 1 #001",
     "difficulty": "D",
     "score": 400,
     "title": "二次合同式と中国剰余定理",
@@ -144,7 +144,7 @@
   },
   {
     "id": "MABC001-E",
-    "contest": "数学ABC #001",
+    "contest": "Level 1 #001",
     "difficulty": "E",
     "score": 500,
     "title": "有界数列の収束部分列",
@@ -187,7 +187,7 @@
   },
   {
     "id": "MABC002-A",
-    "contest": "数学ABC #002",
+    "contest": "Level 1 #002",
     "difficulty": "A",
     "score": 100,
     "title": "変数分離形の初期値問題",
@@ -222,7 +222,7 @@
   },
   {
     "id": "MABC002-B",
-    "contest": "数学ABC #002",
+    "contest": "Level 1 #002",
     "difficulty": "B",
     "score": 200,
     "title": "剰余の定理",
@@ -257,7 +257,7 @@
   },
   {
     "id": "MABC002-C",
-    "contest": "数学ABC #002",
+    "contest": "Level 1 #002",
     "difficulty": "C",
     "score": 300,
     "title": "立方和の数学的帰納法",
@@ -299,7 +299,7 @@
   },
   {
     "id": "MABC002-D",
-    "contest": "数学ABC #002",
+    "contest": "Level 1 #002",
     "difficulty": "D",
     "score": 400,
     "title": "対角化による行列の累乗",
@@ -341,7 +341,7 @@
   },
   {
     "id": "MABC002-E",
-    "contest": "数学ABC #002",
+    "contest": "Level 1 #002",
     "difficulty": "E",
     "score": 500,
     "title": "べき級数と対数関数",
@@ -386,7 +386,7 @@
   },
   {
     "id": "MABC003-A",
-    "contest": "数学ABC #003",
+    "contest": "Level 1 #003",
     "difficulty": "A",
     "score": 100,
     "title": "サイコロの期待値",
@@ -421,7 +421,7 @@
   },
   {
     "id": "MABC003-B",
-    "contest": "数学ABC #003",
+    "contest": "Level 1 #003",
     "difficulty": "B",
     "score": 200,
     "title": "閉区間上の最大値と最小値",
@@ -456,7 +456,7 @@
   },
   {
     "id": "MABC003-C",
-    "contest": "数学ABC #003",
+    "contest": "Level 1 #003",
     "difficulty": "C",
     "score": 300,
     "title": "合同関係と同値類",
@@ -501,7 +501,7 @@
   },
   {
     "id": "MABC003-D",
-    "contest": "数学ABC #003",
+    "contest": "Level 1 #003",
     "difficulty": "D",
     "score": 400,
     "title": "ロジスティック方程式",
@@ -546,7 +546,7 @@
   },
   {
     "id": "MABC003-E",
-    "contest": "数学ABC #003",
+    "contest": "Level 1 #003",
     "difficulty": "E",
     "score": 500,
     "title": "縮小写像による不動点反復",
@@ -592,7 +592,7 @@
   },
   {
     "id": "MABC004-A",
-    "contest": "数学ABC #004",
+    "contest": "Level 1 #004",
     "difficulty": "A",
     "score": 100,
     "title": "行列とベクトルの積",
@@ -627,7 +627,7 @@
   },
   {
     "id": "MABC004-B",
-    "contest": "数学ABC #004",
+    "contest": "Level 1 #004",
     "difficulty": "B",
     "score": 200,
     "title": "無限等比級数",
@@ -662,7 +662,7 @@
   },
   {
     "id": "MABC004-C",
-    "contest": "数学ABC #004",
+    "contest": "Level 1 #004",
     "difficulty": "C",
     "score": 300,
     "title": "検査結果のベイズ推定",
@@ -700,7 +700,7 @@
   },
   {
     "id": "MABC004-D",
-    "contest": "数学ABC #004",
+    "contest": "Level 1 #004",
     "difficulty": "D",
     "score": 400,
     "title": "準同型定理",
@@ -747,7 +747,7 @@
   },
   {
     "id": "MABC004-E",
-    "contest": "数学ABC #004",
+    "contest": "Level 1 #004",
     "difficulty": "E",
     "score": 500,
     "title": "ラグランジュ補間",
@@ -794,7 +794,7 @@
   },
   {
     "id": "MABC005-A",
-    "contest": "数学ABC #005",
+    "contest": "Level 1 #005",
     "difficulty": "A",
     "score": 100,
     "title": "集合の対称差",
@@ -829,7 +829,7 @@
   },
   {
     "id": "MABC005-B",
-    "contest": "数学ABC #005",
+    "contest": "Level 1 #005",
     "difficulty": "B",
     "score": 200,
     "title": "有理関数の定積分",
@@ -864,7 +864,7 @@
   },
   {
     "id": "MABC005-C",
-    "contest": "数学ABC #005",
+    "contest": "Level 1 #005",
     "difficulty": "C",
     "score": 300,
     "title": "固有空間と対角化可能性",
@@ -909,7 +909,7 @@
   },
   {
     "id": "MABC005-D",
-    "contest": "数学ABC #005",
+    "contest": "Level 1 #005",
     "difficulty": "D",
     "score": 400,
     "title": "一様連続性の範囲依存性",
@@ -955,7 +955,7 @@
   },
   {
     "id": "MABC005-E",
-    "contest": "数学ABC #005",
+    "contest": "Level 1 #005",
     "difficulty": "E",
     "score": 500,
     "title": "条件収束する広義積分",
@@ -1000,7 +1000,7 @@
   },
   {
     "id": "MABC006-A",
-    "contest": "数学ABC #006",
+    "contest": "Level 1 #006",
     "difficulty": "A",
     "score": 100,
     "title": "法における逆元",
@@ -1035,7 +1035,7 @@
   },
   {
     "id": "MABC006-B",
-    "contest": "数学ABC #006",
+    "contest": "Level 1 #006",
     "difficulty": "B",
     "score": 200,
     "title": "二項分布の分散",
@@ -1070,7 +1070,7 @@
   },
   {
     "id": "MABC006-C",
-    "contest": "数学ABC #006",
+    "contest": "Level 1 #006",
     "difficulty": "C",
     "score": 300,
     "title": "一階線形微分方程式",
@@ -1105,7 +1105,7 @@
   },
   {
     "id": "MABC006-D",
-    "contest": "数学ABC #006",
+    "contest": "Level 1 #006",
     "difficulty": "D",
     "score": 400,
     "title": "コンパクト集合の閉部分集合",
@@ -1147,7 +1147,7 @@
   },
   {
     "id": "MABC006-E",
-    "contest": "数学ABC #006",
+    "contest": "Level 1 #006",
     "difficulty": "E",
     "score": 500,
     "title": "次元定理と連立方程式の解集合",
@@ -1195,7 +1195,7 @@
   },
   {
     "id": "MABC007-A",
-    "contest": "数学ABC #007",
+    "contest": "Level 1 #007",
     "difficulty": "A",
     "score": 100,
     "title": "対数微分",
@@ -1230,7 +1230,7 @@
   },
   {
     "id": "MABC007-B",
-    "contest": "数学ABC #007",
+    "contest": "Level 1 #007",
     "difficulty": "B",
     "score": 200,
     "title": "ベクトルの線形従属性",
@@ -1265,7 +1265,7 @@
   },
   {
     "id": "MABC007-C",
-    "contest": "数学ABC #007",
+    "contest": "Level 1 #007",
     "difficulty": "C",
     "score": 300,
     "title": "数列集合の閉包と境界",
@@ -1310,7 +1310,7 @@
   },
   {
     "id": "MABC007-D",
-    "contest": "数学ABC #007",
+    "contest": "Level 1 #007",
     "difficulty": "D",
     "score": 400,
     "title": "混合二項分布の分散",
@@ -1349,7 +1349,7 @@
   },
   {
     "id": "MABC007-E",
-    "contest": "数学ABC #007",
+    "contest": "Level 1 #007",
     "difficulty": "E",
     "score": 500,
     "title": "位数p²の群",
@@ -1393,7 +1393,7 @@
   },
   {
     "id": "MABC008-A",
-    "contest": "数学ABC #008",
+    "contest": "Level 1 #008",
     "difficulty": "A",
     "score": 100,
     "title": "有理式で表された数列の極限",
@@ -1428,7 +1428,7 @@
   },
   {
     "id": "MABC008-B",
-    "contest": "数学ABC #008",
+    "contest": "Level 1 #008",
     "difficulty": "B",
     "score": 200,
     "title": "群における積の逆元",
@@ -1463,7 +1463,7 @@
   },
   {
     "id": "MABC008-C",
-    "contest": "数学ABC #008",
+    "contest": "Level 1 #008",
     "difficulty": "C",
     "score": 300,
     "title": "べき関数の広義積分",
@@ -1506,7 +1506,7 @@
   },
   {
     "id": "MABC008-D",
-    "contest": "数学ABC #008",
+    "contest": "Level 1 #008",
     "difficulty": "D",
     "score": 400,
     "title": "フィボナッチ数列の閉形式",
@@ -1551,7 +1551,7 @@
   },
   {
     "id": "MABC008-E",
-    "contest": "数学ABC #008",
+    "contest": "Level 1 #008",
     "difficulty": "E",
     "score": 500,
     "title": "ランダムウォークの吸収時間",
@@ -1598,7 +1598,7 @@
   },
   {
     "id": "MABC009-A",
-    "contest": "数学ABC #009",
+    "contest": "Level 1 #009",
     "difficulty": "A",
     "score": 100,
     "title": "サイコロの条件付き確率",
@@ -1633,7 +1633,7 @@
   },
   {
     "id": "MABC009-B",
-    "contest": "数学ABC #009",
+    "contest": "Level 1 #009",
     "difficulty": "B",
     "score": 200,
     "title": "集合の内部・閉包・境界",
@@ -1672,7 +1672,7 @@
   },
   {
     "id": "MABC009-C",
-    "contest": "数学ABC #009",
+    "contest": "Level 1 #009",
     "difficulty": "C",
     "score": 300,
     "title": "指数関数のテイラー評価",
@@ -1712,7 +1712,7 @@
   },
   {
     "id": "MABC009-D",
-    "contest": "数学ABC #009",
+    "contest": "Level 1 #009",
     "difficulty": "D",
     "score": 400,
     "title": "最小二乗直線",
@@ -1751,7 +1751,7 @@
   },
   {
     "id": "MABC009-E",
-    "contest": "数学ABC #009",
+    "contest": "Level 1 #009",
     "difficulty": "E",
     "score": 500,
     "title": "コンパクト空間からの連続全単射",
@@ -1798,7 +1798,7 @@
   },
   {
     "id": "MABC010-A",
-    "contest": "数学ABC #010",
+    "contest": "Level 1 #010",
     "difficulty": "A",
     "score": 100,
     "title": "行列のトレース",
@@ -1833,7 +1833,7 @@
   },
   {
     "id": "MABC010-B",
-    "contest": "数学ABC #010",
+    "contest": "Level 1 #010",
     "difficulty": "B",
     "score": 200,
     "title": "一次合同式の複数解",
@@ -1869,7 +1869,7 @@
   },
   {
     "id": "MABC010-C",
-    "contest": "数学ABC #010",
+    "contest": "Level 1 #010",
     "difficulty": "C",
     "score": 300,
     "title": "多項式の最大公約数",
@@ -1904,7 +1904,7 @@
   },
   {
     "id": "MABC010-D",
-    "contest": "数学ABC #010",
+    "contest": "Level 1 #010",
     "difficulty": "D",
     "score": 400,
     "title": "包除原理と固定点",
@@ -1940,7 +1940,7 @@
   },
   {
     "id": "MABC010-E",
-    "contest": "数学ABC #010",
+    "contest": "Level 1 #010",
     "difficulty": "E",
     "score": 500,
     "title": "2次行列のケーリー・ハミルトン定理",

@@ -102,7 +102,7 @@ tr:hover td { background: #fbfbfa; }
 tr.rowAC td:first-child { box-shadow: inset 3px 0 #2f986a; }
 tr.rowREVIEW td:first-child { box-shadow: inset 3px 0 #d0a73c; }
 tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
-.level { display: inline-grid; width: 26px; height: 26px; place-items: center; border-radius: 6px; font-weight: 800; }
+.level { display: inline-flex; width: 26px; height: 26px; align-items: center; justify-content: center; padding: 0; border-radius: 6px; font-weight: 800; line-height: 1; text-align: center; }
 .level.large { width: 43px; height: 43px; border-radius: 10px; font-size: 17px; flex: 0 0 auto; }
 .levelA { background: #f0f0ee; color: #222; }
 .levelB { background: #e8e8e5; color: #222; }
@@ -121,7 +121,7 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .setTable thead th { padding: 11px 9px; text-align: center; }
 .setTable thead th:first-child { width: 190px; text-align: left; }
 .setTable thead th:not(:first-child) { width: calc((100% - 190px) / 5); }
-.setTable thead .level { display: inline-flex; vertical-align: middle; }
+.setTable thead .level { vertical-align: middle; }
 .setTable thead small { display: block; margin-top: 5px; color: #9aa49f; font-size: 7px; font-weight: 500; letter-spacing: .04em; }
 .setTable tbody th, .setTable tbody td { padding: 9px; vertical-align: top; border-bottom: 1px solid #ededeb; }
 .setTable tbody tr:last-child th, .setTable tbody tr:last-child td { border-bottom: 0; }

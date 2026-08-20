@@ -37,7 +37,11 @@ type Attempt = {
 const symbols = ["ε", "δ", "∀", "∃", "→", "⇒", "∈", "⊂", "∪", "∩", "∫", "√", "∞", "⁻¹"];
 const difficultyLabel: Record<Difficulty, string> = { A: "定義・基本", B: "典型", C: "標準", D: "証明・発展", E: "総合・最難関" };
 const difficulties: Difficulty[] = ["A", "B", "C", "D", "E"];
-const contestSeries = ["すべて", ...Array.from(new Set(problems.map((problem) => problem.contest.replace(/\s+#\d+$/, ""))))];
+const contestSeries = ["すべて", "Level 1", "Level 2", "Level 3"];
+
+function displayContest(value: string) {
+  return value.replace(/^Level\s+([123])/, "レベル $1");
+}
 
 const localProgressKey = "mathabc-progress-v2";
 const localAttemptsKey = "mathabc-attempt-history-v1";
@@ -503,7 +507,7 @@ export default function MathLoopApp() {
         <header className="topbar">
           <div>
             <span className="eyebrow">MATHEMATICS PRACTICE LOG</span>
-            <h1>{activeProblem ? activeProblem.contest : view === "stats" ? "学習統計" : "問題一覧"}</h1>
+            <h1>{activeProblem ? displayContest(activeProblem.contest) : view === "stats" ? "学習統計" : "問題一覧"}</h1>
           </div>
           <div className="topActions">
             {virtualSeconds !== null && virtualSeconds > 0 && <span className="contestClock"><i>●</i> 集中モード {formatTime(virtualSeconds)}</span>}
@@ -568,8 +572,8 @@ export default function MathLoopApp() {
                 <select value={field} onChange={(event) => setField(event.target.value)} aria-label="分野で絞り込み">{fields.map((item) => <option key={item}>{item === "すべて" ? "すべての分野" : item}</option>)}</select>
                 <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} aria-label="状態で絞り込み"><option>すべて</option><option>AC</option><option>REVIEW</option><option>WA</option><option>未挑戦</option></select>
               </div>
-              <div className="levelTabs" aria-label="コンテストシリーズで絞り込み">
-                {contestSeries.map((item) => <button key={item} className={contestFilter === item ? "active" : ""} onClick={() => setContestFilter(item)}>{item === "すべて" ? "すべてのシリーズ" : item}</button>)}
+              <div className="levelTabs" aria-label="レベルで絞り込み">
+                {contestSeries.map((item) => <button key={item} className={contestFilter === item ? "active" : ""} onClick={() => setContestFilter(item)}>{item === "すべて" ? "すべてのレベル" : displayContest(item)}</button>)}
               </div>
               <div className="tableWrap setTableWrap">
                 <table className="setTable">
@@ -580,7 +584,7 @@ export default function MathLoopApp() {
                     return <tr key={contest}>
                       <th scope="row" className="setIdentity">
                         <span>SET {String(setIndex + 1).padStart(2, "0")}</span>
-                        <b>{contest}</b>
+                        <b>{displayContest(contest)}</b>
                         <small>{setFields.join("・")} · {setSolved}/{setProblems.length} AC</small>
                       </th>
                       {difficulties.map((difficulty) => {

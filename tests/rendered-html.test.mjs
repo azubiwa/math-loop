@@ -9,7 +9,9 @@ test("exports the MathLoop problem-set grid as static HTML", async () => {
 
   assert.match(html, /<title>MathLoop — 学部数学の演習記録<\/title>/);
   assert.match(html, /class="setTable"/);
-  assert.match(html, /数学ABC #001/);
+  assert.match(html, /レベル 1 #001/);
+  assert.match(html, /レベル 2/);
+  assert.match(html, /レベル 3/);
   assert.match(html, /総合・最難関/);
   assert.match(html, /解く。/);
   assert.match(html, /定義・基本/);
