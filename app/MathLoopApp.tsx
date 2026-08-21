@@ -470,7 +470,7 @@ export default function MathLoopApp() {
       let graded: Result = ruleResult
         ? { ...ruleResult, method: activeProblem.answerType === "short" ? "exact" : "rule" }
         : { status: "REVIEW", score: 0, feedback: "写真を保存しました。現在は写真だけの自動採点には未対応です。要点をテキストでも入力すると採点できます。", method: "photo" };
-      const needsAiGrading = usesAiGrading(activeProblem);
+      const needsAiGrading = usesAiGrading(activeProblem, submittedAnswer);
       if (user && submittedAnswer.trim() && needsAiGrading) {
         const aiResult = await gradeWithSakura(activeProblem, submittedAnswer);
         graded = aiResult || {
