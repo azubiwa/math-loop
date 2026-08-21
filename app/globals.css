@@ -142,6 +142,38 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .setProblemCell.cellAC { border-color: #82c5a6; background: #eff9f4; box-shadow: inset 3px 0 #2f986a; }
 .setProblemCell.cellREVIEW { border-color: #e5c98f; background: #fff9ec; box-shadow: inset 3px 0 #d39a2d; }
 .setProblemCell.cellWA { border-color: #e4aaa0; background: #fff3f1; box-shadow: inset 3px 0 #c85a49; }
+
+.guidedSetSection { padding: 22px; border-top: 1px solid var(--line); background: #f7f8f5; }
+.guidedSetSectionHeading { margin-bottom: 14px; display: flex; justify-content: space-between; gap: 20px; align-items: flex-end; }
+.guidedSetSectionHeading span, .guidedSetLabel { color: #607a6d; font-size: 7px; font-weight: 800; letter-spacing: .15em; }
+.guidedSetSectionHeading h4 { margin: 4px 0 0; font-size: 17px; }
+.guidedSetSectionHeading p { margin: 0; color: #839087; font-size: 9px; }
+.guidedSetGrid { display: grid; gap: 14px; }
+.guidedSetCard { overflow: hidden; background: #fff; border: 1px solid #d9dfda; border-radius: 13px; box-shadow: 0 8px 28px rgba(42, 60, 51, .05); }
+.guidedSetCard > header { padding: 18px 20px 12px; display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.guidedSetCard h5 { margin: 5px 0 0; font-size: 16px; font-weight: 650; }
+.guidedSetProgress { padding: 6px 9px; color: #3e6f58; background: #ebf5ef; border-radius: 999px; font-size: 8px; font-weight: 800; white-space: nowrap; }
+.guidedSetMeta { padding: 0 20px 13px; display: flex; gap: 7px; }
+.guidedSetMeta span { padding: 4px 7px; color: #66746c; background: #f1f3f0; border-radius: 5px; font-size: 7px; font-weight: 700; }
+.guidedCommonStatement { margin: 0 20px 14px; padding: 14px 16px; background: #f4f6f2; border-left: 3px solid #799a88; border-radius: 7px; }
+.guidedCommonStatement > b { color: #587064; font-size: 8px; letter-spacing: .08em; }
+.guidedCommonStatement p { margin: 7px 0 0; color: #3e4943; font-size: 10px; line-height: 1.7; }
+.guidedQuestionList { margin: 0; padding: 0 20px 18px; display: grid; gap: 6px; list-style: none; }
+.guidedQuestionButton { width: 100%; min-height: 57px; padding: 8px 10px; display: grid; grid-template-columns: 34px minmax(0,1fr) auto 16px; gap: 10px; align-items: center; color: #222; background: #fff; border: 1px solid #e3e6e2; border-radius: 8px; text-align: left; cursor: pointer; }
+.guidedQuestionButton:hover { border-color: #82968b; background: #fafbf9; }
+.guidedQuestionButton > span:nth-child(2) b, .guidedQuestionButton > span:nth-child(2) small { display: block; }
+.guidedQuestionButton > span:nth-child(2) b { font-size: 10px; }
+.guidedQuestionButton > span:nth-child(2) small { margin-top: 3px; color: #89948e; font-size: 8px; line-height: 1.45; }
+.guidedQuestionButton > i { color: #97a19c; font-style: normal; }
+.guidedQuestionButton.cellAC { border-color: #a8d4bd; background: #f1f9f5; }
+.guidedQuestionButton.cellREVIEW { border-color: #e5c98f; background: #fffaf0; }
+.guidedQuestionButton.cellWA { border-color: #e5b4ac; background: #fff6f4; }
+.setPartBadge { width: 30px; height: 30px; display: grid; place-items: center; color: #fff; background: #496b5a; border-radius: 8px; font-size: 12px; font-weight: 800; }
+.setPartBadge.large { width: 43px; height: 43px; flex: 0 0 auto; border-radius: 10px; font-size: 17px; }
+.guidedSetCard > footer { padding: 11px 20px; display: flex; gap: 7px; align-items: center; color: #718078; background: #f7f8f6; border-top: 1px solid #e5e8e4; }
+.guidedSetCard > footer span { width: 20px; height: 20px; display: grid; place-items: center; color: #fff; background: #6b8175; border-radius: 50%; font-size: 7px; font-weight: 800; }
+.guidedSetCard > footer i { font-style: normal; font-size: 8px; }
+.guidedSetCard > footer b { margin-left: 8px; font-size: 8px; font-weight: 500; line-height: 1.5; }
 .emptyCell { text-align: center; }
 .cellDash { display: block; padding-top: 21px; color: #c7ceca; font-size: 12px; }
 .tag { padding: 4px 7px; border: 1px solid #ddd; background: #f7f7f5; color: #555; border-radius: 5px; font-size: 8px; cursor: pointer; }
@@ -163,6 +195,25 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
 .problemMain { min-width: 0; display: grid; gap: 15px; }
 .problemStatement, .answerCard, .explanationCard { background: white; border: 1px solid var(--line); border-radius: 13px; }
 .problemStatement { padding: 29px 31px 32px; }
+.guidedProblemHeader { margin: -29px -31px 24px; padding: 23px 31px 18px; color: #eef5f1; background: linear-gradient(135deg, #243d31, #496858); border-radius: 12px 12px 0 0; }
+.guidedProblemHeader > span { color: #b8cec2; font-size: 7px; font-weight: 800; letter-spacing: .14em; }
+.guidedProblemHeader h2 { margin: 5px 0 4px; font-size: 18px; }
+.guidedProblemHeader > p { margin: 0; color: #c8d8d0; font-size: 9px; line-height: 1.6; }
+.guidedProblemHeader nav { margin-top: 15px; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 6px; }
+.guidedProblemHeader nav button { min-height: 41px; padding: 5px 7px; display: flex; justify-content: space-between; align-items: center; color: #e7f0eb; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); border-radius: 7px; cursor: pointer; }
+.guidedProblemHeader nav button.active { color: #20382c; background: #fff; border-color: #fff; }
+.guidedProblemHeader nav button > span { font-size: 11px; font-weight: 800; }
+.guidedProblemHeader .resultBadge { padding: 3px 5px; font-size: 6px; }
+.guidedSharedStatement { margin-bottom: 22px; padding: 16px 18px; background: #f3f6f2; border: 1px solid #dfe7e1; border-radius: 9px; }
+.guidedSharedStatement > b { color: #567064; font-size: 8px; letter-spacing: .1em; }
+.guidedSharedStatement p { margin: 8px 0 0; color: #3f4b45; font-size: 11px; line-height: 1.8; }
+.guidedPurpose { margin-top: 20px; padding: 13px 15px; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 4px 14px; background: #fafbf9; border: 1px dashed #cad5ce; border-radius: 8px; }
+.guidedPurpose b { grid-column: 1 / -1; color: #587064; font-size: 8px; letter-spacing: .08em; }
+.guidedPurpose p { margin: 0; color: #58635d; font-size: 9px; line-height: 1.6; }
+.guidedPurpose span { align-self: center; color: #6a8276; font-size: 7px; font-weight: 800; }
+.guidedConnection { margin-top: 18px; padding: 14px 16px; color: #345444; background: #edf6f1; border-radius: 8px; }
+.guidedConnection b { font-size: 9px; }
+.guidedConnection p { margin: 5px 0 0; font-size: 9px; line-height: 1.7; }
 .problemTitleRow { display: flex; align-items: center; gap: 15px; padding-bottom: 23px; border-bottom: 1px solid #ededeb; }
 .problemKicker { color: #8b9891; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .problemTitleRow h2 { margin: 5px 0 0; font-size: 22px; font-weight: 600; }
@@ -398,6 +449,16 @@ tr.rowWA td:first-child { box-shadow: inset 3px 0 #bd5b55; }
   .problemMeta { position: static; grid-template-columns: repeat(2, minmax(0,1fr)); order: -1; }
   .problemMeta .metaCard:nth-of-type(2) { display: none; }
   .problemStatement { padding: 22px 20px; }
+  .guidedSetSection { padding: 16px 14px; }
+  .guidedSetSectionHeading { display: block; }
+  .guidedSetSectionHeading p { margin-top: 5px; }
+  .guidedSetCard > footer b { display: none; }
+  .guidedProblemHeader { margin: -22px -20px 20px; padding: 20px; }
+  .guidedProblemHeader nav button { justify-content: center; }
+  .guidedProblemHeader nav .resultBadge { display: none; }
+  .guidedPurpose { grid-template-columns: 1fr; }
+  .guidedQuestionButton { grid-template-columns: 34px minmax(0,1fr) auto; }
+  .guidedQuestionButton > i { display: none; }
   .problemTitleRow h2 { font-size: 19px; }
   .answerCard { padding-left: 16px; padding-right: 16px; }
   .symbolBar { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; }

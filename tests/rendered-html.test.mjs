@@ -17,6 +17,10 @@ test("exports the MathLoop problem-set grid as static HTML", async () => {
   assert.ok(html.indexOf("レベル 1 #010") < html.indexOf("レベル 1 #009"));
   assert.ok(html.indexOf("レベル 1 #009") < html.indexOf("レベル 1 #001"));
   assert.match(html, /総合・最難関/);
+  assert.match(html, /テーマ演習/);
+  assert.match(html, /一般化固有空間から決める Jordan 標準形/);
+  assert.match(html, /共通問題文/);
+  assert.match(html, /5つの連続小問/);
   assert.match(html, /解く。/);
   assert.match(html, /定義・基本/);
   assert.match(html, /端末間で同期/);

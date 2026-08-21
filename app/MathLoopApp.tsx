@@ -4,7 +4,19 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import katex from "katex";
 import { usesAiGrading } from "@/lib/grading-policy";
-import { gradeAnswer, problems, type Difficulty, type Problem } from "@/lib/problems";
+import {
+  buildPracticeQueue,
+  filterProblemsAtomic,
+  getGuidedSet,
+  getGuidedSetProblems,
+  gradeAnswer,
+  guidedSets,
+  isGuidedSetProblem,
+  problems,
+  type Difficulty,
+  type GuidedSet,
+  type Problem,
+} from "@/lib/problems";
 import { supabase } from "@/lib/supabase";
 
 type Status = "AC" | "REVIEW" | "WA";
@@ -38,7 +50,13 @@ type Attempt = {
 const symbols = ["ε", "δ", "∀", "∃", "→", "⇒", "∈", "⊂", "∪", "∩", "∫", "√", "∞", "⁻¹"];
 const difficultyLabel: Record<Difficulty, string> = { A: "定義・基本", B: "典型", C: "標準", D: "証明・発展", E: "総合・最難関" };
 const difficulties: Difficulty[] = ["A", "B", "C", "D", "E"];
-const contestSeries = ["すべて", "Level 1", "Level 2", "Level 3"];
+const contestSeries = [
+  { value: "すべて", label: "すべてのカテゴリー" },
+  { value: "Level 1", label: "レベル 1" },
+  { value: "Level 2", label: "レベル 2" },
+  { value: "Level 3", label: "レベル 3" },
+  { value: "guided_set", label: "テーマ演習" },
+];
 
 function displayContest(value: string) {
   return value.replace(/^Level\s+([123])/, "レベル $1");
@@ -144,7 +162,7 @@ async function gradeWithSakura(problem: Problem, answer: string): Promise<Result
     body: {
       problemId: problem.id,
       title: problem.title,
-      prompt: problem.prompt,
+      prompt: [...(problem.commonStatement || []), ...problem.prompt],
       answer,
       answerType: problem.answerType,
       grade: problem.grade,
@@ -219,6 +237,7 @@ export default function MathLoopApp() {
   const [openedAt, setOpenedAt] = useState(0);
   const [now, setNow] = useState(0);
   const [virtualUntil, setVirtualUntil] = useState<number | null>(null);
+  const [practiceQueue, setPracticeQueue] = useState<string[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -314,16 +333,12 @@ export default function MathLoopApp() {
 
   const fields = useMemo(() => ["すべて", ...Array.from(new Set(problems.map((p) => p.field)))], []);
   const filtered = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    const rows = problems.filter((problem) => {
-      const matchesText = !needle || [problem.title, problem.contest, problem.field, ...problem.tags].join(" ").toLowerCase().includes(needle);
-      const matchesField = field === "すべて" || problem.field === field;
-      const matchesContest = contestFilter === "すべて" || problem.contest.startsWith(contestFilter);
-      const currentStatus = progress[problem.id]?.status;
-      const matchesStatus = statusFilter === "すべて" ||
-        (statusFilter === "未挑戦" ? !currentStatus : currentStatus === statusFilter);
-      return matchesText && matchesField && matchesContest && matchesStatus;
-    });
+    const rows = filterProblemsAtomic(problems, {
+      query,
+      field,
+      category: contestFilter,
+      status: statusFilter,
+    }, progress);
     return [...rows].sort((a, b) => {
       if (sort === "新着順") return b.id.localeCompare(a.id);
       if (sort === "分野順") return a.field.localeCompare(b.field, "ja");
@@ -333,7 +348,7 @@ export default function MathLoopApp() {
 
   const contestRows = useMemo(() => {
     const grouped = new Map<string, Problem[]>();
-    for (const problem of filtered) {
+    for (const problem of filtered.filter((item) => !isGuidedSetProblem(item))) {
       const current = grouped.get(problem.contest) || [];
       current.push(problem);
       grouped.set(problem.contest, current);
@@ -346,6 +361,11 @@ export default function MathLoopApp() {
       });
   }, [filtered]);
 
+  const guidedSetRows = useMemo(() => {
+    const visibleIds = new Set(filtered.filter(isGuidedSetProblem).map((problem) => problem.setId));
+    return guidedSets.filter((set) => visibleIds.has(set.id));
+  }, [filtered]);
+
   function navigate(next: "problems" | "stats") {
     const url = new URL(window.location.href);
     url.searchParams.delete("problem");
@@ -354,10 +374,12 @@ export default function MathLoopApp() {
     window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
     setView(next);
     setActiveProblem(null);
+    setPracticeQueue([]);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function openProblem(problem: Problem) {
+  function openProblem(problem: Problem, preservePractice = false) {
+    if (!preservePractice) setPracticeQueue([]);
     const previous = progress[problem.id];
     const draft = localStorage.getItem(`mathabc-draft-${problem.id}`) || "";
     setActiveProblem(problem);
@@ -376,8 +398,11 @@ export default function MathLoopApp() {
 
   function startPractice() {
     setVirtualUntil(Date.now() + 60 * 60 * 1000);
-    const next = problems.find((problem) => progress[problem.id]?.status !== "AC") || problems[0];
-    openProblem(next);
+    const queue = buildPracticeQueue(filtered, progress, 60);
+    const next = problems.find((problem) => problem.id === queue[0]);
+    if (!next) return;
+    setPracticeQueue(queue);
+    openProblem(next, true);
   }
 
   function updateAnswer(value: string) {
@@ -593,6 +618,22 @@ export default function MathLoopApp() {
 
   function nextProblem() {
     if (!activeProblem) return;
+    const queueIndex = practiceQueue.indexOf(activeProblem.id);
+    if (queueIndex >= 0 && queueIndex + 1 < practiceQueue.length) {
+      const queued = problems.find((problem) => problem.id === practiceQueue[queueIndex + 1]);
+      if (queued) {
+        openProblem(queued, true);
+        return;
+      }
+    }
+    if (isGuidedSetProblem(activeProblem)) {
+      const setProblems = getGuidedSetProblems(activeProblem.setId);
+      const setIndex = setProblems.findIndex((problem) => problem.id === activeProblem.id);
+      if (setIndex + 1 < setProblems.length) {
+        openProblem(setProblems[setIndex + 1]);
+        return;
+      }
+    }
     const index = problems.findIndex((problem) => problem.id === activeProblem.id);
     openProblem(problems[(index + 1) % problems.length]);
   }
@@ -635,10 +676,13 @@ export default function MathLoopApp() {
         {activeProblem ? (
           <ProblemView
             problem={activeProblem}
+            guidedSet={getGuidedSet(activeProblem.setId)}
+            setProblems={getGuidedSetProblems(activeProblem.setId)}
             answer={answer}
             setAnswer={updateAnswer}
             result={result}
             progress={progress[activeProblem.id]}
+            allProgress={progress}
             attempts={attemptsByProblem[activeProblem.id] || []}
             elapsedSeconds={elapsedSeconds}
             explanationOpen={explanationOpen}
@@ -650,6 +694,7 @@ export default function MathLoopApp() {
             onBack={() => navigate("problems")}
             onSubmit={submit}
             onNext={nextProblem}
+            onOpenPart={(problem) => openProblem(problem, practiceQueue.length > 0)}
             onInsert={insertSymbol}
             textareaRef={textareaRef}
           />
@@ -688,10 +733,10 @@ export default function MathLoopApp() {
                 <select value={field} onChange={(event) => setField(event.target.value)} aria-label="分野で絞り込み">{fields.map((item) => <option key={item}>{item === "すべて" ? "すべての分野" : item}</option>)}</select>
                 <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} aria-label="状態で絞り込み"><option>すべて</option><option>AC</option><option>REVIEW</option><option>WA</option><option>未挑戦</option></select>
               </div>
-              <div className="levelTabs" aria-label="レベルで絞り込み">
-                {contestSeries.map((item) => <button key={item} className={contestFilter === item ? "active" : ""} onClick={() => setContestFilter(item)}>{item === "すべて" ? "すべてのレベル" : displayContest(item)}</button>)}
+              <div className="levelTabs" aria-label="カテゴリーで絞り込み">
+                {contestSeries.map((item) => <button key={item.value} className={contestFilter === item.value ? "active" : ""} onClick={() => setContestFilter(item.value)}>{item.label}</button>)}
               </div>
-              <div className="tableWrap setTableWrap">
+              {contestRows.length > 0 && <div className="tableWrap setTableWrap">
                 <table className="setTable">
                   <thead><tr><th>セット</th>{difficulties.map((difficulty) => <th key={difficulty}><span className={`level level${difficulty}`}>{difficulty}</span><small>{difficultyLabel[difficulty]}</small></th>)}</tr></thead>
                   <tbody>{contestRows.map(({ contest, problems: setProblems }, setIndex) => {
@@ -718,8 +763,17 @@ export default function MathLoopApp() {
                     </tr>;
                   })}</tbody>
                 </table>
-                {!filtered.length && <div className="emptyState"><b>該当する問題がありません</b><span>検索語や絞り込みを変えてみてください。</span></div>}
-              </div>
+              </div>}
+              {guidedSetRows.length > 0 && <section className="guidedSetSection" aria-label="テーマ演習">
+                <div className="guidedSetSectionHeading">
+                  <div><span>GUIDED THEME</span><h4>テーマ演習</h4></div>
+                  <p>A〜Eを通して、1つの大問を解き切る演習です。</p>
+                </div>
+                <div className="guidedSetGrid">
+                  {guidedSetRows.map((set) => <GuidedSetCard key={set.id} set={set} progress={progress} onOpen={openProblem} />)}
+                </div>
+              </section>}
+              {!filtered.length && <div className="emptyState"><b>該当する問題がありません</b><span>検索語や絞り込みを変えてみてください。</span></div>}
             </section>
           </div>
         )}
@@ -746,29 +800,82 @@ export default function MathLoopApp() {
   );
 }
 
-function ProblemView({
-  problem, answer, setAnswer, result, progress, attempts, elapsedSeconds, explanationOpen, setExplanationOpen,
-  submitting, answerPhoto, photoPreview, onPhotoChange, onBack, onSubmit, onNext, onInsert, textareaRef,
+function GuidedSetCard({
+  set, progress, onOpen,
 }: {
-  problem: Problem; answer: string; setAnswer: (value: string) => void; result: Result | null; progress?: Progress; attempts: Attempt[];
+  set: GuidedSet;
+  progress: Record<string, Progress>;
+  onOpen: (problem: Problem) => void;
+}) {
+  const setProblems = getGuidedSetProblems(set.id);
+  const solved = setProblems.filter((problem) => progress[problem.id]?.status === "AC").length;
+  const totalMinutes = setProblems.reduce((sum, problem) => sum + problem.minutes, 0);
+  return <article className="guidedSetCard">
+    <header>
+      <div><span className="guidedSetLabel">THEME SET · {set.id.replace("GSET-", "#")}</span><h5>{set.title}</h5></div>
+      <span className="guidedSetProgress">{solved}/5 AC</span>
+    </header>
+    <div className="guidedSetMeta"><span>{set.field}</span><span>{totalMinutes} min</span><span>5つの連続小問</span></div>
+    <div className="guidedCommonStatement">
+      <b>共通問題文</b>
+      {set.commonStatement.map((line, index) => <p key={index}><MathText text={line} /></p>)}
+    </div>
+    <ol className="guidedQuestionList">
+      {setProblems.map((problem) => {
+        const row = progress[problem.id];
+        return <li key={problem.id}>
+          <button className={row ? `guidedQuestionButton cell${row.status}` : "guidedQuestionButton"} onClick={() => onOpen(problem)}>
+            <span className="setPartBadge">{problem.position}</span>
+            <span><b>{problem.title}</b><small>{problem.purpose}</small></span>
+            <StatusBadge status={row?.status} />
+            <i>→</i>
+          </button>
+        </li>;
+      })}
+    </ol>
+    <footer><span>A</span><i>→</i><span>B</span><i>→</i><span>C</span><i>→</i><span>D</span><i>→</i><span>E</span><b>{set.learningGoal}</b></footer>
+  </article>;
+}
+
+function ProblemView({
+  problem, guidedSet, setProblems, answer, setAnswer, result, progress, allProgress, attempts, elapsedSeconds, explanationOpen, setExplanationOpen,
+  submitting, answerPhoto, photoPreview, onPhotoChange, onBack, onSubmit, onNext, onOpenPart, onInsert, textareaRef,
+}: {
+  problem: Problem; guidedSet?: GuidedSet; setProblems: Problem[]; answer: string; setAnswer: (value: string) => void; result: Result | null; progress?: Progress; allProgress: Record<string, Progress>; attempts: Attempt[];
   elapsedSeconds: number; explanationOpen: boolean; setExplanationOpen: (value: boolean) => void;
-  submitting: boolean; onBack: () => void; onSubmit: () => void; onNext: () => void; onInsert: (symbol: string) => void;
+  submitting: boolean; onBack: () => void; onSubmit: () => void; onNext: () => void; onOpenPart: (problem: Problem) => void; onInsert: (symbol: string) => void;
   answerPhoto: File | null; photoPreview: string | null; onPhotoChange: (file: File | null) => void;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
 }) {
+  const guided = isGuidedSetProblem(problem) ? guidedSet : undefined;
   return <div className="problemContent">
     <button className="backButton" onClick={onBack}>← 問題一覧に戻る</button>
     <div className="problemLayout">
       <article className="problemMain">
         <section className="problemStatement">
+          {guided && <div className="guidedProblemHeader">
+            <span>テーマ演習 · {guided.displayName}</span>
+            <h2>{guided.title}</h2>
+            <p>{guided.learningGoal}</p>
+            <nav aria-label="テーマ演習の小問">
+              {setProblems.map((part) => <button key={part.id} className={part.id === problem.id ? "active" : ""} onClick={() => onOpenPart(part)}>
+                <span>{part.position}</span><StatusBadge status={allProgress[part.id]?.status} />
+              </button>)}
+            </nav>
+          </div>}
+          {guided && <div className="guidedSharedStatement">
+            <b>共通問題文</b>
+            {guided.commonStatement.map((line, index) => <p key={index} className={isFormula(line) ? "formula" : ""}><MathText text={line} /></p>)}
+          </div>}
           <div className="problemTitleRow">
-            <span className={`level large level${problem.difficulty}`}>{problem.difficulty}</span>
-            <div><span className="problemKicker">{difficultyLabel[problem.difficulty]} · {problem.score} pts</span><h2>{problem.title}</h2></div>
+            {guided ? <span className="setPartBadge large">{problem.position}</span> : <span className={`level large level${problem.difficulty}`}>{problem.difficulty}</span>}
+            <div><span className="problemKicker">{guided ? `小問 ${problem.position}` : difficultyLabel[problem.difficulty]} · {problem.score} pts</span><h2>{problem.title}</h2></div>
           </div>
           <div className="statementBody">
             {problem.prompt.map((line, index) => <p key={index} className={isFormula(line) ? "formula" : ""}><MathText text={line} /></p>)}
           </div>
           {problem.note && <p className="problemNote">注：<MathText text={problem.note} /></p>}
+          {guided && <div className="guidedPurpose"><b>この小問の役割</b><p>{problem.purpose}</p>{problem.dependsOn?.length ? <span>{problem.dependsOn.join("・")} の結果を利用</span> : <span>このセットの出発点</span>}</div>}
         </section>
 
         <section className="answerCard">
@@ -831,17 +938,18 @@ function ProblemView({
             <p className="explanationSummary"><MathText text={problem.explanation.summary} /></p>
             <h4>解答の流れ</h4>
             <ol>{problem.explanation.steps.map((step, index) => <li key={index}><span>{index + 1}</span><p><MathText text={step} /></p></li>)}</ol>
+            {guided && <div className="guidedConnection"><b>Eへのつながり</b><p><MathText text={problem.connection || ""} /></p></div>}
             <h4>周辺知識</h4>
             <div className="knowledgeGrid">{problem.explanation.knowledge.map((item) => <div key={item.title}><b><MathText text={item.title} /></b><p><MathText text={item.body} /></p></div>)}</div>
           </div>}
         </section>
 
-        {result?.status === "AC" && <button className="nextButton" onClick={onNext}>次の問題へ進む <span>→</span></button>}
+        {result?.status === "AC" && <button className="nextButton" onClick={onNext}>{guided && problem.position !== "E" ? "次の小問へ進む" : "次の問題へ進む"} <span>→</span></button>}
       </article>
 
       <aside className="problemMeta">
         <div className="timerCard"><small>経過時間</small><b>{formatTime(elapsedSeconds)}</b><span>目安 {problem.minutes}:00</span></div>
-        <div className="metaCard"><h3>問題情報</h3><dl><div><dt>分野</dt><dd>{problem.field}</dd></div><div><dt>難易度</dt><dd>{problem.difficulty} — {difficultyLabel[problem.difficulty]}</dd></div><div><dt>得点</dt><dd>{problem.score} pts</dd></div><div><dt>提出</dt><dd>{progress?.attempts || 0} 回</dd></div></dl></div>
+        <div className="metaCard"><h3>問題情報</h3><dl><div><dt>分野</dt><dd>{problem.field}</dd></div>{guided ? <><div><dt>カテゴリー</dt><dd>テーマ演習</dd></div><div><dt>小問</dt><dd>{problem.position} / E</dd></div></> : <div><dt>難易度</dt><dd>{problem.difficulty} — {difficultyLabel[problem.difficulty]}</dd></div>}<div><dt>得点</dt><dd>{problem.score} pts</dd></div><div><dt>提出</dt><dd>{progress?.attempts || 0} 回</dd></div></dl></div>
         <div className="metaCard"><h3>知識タグ</h3><div className="tagCloud">{problem.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div></div>
         {progress && <div className={`historyCard history${progress.status}`}><small>現在の記録</small><StatusBadge status={progress.status} /><span>最高 {progress.bestScore} 点 · {shortDate(progress.updatedAt)}</span></div>}
       </aside>
@@ -858,7 +966,7 @@ function AnswerPreview({ answer }: { answer: string }) {
 
 function MathText({ text, useDisplayStyle = true }: { text: string; useDisplayStyle?: boolean }) {
   const isRawFormula = !/[ぁ-んァ-ヶ一-龠]/.test(text) && /\\[a-zA-Z]+|[_^=]/.test(text);
-  if (isRawFormula) {
+  if (isRawFormula && !text.includes("$")) {
     const html = katex.renderToString(text, { throwOnError: false, displayMode: useDisplayStyle, strict: false });
     return <span className={`previewFormula${useDisplayStyle ? " display" : ""}`} dangerouslySetInnerHTML={{ __html: html }} />;
   }
@@ -872,7 +980,7 @@ function MathText({ text, useDisplayStyle = true }: { text: string; useDisplaySt
       .replace(/−/g, "-");
     return `$${useDisplayStyle ? "\\displaystyle" : ""}\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
   });
-  const normalizedTeX = normalizedLimit.replace(/([A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s]*\\[A-Za-z]+[A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s\\]*)/g, (formula) => {
+  const normalizedTeX = normalizedLimit.includes("$") ? normalizedLimit : normalizedLimit.replace(/([A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s]*\\[A-Za-z]+[A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s\\]*)/g, (formula) => {
     const trimmed = formula.trim();
     return trimmed ? `$${useDisplayStyle ? "\\displaystyle " : ""}${trimmed}$` : formula;
   });
@@ -971,7 +1079,7 @@ function StatsView({ progress, solved, attempted, attempts, totalSeconds }: {
   }).sort((a, b) => b.rate - a.rate);
 
   const difficultyStats = difficulties.map((difficulty) => {
-    const scoped = problems.filter((problem) => problem.difficulty === difficulty);
+    const scoped = problems.filter((problem) => !isGuidedSetProblem(problem) && problem.difficulty === difficulty);
     return { difficulty, solved: scoped.filter((problem) => progress[problem.id]?.status === "AC").length, total: scoped.length };
   });
 
@@ -1008,7 +1116,7 @@ function StatsView({ progress, solved, attempted, attempts, totalSeconds }: {
       <section className="statsPanel"><div className="statsPanelTitle"><div><h3>分野別の成績</h3><p>AC率で得意分野を比較</p></div></div><div className="fieldBars">{fieldStats.map((item) => <div key={item.field}><p><span>{item.field}</span><b>{item.count}/{item.total}<small>{item.rate}%</small></b></p><div><span style={{ width: `${item.rate}%` }} /></div></div>)}</div></section>
       <section className="statsPanel"><div className="statsPanelTitle"><div><h3>難易度別</h3><p>AからEまでの到達度</p></div></div><div className="difficultyGrid">{difficultyStats.map((item) => <div key={item.difficulty}><span className={`level level${item.difficulty}`}>{item.difficulty}</span><b>{item.solved}<small>/{item.total}</small></b><p>{difficultyLabel[item.difficulty]}</p></div>)}</div></section>
       <section className="statsPanel tagStatsPanel"><div className="statsPanelTitle"><div><h3>タグ別の成績</h3><p>挑戦済みの知識タグごとのAC率</p></div></div>{tagStats.length ? <div className="tagStatsList">{tagStats.map((item) => <div key={item.tag}><p><span>#{item.tag}</span><b>{item.count}/{item.challenged}<small>{item.rate}%</small></b></p><div><span style={{ width: `${item.rate}%` }} /></div></div>)}</div> : <div className="emptyStats">問題を解くと、タグ別の成績が表示されます。</div>}</section>
-      <section className="statsPanel recentPanel"><div className="statsPanelTitle"><div><h3>最近の提出</h3><p>直近5件の記録</p></div></div>{recent.length ? <div className="recentList">{recent.map((row) => { const problem = problems.find((item) => item.id === row.problemId)!; return <div key={row.problemId}><span className={`level level${problem.difficulty}`}>{problem.difficulty}</span><p><b>{problem.title}</b><small>{problem.field} · {shortDate(row.updatedAt)}</small></p><StatusBadge status={row.status}/></div>; })}</div> : <div className="emptyStats">問題を解くと、ここに記録が表示されます。</div>}</section>
+      <section className="statsPanel recentPanel"><div className="statsPanelTitle"><div><h3>最近の提出</h3><p>直近5件の記録</p></div></div>{recent.length ? <div className="recentList">{recent.map((row) => { const problem = problems.find((item) => item.id === row.problemId)!; return <div key={row.problemId}>{isGuidedSetProblem(problem) ? <span className="setPartBadge">{problem.position}</span> : <span className={`level level${problem.difficulty}`}>{problem.difficulty}</span>}<p><b>{problem.title}</b><small>{problem.field} · {shortDate(row.updatedAt)}</small></p><StatusBadge status={row.status}/></div>; })}</div> : <div className="emptyStats">問題を解くと、ここに記録が表示されます。</div>}</section>
     </div>
   </div>;
 }

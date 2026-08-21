@@ -1,0 +1,153 @@
+[
+  {
+    "id": "GSET-001",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #001",
+    "title": "一般化固有空間から決める Jordan 標準形",
+    "field": "線形代数",
+    "tags": ["固有値", "固有空間", "一般化固有空間", "最小多項式", "Jordan標準形"],
+    "learningGoal": "1つの線形変換について、特性多項式から Jordan 鎖の構成までを段階的に結び付ける。",
+    "commonStatement": [
+      "線形写像 $T:\\mathbb{C}^3\\to\\mathbb{C}^3$ の標準基底に関する表現行列を次で定める。",
+      "$$\\displaystyle A=\\begin{pmatrix}1&1&0\\\\-1&3&1\\\\0&0&2\\end{pmatrix}$$",
+      "以下では、前の小問で得た結果を用いてよい。最終的に $A$ の Jordan 標準形と Jordan 基底を決定する。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-001-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "固有値と代数的重複度を調べる準備として、特性多項式を確定する。",
+        "connection": "ここで得る特性多項式をBで因数分解し、固有値と代数的重複度を読み取る。",
+        "score": 100,
+        "title": "特性多項式",
+        "minutes": 8,
+        "answerType": "short",
+        "prompt": ["$A$ の特性多項式 $\\chi_A(t)=\\det(tI-A)$ を求めよ。"],
+        "explanation": {
+          "summary": "$\\chi_A(t)=(t-2)^3$ である。",
+          "steps": [
+            "$tI-A$ の第3行は $(0,0,t-2)$ なので、第3行で展開する。",
+            "$\\chi_A(t)=(t-2)\\det\\begin{pmatrix}t-1&-1\\\\1&t-3\\end{pmatrix}=(t-2)((t-1)(t-3)+1)$ を得る。",
+            "$(t-1)(t-3)+1=t^2-4t+4=(t-2)^2$ より、$\\chi_A(t)=(t-2)^3$ である。",
+            "この因数分解により、Bで調べる固有値の候補と代数的重複度がすべて確定する。"
+          ],
+          "knowledge": [
+            {"title": "特性多項式", "body": "$\\chi_A(t)=\\det(tI-A)$ の根が固有値であり、根の重複度が代数的重複度である。"},
+            {"title": "余因子展開", "body": "零成分の多い行または列で展開すると、行列式を効率よく計算できる。"}
+          ]
+        },
+        "grade": {"type": "exact", "accepted": ["(t-2)^3", "(t−2)^3", "(t-2)³", "t^3-6t^2+12t-8"], "hint": "因数分解した形で入力してください。"}
+      },
+      {
+        "id": "GSET-001-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": ["A"],
+        "purpose": "Aの特性多項式から、Jordan ブロックに現れ得る固有値と総サイズを確定する。",
+        "connection": "固有値が1種類だけで代数的重複度が3であることを、Cの固有空間の次元と比較する。",
+        "score": 100,
+        "title": "固有値と代数的重複度",
+        "minutes": 8,
+        "answerType": "short",
+        "prompt": ["Aの結果から、$A$ の固有値をすべて求め、それぞれの代数的重複度を答えよ。"],
+        "explanation": {
+          "summary": "固有値は $2$ のみで、その代数的重複度は $3$ である。",
+          "steps": [
+            "Aで $\\chi_A(t)=(t-2)^3$ を得た。",
+            "特性多項式の根は $t=2$ だけであり、因子 $(t-2)$ の指数は3である。",
+            "したがって固有値は2のみ、代数的重複度は3である。この総数3が、最終的な Jordan ブロックのサイズの総和になる。"
+          ],
+          "knowledge": [
+            {"title": "代数的重複度", "body": "固有値 $\\lambda$ の代数的重複度は、特性多項式における根 $\\lambda$ の重複度である。"},
+            {"title": "Jordan ブロックとの関係", "body": "同じ固有値に属する Jordan ブロックのサイズの総和は、その固有値の代数的重複度に等しい。"}
+          ]
+        },
+        "grade": {"type": "exact", "accepted": ["2（代数的重複度3）", "固有値2、代数的重複度3", "2,3", "2 (3重根)"], "hint": "固有値と代数的重複度を併記してください。"}
+      },
+      {
+        "id": "GSET-001-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": ["B"],
+        "purpose": "幾何学的重複度を求め、Jordan ブロックの個数を決定する。",
+        "connection": "固有空間が1次元であることからブロックが1個と分かる。Dでそのブロックの最大サイズを確認する。",
+        "score": 150,
+        "title": "固有空間",
+        "minutes": 12,
+        "answerType": "short",
+        "prompt": ["固有値 $2$ に対する固有空間 $E_2=\\ker(A-2I)$ の基底と次元を求めよ。"],
+        "explanation": {
+          "summary": "$E_2=\\operatorname{span}\\{(1,1,0)^T\\}$ であり、$\\dim E_2=1$ である。",
+          "steps": [
+            "$N=A-2I=\\begin{pmatrix}-1&1&0\\\\-1&1&1\\\\0&0&0\\end{pmatrix}$ と置く。",
+            "$N(x,y,z)^T=0$ は $-x+y=0$ および $-x+y+z=0$ を与える。",
+            "第1式から $y=x$、これを第2式へ代入して $z=0$ を得る。よって固有ベクトルは $(x,x,0)^T$ である。",
+            "したがって $E_2=\\operatorname{span}\\{(1,1,0)^T\\}$、次元は1である。この次元は固有値2に属する Jordan ブロックが1個であることを示す。"
+          ],
+          "knowledge": [
+            {"title": "固有空間", "body": "$E_\\lambda=\\ker(A-\\lambda I)$ であり、その次元を幾何学的重複度という。"},
+            {"title": "ブロックの個数", "body": "固有値 $\\lambda$ に属する Jordan ブロックの個数は $\\dim\\ker(A-\\lambda I)$ に等しい。"}
+          ]
+        },
+        "grade": {"type": "exact", "accepted": ["span{(1,1,0)}, dim=1", "E2=span{(1,1,0)^T},dim E2=1", "基底{(1,1,0)},次元1"], "hint": "基底と次元を併記してください。"}
+      },
+      {
+        "id": "GSET-001-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": ["B", "C"],
+        "purpose": "一般化固有空間の増大を追い、最大 Jordan ブロックのサイズと最小多項式を決める。",
+        "connection": "核の次元列 1,2,3 をEで Jordan ブロックのサイズと Jordan 鎖の長さへ変換する。",
+        "score": 250,
+        "title": "一般化固有空間と最小多項式",
+        "minutes": 15,
+        "answerType": "proof",
+        "prompt": ["$N=A-2I$ とする。$\\dim\\ker N^k$ を $k=1,2,3$ について求め、$A$ の最小多項式を決定せよ。"],
+        "explanation": {
+          "summary": "$\\dim\\ker N=1,\\dim\\ker N^2=2,\\dim\\ker N^3=3$ で、最小多項式は $m_A(t)=(t-2)^3$ である。",
+          "steps": [
+            "Cから $\\dim\\ker N=1$ である。",
+            "直接計算すると $N^2=\\begin{pmatrix}0&0&1\\\\0&0&1\\\\0&0&0\\end{pmatrix}$ なので、$N^2(x,y,z)^T=0$ は $z=0$ と同値であり、$\\dim\\ker N^2=2$ である。",
+            "$N^3=0$ なので $\\ker N^3=\\mathbb C^3$、したがって次元は3である。一方 $N^2\\ne0$ である。",
+            "よって $(A-2I)^3=0$ だが $(A-2I)^2\\ne0$ であり、最小多項式は $(t-2)^3$ である。次元列1,2,3は長さ3の Jordan 鎖が必要なことを示す。"
+          ],
+          "knowledge": [
+            {"title": "一般化固有空間", "body": "$\\ker(A-\\lambda I)^k$ は $k$ とともに増大し、十分大きな $k$ で安定する。増え方から Jordan ブロックのサイズを読める。"},
+            {"title": "最小多項式", "body": "$m_A(A)=0$ を満たす首一多項式のうち次数最小のもの。$(t-\\lambda)$ の指数は対応する最大 Jordan ブロックのサイズである。"}
+          ]
+        },
+        "grade": {"type": "keywords", "groups": [["dim ker N=1", "ker Nの次元は1"], ["dim ker N^2=2", "ker N²の次元は2"], ["dim ker N^3=3", "ker N³の次元は3"], ["(t-2)^3", "(t−2)³"]], "hint": "各核の次元と、$N^3=0$ だが $N^2\\ne0$ であることを示してください。"}
+      },
+      {
+        "id": "GSET-001-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": ["C", "D"],
+        "purpose": "A〜Dの情報を統合し、Jordan 標準形と基底変換を完成させる。",
+        "connection": "この小問がセットの最終目標であり、特性多項式・固有空間・一般化固有空間の結果をすべて統合する。",
+        "score": 300,
+        "title": "Jordan 標準形と Jordan 基底",
+        "minutes": 17,
+        "answerType": "proof",
+        "prompt": ["A〜Dの結果を用いて $A$ の Jordan 標準形 $J$ を決定せよ。さらに、$P^{-1}AP=J$ を満たす可逆行列 $P$ を1つ求めよ。"],
+        "explanation": {
+          "summary": "$J=\\begin{pmatrix}2&1&0\\\\0&2&1\\\\0&0&2\\end{pmatrix}$ であり、例えば $P=\\begin{pmatrix}1&0&0\\\\1&1&0\\\\0&0&1\\end{pmatrix}$ と取れる。",
+          "steps": [
+            "Bより固有値は2だけで代数的重複度3、Cより固有空間の次元は1なので、固有値2の Jordan ブロックは1個である。",
+            "Dより最小多項式は $(t-2)^3$ であり、最大ブロックのサイズは3である。したがって Jordan 標準形は $J_3(2)$ の1ブロックである。",
+            "$v_1=(1,1,0)^T,v_2=(0,1,0)^T,v_3=(0,0,1)^T$ と置くと、$Nv_1=0,Nv_2=v_1,Nv_3=v_2$ が成り立つ。",
+            "よって $(v_1,v_2,v_3)$ は Jordan 鎖からなる基底であり、列に並べた $P=(v_1,v_2,v_3)$ に対して $AP=PJ$、すなわち $P^{-1}AP=J$ となる。",
+            "Aで得た代数的情報、Cの固有ベクトル、Dの一般化固有ベクトルの長さが、ここで1つの Jordan 基底へ結び付いた。"
+          ],
+          "knowledge": [
+            {"title": "Jordan 鎖", "body": "$Nv_1=0,Nv_2=v_1,\\ldots,Nv_r=v_{r-1}$ を満たすベクトル列は、サイズ $r$ の Jordan ブロックに対応する。"},
+            {"title": "基底変換", "body": "$P$ の列を新しい基底ベクトルとすると、新基底での表現行列は $P^{-1}AP$ である。"}
+          ]
+        },
+        "grade": {"type": "keywords", "groups": [["J=((2,1,0),(0,2,1),(0,0,2))", "J3(2)", "3次のJordanブロック"], ["P=((1,0,0),(1,1,0),(0,0,1))", "v1=(1,1,0),v2=(0,1,0),v3=(0,0,1)"], ["Nv2=v1", "(A-2I)v2=v1"], ["Nv3=v2", "(A-2I)v3=v2"]], "hint": "Jordan ブロックだけでなく、Jordan 鎖を列に並べた $P$ も示してください。"}
+      }
+    ]
+  }
+]
