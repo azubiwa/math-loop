@@ -36,6 +36,13 @@ npm run build:pages
 
 GitHub Pages用の成果物は `dist/client/math-loop` に作成されます。
 
+## GitHub Pages への公開
+
+このサイトへの変更は、ローカルで完結させず GitHub Pages にも反映します。
+`main` ブランチへ push すると、[GitHub Actions](.github/workflows/pages.yml) が `npm run build:pages` を実行し、生成物を GitHub Pages へ自動デプロイします。
+
+公開する変更では、`main` へマージ・push した後に Actions の **Deploy MathLoop to GitHub Pages** が成功していることを確認してください。作業ブランチへの push だけでは公開されません。
+
 ## Supabase
 
 `.env.example` を `.env.local` にコピーし、SupabaseのURLとPublishable Keyを設定します。

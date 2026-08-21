@@ -53,7 +53,7 @@ export default {
       const answer = typeof body.answer === "string" ? body.answer.trim() : "";
       const prompt = Array.isArray(body.prompt) && body.prompt.every((item) => typeof item === "string") ? body.prompt : null;
 
-      if (!/^(?:MABC\d{3}|L[1-3]-\d{3})-[A-E]$/.test(problemId) || !title || !answer || !prompt) {
+      if (!/^(?:(?:MABC\d{3}|L[1-3]-\d{3})|GSET-\d{3})-[A-E]$/.test(problemId) || !title || !answer || !prompt) {
         return json({ error: "Invalid grading request" }, 400);
       }
       if (body.answerType !== "proof" && body.answerType !== "short") {
