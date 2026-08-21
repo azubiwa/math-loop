@@ -25,7 +25,15 @@ test("exports the MathLoop problem-set grid as static HTML", async () => {
   assert.match(html, /定義・基本/);
   assert.match(html, /端末間で同期/);
   assert.match(html, /https:\/\/azubiwa\.github\.io\/math-loop\/og\.png/);
+  assert.match(html, /apple-touch-icon\.png\?v=1/);
+  assert.match(html, /android-chrome-192x192\.png\?v=1/);
+  assert.match(html, /site\.webmanifest/);
   assert.doesNotMatch(html, /\/api\/progress/);
+
+  await access(new URL("apple-touch-icon.png", outputRoot));
+  await access(new URL("android-chrome-192x192.png", outputRoot));
+  await access(new URL("android-chrome-512x512.png", outputRoot));
+  await access(new URL("site.webmanifest", outputRoot));
 });
 
 test("bundles Supabase sync and Sakura grading integration", async () => {
