@@ -18,6 +18,7 @@ import {
   type Problem,
 } from "@/lib/problems";
 import { supabase } from "@/lib/supabase";
+import { stripAuthParamsFromUrl } from "@/lib/auth-url";
 
 type Status = "AC" | "REVIEW" | "WA";
 type Progress = {
@@ -243,6 +244,13 @@ export default function MathLoopApp() {
   useEffect(() => {
     let active = true;
 
+    function cleanAuthUrl() {
+      const cleanedUrl = stripAuthParamsFromUrl(window.location.href);
+      if (cleanedUrl !== window.location.href) {
+        window.history.replaceState(null, "", cleanedUrl);
+      }
+    }
+
     async function applySession(nextUser: User | null) {
       if (!active) return;
       setUser(nextUser);
@@ -279,8 +287,12 @@ export default function MathLoopApp() {
       setAuthOpen(false);
     }
 
-    supabase.auth.getSession().then(({ data }) => applySession(data.session?.user || null));
+    supabase.auth.getSession().then(({ data }) => {
+      cleanAuthUrl();
+      applySession(data.session?.user || null);
+    });
     const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+      cleanAuthUrl();
       void applySession(session?.user || null);
     });
     return () => {
