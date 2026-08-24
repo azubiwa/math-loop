@@ -1102,7 +1102,7 @@ function StatsView({ progress, solved, attempted, attempts, totalSeconds }: {
   });
 
   return <div className="content statsContent">
-    <section className="statsHero"><div><span className="heroLabel">LEARNING REPORT</span><h2>積み重ねが、見える。</h2><p>正解数だけでなく、分野ごとの得意・苦手も確認できます。</p></div><div className="overallRing" style={{ "--rate": `${Math.round((solved / problems.length) * 100)}%` } as React.CSSProperties}><span><b>{Math.round((solved / problems.length) * 100)}</b>%<small>全体進捗</small></span></div></section>
+    <section className="statsHero"><div><span className="heroLabel">LEARNING REPORT</span><h2>これまでの記録</h2><p>正解数だけでなく、分野ごとの得意・苦手も確認できます。</p></div><div className="overallRing" style={{ "--rate": `${Math.round((solved / problems.length) * 100)}%` } as React.CSSProperties}><span><b>{Math.round((solved / problems.length) * 100)}</b>%<small>全体進捗</small></span></div></section>
     <section className="statCards">
       <div><small>ACした問題</small><b>{solved}<span> / {problems.length}</span></b><em>✓</em></div>
       <div><small>挑戦した問題</small><b>{attempted}<span> 問</span></b><em>↗</em></div>
