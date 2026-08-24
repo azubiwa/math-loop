@@ -34,7 +34,12 @@ type Progress = {
   updatedAt: string;
 };
 type GradingMethod = "sakura" | "rule" | "exact" | "photo";
-type Result = { status: Status; score: number; feedback: string; method?: GradingMethod };
+type Result = {
+  status: Status;
+  score: number;
+  feedback: string;
+  method?: GradingMethod;
+};
 type Attempt = {
   id: string;
   problemId: string;
@@ -47,8 +52,29 @@ type Attempt = {
   createdAt: string;
 };
 
-const symbols = ["ε", "δ", "∀", "∃", "→", "⇒", "∈", "⊂", "∪", "∩", "∫", "√", "∞", "⁻¹"];
-const difficultyLabel: Record<Difficulty, string> = { A: "定義・基本", B: "典型", C: "標準", D: "証明・発展", E: "総合・最難関" };
+const symbols = [
+  "ε",
+  "δ",
+  "∀",
+  "∃",
+  "→",
+  "⇒",
+  "∈",
+  "⊂",
+  "∪",
+  "∩",
+  "∫",
+  "√",
+  "∞",
+  "⁻¹",
+];
+const difficultyLabel: Record<Difficulty, string> = {
+  A: "定義・基本",
+  B: "典型",
+  C: "標準",
+  D: "証明・発展",
+  E: "総合・最難関",
+};
 const difficulties: Difficulty[] = ["A", "B", "C", "D", "E"];
 const contestSeries = [
   { value: "すべて", label: "すべてのカテゴリー" },
@@ -77,7 +103,10 @@ type SaveData = {
 
 function readLocalProgress() {
   try {
-    return JSON.parse(localStorage.getItem(localProgressKey) || "{}") as Record<string, Progress>;
+    return JSON.parse(localStorage.getItem(localProgressKey) || "{}") as Record<
+      string,
+      Progress
+    >;
   } catch {
     return {};
   }
@@ -85,7 +114,10 @@ function readLocalProgress() {
 
 function readLocalAttempts() {
   try {
-    return JSON.parse(localStorage.getItem(localAttemptsKey) || "{}") as Record<string, Attempt[]>;
+    return JSON.parse(localStorage.getItem(localAttemptsKey) || "{}") as Record<
+      string,
+      Attempt[]
+    >;
   } catch {
     return {};
   }
@@ -96,15 +128,19 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function isSaveData(value: unknown): value is SaveData {
-  return isRecord(value)
-    && value.format === saveDataFormat
-    && value.version === saveDataVersion
-    && isRecord(value.progress)
-    && isRecord(value.attempts);
+  return (
+    isRecord(value) &&
+    value.format === saveDataFormat &&
+    value.version === saveDataVersion &&
+    isRecord(value.progress) &&
+    isRecord(value.attempts)
+  );
 }
 
 function downloadSaveData(data: SaveData) {
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json",
+  });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   const day = data.exportedAt.slice(0, 10);
@@ -157,7 +193,10 @@ function statusRank(status: Status) {
   return status === "AC" ? 3 : status === "REVIEW" ? 2 : 1;
 }
 
-async function gradeWithSakura(problem: Problem, answer: string): Promise<Result | null> {
+async function gradeWithSakura(
+  problem: Problem,
+  answer: string,
+): Promise<Result | null> {
   const { data, error } = await supabase.functions.invoke("grade-answer", {
     body: {
       problemId: problem.id,
@@ -172,22 +211,35 @@ async function gradeWithSakura(problem: Problem, answer: string): Promise<Result
       },
     },
   });
-  if (error || !data || !["AC", "REVIEW", "WA"].includes(data.status)) return null;
+  if (error || !data || !["AC", "REVIEW", "WA"].includes(data.status))
+    return null;
   const score = Number(data.score);
   if (!Number.isFinite(score)) return null;
-  return { status: data.status as Status, score, feedback: String(data.feedback), method: "sakura" };
+  return {
+    status: data.status as Status,
+    score,
+    feedback: String(data.feedback),
+    method: "sakura",
+  };
 }
 
 function formatTime(seconds: number) {
   const safe = Math.max(0, seconds);
-  const minutes = Math.floor(safe / 60).toString().padStart(2, "0");
-  const rest = Math.floor(safe % 60).toString().padStart(2, "0");
+  const minutes = Math.floor(safe / 60)
+    .toString()
+    .padStart(2, "0");
+  const rest = Math.floor(safe % 60)
+    .toString()
+    .padStart(2, "0");
   return `${minutes}:${rest}`;
 }
 
 function shortDate(value: string | null) {
   if (!value) return "—";
-  return new Intl.DateTimeFormat("ja-JP", { month: "short", day: "numeric" }).format(new Date(value));
+  return new Intl.DateTimeFormat("ja-JP", {
+    month: "short",
+    day: "numeric",
+  }).format(new Date(value));
 }
 
 function attemptDate(value: string) {
@@ -214,7 +266,9 @@ export default function MathLoopApp() {
   const [view, setView] = useState<"problems" | "stats">("problems");
   const [activeProblem, setActiveProblem] = useState<Problem | null>(null);
   const [progress, setProgress] = useState<Record<string, Progress>>({});
-  const [attemptsByProblem, setAttemptsByProblem] = useState<Record<string, Attempt[]>>({});
+  const [attemptsByProblem, setAttemptsByProblem] = useState<
+    Record<string, Attempt[]>
+  >({});
   const [query, setQuery] = useState("");
   const [field, setField] = useState("すべて");
   const [contestFilter, setContestFilter] = useState("すべて");
@@ -226,7 +280,9 @@ export default function MathLoopApp() {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [explanationOpen, setExplanationOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [syncState, setSyncState] = useState<"loading" | "saved" | "local" | "error">("loading");
+  const [syncState, setSyncState] = useState<
+    "loading" | "saved" | "local" | "error"
+  >("loading");
   const [user, setUser] = useState<User | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -261,7 +317,9 @@ export default function MathLoopApp() {
           .order("updated_at", { ascending: false }),
         supabase
           .from("math_abc_attempts")
-          .select("id,problem_id,status,score,answer,answer_type,image_path,duration_seconds,created_at")
+          .select(
+            "id,problem_id,status,score,answer,answer_type,image_path,duration_seconds,created_at",
+          )
           .eq("user_id", nextUser.id)
           .order("created_at", { ascending: false })
           .limit(1000),
@@ -271,18 +329,26 @@ export default function MathLoopApp() {
         setSyncState("error");
         return;
       }
-      const rows = (progressResponse.data || []).map((row) => fromProgressRow(row));
-      const attemptRows = (attemptsResponse.data || []).map((row) => fromAttemptRow(row));
+      const rows = (progressResponse.data || []).map((row) =>
+        fromProgressRow(row),
+      );
+      const attemptRows = (attemptsResponse.data || []).map((row) =>
+        fromAttemptRow(row),
+      );
       setProgress(Object.fromEntries(rows.map((row) => [row.problemId, row])));
       setAttemptsByProblem(groupAttempts(attemptRows));
       setSyncState("saved");
       setAuthOpen(false);
     }
 
-    supabase.auth.getSession().then(({ data }) => applySession(data.session?.user || null));
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
-      void applySession(session?.user || null);
-    });
+    supabase.auth
+      .getSession()
+      .then(({ data }) => applySession(data.session?.user || null));
+    const { data: subscription } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        void applySession(session?.user || null);
+      },
+    );
     return () => {
       active = false;
       subscription.subscription.unsubscribe();
@@ -298,7 +364,9 @@ export default function MathLoopApp() {
     function applyLocation() {
       const url = new URL(window.location.href);
       const problemId = url.searchParams.get("problem");
-      const problem = problemId ? problems.find((item) => item.id === problemId) : undefined;
+      const problem = problemId
+        ? problems.find((item) => item.id === problemId)
+        : undefined;
 
       if (problem) {
         const draft = localStorage.getItem(`mathabc-draft-${problem.id}`) || "";
@@ -322,23 +390,40 @@ export default function MathLoopApp() {
     return () => window.removeEventListener("popstate", applyLocation);
   }, []);
 
-  const solved = Object.values(progress).filter((row) => row.status === "AC").length;
+  const solved = Object.values(progress).filter(
+    (row) => row.status === "AC",
+  ).length;
   const attempted = Object.keys(progress).length;
-  const attempts = Object.values(progress).reduce((sum, row) => sum + row.attempts, 0);
-  const totalSeconds = Object.values(progress).reduce((sum, row) => sum + row.durationSeconds, 0);
+  const attempts = Object.values(progress).reduce(
+    (sum, row) => sum + row.attempts,
+    0,
+  );
+  const totalSeconds = Object.values(progress).reduce(
+    (sum, row) => sum + row.durationSeconds,
+    0,
+  );
 
   const uniqueStudyDays = useMemo(() => {
-    return new Set(Object.values(progress).map((row) => row.updatedAt.slice(0, 10))).size;
+    return new Set(
+      Object.values(progress).map((row) => row.updatedAt.slice(0, 10)),
+    ).size;
   }, [progress]);
 
-  const fields = useMemo(() => ["すべて", ...Array.from(new Set(problems.map((p) => p.field)))], []);
+  const fields = useMemo(
+    () => ["すべて", ...Array.from(new Set(problems.map((p) => p.field)))],
+    [],
+  );
   const filtered = useMemo(() => {
-    const rows = filterProblemsAtomic(problems, {
-      query,
-      field,
-      category: contestFilter,
-      status: statusFilter,
-    }, progress);
+    const rows = filterProblemsAtomic(
+      problems,
+      {
+        query,
+        field,
+        category: contestFilter,
+        status: statusFilter,
+      },
+      progress,
+    );
     return [...rows].sort((a, b) => {
       if (sort === "新着順") return b.id.localeCompare(a.id);
       if (sort === "分野順") return a.field.localeCompare(b.field, "ja");
@@ -348,21 +433,30 @@ export default function MathLoopApp() {
 
   const contestRows = useMemo(() => {
     const grouped = new Map<string, Problem[]>();
-    for (const problem of filtered.filter((item) => !isGuidedSetProblem(item))) {
+    for (const problem of filtered.filter(
+      (item) => !isGuidedSetProblem(item),
+    )) {
       const current = grouped.get(problem.contest) || [];
       current.push(problem);
       grouped.set(problem.contest, current);
     }
-    return Array.from(grouped, ([contest, setProblems]) => ({ contest, problems: setProblems }))
-      .sort((a, b) => {
-        const aLevel = Number(a.contest.match(/^Level\s+(\d+)/)?.[1] || 0);
-        const bLevel = Number(b.contest.match(/^Level\s+(\d+)/)?.[1] || 0);
-        return aLevel - bLevel || b.contest.localeCompare(a.contest, "en", { numeric: true });
-      });
+    return Array.from(grouped, ([contest, setProblems]) => ({
+      contest,
+      problems: setProblems,
+    })).sort((a, b) => {
+      const aLevel = Number(a.contest.match(/^Level\s+(\d+)/)?.[1] || 0);
+      const bLevel = Number(b.contest.match(/^Level\s+(\d+)/)?.[1] || 0);
+      return (
+        aLevel - bLevel ||
+        b.contest.localeCompare(a.contest, "en", { numeric: true })
+      );
+    });
   }, [filtered]);
 
   const guidedSetRows = useMemo(() => {
-    const visibleIds = new Set(filtered.filter(isGuidedSetProblem).map((problem) => problem.setId));
+    const visibleIds = new Set(
+      filtered.filter(isGuidedSetProblem).map((problem) => problem.setId),
+    );
     return guidedSets.filter((set) => visibleIds.has(set.id));
   }, [filtered]);
 
@@ -384,7 +478,9 @@ export default function MathLoopApp() {
     const draft = localStorage.getItem(`mathabc-draft-${problem.id}`) || "";
     setActiveProblem(problem);
     setView("problems");
-    setAnswer(draft || (previous?.status === "AC" ? "" : previous?.lastAnswer || ""));
+    setAnswer(
+      draft || (previous?.status === "AC" ? "" : previous?.lastAnswer || ""),
+    );
     setResult(null);
     setAnswerPhoto(null);
     setExplanationOpen(false);
@@ -407,7 +503,8 @@ export default function MathLoopApp() {
 
   function updateAnswer(value: string) {
     setAnswer(value);
-    if (activeProblem) localStorage.setItem(`mathabc-draft-${activeProblem.id}`, value);
+    if (activeProblem)
+      localStorage.setItem(`mathabc-draft-${activeProblem.id}`, value);
   }
 
   function insertSymbol(symbol: string) {
@@ -428,7 +525,9 @@ export default function MathLoopApp() {
       return;
     }
     const reader = new FileReader();
-    reader.addEventListener("load", () => setPhotoPreview(typeof reader.result === "string" ? reader.result : null));
+    reader.addEventListener("load", () =>
+      setPhotoPreview(typeof reader.result === "string" ? reader.result : null),
+    );
     reader.readAsDataURL(file);
   }
 
@@ -438,9 +537,15 @@ export default function MathLoopApp() {
     setAuthMessage("");
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: `${window.location.origin}${window.location.pathname}` },
+      options: {
+        emailRedirectTo: `${window.location.origin}${window.location.pathname}`,
+      },
     });
-    setAuthMessage(error ? `送信できませんでした：${error.message}` : "ログイン用リンクを送りました。メールを確認してください。");
+    setAuthMessage(
+      error
+        ? `送信できませんでした：${error.message}`
+        : "ログイン用リンクを送りました。メールを確認してください。",
+    );
     setAuthSending(false);
   }
 
@@ -472,7 +577,10 @@ export default function MathLoopApp() {
 
   async function importSaveData(file: File) {
     const parsed: unknown = JSON.parse(await file.text());
-    if (!isSaveData(parsed)) throw new Error("MathLoopのセーブデータではないか、形式が古いため読み込めません。");
+    if (!isSaveData(parsed))
+      throw new Error(
+        "MathLoopのセーブデータではないか、形式が古いため読み込めません。",
+      );
     localStorage.setItem(localProgressKey, JSON.stringify(parsed.progress));
     localStorage.setItem(localAttemptsKey, JSON.stringify(parsed.attempts));
     setProgress(parsed.progress);
@@ -481,9 +589,15 @@ export default function MathLoopApp() {
   }
 
   async function submit() {
-    if (!activeProblem || (!answer.trim() && !answerPhoto) || submitting) return;
+    if (!activeProblem || (!answer.trim() && !answerPhoto) || submitting)
+      return;
     if (answerPhoto && !user) {
-      setResult({ status: "REVIEW", score: 0, feedback: "写真の保存にはログインが必要です。ログイン後にもう一度提出してください。" });
+      setResult({
+        status: "REVIEW",
+        score: 0,
+        feedback:
+          "写真の保存にはログインが必要です。ログイン後にもう一度提出してください。",
+      });
       setAuthOpen(true);
       return;
     }
@@ -491,10 +605,21 @@ export default function MathLoopApp() {
     setSyncState("loading");
     try {
       const submittedAnswer = answer;
-      const ruleResult = submittedAnswer.trim() ? gradeAnswer(activeProblem, submittedAnswer) : null;
+      const ruleResult = submittedAnswer.trim()
+        ? gradeAnswer(activeProblem, submittedAnswer)
+        : null;
       let graded: Result = ruleResult
-        ? { ...ruleResult, method: activeProblem.answerType === "short" ? "exact" : "rule" }
-        : { status: "REVIEW", score: 0, feedback: "写真を保存しました。現在は写真だけの自動採点には未対応です。要点をテキストでも入力すると採点できます。", method: "photo" };
+        ? {
+            ...ruleResult,
+            method: activeProblem.answerType === "short" ? "exact" : "rule",
+          }
+        : {
+            status: "REVIEW",
+            score: 0,
+            feedback:
+              "写真を保存しました。現在は写真だけの自動採点には未対応です。要点をテキストでも入力すると採点できます。",
+            method: "photo",
+          };
       const needsAiGrading = usesAiGrading(activeProblem, submittedAnswer);
       if (user && submittedAnswer.trim() && needsAiGrading) {
         const aiResult = await gradeWithSakura(activeProblem, submittedAnswer);
@@ -514,15 +639,26 @@ export default function MathLoopApp() {
       const previous = progress[activeProblem.id];
       const attemptNumber = (previous?.attempts || 0) + 1;
       const timestamp = new Date().toISOString();
-      const recordedStatus = previous && statusRank(previous.status) > statusRank(graded.status) ? previous.status : graded.status;
+      const recordedStatus =
+        previous && statusRank(previous.status) > statusRank(graded.status)
+          ? previous.status
+          : graded.status;
       let imagePath: string | null = null;
 
       if (user && answerPhoto) {
-        const extension = answerPhoto.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+        const extension =
+          answerPhoto.name
+            .split(".")
+            .pop()
+            ?.toLowerCase()
+            .replace(/[^a-z0-9]/g, "") || "jpg";
         imagePath = `${user.id}/${activeProblem.id}/${crypto.randomUUID()}.${extension}`;
         const { error: uploadError } = await supabase.storage
           .from("math-abc-answers")
-          .upload(imagePath, answerPhoto, { contentType: answerPhoto.type, upsert: false });
+          .upload(imagePath, answerPhoto, {
+            contentType: answerPhoto.type,
+            upsert: false,
+          });
         if (uploadError) throw uploadError;
       }
 
@@ -535,8 +671,11 @@ export default function MathLoopApp() {
         durationSeconds: (previous?.durationSeconds || 0) + durationSeconds,
         firstStatus: previous?.firstStatus || graded.status,
         firstScore: previous?.firstScore ?? graded.score,
-        acAttempt: previous?.acAttempt || (graded.status === "AC" ? attemptNumber : undefined),
-        solvedAt: previous?.solvedAt || (graded.status === "AC" ? timestamp : null),
+        acAttempt:
+          previous?.acAttempt ||
+          (graded.status === "AC" ? attemptNumber : undefined),
+        solvedAt:
+          previous?.solvedAt || (graded.status === "AC" ? timestamp : null),
         updatedAt: timestamp,
       };
       let savedAttempt: Attempt = {
@@ -564,42 +703,64 @@ export default function MathLoopApp() {
             image_path: imagePath,
             duration_seconds: durationSeconds,
           })
-          .select("id,problem_id,status,score,answer,answer_type,image_path,duration_seconds,created_at")
+          .select(
+            "id,problem_id,status,score,answer,answer_type,image_path,duration_seconds,created_at",
+          )
           .single();
         if (attemptError) throw attemptError;
         savedAttempt = fromAttemptRow(attemptRow);
 
-        const { error: progressError } = await supabase.from("math_abc_progress").upsert({
-          user_id: user.id,
-          problem_id: nextProgress.problemId,
-          status: nextProgress.status,
-          best_score: nextProgress.bestScore,
-          attempts: nextProgress.attempts,
-          last_answer: nextProgress.lastAnswer,
-          duration_seconds: nextProgress.durationSeconds,
-          first_status: nextProgress.firstStatus,
-          first_score: nextProgress.firstScore,
-          ac_attempt: nextProgress.acAttempt,
-          solved_at: nextProgress.solvedAt,
-          updated_at: nextProgress.updatedAt,
-        }, { onConflict: "user_id,problem_id" });
+        const { error: progressError } = await supabase
+          .from("math_abc_progress")
+          .upsert(
+            {
+              user_id: user.id,
+              problem_id: nextProgress.problemId,
+              status: nextProgress.status,
+              best_score: nextProgress.bestScore,
+              attempts: nextProgress.attempts,
+              last_answer: nextProgress.lastAnswer,
+              duration_seconds: nextProgress.durationSeconds,
+              first_status: nextProgress.firstStatus,
+              first_score: nextProgress.firstScore,
+              ac_attempt: nextProgress.acAttempt,
+              solved_at: nextProgress.solvedAt,
+              updated_at: nextProgress.updatedAt,
+            },
+            { onConflict: "user_id,problem_id" },
+          );
         if (progressError) throw progressError;
       } else {
-        const nextLocal = { ...progress, [nextProgress.problemId]: nextProgress };
+        const nextLocal = {
+          ...progress,
+          [nextProgress.problemId]: nextProgress,
+        };
         const currentAttempts = readLocalAttempts();
         const nextLocalAttempts = {
           ...currentAttempts,
-          [activeProblem.id]: [savedAttempt, ...(currentAttempts[activeProblem.id] || [])],
+          [activeProblem.id]: [
+            savedAttempt,
+            ...(currentAttempts[activeProblem.id] || []),
+          ],
         };
         localStorage.setItem(localProgressKey, JSON.stringify(nextLocal));
-        localStorage.setItem(localAttemptsKey, JSON.stringify(nextLocalAttempts));
+        localStorage.setItem(
+          localAttemptsKey,
+          JSON.stringify(nextLocalAttempts),
+        );
       }
 
       setResult(graded);
-      setProgress((current) => ({ ...current, [nextProgress.problemId]: nextProgress }));
+      setProgress((current) => ({
+        ...current,
+        [nextProgress.problemId]: nextProgress,
+      }));
       setAttemptsByProblem((current) => ({
         ...current,
-        [activeProblem.id]: [savedAttempt, ...(current[activeProblem.id] || [])],
+        [activeProblem.id]: [
+          savedAttempt,
+          ...(current[activeProblem.id] || []),
+        ],
       }));
       setSyncState(user ? "saved" : "local");
       setAnswerPhoto(null);
@@ -610,7 +771,11 @@ export default function MathLoopApp() {
       }
     } catch (error) {
       setSyncState("error");
-      setResult({ status: "REVIEW", score: 0, feedback: `採点記録を保存できませんでした。${error instanceof Error ? error.message : "少し待ってからもう一度提出してください。"}` });
+      setResult({
+        status: "REVIEW",
+        score: 0,
+        feedback: `採点記録を保存できませんでした。${error instanceof Error ? error.message : "少し待ってからもう一度提出してください。"}`,
+      });
     } finally {
       setSubmitting(false);
     }
@@ -620,7 +785,9 @@ export default function MathLoopApp() {
     if (!activeProblem) return;
     const queueIndex = practiceQueue.indexOf(activeProblem.id);
     if (queueIndex >= 0 && queueIndex + 1 < practiceQueue.length) {
-      const queued = problems.find((problem) => problem.id === practiceQueue[queueIndex + 1]);
+      const queued = problems.find(
+        (problem) => problem.id === practiceQueue[queueIndex + 1],
+      );
       if (queued) {
         openProblem(queued, true);
         return;
@@ -628,48 +795,114 @@ export default function MathLoopApp() {
     }
     if (isGuidedSetProblem(activeProblem)) {
       const setProblems = getGuidedSetProblems(activeProblem.setId);
-      const setIndex = setProblems.findIndex((problem) => problem.id === activeProblem.id);
+      const setIndex = setProblems.findIndex(
+        (problem) => problem.id === activeProblem.id,
+      );
       if (setIndex + 1 < setProblems.length) {
         openProblem(setProblems[setIndex + 1]);
         return;
       }
     }
-    const index = problems.findIndex((problem) => problem.id === activeProblem.id);
+    const index = problems.findIndex(
+      (problem) => problem.id === activeProblem.id,
+    );
     openProblem(problems[(index + 1) % problems.length]);
   }
 
-  const virtualSeconds = virtualUntil ? Math.max(0, Math.round((virtualUntil - now) / 1000)) : null;
+  const virtualSeconds = virtualUntil
+    ? Math.max(0, Math.round((virtualUntil - now) / 1000))
+    : null;
   const elapsedSeconds = Math.round((now - openedAt) / 1000);
 
   return (
     <main className="appShell">
       <aside className="sidebar">
-        <button className="brand" onClick={() => navigate("problems")} aria-label="MathLoop ホーム">
-          <span className="brandMark">∞</span><span>MATHLOOP</span>
+        <button
+          className="brand"
+          onClick={() => navigate("problems")}
+          aria-label="MathLoop ホーム"
+        >
+          <span className="brandMark">∞</span>
+          <span>MATHLOOP</span>
         </button>
         <nav aria-label="メインナビゲーション">
-          <button className={`navItem ${view === "problems" ? "active" : ""}`} onClick={() => navigate("problems")}><span>▦</span>問題一覧</button>
-          <button className={`navItem ${view === "stats" ? "active" : ""}`} onClick={() => navigate("stats")}><span>⌁</span>統計</button>
+          <button
+            className={`navItem ${view === "problems" ? "active" : ""}`}
+            onClick={() => navigate("problems")}
+          >
+            <span>▦</span>問題一覧
+          </button>
+          <button
+            className={`navItem ${view === "stats" ? "active" : ""}`}
+            onClick={() => navigate("stats")}
+          >
+            <span>⌁</span>統計
+          </button>
         </nav>
         <div className="sideProgress">
-          <div><span>全体の進捗</span><b>{solved}/{problems.length}</b></div>
-          <div className="progressTrack"><span style={{ width: `${(solved / problems.length) * 100}%` }} /></div>
-          <small>{syncState === "loading" ? "記録を同期中…" : syncState === "error" ? "再接続待ち" : syncState === "local" ? "この端末だけに保存中" : "Supabaseに自動保存"}</small>
+          <div>
+            <span>全体の進捗</span>
+            <b>
+              {solved}/{problems.length}
+            </b>
+          </div>
+          <div className="progressTrack">
+            <span style={{ width: `${(solved / problems.length) * 100}%` }} />
+          </div>
+          <small>
+            {syncState === "loading"
+              ? "記録を同期中…"
+              : syncState === "error"
+                ? "再接続待ち"
+                : syncState === "local"
+                  ? "この端末だけに保存中"
+                  : "Supabaseに自動保存"}
+          </small>
         </div>
-        <button className="sideFooter" onClick={handleAccountButton}><span className="avatar">{user ? "同" : "学"}</span><span><b>{user?.email || "匿名の学習者"}</b><small>{user ? "アカウント設定" : "ログインして端末間同期"}</small></span></button>
+        <button className="sideFooter" onClick={handleAccountButton}>
+          <span className="avatar">{user ? "同" : "学"}</span>
+          <span>
+            <b>{user?.email || "匿名の学習者"}</b>
+            <small>{user ? "アカウント設定" : "ログインして端末間同期"}</small>
+          </span>
+        </button>
       </aside>
 
       <section className="workspace">
         <header className="topbar">
           <div>
             <span className="eyebrow">MATHEMATICS PRACTICE LOG</span>
-            <h1>{activeProblem ? displayContest(activeProblem.contest) : view === "stats" ? "学習統計" : "問題一覧"}</h1>
+            <h1>
+              {activeProblem
+                ? displayContest(activeProblem.contest)
+                : view === "stats"
+                  ? "学習統計"
+                  : "問題一覧"}
+            </h1>
           </div>
           <div className="topActions">
-            {virtualSeconds !== null && virtualSeconds > 0 && <span className="contestClock"><i>●</i> 集中モード {formatTime(virtualSeconds)}</span>}
-            <button className="saveDataButton" onClick={() => setSaveDataOpen(true)}>保存データ</button>
-            <button className={`syncButton ${user ? "connected" : ""}`} onClick={handleAccountButton}>{user ? "● 同期中" : "端末間で同期"}</button>
-            <div className="streak"><span>学習日</span><b>{uniqueStudyDays}</b><small>days</small></div>
+            {virtualSeconds !== null && virtualSeconds > 0 && (
+              <span className="contestClock">
+                <i>●</i> 集中モード {formatTime(virtualSeconds)}
+              </span>
+            )}
+            <button
+              className="saveDataButton"
+              onClick={() => setSaveDataOpen(true)}
+            >
+              保存データ
+            </button>
+            <button
+              className={`syncButton ${user ? "connected" : ""}`}
+              onClick={handleAccountButton}
+            >
+              {user ? "● 同期中" : "端末間で同期"}
+            </button>
+            <div className="streak">
+              <span>学習日</span>
+              <b>{uniqueStudyDays}</b>
+              <small>days</small>
+            </div>
           </div>
         </header>
 
@@ -694,12 +927,20 @@ export default function MathLoopApp() {
             onBack={() => navigate("problems")}
             onSubmit={submit}
             onNext={nextProblem}
-            onOpenPart={(problem) => openProblem(problem, practiceQueue.length > 0)}
+            onOpenPart={(problem) =>
+              openProblem(problem, practiceQueue.length > 0)
+            }
             onInsert={insertSymbol}
             textareaRef={textareaRef}
           />
         ) : view === "stats" ? (
-          <StatsView progress={progress} solved={solved} attempted={attempted} attempts={attempts} totalSeconds={totalSeconds} />
+          <StatsView
+            progress={progress}
+            solved={solved}
+            attempted={attempted}
+            attempts={attempts}
+            totalSeconds={totalSeconds}
+          />
         ) : (
           <div className="content" id="problems">
             <section className="heroCard">
@@ -709,332 +950,1015 @@ export default function MathLoopApp() {
                 <p>解析・代数・幾何を横断して、学部数学を毎日の習慣に。</p>
               </div>
               <div className="heroAction">
-                <span><b>{problems.length - solved}</b> 問が未完了</span>
-                <button onClick={startPractice}>60分セットを始める <span>→</span></button>
+                <span>
+                  <b>{problems.length - solved}</b> 問が未完了
+                </span>
+                <button onClick={startPractice}>
+                  60分セットを始める <span>→</span>
+                </button>
               </div>
             </section>
 
             <section className="quickStats" aria-label="学習概要">
-              <div><span className="metricIcon green">✓</span><p><small>AC</small><b>{solved}<em>問</em></b></p></div>
-              <div><span className="metricIcon orange">↻</span><p><small>提出回数</small><b>{attempts}<em>回</em></b></p></div>
-              <div><span className="metricIcon blue">◷</span><p><small>学習時間</small><b>{Math.round(totalSeconds / 60)}<em>分</em></b></p></div>
-              <div><span className="metricIcon violet">◇</span><p><small>完答率</small><b>{attempted ? Math.round((solved / attempted) * 100) : 0}<em>%</em></b></p></div>
+              <div>
+                <span className="metricIcon green">✓</span>
+                <p>
+                  <small>AC</small>
+                  <b>
+                    {solved}
+                    <em>問</em>
+                  </b>
+                </p>
+              </div>
+              <div>
+                <span className="metricIcon orange">↻</span>
+                <p>
+                  <small>提出回数</small>
+                  <b>
+                    {attempts}
+                    <em>回</em>
+                  </b>
+                </p>
+              </div>
+              <div>
+                <span className="metricIcon blue">◷</span>
+                <p>
+                  <small>学習時間</small>
+                  <b>
+                    {Math.round(totalSeconds / 60)}
+                    <em>分</em>
+                  </b>
+                </p>
+              </div>
+              <div>
+                <span className="metricIcon violet">◇</span>
+                <p>
+                  <small>完答率</small>
+                  <b>
+                    {attempted ? Math.round((solved / attempted) * 100) : 0}
+                    <em>%</em>
+                  </b>
+                </p>
+              </div>
             </section>
 
             <section className="panel problemPanel">
               <div className="panelHeading">
-                <div><h3>すべての問題</h3><span>{filtered.length} / {problems.length} problems</span></div>
-                <label className="sortSelect">並び順
-                  <select value={sort} onChange={(event) => setSort(event.target.value)}><option>難易度順</option><option>新着順</option><option>分野順</option></select>
+                <div>
+                  <h3>すべての問題</h3>
+                  <span>
+                    {filtered.length} / {problems.length} problems
+                  </span>
+                </div>
+                <label className="sortSelect">
+                  並び順
+                  <select
+                    value={sort}
+                    onChange={(event) => setSort(event.target.value)}
+                  >
+                    <option>難易度順</option>
+                    <option>新着順</option>
+                    <option>分野順</option>
+                  </select>
                 </label>
               </div>
               <div className="filters">
-                <label className="search"><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} aria-label="問題を検索" placeholder="タイトル・タグで検索" /></label>
-                <select value={field} onChange={(event) => setField(event.target.value)} aria-label="分野で絞り込み">{fields.map((item) => <option key={item}>{item === "すべて" ? "すべての分野" : item}</option>)}</select>
-                <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} aria-label="状態で絞り込み"><option>すべて</option><option>AC</option><option>REVIEW</option><option>WA</option><option>未挑戦</option></select>
+                <label className="search">
+                  <span>⌕</span>
+                  <input
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    aria-label="問題を検索"
+                    placeholder="タイトル・タグで検索"
+                  />
+                </label>
+                <select
+                  value={field}
+                  onChange={(event) => setField(event.target.value)}
+                  aria-label="分野で絞り込み"
+                >
+                  {fields.map((item) => (
+                    <option key={item}>
+                      {item === "すべて" ? "すべての分野" : item}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={statusFilter}
+                  onChange={(event) => setStatusFilter(event.target.value)}
+                  aria-label="状態で絞り込み"
+                >
+                  <option>すべて</option>
+                  <option>AC</option>
+                  <option>REVIEW</option>
+                  <option>WA</option>
+                  <option>未挑戦</option>
+                </select>
               </div>
               <div className="levelTabs" aria-label="カテゴリーで絞り込み">
-                {contestSeries.map((item) => <button key={item.value} className={contestFilter === item.value ? "active" : ""} onClick={() => setContestFilter(item.value)}>{item.label}</button>)}
+                {contestSeries.map((item) => (
+                  <button
+                    key={item.value}
+                    className={contestFilter === item.value ? "active" : ""}
+                    onClick={() => setContestFilter(item.value)}
+                  >
+                    {item.label}
+                  </button>
+                ))}
               </div>
-              {contestRows.length > 0 && <div className="tableWrap setTableWrap">
-                <table className="setTable">
-                  <thead><tr><th>セット</th>{difficulties.map((difficulty) => <th key={difficulty}><span className={`level level${difficulty}`}>{difficulty}</span><small>{difficultyLabel[difficulty]}</small></th>)}</tr></thead>
-                  <tbody>{contestRows.map(({ contest, problems: setProblems }, setIndex) => {
-                    const setSolved = setProblems.filter((problem) => progress[problem.id]?.status === "AC").length;
-                    const setFields = Array.from(new Set(setProblems.map((problem) => problem.field)));
-                    return <tr key={contest}>
-                      <th scope="row" className="setIdentity">
-                        <span>SET {String(setIndex + 1).padStart(2, "0")}</span>
-                        <b>{displayContest(contest)}</b>
-                        <small>{setFields.join("・")} · {setSolved}/{setProblems.length} AC</small>
-                      </th>
-                      {difficulties.map((difficulty) => {
-                        const cells = setProblems.filter((problem) => problem.difficulty === difficulty);
-                        return <td key={difficulty} className={!cells.length ? "emptyCell" : ""}>
-                          {cells.length ? <div className="setCellStack">{cells.map((problem) => {
-                            const row = progress[problem.id];
-                            return <button key={problem.id} className={`setProblemCell ${row ? `cell${row.status}` : ""}`} onClick={() => openProblem(problem)}>
-                              <span className="setProblemTop"><b>{problem.title}</b><StatusBadge status={row?.status} /></span>
-                              <span className="setProblemMeta">{problem.minutes} min · {problem.score} pts</span>
-                            </button>;
-                          })}</div> : <span className="cellDash">—</span>}
-                        </td>;
-                      })}
-                    </tr>;
-                  })}</tbody>
-                </table>
-              </div>}
-              {guidedSetRows.length > 0 && <section className="guidedSetSection" aria-label="テーマ演習">
-                <div className="guidedSetSectionHeading">
-                  <div><span>GUIDED THEME</span><h4>テーマ演習</h4></div>
-                  <p>A〜Eを通して、1つの大問を解き切る演習です。</p>
+              {contestRows.length > 0 && (
+                <div className="tableWrap setTableWrap">
+                  <table className="setTable">
+                    <thead>
+                      <tr>
+                        <th>セット</th>
+                        {difficulties.map((difficulty) => (
+                          <th key={difficulty}>
+                            <span className={`level level${difficulty}`}>
+                              {difficulty}
+                            </span>
+                            <small>{difficultyLabel[difficulty]}</small>
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {contestRows.map(
+                        ({ contest, problems: setProblems }, setIndex) => {
+                          const setSolved = setProblems.filter(
+                            (problem) => progress[problem.id]?.status === "AC",
+                          ).length;
+                          const setFields = Array.from(
+                            new Set(
+                              setProblems.map((problem) => problem.field),
+                            ),
+                          );
+                          return (
+                            <tr key={contest}>
+                              <th scope="row" className="setIdentity">
+                                <span>
+                                  SET {String(setIndex + 1).padStart(2, "0")}
+                                </span>
+                                <b>{displayContest(contest)}</b>
+                                <small>
+                                  {setFields.join("・")} · {setSolved}/
+                                  {setProblems.length} AC
+                                </small>
+                              </th>
+                              {difficulties.map((difficulty) => {
+                                const cells = setProblems.filter(
+                                  (problem) =>
+                                    problem.difficulty === difficulty,
+                                );
+                                return (
+                                  <td
+                                    key={difficulty}
+                                    className={!cells.length ? "emptyCell" : ""}
+                                  >
+                                    {cells.length ? (
+                                      <div className="setCellStack">
+                                        {cells.map((problem) => {
+                                          const row = progress[problem.id];
+                                          return (
+                                            <button
+                                              key={problem.id}
+                                              className={`setProblemCell ${row ? `cell${row.status}` : ""}`}
+                                              onClick={() =>
+                                                openProblem(problem)
+                                              }
+                                            >
+                                              <span className="setProblemTop">
+                                                <b>{problem.title}</b>
+                                                <StatusBadge
+                                                  status={row?.status}
+                                                />
+                                              </span>
+                                              <span className="setProblemMeta">
+                                                {problem.minutes} min ·{" "}
+                                                {problem.score} pts
+                                              </span>
+                                            </button>
+                                          );
+                                        })}
+                                      </div>
+                                    ) : (
+                                      <span className="cellDash">—</span>
+                                    )}
+                                  </td>
+                                );
+                              })}
+                            </tr>
+                          );
+                        },
+                      )}
+                    </tbody>
+                  </table>
                 </div>
-                <div className="guidedSetGrid">
-                  {guidedSetRows.map((set) => <GuidedSetCard key={set.id} set={set} progress={progress} onOpen={openProblem} />)}
+              )}
+              {guidedSetRows.length > 0 && (
+                <section className="guidedSetSection" aria-label="テーマ演習">
+                  <div className="guidedSetSectionHeading">
+                    <div>
+                      <span>GUIDED THEME</span>
+                      <h4>テーマ演習</h4>
+                    </div>
+                    <p>A〜Eを通して、1つの大問を解き切る演習です。</p>
+                  </div>
+                  <div className="guidedSetGrid">
+                    {guidedSetRows.map((set) => (
+                      <GuidedSetCard
+                        key={set.id}
+                        set={set}
+                        progress={progress}
+                        onOpen={openProblem}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
+              {!filtered.length && (
+                <div className="emptyState">
+                  <b>該当する問題がありません</b>
+                  <span>検索語や絞り込みを変えてみてください。</span>
                 </div>
-              </section>}
-              {!filtered.length && <div className="emptyState"><b>該当する問題がありません</b><span>検索語や絞り込みを変えてみてください。</span></div>}
+              )}
             </section>
           </div>
         )}
       </section>
-      {authOpen && <AuthDialog
-        email={email}
-        setEmail={setEmail}
-        message={authMessage}
-        sending={authSending}
-        onSend={() => void sendMagicLink()}
-        onClose={() => setAuthOpen(false)}
-      />}
-      {signOutOpen && <SignOutDialog
-        onCancel={() => setSignOutOpen(false)}
-        onConfirm={() => void signOut()}
-      />}
-      {saveDataOpen && <SaveDataDialog
-        signedIn={Boolean(user)}
-        onExport={exportSaveData}
-        onImport={importSaveData}
-        onClose={() => setSaveDataOpen(false)}
-      />}
+      {authOpen && (
+        <AuthDialog
+          email={email}
+          setEmail={setEmail}
+          message={authMessage}
+          sending={authSending}
+          onSend={() => void sendMagicLink()}
+          onClose={() => setAuthOpen(false)}
+        />
+      )}
+      {signOutOpen && (
+        <SignOutDialog
+          onCancel={() => setSignOutOpen(false)}
+          onConfirm={() => void signOut()}
+        />
+      )}
+      {saveDataOpen && (
+        <SaveDataDialog
+          signedIn={Boolean(user)}
+          onExport={exportSaveData}
+          onImport={importSaveData}
+          onClose={() => setSaveDataOpen(false)}
+        />
+      )}
     </main>
   );
 }
 
 function GuidedSetCard({
-  set, progress, onOpen,
+  set,
+  progress,
+  onOpen,
 }: {
   set: GuidedSet;
   progress: Record<string, Progress>;
   onOpen: (problem: Problem) => void;
 }) {
   const setProblems = getGuidedSetProblems(set.id);
-  const solved = setProblems.filter((problem) => progress[problem.id]?.status === "AC").length;
-  const totalMinutes = setProblems.reduce((sum, problem) => sum + problem.minutes, 0);
-  return <article className="guidedSetCard">
-    <header>
-      <div><span className="guidedSetLabel">THEME SET · {set.id.replace("GSET-", "#")}</span><h5>{set.title}</h5></div>
-      <span className="guidedSetProgress">{solved}/5 AC</span>
-    </header>
-    <div className="guidedSetMeta"><span>{set.field}</span><span>{totalMinutes} min</span><span>5つの連続小問</span></div>
-    <div className="guidedCommonStatement">
-      <b>共通問題文</b>
-      {set.commonStatement.map((line, index) => <p key={index}><MathText text={line} /></p>)}
-    </div>
-    <ol className="guidedQuestionList">
-      {setProblems.map((problem) => {
-        const row = progress[problem.id];
-        return <li key={problem.id}>
-          <button className={row ? `guidedQuestionButton cell${row.status}` : "guidedQuestionButton"} onClick={() => onOpen(problem)}>
-            <span className="setPartBadge">{problem.position}</span>
-            <span><b>{problem.title}</b><small>{problem.purpose}</small></span>
-            <StatusBadge status={row?.status} />
-            <i>→</i>
-          </button>
-        </li>;
-      })}
-    </ol>
-    <footer><span>A</span><i>→</i><span>B</span><i>→</i><span>C</span><i>→</i><span>D</span><i>→</i><span>E</span><b>{set.learningGoal}</b></footer>
-  </article>;
+  const solved = setProblems.filter(
+    (problem) => progress[problem.id]?.status === "AC",
+  ).length;
+  const totalMinutes = setProblems.reduce(
+    (sum, problem) => sum + problem.minutes,
+    0,
+  );
+  return (
+    <article className="guidedSetCard">
+      <header>
+        <div>
+          <span className="guidedSetLabel">
+            THEME SET · {set.id.replace("GSET-", "#")}
+          </span>
+          <h5>{set.title}</h5>
+        </div>
+        <span className="guidedSetProgress">{solved}/5 AC</span>
+      </header>
+      <div className="guidedSetMeta">
+        <span>{set.field}</span>
+        <span>{totalMinutes} min</span>
+        <span>5つの連続小問</span>
+      </div>
+      <div className="guidedCommonStatement">
+        <b>共通問題文</b>
+        {set.commonStatement.map((line, index) => (
+          <p key={index}>
+            <MathText text={line} />
+          </p>
+        ))}
+      </div>
+      <ol className="guidedQuestionList">
+        {setProblems.map((problem) => {
+          const row = progress[problem.id];
+          return (
+            <li key={problem.id}>
+              <button
+                className={
+                  row
+                    ? `guidedQuestionButton cell${row.status}`
+                    : "guidedQuestionButton"
+                }
+                onClick={() => onOpen(problem)}
+              >
+                <span className="setPartBadge">{problem.position}</span>
+                <span>
+                  <b>{problem.title}</b>
+                  <small>{problem.purpose}</small>
+                </span>
+                <StatusBadge status={row?.status} />
+                <i>→</i>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+      <footer>
+        <span>A</span>
+        <i>→</i>
+        <span>B</span>
+        <i>→</i>
+        <span>C</span>
+        <i>→</i>
+        <span>D</span>
+        <i>→</i>
+        <span>E</span>
+        <b>{set.learningGoal}</b>
+      </footer>
+    </article>
+  );
 }
 
 function ProblemView({
-  problem, guidedSet, setProblems, answer, setAnswer, result, progress, allProgress, attempts, elapsedSeconds, explanationOpen, setExplanationOpen,
-  submitting, answerPhoto, photoPreview, onPhotoChange, onBack, onSubmit, onNext, onOpenPart, onInsert, textareaRef,
+  problem,
+  guidedSet,
+  setProblems,
+  answer,
+  setAnswer,
+  result,
+  progress,
+  allProgress,
+  attempts,
+  elapsedSeconds,
+  explanationOpen,
+  setExplanationOpen,
+  submitting,
+  answerPhoto,
+  photoPreview,
+  onPhotoChange,
+  onBack,
+  onSubmit,
+  onNext,
+  onOpenPart,
+  onInsert,
+  textareaRef,
 }: {
-  problem: Problem; guidedSet?: GuidedSet; setProblems: Problem[]; answer: string; setAnswer: (value: string) => void; result: Result | null; progress?: Progress; allProgress: Record<string, Progress>; attempts: Attempt[];
-  elapsedSeconds: number; explanationOpen: boolean; setExplanationOpen: (value: boolean) => void;
-  submitting: boolean; onBack: () => void; onSubmit: () => void; onNext: () => void; onOpenPart: (problem: Problem) => void; onInsert: (symbol: string) => void;
-  answerPhoto: File | null; photoPreview: string | null; onPhotoChange: (file: File | null) => void;
+  problem: Problem;
+  guidedSet?: GuidedSet;
+  setProblems: Problem[];
+  answer: string;
+  setAnswer: (value: string) => void;
+  result: Result | null;
+  progress?: Progress;
+  allProgress: Record<string, Progress>;
+  attempts: Attempt[];
+  elapsedSeconds: number;
+  explanationOpen: boolean;
+  setExplanationOpen: (value: boolean) => void;
+  submitting: boolean;
+  onBack: () => void;
+  onSubmit: () => void;
+  onNext: () => void;
+  onOpenPart: (problem: Problem) => void;
+  onInsert: (symbol: string) => void;
+  answerPhoto: File | null;
+  photoPreview: string | null;
+  onPhotoChange: (file: File | null) => void;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
 }) {
   const guided = isGuidedSetProblem(problem) ? guidedSet : undefined;
-  return <div className="problemContent">
-    <button className="backButton" onClick={onBack}>← 問題一覧に戻る</button>
-    <div className="problemLayout">
-      <article className="problemMain">
-        <section className="problemStatement">
-          {guided && <div className="guidedProblemHeader">
-            <span>テーマ演習 · {guided.displayName}</span>
-            <h2>{guided.title}</h2>
-            <p>{guided.learningGoal}</p>
-            <nav aria-label="テーマ演習の小問">
-              {setProblems.map((part) => <button key={part.id} className={part.id === problem.id ? "active" : ""} onClick={() => onOpenPart(part)}>
-                <span>{part.position}</span><StatusBadge status={allProgress[part.id]?.status} />
-              </button>)}
-            </nav>
-          </div>}
-          {guided && <div className="guidedSharedStatement">
-            <b>共通問題文</b>
-            {guided.commonStatement.map((line, index) => <p key={index} className={isFormula(line) ? "formula" : ""}><MathText text={line} /></p>)}
-          </div>}
-          <div className="problemTitleRow">
-            {guided ? <span className="setPartBadge large">{problem.position}</span> : <span className={`level large level${problem.difficulty}`}>{problem.difficulty}</span>}
-            <div><span className="problemKicker">{guided ? `小問 ${problem.position}` : difficultyLabel[problem.difficulty]} · {problem.score} pts</span><h2>{problem.title}</h2></div>
-          </div>
-          <div className="statementBody">
-            {problem.prompt.map((line, index) => <p key={index} className={isFormula(line) ? "formula" : ""}><MathText text={line} /></p>)}
-          </div>
-          {problem.note && <p className="problemNote">注：<MathText text={problem.note} /></p>}
-          {guided && <div className="guidedPurpose"><b>この小問の役割</b><p>{problem.purpose}</p>{problem.dependsOn?.length ? <span>{problem.dependsOn.join("・")} の結果を利用</span> : <span>このセットの出発点</span>}</div>}
-        </section>
-
-        <section className="answerCard">
-          <div className="answerHeading">
-            <div><span className="stepNumber">01</span><div><h3>回答を書く</h3><p><MathText text={problem.grade.hint} /></p></div></div>
-            <span className="answerMode">{problem.answerType === "short" ? "短答" : "記述・証明"}</span>
-          </div>
-          <div className="symbolBar" aria-label="数式記号パレット">{symbols.map((symbol) => <button key={symbol} onClick={() => onInsert(symbol)} title={`${symbol} を挿入`}>{symbol}</button>)}</div>
-          <textarea ref={textareaRef} value={answer} onChange={(event) => setAnswer(event.target.value)} onKeyDown={(event) => { if ((event.metaKey || event.ctrlKey) && event.key === "Enter") { event.preventDefault(); onSubmit(); } }} placeholder={problem.answerType === "short" ? "答えを入力（例：1, y=3e^(2x)）" : "証明や考え方を日本語または TeX で入力してください。\n\n例：任意の ε>0 に対して…"} />
-          {answer.trim() && <AnswerPreview answer={answer} />}
-          <div className="photoAnswer">
-            <label className="photoButton">⌑ 解答用紙の写真を添付<input type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" capture="environment" onChange={(event) => onPhotoChange(event.target.files?.[0] || null)} /></label>
-            <span>スマホではそのまま撮影できます。写真だけの提出は要確認になります。</span>
-            {photoPreview && <div className="photoPreview">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={photoPreview} alt="添付する解答写真のプレビュー" />
-              <button onClick={() => onPhotoChange(null)}>写真を外す</button>
-            </div>}
-          </div>
-          <div className="answerFooter">
-            <span>数式は $...$ でプレビュー <i>⌘ + Enter でも提出</i></span>
-            <button className="submitButton" disabled={(!answer.trim() && !answerPhoto) || submitting} onClick={onSubmit}>{submitting ? "採点中…" : "回答を提出する"} <span>→</span></button>
-          </div>
-        </section>
-
-        {result && <section className={`resultCard resultCard${result.status}`}>
-          <span className="resultMark">{result.status === "AC" ? "✓" : result.status === "REVIEW" ? "△" : "×"}</span>
-          <div><small>{result.status === "AC" ? "ACCEPTED" : result.status === "REVIEW" ? "NEEDS REVIEW" : "TRY AGAIN"}{result.method && <span className="judgeLabel">{result.method === "sakura" ? "さくらAI採点" : result.method === "exact" ? "完全一致採点" : result.method === "photo" ? "写真を保存" : "簡易採点"}</span>}</small><h3>{result.status === "AC" ? "正解です！" : result.status === "REVIEW" ? "もう一歩です" : "見直してみましょう"}</h3><p>{result.feedback}</p></div>
-          <b>{result.score}<small>/100</small></b>
-        </section>}
-
-        <section className="attemptHistorySection">
-          <div className="attemptHistoryHeading">
-            <div><span className="stepNumber">02</span><div><h3>回答履歴</h3><p>送信した回答と採点結果を振り返れます</p></div></div>
-            <span className="attemptCount">{attempts.length} 件</span>
-          </div>
-          {attempts.length ? <div className="attemptList">
-            {attempts.map((attempt, index) => <details className={`attemptItem attempt${attempt.status}`} key={attempt.id} open={index === 0}>
-              <summary>
-                <span className="attemptNumber">#{attempts.length - index}</span>
-                <StatusBadge status={attempt.status} />
-                <span className="attemptDate">{attemptDate(attempt.createdAt)}</span>
-                <b>{attempt.score}<small>/100</small></b>
-                <i aria-hidden="true">⌄</i>
-              </summary>
-              <div className="attemptBody">
-                <span>送信した回答</span>
-                {attempt.answer.trim() ? <AnswerPreview answer={attempt.answer} /> : <p className="photoOnlyAnswer">写真のみで提出しました</p>}
-                <div className="attemptMeta"><span>解答時間 {formatTime(attempt.durationSeconds)}</span>{attempt.imagePath && <span>⌑ 写真付き</span>}</div>
+  return (
+    <div className="problemContent">
+      <button className="backButton" onClick={onBack}>
+        ← 問題一覧に戻る
+      </button>
+      <div className="problemLayout">
+        <article className="problemMain">
+          <section className="problemStatement">
+            {guided && (
+              <div className="guidedProblemHeader">
+                <span>テーマ演習 · {guided.displayName}</span>
+                <h2>{guided.title}</h2>
+                <p>{guided.learningGoal}</p>
+                <nav aria-label="テーマ演習の小問">
+                  {setProblems.map((part) => (
+                    <button
+                      key={part.id}
+                      className={part.id === problem.id ? "active" : ""}
+                      onClick={() => onOpenPart(part)}
+                    >
+                      <span>{part.position}</span>
+                      <StatusBadge status={allProgress[part.id]?.status} />
+                    </button>
+                  ))}
+                </nav>
               </div>
-            </details>)}
-          </div> : <div className="attemptEmpty"><span>↻</span><p><b>まだ回答履歴はありません</b><small>回答を提出すると、ここに内容と採点結果が残ります。</small></p></div>}
-        </section>
+            )}
+            {guided && (
+              <div className="guidedSharedStatement">
+                <b>共通問題文</b>
+                {guided.commonStatement.map((line, index) => (
+                  <p key={index} className={isFormula(line) ? "formula" : ""}>
+                    <MathText text={line} />
+                  </p>
+                ))}
+              </div>
+            )}
+            <div className="problemTitleRow">
+              {guided ? (
+                <span className="setPartBadge large">{problem.position}</span>
+              ) : (
+                <span className={`level large level${problem.difficulty}`}>
+                  {problem.difficulty}
+                </span>
+              )}
+              <div>
+                <span className="problemKicker">
+                  {guided
+                    ? `小問 ${problem.position}`
+                    : difficultyLabel[problem.difficulty]}{" "}
+                  · {problem.score} pts
+                </span>
+                <h2>{problem.title}</h2>
+              </div>
+            </div>
+            <div className="statementBody">
+              {problem.prompt.map((line, index) => (
+                <p key={index} className={isFormula(line) ? "formula" : ""}>
+                  <MathText text={line} />
+                </p>
+              ))}
+            </div>
+            {problem.note && (
+              <p className="problemNote">
+                注：
+                <MathText text={problem.note} />
+              </p>
+            )}
+            {guided && (
+              <div className="guidedPurpose">
+                <b>この小問の役割</b>
+                <p>{problem.purpose}</p>
+                {problem.dependsOn?.length ? (
+                  <span>{problem.dependsOn.join("・")} の結果を利用</span>
+                ) : (
+                  <span>このセットの出発点</span>
+                )}
+              </div>
+            )}
+          </section>
 
-        <section className={`explanationCard ${explanationOpen ? "open" : ""}`}>
-          <button className="explanationToggle" onClick={() => setExplanationOpen(!explanationOpen)} aria-expanded={explanationOpen}>
-            <span className="bookIcon">▤</span><span><b>解説と周辺知識</b><small>方針・詳しい解法・使った定理</small></span><i>{explanationOpen ? "−" : "+"}</i>
-          </button>
-          {explanationOpen && <div className="explanationBody">
-            <p className="explanationSummary"><MathText text={problem.explanation.summary} /></p>
-            <h4>解答の流れ</h4>
-            <ol>{problem.explanation.steps.map((step, index) => <li key={index}><span>{index + 1}</span><p><MathText text={step} /></p></li>)}</ol>
-            {guided && <div className="guidedConnection"><b>Eへのつながり</b><p><MathText text={problem.connection || ""} /></p></div>}
-            <h4>周辺知識</h4>
-            <div className="knowledgeGrid">{problem.explanation.knowledge.map((item) => <div key={item.title}><b><MathText text={item.title} /></b><p><MathText text={item.body} /></p></div>)}</div>
-          </div>}
-        </section>
+          <section className="answerCard">
+            <div className="answerHeading">
+              <div>
+                <span className="stepNumber">01</span>
+                <div>
+                  <h3>回答を書く</h3>
+                  <p>
+                    <MathText text={problem.grade.hint} />
+                  </p>
+                </div>
+              </div>
+              <span className="answerMode">
+                {problem.answerType === "short" ? "短答" : "記述・証明"}
+              </span>
+            </div>
+            <div className="symbolBar" aria-label="数式記号パレット">
+              {symbols.map((symbol) => (
+                <button
+                  key={symbol}
+                  onClick={() => onInsert(symbol)}
+                  title={`${symbol} を挿入`}
+                >
+                  {symbol}
+                </button>
+              ))}
+            </div>
+            <textarea
+              ref={textareaRef}
+              value={answer}
+              onChange={(event) => setAnswer(event.target.value)}
+              onKeyDown={(event) => {
+                if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+                  event.preventDefault();
+                  onSubmit();
+                }
+              }}
+              placeholder={
+                problem.answerType === "short"
+                  ? "答えを入力（例：1, y=3e^(2x)）"
+                  : "証明や考え方を日本語または TeX で入力してください。\n\n例：任意の ε>0 に対して…"
+              }
+            />
+            {answer.trim() && <AnswerPreview answer={answer} />}
+            <div className="photoAnswer">
+              <label className="photoButton">
+                ⌑ 解答用紙の写真を添付
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+                  capture="environment"
+                  onChange={(event) =>
+                    onPhotoChange(event.target.files?.[0] || null)
+                  }
+                />
+              </label>
+              <span>
+                スマホではそのまま撮影できます。写真だけの提出は要確認になります。
+              </span>
+              {photoPreview && (
+                <div className="photoPreview">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={photoPreview} alt="添付する解答写真のプレビュー" />
+                  <button onClick={() => onPhotoChange(null)}>
+                    写真を外す
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="answerFooter">
+              <span>
+                数式は $...$ でプレビュー <i>⌘ + Enter でも提出</i>
+              </span>
+              <button
+                className="submitButton"
+                disabled={(!answer.trim() && !answerPhoto) || submitting}
+                onClick={onSubmit}
+              >
+                {submitting ? "採点中…" : "回答を提出する"} <span>→</span>
+              </button>
+            </div>
+          </section>
 
-        {result?.status === "AC" && <button className="nextButton" onClick={onNext}>{guided && problem.position !== "E" ? "次の小問へ進む" : "次の問題へ進む"} <span>→</span></button>}
-      </article>
+          {result && (
+            <section className={`resultCard resultCard${result.status}`}>
+              <span className="resultMark">
+                {result.status === "AC"
+                  ? "✓"
+                  : result.status === "REVIEW"
+                    ? "△"
+                    : "×"}
+              </span>
+              <div>
+                <small>
+                  {result.status === "AC"
+                    ? "ACCEPTED"
+                    : result.status === "REVIEW"
+                      ? "NEEDS REVIEW"
+                      : "TRY AGAIN"}
+                  {result.method && (
+                    <span className="judgeLabel">
+                      {result.method === "sakura"
+                        ? "さくらAI採点"
+                        : result.method === "exact"
+                          ? "完全一致採点"
+                          : result.method === "photo"
+                            ? "写真を保存"
+                            : "簡易採点"}
+                    </span>
+                  )}
+                </small>
+                <h3>
+                  {result.status === "AC"
+                    ? "正解です！"
+                    : result.status === "REVIEW"
+                      ? "もう一歩です"
+                      : "見直してみましょう"}
+                </h3>
+                <p>{result.feedback}</p>
+              </div>
+              <b>
+                {result.score}
+                <small>/100</small>
+              </b>
+            </section>
+          )}
 
-      <aside className="problemMeta">
-        <div className="timerCard"><small>経過時間</small><b>{formatTime(elapsedSeconds)}</b><span>目安 {problem.minutes}:00</span></div>
-        <div className="metaCard"><h3>問題情報</h3><dl><div><dt>分野</dt><dd>{problem.field}</dd></div>{guided ? <><div><dt>カテゴリー</dt><dd>テーマ演習</dd></div><div><dt>小問</dt><dd>{problem.position} / E</dd></div></> : <div><dt>難易度</dt><dd>{problem.difficulty} — {difficultyLabel[problem.difficulty]}</dd></div>}<div><dt>得点</dt><dd>{problem.score} pts</dd></div><div><dt>提出</dt><dd>{progress?.attempts || 0} 回</dd></div></dl></div>
-        <div className="metaCard"><h3>知識タグ</h3><div className="tagCloud">{problem.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div></div>
-        {progress && <div className={`historyCard history${progress.status}`}><small>現在の記録</small><StatusBadge status={progress.status} /><span>最高 {progress.bestScore} 点 · {shortDate(progress.updatedAt)}</span></div>}
-      </aside>
+          <section className="attemptHistorySection">
+            <div className="attemptHistoryHeading">
+              <div>
+                <span className="stepNumber">02</span>
+                <div>
+                  <h3>回答履歴</h3>
+                  <p>送信した回答と採点結果を振り返れます</p>
+                </div>
+              </div>
+              <span className="attemptCount">{attempts.length} 件</span>
+            </div>
+            {attempts.length ? (
+              <div className="attemptList">
+                {attempts.map((attempt, index) => (
+                  <details
+                    className={`attemptItem attempt${attempt.status}`}
+                    key={attempt.id}
+                    open={index === 0}
+                  >
+                    <summary>
+                      <span className="attemptNumber">
+                        #{attempts.length - index}
+                      </span>
+                      <StatusBadge status={attempt.status} />
+                      <span className="attemptDate">
+                        {attemptDate(attempt.createdAt)}
+                      </span>
+                      <b>
+                        {attempt.score}
+                        <small>/100</small>
+                      </b>
+                      <i aria-hidden="true">⌄</i>
+                    </summary>
+                    <div className="attemptBody">
+                      <span>送信した回答</span>
+                      {attempt.answer.trim() ? (
+                        <AnswerPreview answer={attempt.answer} />
+                      ) : (
+                        <p className="photoOnlyAnswer">
+                          写真のみで提出しました
+                        </p>
+                      )}
+                      <div className="attemptMeta">
+                        <span>
+                          解答時間 {formatTime(attempt.durationSeconds)}
+                        </span>
+                        {attempt.imagePath && <span>⌑ 写真付き</span>}
+                      </div>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            ) : (
+              <div className="attemptEmpty">
+                <span>↻</span>
+                <p>
+                  <b>まだ回答履歴はありません</b>
+                  <small>
+                    回答を提出すると、ここに内容と採点結果が残ります。
+                  </small>
+                </p>
+              </div>
+            )}
+          </section>
+
+          <section
+            className={`explanationCard ${explanationOpen ? "open" : ""}`}
+          >
+            <button
+              className="explanationToggle"
+              onClick={() => setExplanationOpen(!explanationOpen)}
+              aria-expanded={explanationOpen}
+            >
+              <span className="bookIcon">▤</span>
+              <span>
+                <b>解説と周辺知識</b>
+                <small>方針・詳しい解法・使った定理</small>
+              </span>
+              <i>{explanationOpen ? "−" : "+"}</i>
+            </button>
+            {explanationOpen && (
+              <div className="explanationBody">
+                <p className="explanationSummary">
+                  <MathText text={problem.explanation.summary} />
+                </p>
+                <h4>解答の流れ</h4>
+                <ol>
+                  {problem.explanation.steps.map((step, index) => (
+                    <li key={index}>
+                      <span>{index + 1}</span>
+                      <p>
+                        <MathText text={step} />
+                      </p>
+                    </li>
+                  ))}
+                </ol>
+                {guided && (
+                  <div className="guidedConnection">
+                    <b>Eへのつながり</b>
+                    <p>
+                      <MathText text={problem.connection || ""} />
+                    </p>
+                  </div>
+                )}
+                <h4>周辺知識</h4>
+                <div className="knowledgeGrid">
+                  {problem.explanation.knowledge.map((item) => (
+                    <div key={item.title}>
+                      <b>
+                        <MathText text={item.title} />
+                      </b>
+                      <p>
+                        <MathText text={item.body} />
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </section>
+
+          {result?.status === "AC" && (
+            <button className="nextButton" onClick={onNext}>
+              {guided && problem.position !== "E"
+                ? "次の小問へ進む"
+                : "次の問題へ進む"}{" "}
+              <span>→</span>
+            </button>
+          )}
+        </article>
+
+        <aside className="problemMeta">
+          <div className="timerCard">
+            <small>経過時間</small>
+            <b>{formatTime(elapsedSeconds)}</b>
+            <span>目安 {problem.minutes}:00</span>
+          </div>
+          <div className="metaCard">
+            <h3>問題情報</h3>
+            <dl>
+              <div>
+                <dt>分野</dt>
+                <dd>{problem.field}</dd>
+              </div>
+              {guided ? (
+                <>
+                  <div>
+                    <dt>カテゴリー</dt>
+                    <dd>テーマ演習</dd>
+                  </div>
+                  <div>
+                    <dt>小問</dt>
+                    <dd>{problem.position} / E</dd>
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <dt>難易度</dt>
+                  <dd>
+                    {problem.difficulty} — {difficultyLabel[problem.difficulty]}
+                  </dd>
+                </div>
+              )}
+              <div>
+                <dt>得点</dt>
+                <dd>{problem.score} pts</dd>
+              </div>
+              <div>
+                <dt>提出</dt>
+                <dd>{progress?.attempts || 0} 回</dd>
+              </div>
+            </dl>
+          </div>
+          <div className="metaCard">
+            <h3>知識タグ</h3>
+            <div className="tagCloud">
+              {problem.tags.map((tag) => (
+                <span key={tag}>#{tag}</span>
+              ))}
+            </div>
+          </div>
+          {progress && (
+            <div className={`historyCard history${progress.status}`}>
+              <small>現在の記録</small>
+              <StatusBadge status={progress.status} />
+              <span>
+                最高 {progress.bestScore} 点 · {shortDate(progress.updatedAt)}
+              </span>
+            </div>
+          )}
+        </aside>
+      </div>
     </div>
-  </div>;
+  );
 }
 
 function AnswerPreview({ answer }: { answer: string }) {
-  return <div className="answerPreview">
-    <span className="previewLabel">TeX PREVIEW</span>
-    <div><MathText text={answer} useDisplayStyle={false} /></div>
-  </div>;
-}
-
-function MathText({ text, useDisplayStyle = true }: { text: string; useDisplayStyle?: boolean }) {
-  const isRawFormula = !/[ぁ-んァ-ヶ一-龠]/.test(text) && /\\[a-zA-Z]+|[_^=]/.test(text);
-  if (isRawFormula && !text.includes("$")) {
-    const html = katex.renderToString(text, { throwOnError: false, displayMode: useDisplayStyle, strict: false });
-    return <span className={`previewFormula${useDisplayStyle ? " display" : ""}`} dangerouslySetInnerHTML={{ __html: html }} />;
-  }
-  const normalizedLimit = text.replace(/lim_\{([^}]+)\}\s*\(([^)]+)\)\/\(([^)]+)\)/g, (_match, limit, numerator, denominator) => {
-    const tex = (value: string) => value
-      .replace(/→/g, "\\to ")
-      .replace(/∞/g, "\\infty")
-      .replace(/²/g, "^2")
-      .replace(/³/g, "^3")
-      .replace(/⁴/g, "^4")
-      .replace(/−/g, "-");
-    return `$${useDisplayStyle ? "\\displaystyle" : ""}\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
-  });
-  const normalizedTeX = normalizedLimit.includes("$") ? normalizedLimit : normalizedLimit.replace(/([A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s]*\\[A-Za-z]+[A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s\\]*)/g, (formula) => {
-    const trimmed = formula.trim();
-    return trimmed ? `$${useDisplayStyle ? "\\displaystyle " : ""}${trimmed}$` : formula;
-  });
-  const normalized = normalizedTeX.includes("$") ? normalizedTeX : normalizedTeX.replace(/([A-Za-z](?:_[A-Za-z0-9{}]+|\^[A-Za-z0-9{}]+)(?:[A-Za-z0-9_{}^\\\s∩∪∈+=()]+)?)/g, (formula) => {
-    const trimmed = formula.trim();
-    return trimmed ? `$${useDisplayStyle ? "\\displaystyle " : ""}${trimmed}$` : formula;
-  });
-  const parts = normalized.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g).filter(Boolean);
-  return <>{parts.map((part, index) => {
-    const display = part.startsWith("$$") && part.endsWith("$$");
-    const inline = !display && part.startsWith("$") && part.endsWith("$");
-    if (!display && !inline) return <span key={index} className="previewText">{part}</span>;
-    const source = part.slice(display ? 2 : 1, display ? -2 : -1);
-    const html = katex.renderToString(source, { throwOnError: false, displayMode: display, strict: false });
-    return <span key={index} className={display ? "previewFormula display" : "previewFormula"} dangerouslySetInnerHTML={{ __html: html }} />;
-  })}</>;
-}
-
-function AuthDialog({ email, setEmail, message, sending, onSend, onClose }: {
-  email: string; setEmail: (value: string) => void; message: string; sending: boolean; onSend: () => void; onClose: () => void;
-}) {
-  return <div className="dialogBackdrop">
-    <section className="authDialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">
-      <button className="dialogClose" onClick={onClose} aria-label="閉じる">×</button>
-      <span className="authMark">∞</span>
-      <span className="eyebrow">SUPABASE SYNC</span>
-      <h2 id="auth-title">学習記録を端末間で同期</h2>
-      <p>メールに届くログインリンクを開くだけです。同じメールアドレスなら、スマホとPCで同じ成績を使えます。</p>
-      <label>メールアドレス<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") onSend(); }} placeholder="you@example.com" /></label>
-      <button className="authSubmit" disabled={!email.trim() || sending} onClick={onSend}>{sending ? "送信中…" : "ログインリンクを送る"}</button>
-      {message && <div className="authMessage" aria-live="polite">{message}</div>}
-      <small>ログインしない場合も、この端末内だけで回答記録を保存できます。</small>
-    </section>
-  </div>;
-}
-
-function SignOutDialog({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: () => void }) {
-  return <div className="dialogBackdrop">
-    <section className="authDialog signOutDialog" role="dialog" aria-modal="true" aria-labelledby="signout-title">
-      <button className="dialogClose" onClick={onCancel} aria-label="閉じる">×</button>
-      <span className="authMark">↗</span>
-      <span className="eyebrow">SIGN OUT</span>
-      <h2 id="signout-title">ログアウトしますか？</h2>
-      <p>この端末での同期を終了します。学習記録はアカウントに残り、次回ログインすると再び同期できます。</p>
-      <div className="dialogActions">
-        <button className="dialogCancel" onClick={onCancel}>キャンセル</button>
-        <button className="dialogDanger" onClick={onConfirm}>ログアウトする</button>
+  return (
+    <div className="answerPreview">
+      <span className="previewLabel">TeX PREVIEW</span>
+      <div>
+        <MathText text={answer} useDisplayStyle={false} />
       </div>
-    </section>
-  </div>;
+    </div>
+  );
 }
 
-function SaveDataDialog({ signedIn, onExport, onImport, onClose }: {
-  signedIn: boolean; onExport: () => void; onImport: (file: File) => Promise<void>; onClose: () => void;
+function MathText({
+  text,
+  useDisplayStyle = true,
+}: {
+  text: string;
+  useDisplayStyle?: boolean;
+}) {
+  const isRawFormula =
+    !/[ぁ-んァ-ヶ一-龠]/.test(text) && /\\[a-zA-Z]+|[_^=]/.test(text);
+  if (isRawFormula && !text.includes("$")) {
+    const html = katex.renderToString(text, {
+      throwOnError: false,
+      displayMode: useDisplayStyle,
+      strict: false,
+    });
+    return (
+      <span
+        className={`previewFormula${useDisplayStyle ? " display" : ""}`}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  }
+  const normalizedLimit = text.replace(
+    /lim_\{([^}]+)\}\s*\(([^)]+)\)\/\(([^)]+)\)/g,
+    (_match, limit, numerator, denominator) => {
+      const tex = (value: string) =>
+        value
+          .replace(/→/g, "\\to ")
+          .replace(/∞/g, "\\infty")
+          .replace(/²/g, "^2")
+          .replace(/³/g, "^3")
+          .replace(/⁴/g, "^4")
+          .replace(/−/g, "-");
+      return `$${useDisplayStyle ? "\\displaystyle" : ""}\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
+    },
+  );
+  const normalizedTeX = normalizedLimit.includes("$")
+    ? normalizedLimit
+    : normalizedLimit.replace(
+        /([A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s]*\\[A-Za-z]+[A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s\\]*)/g,
+        (formula) => {
+          const trimmed = formula.trim();
+          return trimmed
+            ? `$${useDisplayStyle ? "\\displaystyle " : ""}${trimmed}$`
+            : formula;
+        },
+      );
+  const normalized = normalizedTeX.includes("$")
+    ? normalizedTeX
+    : normalizedTeX.replace(
+        /([A-Za-z](?:_[A-Za-z0-9{}]+|\^[A-Za-z0-9{}]+)(?:[A-Za-z0-9_{}^\\\s∩∪∈+=()]+)?)/g,
+        (formula) => {
+          const trimmed = formula.trim();
+          return trimmed
+            ? `$${useDisplayStyle ? "\\displaystyle " : ""}${trimmed}$`
+            : formula;
+        },
+      );
+  const parts = normalized
+    .split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g)
+    .filter(Boolean);
+  return (
+    <>
+      {parts.map((part, index) => {
+        const display = part.startsWith("$$") && part.endsWith("$$");
+        const inline = !display && part.startsWith("$") && part.endsWith("$");
+        if (!display && !inline)
+          return (
+            <span key={index} className="previewText">
+              {part}
+            </span>
+          );
+        const source = part.slice(display ? 2 : 1, display ? -2 : -1);
+        const html = katex.renderToString(source, {
+          throwOnError: false,
+          displayMode: display,
+          strict: false,
+        });
+        return (
+          <span
+            key={index}
+            className={display ? "previewFormula display" : "previewFormula"}
+            dangerouslySetInnerHTML={{ __html: html }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
+function AuthDialog({
+  email,
+  setEmail,
+  message,
+  sending,
+  onSend,
+  onClose,
+}: {
+  email: string;
+  setEmail: (value: string) => void;
+  message: string;
+  sending: boolean;
+  onSend: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="dialogBackdrop">
+      <section
+        className="authDialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="auth-title"
+      >
+        <button className="dialogClose" onClick={onClose} aria-label="閉じる">
+          ×
+        </button>
+        <span className="authMark">∞</span>
+        <span className="eyebrow">SUPABASE SYNC</span>
+        <h2 id="auth-title">学習記録を端末間で同期</h2>
+        <p>
+          メールに届くログインリンクを開くだけです。同じメールアドレスなら、スマホとPCで同じ成績を使えます。
+        </p>
+        <label>
+          メールアドレス
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") onSend();
+            }}
+            placeholder="you@example.com"
+          />
+        </label>
+        <button
+          className="authSubmit"
+          disabled={!email.trim() || sending}
+          onClick={onSend}
+        >
+          {sending ? "送信中…" : "ログインリンクを送る"}
+        </button>
+        {message && (
+          <div className="authMessage" aria-live="polite">
+            {message}
+          </div>
+        )}
+        <small>
+          ログインしない場合も、この端末内だけで回答記録を保存できます。
+        </small>
+      </section>
+    </div>
+  );
+}
+
+function SignOutDialog({
+  onCancel,
+  onConfirm,
+}: {
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <div className="dialogBackdrop">
+      <section
+        className="authDialog signOutDialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="signout-title"
+      >
+        <button className="dialogClose" onClick={onCancel} aria-label="閉じる">
+          ×
+        </button>
+        <span className="authMark">↗</span>
+        <span className="eyebrow">SIGN OUT</span>
+        <h2 id="signout-title">ログアウトしますか？</h2>
+        <p>
+          この端末での同期を終了します。学習記録はアカウントに残り、次回ログインすると再び同期できます。
+        </p>
+        <div className="dialogActions">
+          <button className="dialogCancel" onClick={onCancel}>
+            キャンセル
+          </button>
+          <button className="dialogDanger" onClick={onConfirm}>
+            ログアウトする
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function SaveDataDialog({
+  signedIn,
+  onExport,
+  onImport,
+  onClose,
+}: {
+  signedIn: boolean;
+  onExport: () => void;
+  onImport: (file: File) => Promise<void>;
+  onClose: () => void;
 }) {
   const [message, setMessage] = useState("");
   const [importing, setImporting] = useState(false);
@@ -1046,77 +1970,372 @@ function SaveDataDialog({ signedIn, onExport, onImport, onClose }: {
       await onImport(file);
       setMessage("読み込みました。この端末の学習記録として復元されています。");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "読み込めませんでした。JSONファイルを確認してください。");
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "読み込めませんでした。JSONファイルを確認してください。",
+      );
     } finally {
       setImporting(false);
     }
   }
 
-  return <div className="dialogBackdrop">
-    <section className="authDialog saveDataDialog" role="dialog" aria-modal="true" aria-labelledby="save-data-title">
-      <button className="dialogClose" onClick={onClose} aria-label="閉じる">×</button>
-      <span className="authMark">↓</span>
-      <span className="eyebrow">LOCAL BACKUP</span>
-      <h2 id="save-data-title">学習記録を保存</h2>
-      <p>正解状況、提出した回答、採点結果、学習時間をJSONファイルに保存します。写真そのものは含まれません。</p>
-      <button className="authSubmit" onClick={() => { onExport(); setMessage("JSONファイルを保存しました。大切な場所に保管してください。"); }}>JSONを保存する</button>
-      <label className="importLabel">保存済みJSONを読み込む
-        <input type="file" accept="application/json,.json" disabled={importing} onChange={(event) => void handleImport(event.target.files?.[0] || null)} />
-      </label>
-      {signedIn && <small>読み込んだ内容はこの端末に復元されます。クラウド上の記録は変更しません。</small>}
-      {message && <div className="authMessage" aria-live="polite">{message}</div>}
-    </section>
-  </div>;
+  return (
+    <div className="dialogBackdrop">
+      <section
+        className="authDialog saveDataDialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="save-data-title"
+      >
+        <button className="dialogClose" onClick={onClose} aria-label="閉じる">
+          ×
+        </button>
+        <span className="authMark">↓</span>
+        <span className="eyebrow">LOCAL BACKUP</span>
+        <h2 id="save-data-title">学習記録を保存</h2>
+        <p>
+          正解状況、提出した回答、採点結果、学習時間をJSONファイルに保存します。写真そのものは含まれません。
+        </p>
+        <button
+          className="authSubmit"
+          onClick={() => {
+            onExport();
+            setMessage(
+              "JSONファイルを保存しました。大切な場所に保管してください。",
+            );
+          }}
+        >
+          JSONを保存する
+        </button>
+        <label className="importLabel">
+          保存済みJSONを読み込む
+          <input
+            type="file"
+            accept="application/json,.json"
+            disabled={importing}
+            onChange={(event) =>
+              void handleImport(event.target.files?.[0] || null)
+            }
+          />
+        </label>
+        {signedIn && (
+          <small>
+            読み込んだ内容はこの端末に復元されます。クラウド上の記録は変更しません。
+          </small>
+        )}
+        {message && (
+          <div className="authMessage" aria-live="polite">
+            {message}
+          </div>
+        )}
+      </section>
+    </div>
+  );
 }
 
-function StatsView({ progress, solved, attempted, attempts, totalSeconds }: {
-  progress: Record<string, Progress>; solved: number; attempted: number; attempts: number; totalSeconds: number;
+function StatsView({
+  progress,
+  solved,
+  attempted,
+  attempts,
+  totalSeconds,
+}: {
+  progress: Record<string, Progress>;
+  solved: number;
+  attempted: number;
+  attempts: number;
+  totalSeconds: number;
 }) {
-  const fieldStats = Array.from(new Set(problems.map((problem) => problem.field))).map((field) => {
-    const scoped = problems.filter((problem) => problem.field === field);
-    const count = scoped.filter((problem) => progress[problem.id]?.status === "AC").length;
-    return { field, count, total: scoped.length, rate: Math.round((count / scoped.length) * 100) };
-  }).sort((a, b) => b.rate - a.rate);
+  const fieldStats = Array.from(
+    new Set(problems.map((problem) => problem.field)),
+  )
+    .map((field) => {
+      const scoped = problems.filter((problem) => problem.field === field);
+      const count = scoped.filter(
+        (problem) => progress[problem.id]?.status === "AC",
+      ).length;
+      return {
+        field,
+        count,
+        total: scoped.length,
+        rate: Math.round((count / scoped.length) * 100),
+      };
+    })
+    .sort((a, b) => b.rate - a.rate);
 
   const difficultyStats = difficulties.map((difficulty) => {
-    const scoped = problems.filter((problem) => !isGuidedSetProblem(problem) && problem.difficulty === difficulty);
-    return { difficulty, solved: scoped.filter((problem) => progress[problem.id]?.status === "AC").length, total: scoped.length };
+    const scoped = problems.filter(
+      (problem) =>
+        !isGuidedSetProblem(problem) && problem.difficulty === difficulty,
+    );
+    return {
+      difficulty,
+      solved: scoped.filter((problem) => progress[problem.id]?.status === "AC")
+        .length,
+      total: scoped.length,
+    };
   });
 
-  const recent = Object.values(progress).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 5);
-  const firstAc = Object.values(progress).filter((row) => row.firstStatus === "AC").length;
-  const retryTargets = Object.values(progress).filter((row) => row.firstStatus && row.firstStatus !== "AC");
+  const recent = Object.values(progress)
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+    .slice(0, 5);
+  const firstAc = Object.values(progress).filter(
+    (row) => row.firstStatus === "AC",
+  ).length;
+  const retryTargets = Object.values(progress).filter(
+    (row) => row.firstStatus && row.firstStatus !== "AC",
+  );
   const retryAc = retryTargets.filter((row) => row.status === "AC").length;
-  const tagStats = Array.from(new Set(problems.flatMap((problem) => problem.tags))).map((tag) => {
-    const scoped = problems.filter((problem) => problem.tags.includes(tag));
-    const challenged = scoped.filter((problem) => progress[problem.id]);
-    const count = scoped.filter((problem) => progress[problem.id]?.status === "AC").length;
-    return { tag, count, challenged: challenged.length, total: scoped.length, rate: challenged.length ? Math.round((count / challenged.length) * 100) : 0 };
-  }).filter((item) => item.challenged > 0).sort((a, b) => b.challenged - a.challenged || b.rate - a.rate).slice(0, 12);
+  const tagStats = Array.from(
+    new Set(problems.flatMap((problem) => problem.tags)),
+  )
+    .map((tag) => {
+      const scoped = problems.filter((problem) => problem.tags.includes(tag));
+      const challenged = scoped.filter((problem) => progress[problem.id]);
+      const count = scoped.filter(
+        (problem) => progress[problem.id]?.status === "AC",
+      ).length;
+      return {
+        tag,
+        count,
+        challenged: challenged.length,
+        total: scoped.length,
+        rate: challenged.length
+          ? Math.round((count / challenged.length) * 100)
+          : 0,
+      };
+    })
+    .filter((item) => item.challenged > 0)
+    .sort((a, b) => b.challenged - a.challenged || b.rate - a.rate)
+    .slice(0, 12);
   const heatDays = Array.from({ length: 70 }, (_, index) => {
     const date = new Date();
     date.setDate(date.getDate() - (69 - index));
     const key = date.toISOString().slice(0, 10);
-    const count = Object.values(progress).filter((row) => row.updatedAt.slice(0, 10) === key).length;
+    const count = Object.values(progress).filter(
+      (row) => row.updatedAt.slice(0, 10) === key,
+    ).length;
     return { key, count };
   });
 
-  return <div className="content statsContent">
-    <section className="statsHero"><div><span className="heroLabel">LEARNING REPORT</span><h2>積み重ねが、見える。</h2><p>正解数だけでなく、分野ごとの得意・苦手も確認できます。</p></div><div className="overallRing" style={{ "--rate": `${Math.round((solved / problems.length) * 100)}%` } as React.CSSProperties}><span><b>{Math.round((solved / problems.length) * 100)}</b>%<small>全体進捗</small></span></div></section>
-    <section className="statCards">
-      <div><small>ACした問題</small><b>{solved}<span> / {problems.length}</span></b><em>✓</em></div>
-      <div><small>挑戦した問題</small><b>{attempted}<span> 問</span></b><em>↗</em></div>
-      <div><small>累計提出</small><b>{attempts}<span> 回</span></b><em>↻</em></div>
-      <div><small>学習時間</small><b>{Math.round(totalSeconds / 60)}<span> 分</span></b><em>◷</em></div>
-      <div><small>初回AC率</small><b>{attempted ? Math.round((firstAc / attempted) * 100) : 0}<span> %</span></b><em>1</em></div>
-      <div><small>復習後AC率</small><b>{retryTargets.length ? Math.round((retryAc / retryTargets.length) * 100) : 0}<span> %</span></b><em>↺</em></div>
-    </section>
-    <div className="statsGrid">
-      <section className="statsPanel heatmapPanel"><div className="statsPanelTitle"><div><h3>学習カレンダー</h3><p>過去10週間の提出記録</p></div><span>{Object.keys(progress).length} activities</span></div><div className="heatmap">{heatDays.map((day) => <span key={day.key} className={`heat heat${Math.min(day.count, 3)}`} title={`${day.key}: ${day.count}件`} />)}</div><div className="heatLegend"><span>Less</span><i className="heat heat0"/><i className="heat heat1"/><i className="heat heat2"/><i className="heat heat3"/><span>More</span></div></section>
-      <section className="statsPanel"><div className="statsPanelTitle"><div><h3>分野別の成績</h3><p>AC率で得意分野を比較</p></div></div><div className="fieldBars">{fieldStats.map((item) => <div key={item.field}><p><span>{item.field}</span><b>{item.count}/{item.total}<small>{item.rate}%</small></b></p><div><span style={{ width: `${item.rate}%` }} /></div></div>)}</div></section>
-      <section className="statsPanel"><div className="statsPanelTitle"><div><h3>難易度別</h3><p>AからEまでの到達度</p></div></div><div className="difficultyGrid">{difficultyStats.map((item) => <div key={item.difficulty}><span className={`level level${item.difficulty}`}>{item.difficulty}</span><b>{item.solved}<small>/{item.total}</small></b><p>{difficultyLabel[item.difficulty]}</p></div>)}</div></section>
-      <section className="statsPanel tagStatsPanel"><div className="statsPanelTitle"><div><h3>タグ別の成績</h3><p>挑戦済みの知識タグごとのAC率</p></div></div>{tagStats.length ? <div className="tagStatsList">{tagStats.map((item) => <div key={item.tag}><p><span>#{item.tag}</span><b>{item.count}/{item.challenged}<small>{item.rate}%</small></b></p><div><span style={{ width: `${item.rate}%` }} /></div></div>)}</div> : <div className="emptyStats">問題を解くと、タグ別の成績が表示されます。</div>}</section>
-      <section className="statsPanel recentPanel"><div className="statsPanelTitle"><div><h3>最近の提出</h3><p>直近5件の記録</p></div></div>{recent.length ? <div className="recentList">{recent.map((row) => { const problem = problems.find((item) => item.id === row.problemId)!; return <div key={row.problemId}>{isGuidedSetProblem(problem) ? <span className="setPartBadge">{problem.position}</span> : <span className={`level level${problem.difficulty}`}>{problem.difficulty}</span>}<p><b>{problem.title}</b><small>{problem.field} · {shortDate(row.updatedAt)}</small></p><StatusBadge status={row.status}/></div>; })}</div> : <div className="emptyStats">問題を解くと、ここに記録が表示されます。</div>}</section>
+  return (
+    <div className="content statsContent">
+      <section className="statsHero">
+        <div>
+          <span className="heroLabel">LEARNING REPORT</span>
+          <h2>これまでの記録</h2>
+          <p>正解数だけでなく、分野ごとの得意・苦手も確認できます。</p>
+        </div>
+        <div
+          className="overallRing"
+          style={
+            {
+              "--rate": `${Math.round((solved / problems.length) * 100)}%`,
+            } as React.CSSProperties
+          }
+        >
+          <span>
+            <b>{Math.round((solved / problems.length) * 100)}</b>%
+            <small>全体進捗</small>
+          </span>
+        </div>
+      </section>
+      <section className="statCards">
+        <div>
+          <small>ACした問題</small>
+          <b>
+            {solved}
+            <span> / {problems.length}</span>
+          </b>
+          <em>✓</em>
+        </div>
+        <div>
+          <small>挑戦した問題</small>
+          <b>
+            {attempted}
+            <span> 問</span>
+          </b>
+          <em>↗</em>
+        </div>
+        <div>
+          <small>累計提出</small>
+          <b>
+            {attempts}
+            <span> 回</span>
+          </b>
+          <em>↻</em>
+        </div>
+        <div>
+          <small>学習時間</small>
+          <b>
+            {Math.round(totalSeconds / 60)}
+            <span> 分</span>
+          </b>
+          <em>◷</em>
+        </div>
+        <div>
+          <small>初回AC率</small>
+          <b>
+            {attempted ? Math.round((firstAc / attempted) * 100) : 0}
+            <span> %</span>
+          </b>
+          <em>1</em>
+        </div>
+        <div>
+          <small>復習後AC率</small>
+          <b>
+            {retryTargets.length
+              ? Math.round((retryAc / retryTargets.length) * 100)
+              : 0}
+            <span> %</span>
+          </b>
+          <em>↺</em>
+        </div>
+      </section>
+      <div className="statsGrid">
+        <section className="statsPanel heatmapPanel">
+          <div className="statsPanelTitle">
+            <div>
+              <h3>学習カレンダー</h3>
+              <p>過去10週間の提出記録</p>
+            </div>
+            <span>{Object.keys(progress).length} activities</span>
+          </div>
+          <div className="heatmap">
+            {heatDays.map((day) => (
+              <span
+                key={day.key}
+                className={`heat heat${Math.min(day.count, 3)}`}
+                title={`${day.key}: ${day.count}件`}
+              />
+            ))}
+          </div>
+          <div className="heatLegend">
+            <span>Less</span>
+            <i className="heat heat0" />
+            <i className="heat heat1" />
+            <i className="heat heat2" />
+            <i className="heat heat3" />
+            <span>More</span>
+          </div>
+        </section>
+        <section className="statsPanel">
+          <div className="statsPanelTitle">
+            <div>
+              <h3>分野別の成績</h3>
+              <p>AC率で得意分野を比較</p>
+            </div>
+          </div>
+          <div className="fieldBars">
+            {fieldStats.map((item) => (
+              <div key={item.field}>
+                <p>
+                  <span>{item.field}</span>
+                  <b>
+                    {item.count}/{item.total}
+                    <small>{item.rate}%</small>
+                  </b>
+                </p>
+                <div>
+                  <span style={{ width: `${item.rate}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section className="statsPanel">
+          <div className="statsPanelTitle">
+            <div>
+              <h3>難易度別</h3>
+              <p>AからEまでの到達度</p>
+            </div>
+          </div>
+          <div className="difficultyGrid">
+            {difficultyStats.map((item) => (
+              <div key={item.difficulty}>
+                <span className={`level level${item.difficulty}`}>
+                  {item.difficulty}
+                </span>
+                <b>
+                  {item.solved}
+                  <small>/{item.total}</small>
+                </b>
+                <p>{difficultyLabel[item.difficulty]}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section className="statsPanel tagStatsPanel">
+          <div className="statsPanelTitle">
+            <div>
+              <h3>タグ別の成績</h3>
+              <p>挑戦済みの知識タグごとのAC率</p>
+            </div>
+          </div>
+          {tagStats.length ? (
+            <div className="tagStatsList">
+              {tagStats.map((item) => (
+                <div key={item.tag}>
+                  <p>
+                    <span>#{item.tag}</span>
+                    <b>
+                      {item.count}/{item.challenged}
+                      <small>{item.rate}%</small>
+                    </b>
+                  </p>
+                  <div>
+                    <span style={{ width: `${item.rate}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="emptyStats">
+              問題を解くと、タグ別の成績が表示されます。
+            </div>
+          )}
+        </section>
+        <section className="statsPanel recentPanel">
+          <div className="statsPanelTitle">
+            <div>
+              <h3>最近の提出</h3>
+              <p>直近5件の記録</p>
+            </div>
+          </div>
+          {recent.length ? (
+            <div className="recentList">
+              {recent.map((row) => {
+                const problem = problems.find(
+                  (item) => item.id === row.problemId,
+                )!;
+                return (
+                  <div key={row.problemId}>
+                    {isGuidedSetProblem(problem) ? (
+                      <span className="setPartBadge">{problem.position}</span>
+                    ) : (
+                      <span className={`level level${problem.difficulty}`}>
+                        {problem.difficulty}
+                      </span>
+                    )}
+                    <p>
+                      <b>{problem.title}</b>
+                      <small>
+                        {problem.field} · {shortDate(row.updatedAt)}
+                      </small>
+                    </p>
+                    <StatusBadge status={row.status} />
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="emptyStats">
+              問題を解くと、ここに記録が表示されます。
+            </div>
+          )}
+        </section>
+      </div>
     </div>
-  </div>;
+  );
 }
