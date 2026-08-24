@@ -2999,5 +2999,2732 @@
         }
       }
     ]
+  },
+  {
+    "id": "GSET-012",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #012",
+    "title": "立体射影座標で見る球面の曲率",
+    "field": "多様体",
+    "tags": [
+      "球面",
+      "立体射影",
+      "共形座標",
+      "ガウス曲率",
+      "全曲率"
+    ],
+    "learningGoal": "立体射影による球面の局所座標から基本形式と曲率を計算し、球面が全臍的な定曲率曲面で全曲率が4πであることを理解する。",
+    "commonStatement": [
+      "$q=1+u^2+v^2$とし、単位球面から北極を除いた部分を$\\mathbf{X}(u,v)=(2u/q,2v/q,(u^2+v^2-1)/q)$で表す。",
+      "定義域は$(u,v)\\in\\mathbb{R}^2$で、単位法線は外向きを選ぶ。",
+      "立体射影座標の計量、曲率、全曲率を順に調べる。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-012-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "パラメータ表示が単位球面上にあることを確認し、外向き法線を特定する。",
+        "connection": "位置ベクトル自身が単位法線になる事実をCで利用する。",
+        "score": 100,
+        "title": "球面上にあることの確認",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "$\\lVert\\mathbf{X}(u,v)\\rVert=1$を示し、$\\mathbf{N}=\\mathbf{X}$が外向き単位法線の候補になることを説明せよ。"
+        ],
+        "explanation": {
+          "summary": "$\\lVert\\mathbf{X}\\rVert^2=1$であり、単位球面では位置ベクトルが外向き法線になる。",
+          "steps": [
+            "分子の二乗和は$4u^2+4v^2+(u^2+v^2-1)^2=(1+u^2+v^2)^2=q^2$である。",
+            "したがって$\\lVert\\mathbf{X}\\rVert^2=q^2/q^2=1$で、像は単位球面上にある。",
+            "$\\mathbf{X}\\cdot\\mathbf{X}=1$を偏微分すると$\\mathbf{X}\\cdot\\mathbf{X}_u=\\mathbf{X}\\cdot\\mathbf{X}_v=0$となる。",
+            "よって$\\mathbf{N}=\\mathbf{X}$は接平面に垂直な外向き単位法線である。"
+          ],
+          "knowledge": [
+            {
+              "title": "球面の法線",
+              "body": "原点中心の単位球面では、位置ベクトルは長さ1で接ベクトルに直交するため、外向き単位法線になる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "分子の二乗和が$q^2$",
+              "$4u^2+4v^2+(u^2+v^2-1)^2=q^2$"
+            ],
+            [
+              "$\\lVert\\mathbf{X}\\rVert=1$",
+              "像は単位球面上にある"
+            ],
+            [
+              "$\\mathbf{X}\\cdot\\mathbf{X}_u=\\mathbf{X}\\cdot\\mathbf{X}_v=0$",
+              "位置ベクトルは接平面に垂直"
+            ],
+            [
+              "$\\mathbf{N}=\\mathbf{X}$",
+              "位置ベクトルが外向き単位法線"
+            ]
+          ],
+          "hint": "座標成分の二乗和を通分して計算すること。"
+        }
+      },
+      {
+        "id": "GSET-012-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "立体射影座標における球面のリーマン計量を求める。",
+        "connection": "共形係数と面積要素をDの曲率計算およびEの全曲率計算に用いる。",
+        "score": 200,
+        "title": "立体射影座標の計量",
+        "minutes": 10,
+        "answerType": "short",
+        "prompt": [
+          "第一基本形式の係数$(E,F,G)$と面積要素$dA$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$(E,F,G)=(4/q^2,0,4/q^2)$で、$dA=4q^{-2}du\\,dv$である。",
+          "steps": [
+            "偏微分を計算して内積を整理すると$E=\\mathbf{X}_u\\cdot\\mathbf{X}_u=4/q^2$となる。",
+            "同様に$F=0$、$G=4/q^2$を得るため、この座標は共形である。",
+            "$\\sqrt{EG-F^2}=4/q^2$なので$dA=4q^{-2}du\\,dv$である。",
+            "$EG-F^2=16/q^4>0$よりパラメータ表示は正則である。"
+          ],
+          "knowledge": [
+            {
+              "title": "共形座標",
+              "body": "$E=G$かつ$F=0$なら第一基本形式は$E(du^2+dv^2)$となり、局所的な角度が保たれる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$(4/q^2,0,4/q^2),\\ dA=4q^{-2}du\\,dv$",
+            "E=4/q^2,F=0,G=4/q^2,dA=4/q^2 du dv"
+          ],
+          "hint": "$E,F,G$と面積要素を答えること。"
+        }
+      },
+      {
+        "id": "GSET-012-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "球面の第二基本形式が第一基本形式の負号倍になることを示す。",
+        "connection": "この比例関係からDで主曲率を直ちに求められる。",
+        "score": 300,
+        "title": "第二基本形式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "Aの$\\mathbf{N}=\\mathbf{X}$を用いて、第二基本形式の係数が$(e,f,g)=(-E,-F,-G)$となることを示せ。"
+        ],
+        "explanation": {
+          "summary": "$(e,f,g)=(-4/q^2,0,-4/q^2)$であり、第二基本形式は第一基本形式の負号倍である。",
+          "steps": [
+            "$\\mathbf{X}\\cdot\\mathbf{X}_u=0$をuで微分すると$\\mathbf{X}_u\\cdot\\mathbf{X}_u+\\mathbf{X}\\cdot\\mathbf{X}_{uu}=0$となる。",
+            "したがって$e=\\mathbf{X}_{uu}\\cdot\\mathbf{N}=-E=-4/q^2$である。",
+            "$\\mathbf{X}\\cdot\\mathbf{X}_u=0$をvで微分すると$f=-F=0$を得る。",
+            "同様に$g=-G=-4/q^2$であり、$II=-I$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "第二基本形式",
+              "body": "単位法線$\\mathbf{N}$に対し、$e=\\langle\\mathbf{X}_{uu},\\mathbf{N}\\rangle$、$f=\\langle\\mathbf{X}_{uv},\\mathbf{N}\\rangle$、$g=\\langle\\mathbf{X}_{vv},\\mathbf{N}\\rangle$である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$e=-E=-4/q^2$",
+              "uu係数は$-4/q^2$"
+            ],
+            [
+              "$f=-F=0$",
+              "混合係数は0"
+            ],
+            [
+              "$g=-G=-4/q^2$",
+              "vv係数は$-4/q^2$"
+            ],
+            [
+              "$II=-I$",
+              "第二基本形式は第一基本形式の負号倍"
+            ]
+          ],
+          "hint": "$\\mathbf{X}\\cdot\\mathbf{X}_u=0$をもう一度微分すること。"
+        }
+      },
+      {
+        "id": "GSET-012-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "二つの基本形式から球面の主曲率と曲率不変量を求める。",
+        "connection": "一定曲率と全臍性をEの大域的結論へつなげる。",
+        "score": 400,
+        "title": "主曲率とガウス曲率",
+        "minutes": 14,
+        "answerType": "short",
+        "prompt": [
+          "主曲率$k_1,k_2$、ガウス曲率$K$、平均曲率$H$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$k_1=k_2=-1$、$K=1$、$H=-1$である。",
+          "steps": [
+            "B、Cより$II=-I$なので形作用素は$-\\mathrm{id}$である。",
+            "したがって二つの固有値、すなわち主曲率はともに$-1$である。",
+            "$K=k_1k_2=1$、$H=(k_1+k_2)/2=-1$となる。",
+            "両主曲率が一致するため全点が臍点である。"
+          ],
+          "knowledge": [
+            {
+              "title": "形作用素",
+              "body": "第二基本形式は$II(V,W)=I(SV,W)$と表され、形作用素$S$の固有値が主曲率である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$k_1=k_2=-1,\\ K=1,\\ H=-1$",
+            "k1=k2=-1,K=1,H=-1"
+          ],
+          "hint": "$II=-I$から形作用素を読み取ること。"
+        }
+      },
+      {
+        "id": "GSET-012-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "B",
+          "C",
+          "D"
+        ],
+        "purpose": "局所的な曲率計算を球面の全曲率という大域量へ統合する。",
+        "connection": "立体射影座標、面積要素、一定曲率を統合して学習目標を達成する。",
+        "score": 500,
+        "title": "全臍性と全曲率",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "球面が全臍的な一定正曲率曲面であることを述べ、立体射影座標を用いて全曲率$\\int K\\,dA$を計算せよ。"
+        ],
+        "explanation": {
+          "summary": "球面は全臍的で$K=1$を持ち、全曲率は$4\\pi$である。",
+          "steps": [
+            "C、Dより形作用素は$-\\mathrm{id}$で、全点が臍点かつ$K=1$である。",
+            "Bより$K\\,dA=4(1+u^2+v^2)^{-2}du\\,dv$である。",
+            "極座標$u=r\\cos\\theta$, $v=r\\sin\\theta$を用いると、全曲率は$\\int_0^{2\\pi}\\int_0^\\infty4r(1+r^2)^{-2}dr\\,d\\theta$となる。",
+            "内側の積分は2なので、結果は$2\\pi\\cdot2=4\\pi$である。",
+            "立体射影座標が除く北極は面積零であり、積分値に影響しない。"
+          ],
+          "knowledge": [
+            {
+              "title": "全曲率",
+              "body": "曲面全体でガウス曲率を面積要素により積分した量を全曲率という。コンパクト曲面では大域的な位相とも関係する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "球面は全臍的",
+              "全点で$k_1=k_2$"
+            ],
+            [
+              "$K=1$で一定",
+              "一定の正のガウス曲率"
+            ],
+            [
+              "$K\\,dA=4(1+u^2+v^2)^{-2}du\\,dv$",
+              "立体射影座標での曲率密度"
+            ],
+            [
+              "極座標へ変換",
+              "$4r/(1+r^2)^2$を積分"
+            ],
+            [
+              "全曲率は$4\\pi$",
+              "$\\int K\\,dA=4\\pi$"
+            ]
+          ],
+          "hint": "Bの面積要素を極座標で積分すること。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "GSET-013",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #013",
+    "title": "円柱面の平坦計量と測地線",
+    "field": "多様体",
+    "tags": [
+      "円柱面",
+      "局所等長写像",
+      "ガウス曲率",
+      "測地線"
+    ],
+    "learningGoal": "円柱面の曲率と平面からの局所等長表示を求め、直線が円柱面上のらせん型測地線へ移ることを理解する。",
+    "commonStatement": [
+      "$R>0$とし、円柱面を$\\mathbf{X}(u,v)=(R\\cos u,R\\sin u,v)$で表す。",
+      "定義域は$u\\in\\mathbb{R}$, $v\\in\\mathbb{R}$とし、$u$の$2\\pi$周期により同じ点が表される。",
+      "曲率を計算した後、平面との局所等長性と測地線を調べる。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-013-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "円周方向と母線方向の接ベクトルを確認する。",
+        "connection": "接ベクトルはBの計量とCの第二基本形式に使う。",
+        "score": 100,
+        "title": "接ベクトルと正則性",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "$\\mathbf{X}_u$, $\\mathbf{X}_v$を求め、正則性を示せ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{X}_u=(-R\\sin u,R\\cos u,0)$、$\\mathbf{X}_v=(0,0,1)$で、外積の大きさは$R$である。",
+          "steps": [
+            "偏微分により二つの接ベクトルを得る。",
+            "外積は$(R\\cos u,R\\sin u,0)$である。",
+            "その大きさは$R>0$なので全点で正則である。",
+            "外積を正規化すると外向き法線も得られる。"
+          ],
+          "knowledge": [
+            {
+              "title": "正則曲面",
+              "body": "二つの座標接ベクトルが線形独立、すなわち外積が非零なら正則である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{X}_u=(-R\\sin u,R\\cos u,0)$",
+              "円周方向の接ベクトル"
+            ],
+            [
+              "$\\mathbf{X}_v=(0,0,1)$",
+              "母線方向の接ベクトル"
+            ],
+            [
+              "外積は$(R\\cos u,R\\sin u,0)$",
+              "接ベクトルの外積"
+            ],
+            [
+              "外積の大きさは$R>0$",
+              "全点で正則"
+            ]
+          ],
+          "hint": "二つの偏微分ベクトルの外積を調べること。"
+        }
+      },
+      {
+        "id": "GSET-013-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "円柱面の内在的な距離を表す計量を求める。",
+        "connection": "Eで平面からの局所等長写像を構成する基礎になる。",
+        "score": 200,
+        "title": "円柱面の第一基本形式",
+        "minutes": 10,
+        "answerType": "short",
+        "prompt": [
+          "第一基本形式の係数$(E,F,G)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$(E,F,G)=(R^2,0,1)$である。",
+          "steps": [
+            "Aより$E=R^2$である。",
+            "二つの接ベクトルは直交するため$F=0$である。",
+            "$\\mathbf{X}_v$は単位ベクトルなので$G=1$である。",
+            "したがって$I=R^2du^2+dv^2$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "第一基本形式",
+              "body": "第一基本形式は曲面上の長さ、角度、面積を決める内在的な計量である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$(R^2,0,1)$",
+            "(R^2,0,1)",
+            "E=R^2,F=0,G=1"
+          ],
+          "hint": "$E,F,G$の順に答えること。"
+        }
+      },
+      {
+        "id": "GSET-013-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "円柱面が一方向にだけ曲がることを第二基本形式で確認する。",
+        "connection": "第二基本形式の退化からDでガウス曲率零が得られる。",
+        "score": 300,
+        "title": "第二基本形式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "外向き単位法線と第二基本形式の係数$(e,f,g)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{N}=(\\cos u,\\sin u,0)$、$(e,f,g)=(-R,0,0)$である。",
+          "steps": [
+            "Aの外積をRで割り、$\\mathbf{N}=(\\cos u,\\sin u,0)$を得る。",
+            "$\\mathbf{X}_{uu}=(-R\\cos u,-R\\sin u,0)$より$e=-R$である。",
+            "$\\mathbf{X}_{uv}=\\mathbf{0}$より$f=0$である。",
+            "$\\mathbf{X}_{vv}=\\mathbf{0}$より$g=0$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "母線方向の法曲率",
+              "body": "v方向の座標曲線は直線であり、二階微分が零なので、その方向の法曲率も零である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{N}=(\\cos u,\\sin u,0)$",
+              "外向き単位法線"
+            ],
+            [
+              "$e=-R$",
+              "円周方向の第二基本係数"
+            ],
+            [
+              "$f=0$",
+              "混合係数は0"
+            ],
+            [
+              "$g=0$",
+              "母線方向の第二基本係数"
+            ]
+          ],
+          "hint": "v方向の二階偏微分が零になることに注目すること。"
+        }
+      },
+      {
+        "id": "GSET-013-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "円柱面の内在的曲率と外在的曲がりを区別する。",
+        "connection": "K=0という結果をEの平面との局所等長性と結び付ける。",
+        "score": 400,
+        "title": "曲率の計算",
+        "minutes": 14,
+        "answerType": "short",
+        "prompt": [
+          "主曲率、ガウス曲率$K$、平均曲率$H$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "主曲率は$-1/R$と0で、$K=0$、$H=-1/(2R)$である。",
+          "steps": [
+            "B、Cでは両基本形式が対角なので主曲率は$e/E=-1/R$と$g/G=0$である。",
+            "積から$K=0$を得る。",
+            "平均から$H=-1/(2R)$を得る。",
+            "Kは零だがHは非零なので、円柱面は内在的に平坦でも空間内では曲がっている。"
+          ],
+          "knowledge": [
+            {
+              "title": "内在曲率と外在曲率",
+              "body": "ガウス曲率は第一基本形式から決まる内在量である一方、平均曲率は空間への埋め込み方に依存する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$k_1=-1/R,k_2=0,K=0,H=-1/(2R)$",
+            "(-1/R,0,0,-1/(2R))"
+          ],
+          "hint": "主曲率、K、Hの順に答えること。"
+        }
+      },
+      {
+        "id": "GSET-013-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "B",
+          "D"
+        ],
+        "purpose": "平坦計量を局所等長写像と測地線の具体形へ発展させる。",
+        "connection": "Bの計量とDの零曲率を統合し、円柱面の内在幾何を完成させる。",
+        "score": 500,
+        "title": "局所等長写像と測地線",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "$\\Phi(x,y)=\\mathbf{X}(x/R,y)$が平面から円柱面への局所等長写像であることを示し、平面上の直線$(x,y)=(at+b,ct+d)$の像が円柱面上の測地線になることを説明せよ。"
+        ],
+        "explanation": {
+          "summary": "$\\Phi^*I=dx^2+dy^2$であるため局所等長であり、直線の像は円、母線、または円柱らせんとなる測地線である。",
+          "steps": [
+            "Bの$I=R^2du^2+dv^2$へ$u=x/R$, $v=y$を代入すると$\\Phi^*I=dx^2+dy^2$となる。",
+            "したがって$\\Phi$は各点の近傍で長さと角度を保つ局所等長写像である。",
+            "局所等長写像は測地線を測地線へ移すため、平面の直線の像は円柱面上の測地線となる。",
+            "像は$(R\\cos((at+b)/R),R\\sin((at+b)/R),ct+d)$である。",
+            "$a=0$なら母線、$c=0$なら円、両方非零なら円柱らせんとなり、Dの$K=0$と整合する平坦幾何が得られる。"
+          ],
+          "knowledge": [
+            {
+              "title": "局所等長写像",
+              "body": "接ベクトルの内積を保つ写像を局所等長写像という。局所等長写像はレヴィ・チヴィタ接続を保ち、測地線を測地線へ移す。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$u=x/R$, $v=y$を代入",
+              "平面座標から円柱座標への変換"
+            ],
+            [
+              "$\\Phi^*I=dx^2+dy^2$",
+              "計量を保つ"
+            ],
+            [
+              "$\\Phi$は局所等長写像",
+              "平面と円柱面は局所等長"
+            ],
+            [
+              "直線の像は測地線",
+              "局所等長写像は測地線を保つ"
+            ],
+            [
+              "像は円、母線、または円柱らせん",
+              "直線がらせん型測地線へ移る"
+            ]
+          ],
+          "hint": "Bの第一基本形式へ$u=x/R$を代入すること。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "GSET-014",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #014",
+    "title": "双曲放物面の鞍型幾何",
+    "field": "多様体",
+    "tags": [
+      "双曲放物面",
+      "負曲率",
+      "双曲点",
+      "漸近方向"
+    ],
+    "learningGoal": "双曲放物面の基本形式と曲率を求め、全点が双曲点で座標曲線が漸近曲線となることを理解する。",
+    "commonStatement": [
+      "双曲放物面を$\\mathbf{X}(u,v)=(u,v,uv)$、$(u,v)\\in\\mathbb{R}^2$で表す。",
+      "単位法線は第3成分が正となる向きを選ぶ。",
+      "曲率と法曲率を計算し、鞍型構造と漸近方向を判定する。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-014-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "接ベクトルと正則性を確認する。",
+        "connection": "外積はBの面積要素とCの法線に利用する。",
+        "score": 100,
+        "title": "接ベクトルと外積",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "$\\mathbf{X}_u$, $\\mathbf{X}_v$と外積を求め、正則性を示せ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{X}_u=(1,0,v)$、$\\mathbf{X}_v=(0,1,u)$で、外積は$(-v,-u,1)$である。",
+          "steps": [
+            "各変数で偏微分して二つの接ベクトルを得る。",
+            "外積を計算すると$(-v,-u,1)$となる。",
+            "第3成分が常に1なので外積は非零である。",
+            "したがって全定義域で正則である。"
+          ],
+          "knowledge": [
+            {
+              "title": "グラフ曲面",
+              "body": "$(u,v,f(u,v))$型のグラフ曲面では外積の第3成分が1となるため、微分可能なら正則である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{X}_u=(1,0,v)$",
+              "u方向の接ベクトル"
+            ],
+            [
+              "$\\mathbf{X}_v=(0,1,u)$",
+              "v方向の接ベクトル"
+            ],
+            [
+              "外積は$(-v,-u,1)$",
+              "$X_u\\times X_v=(-v,-u,1)$"
+            ],
+            [
+              "第3成分が1なので正則",
+              "外積は常に非零"
+            ]
+          ],
+          "hint": "外積の第3成分を確認すること。"
+        }
+      },
+      {
+        "id": "GSET-014-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "双曲放物面の接平面上の計量を求める。",
+        "connection": "計量行列式をDの曲率計算で用いる。",
+        "score": 200,
+        "title": "第一基本形式",
+        "minutes": 10,
+        "answerType": "short",
+        "prompt": [
+          "$(E,F,G)$および$EG-F^2$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$(E,F,G)=(1+v^2,uv,1+u^2)$、$EG-F^2=1+u^2+v^2$である。",
+          "steps": [
+            "Aの接ベクトルから$E=1+v^2$を得る。",
+            "同様に$F=uv$、$G=1+u^2$である。",
+            "行列式を展開すると$EG-F^2=1+u^2+v^2$となる。",
+            "この値は常に正である。"
+          ],
+          "knowledge": [
+            {
+              "title": "面積要素",
+              "body": "$EG-F^2=\\lVert\\mathbf{X}_u\\times\\mathbf{X}_v\\rVert^2$である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$(1+v^2,uv,1+u^2;1+u^2+v^2)$",
+            "E=1+v^2,F=uv,G=1+u^2,EG-F^2=1+u^2+v^2"
+          ],
+          "hint": "$E,F,G$と行列式を答えること。"
+        }
+      },
+      {
+        "id": "GSET-014-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "混合方向にのみ曲がりが現れる第二基本形式を求める。",
+        "connection": "$e=g=0$という結果をDの負曲率とEの漸近方向へつなげる。",
+        "score": 300,
+        "title": "第二基本形式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "$W=\\sqrt{1+u^2+v^2}$として、単位法線と$(e,f,g)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{N}=(-v,-u,1)/W$、$(e,f,g)=(0,1/W,0)$である。",
+          "steps": [
+            "Aの外積をWで割り、上向き単位法線を得る。",
+            "$\\mathbf{X}_{uu}=\\mathbf{0}$なので$e=0$である。",
+            "$\\mathbf{X}_{uv}=(0,0,1)$より$f=1/W$である。",
+            "$\\mathbf{X}_{vv}=\\mathbf{0}$なので$g=0$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "混合第二基本係数",
+              "body": "$f$だけが非零の場合、二つの座標方向は法曲率零の方向になるが、その間の方向では曲率が現れる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{N}=(-v,-u,1)/W$",
+              "上向き単位法線"
+            ],
+            [
+              "$e=0$",
+              "uu係数は0"
+            ],
+            [
+              "$f=1/W$",
+              "混合係数は$1/W$"
+            ],
+            [
+              "$g=0$",
+              "vv係数は0"
+            ]
+          ],
+          "hint": "$X_{uv}$だけが非零になる。"
+        }
+      },
+      {
+        "id": "GSET-014-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "双曲放物面のガウス曲率と平均曲率を明示する。",
+        "connection": "Kの符号をEの双曲点判定に使う。",
+        "score": 400,
+        "title": "曲率不変量",
+        "minutes": 14,
+        "answerType": "short",
+        "prompt": [
+          "ガウス曲率$K$と平均曲率$H$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$K=-1/(1+u^2+v^2)^2$、$H=-uv/(1+u^2+v^2)^{3/2}$である。",
+          "steps": [
+            "Bより$EG-F^2=W^2$である。",
+            "Cより$eg-f^2=-1/W^2$なので$K=-1/W^4$である。",
+            "平均曲率の分子は$-2uv/W$である。",
+            "したがって$H=-uv/W^3$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "ガウス曲率の符号",
+              "body": "$K<0$なら二つの主曲率は異符号となり、その点は双曲点である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$K=-1/(1+u^2+v^2)^2,H=-uv/(1+u^2+v^2)^{3/2}$",
+            "K=-1/(1+u^2+v^2)^2,H=-uv/(1+u^2+v^2)^(3/2)"
+          ],
+          "hint": "$W^2=1+u^2+v^2$を用いること。"
+        }
+      },
+      {
+        "id": "GSET-014-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "B",
+          "C",
+          "D"
+        ],
+        "purpose": "曲率と第二基本形式から鞍型構造と漸近方向を決定する。",
+        "connection": "A〜Dの局所計算を双曲点と漸近曲線という幾何学的性質へ統合する。",
+        "score": 500,
+        "title": "双曲点と漸近曲線",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "全点が双曲点で臍点を持たないことを示せ。また、u一定およびv一定の座標曲線が漸近曲線であることを示せ。"
+        ],
+        "explanation": {
+          "summary": "$K<0$なので全点が双曲点で臍点はなく、$e=g=0$なので両座標曲線の法曲率は零である。",
+          "steps": [
+            "Dより$K=-1/(1+u^2+v^2)^2<0$が全点で成立する。",
+            "よって主曲率は異符号で全点が双曲点となり、二主曲率が等しい臍点は存在しない。",
+            "Cより第二基本形式は$II=2W^{-1}du\\,dv$である。",
+            "v一定の曲線では$dv=0$、u一定の曲線では$du=0$なので、いずれも$II=0$となる。",
+            "したがって両座標曲線の接方向は法曲率零の漸近方向であり、座標曲線は漸近曲線である。"
+          ],
+          "knowledge": [
+            {
+              "title": "漸近方向",
+              "body": "第二基本形式が零となる非零接方向を漸近方向という。負曲率点では二つの異なる漸近方向が存在する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$K<0$が全点で成立",
+              "ガウス曲率は常に負"
+            ],
+            [
+              "全点が双曲点",
+              "主曲率は異符号"
+            ],
+            [
+              "臍点を持たない",
+              "負曲率なので主曲率は一致しない"
+            ],
+            [
+              "$II=2W^{-1}du\\,dv$",
+              "第二基本形式は混合項のみ"
+            ],
+            [
+              "座標方向で$II=0$",
+              "u一定とv一定の方向の法曲率は零"
+            ],
+            [
+              "座標曲線は漸近曲線",
+              "二つの座標方向が漸近方向"
+            ]
+          ],
+          "hint": "Cの第二基本形式へ$du=0$または$dv=0$を代入すること。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "GSET-015",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #015",
+    "title": "回転放物面の曲率と唯一の臍点",
+    "field": "多様体",
+    "tags": [
+      "回転放物面",
+      "楕円点",
+      "主曲率",
+      "臍点"
+    ],
+    "learningGoal": "回転放物面の曲率を計算し、全点が楕円点で原点だけが臍点であることを示す。",
+    "commonStatement": [
+      "回転放物面を$\\mathbf{X}(u,v)=(u,v,(u^2+v^2)/2)$、$(u,v)\\in\\mathbb{R}^2$で表す。",
+      "法線は第3成分が正となる向きを選び、$s=u^2+v^2$、$W=\\sqrt{1+s}$とおく。",
+      "基本形式から主曲率を求め、点の型と臍点を分類する。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-015-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "グラフ曲面の接ベクトルと正則性を確認する。",
+        "connection": "外積の長さWをB、C、Dで繰り返し利用する。",
+        "score": 100,
+        "title": "接ベクトルと上向き外積",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "接ベクトルと外積を求め、正則性を示せ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{X}_u=(1,0,u)$、$\\mathbf{X}_v=(0,1,v)$、外積は$(-u,-v,1)$である。",
+          "steps": [
+            "u、vで偏微分して二つの接ベクトルを得る。",
+            "外積は$(-u,-v,1)$となる。",
+            "外積の大きさは$W=\\sqrt{1+u^2+v^2}$である。",
+            "$W>0$なので全点で正則である。"
+          ],
+          "knowledge": [
+            {
+              "title": "グラフ曲面の上向き法線",
+              "body": "$z=f(u,v)$のグラフでは$(-f_u,-f_v,1)$が上向き法線ベクトルになる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{X}_u=(1,0,u)$",
+              "u偏微分"
+            ],
+            [
+              "$\\mathbf{X}_v=(0,1,v)$",
+              "v偏微分"
+            ],
+            [
+              "外積は$(-u,-v,1)$",
+              "上向き外積"
+            ],
+            [
+              "外積の大きさは$W>0$",
+              "全点で正則"
+            ]
+          ],
+          "hint": "グラフ曲面の標準的な外積を用いること。"
+        }
+      },
+      {
+        "id": "GSET-015-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "回転放物面の計量と面積要素を求める。",
+        "connection": "計量行列式をDの曲率計算で用いる。",
+        "score": 200,
+        "title": "第一基本形式",
+        "minutes": 10,
+        "answerType": "short",
+        "prompt": [
+          "$(E,F,G)$と$EG-F^2$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$(E,F,G)=(1+u^2,uv,1+v^2)$、$EG-F^2=1+s=W^2$である。",
+          "steps": [
+            "Aより$E=1+u^2$である。",
+            "$F=uv$、$G=1+v^2$である。",
+            "行列式は$(1+u^2)(1+v^2)-u^2v^2=1+s$となる。",
+            "これはAで得た外積の大きさの二乗に一致する。"
+          ],
+          "knowledge": [
+            {
+              "title": "基本形式の行列式",
+              "body": "$EG-F^2$は接平面上の計量行列の行列式であり、面積要素の二乗を与える。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$(1+u^2,uv,1+v^2;1+s)$",
+            "E=1+u^2,F=uv,G=1+v^2,EG-F^2=1+s"
+          ],
+          "hint": "$s=u^2+v^2$を使って整理すること。"
+        }
+      },
+      {
+        "id": "GSET-015-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "放物面の上向き法線と第二基本形式を求める。",
+        "connection": "等しい第二基本係数をDの曲率計算に使う。",
+        "score": 300,
+        "title": "第二基本形式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "単位法線$\\mathbf{N}$と第二基本形式の係数$(e,f,g)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{N}=(-u,-v,1)/W$、$(e,f,g)=(1/W,0,1/W)$である。",
+          "steps": [
+            "Aの外積をWで割り、上向き単位法線を得る。",
+            "$\\mathbf{X}_{uu}=(0,0,1)$より$e=1/W$である。",
+            "$\\mathbf{X}_{uv}=\\mathbf{0}$より$f=0$である。",
+            "$\\mathbf{X}_{vv}=(0,0,1)$より$g=1/W$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "グラフの第二基本形式",
+              "body": "上向き法線を選ぶと、第二基本形式の係数はグラフ関数の二階偏微分を$\\sqrt{1+|\\nabla f|^2}$で割ったものになる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{N}=(-u,-v,1)/W$",
+              "上向き単位法線"
+            ],
+            [
+              "$e=1/W$",
+              "uu係数"
+            ],
+            [
+              "$f=0$",
+              "混合係数"
+            ],
+            [
+              "$g=1/W$",
+              "vv係数"
+            ]
+          ],
+          "hint": "二階偏微分は$(0,0,1)$または零になる。"
+        }
+      },
+      {
+        "id": "GSET-015-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "ガウス曲率と平均曲率を半径sの関数として求める。",
+        "connection": "Eで曲率不変量から主曲率と臍点を決定する。",
+        "score": 400,
+        "title": "曲率の計算",
+        "minutes": 14,
+        "answerType": "short",
+        "prompt": [
+          "$K$と$H$を$s$を用いて表せ。"
+        ],
+        "explanation": {
+          "summary": "$K=(1+s)^{-2}$、$H=(2+s)/[2(1+s)^{3/2}]$である。",
+          "steps": [
+            "Bより$EG-F^2=W^2$、Cより$eg-f^2=1/W^2$である。",
+            "したがって$K=1/W^4=1/(1+s)^2$である。",
+            "平均曲率の分子は$(E+G)/W=(2+s)/W$である。",
+            "よって$H=(2+s)/(2W^3)$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "曲率公式",
+              "body": "$K=(eg-f^2)/(EG-F^2)$、$H=(eG-2fF+gE)/(2(EG-F^2))$である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$K=1/(1+s)^2,H=(2+s)/(2(1+s)^{3/2})$",
+            "K=(1+s)^-2,H=(2+s)/(2(1+s)^(3/2))"
+          ],
+          "hint": "$W^2=1+s$を代入すること。"
+        }
+      },
+      {
+        "id": "GSET-015-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "B",
+          "C",
+          "D"
+        ],
+        "purpose": "曲率から点の型、主曲率、臍点を完全に分類する。",
+        "connection": "A〜Dの結果を回転放物面の幾何学的性質へ統合する。",
+        "score": 500,
+        "title": "楕円点と唯一の臍点",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "全点が楕円点であることを示し、二つの主曲率と臍点を求めよ。"
+        ],
+        "explanation": {
+          "summary": "主曲率は$1/W$と$1/W^3$で、全点が楕円点、臍点は原点だけである。",
+          "steps": [
+            "Dより$K=1/(1+s)^2>0$なので全点が楕円点である。",
+            "主曲率は$k^2-2Hk+K=0$の根であり、Dの$H,K$を代入すると$1/W$と$1/W^3$を得る。",
+            "両者が等しい条件は$W^2=1$である。",
+            "$W^2=1+s$なので$s=0$、すなわち$(u,v)=(0,0)$のときに限り臍点となる。",
+            "原点では両主曲率は1であり、他の点では正だが異なる。"
+          ],
+          "knowledge": [
+            {
+              "title": "主曲率の特性方程式",
+              "body": "主曲率は$k^2-2Hk+K=0$の二根である。したがって$H,K$から主曲率を復元できる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$K>0$より全点が楕円点",
+              "ガウス曲率は全点で正"
+            ],
+            [
+              "主曲率は$1/W$と$1/W^3$",
+              "$k_1=1/\\sqrt{1+s}$, $k_2=1/(1+s)^{3/2}$"
+            ],
+            [
+              "主曲率が等しい条件は$W=1$",
+              "臍点条件は$s=0$"
+            ],
+            [
+              "臍点は$(0,0)$だけ",
+              "原点が唯一の臍点"
+            ],
+            [
+              "原点で両主曲率は1",
+              "原点は臍点"
+            ]
+          ],
+          "hint": "$H,K$を係数とする主曲率の二次方程式を解くこと。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "GSET-016",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #016",
+    "title": "トーラスの曲率分布と全曲率",
+    "field": "多様体",
+    "tags": [
+      "トーラス",
+      "回転面",
+      "曲率符号",
+      "ガウス・ボンネ"
+    ],
+    "learningGoal": "回転トーラスの曲率符号を領域ごとに分類し、全曲率が零となることを計算してトーラスの位相と結び付ける。",
+    "commonStatement": [
+      "$R>r>0$とし、トーラスを$\\mathbf{X}(u,v)=((R+r\\cos v)\\cos u,(R+r\\cos v)\\sin u,r\\sin v)$で表す。",
+      "$0\\le u<2\\pi$, $0\\le v<2\\pi$とし、外向き単位法線を選ぶ。",
+      "曲率の符号分布と全曲率を求める。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-016-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "トーラスの二つの回転方向の接ベクトルと正則性を確認する。",
+        "connection": "外積の大きさはBの面積要素とCの法線に使う。",
+        "score": 100,
+        "title": "接ベクトルと正則性",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "$\\mathbf{X}_u$, $\\mathbf{X}_v$を求め、正則性を示せ。"
+        ],
+        "explanation": {
+          "summary": "外積の大きさは$r(R+r\\cos v)>0$である。",
+          "steps": [
+            "$\\mathbf{X}_u=(-(R+r\\cos v)\\sin u,(R+r\\cos v)\\cos u,0)$である。",
+            "$\\mathbf{X}_v=(-r\\sin v\\cos u,-r\\sin v\\sin u,r\\cos v)$である。",
+            "外積の大きさは$r(R+r\\cos v)$である。",
+            "$R+r\\cos v\\ge R-r>0$なので全点で正則である。"
+          ],
+          "knowledge": [
+            {
+              "title": "環状トーラス",
+              "body": "$R>r$なら母円は回転軸と交わらず、通常の埋め込まれた環状トーラスになる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "u方向の接ベクトルを正しく計算",
+              "$\\mathbf{X}_u=(-(R+r\\cos v)\\sin u,(R+r\\cos v)\\cos u,0)$"
+            ],
+            [
+              "v方向の接ベクトルを正しく計算",
+              "$\\mathbf{X}_v=(-r\\sin v\\cos u,-r\\sin v\\sin u,r\\cos v)$"
+            ],
+            [
+              "外積の大きさは$r(R+r\\cos v)$",
+              "面積係数を正しく計算"
+            ],
+            [
+              "$R+r\\cos v>0$より正則",
+              "$R-r>0$を利用"
+            ]
+          ],
+          "hint": "$R+r\\cos v$を下から評価すること。"
+        }
+      },
+      {
+        "id": "GSET-016-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "トーラスの第一基本形式と面積要素を求める。",
+        "connection": "面積要素をDの曲率計算とEの全曲率積分に使う。",
+        "score": 200,
+        "title": "計量と面積要素",
+        "minutes": 10,
+        "answerType": "short",
+        "prompt": [
+          "$(E,F,G)$と$dA$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$(E,F,G)=((R+r\\cos v)^2,0,r^2)$、$dA=r(R+r\\cos v)du\\,dv$である。",
+          "steps": [
+            "Aの接ベクトルから$E=(R+r\\cos v)^2$を得る。",
+            "二つの接ベクトルは直交するので$F=0$である。",
+            "$G=r^2$である。",
+            "$\\sqrt{EG-F^2}=r(R+r\\cos v)$より面積要素を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "回転面の直交座標",
+              "body": "回転角方向と母曲線方向は直交し、第一基本形式が対角形になる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$((R+r\\cos v)^2,0,r^2),dA=r(R+r\\cos v)du\\,dv$",
+            "E=(R+r cos(v))^2,F=0,G=r^2,dA=r(R+r cos(v))du dv"
+          ],
+          "hint": "$E,F,G$と面積要素を答えること。"
+        }
+      },
+      {
+        "id": "GSET-016-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "トーラスの外向き法線と二方向の曲がりを求める。",
+        "connection": "第二基本形式をBと比較してDの主曲率を得る。",
+        "score": 300,
+        "title": "第二基本形式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "外向き単位法線と$(e,f,g)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{N}=(\\cos u\\cos v,\\sin u\\cos v,\\sin v)$、$(e,f,g)=(-(R+r\\cos v)\\cos v,0,-r)$である。",
+          "steps": [
+            "Aの外積を正規化して外向き単位法線を得る。",
+            "$\\mathbf{X}_{uu}\\cdot\\mathbf{N}=-(R+r\\cos v)\\cos v$である。",
+            "$\\mathbf{X}_{uv}\\cdot\\mathbf{N}=0$である。",
+            "$\\mathbf{X}_{vv}\\cdot\\mathbf{N}=-r$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "回転面の主方向",
+              "body": "第一・第二基本形式が同時に対角化されていれば、座標方向が主方向となる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{N}=(\\cos u\\cos v,\\sin u\\cos v,\\sin v)$",
+              "外向き単位法線"
+            ],
+            [
+              "$e=-(R+r\\cos v)\\cos v$",
+              "u方向の第二基本係数"
+            ],
+            [
+              "$f=0$",
+              "混合係数は0"
+            ],
+            [
+              "$g=-r$",
+              "v方向の第二基本係数"
+            ]
+          ],
+          "hint": "母円の中心から外側へ向かう法線を選ぶこと。"
+        }
+      },
+      {
+        "id": "GSET-016-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "トーラスの主曲率とガウス曲率を求める。",
+        "connection": "Kの符号をEの領域分類と全曲率積分に用いる。",
+        "score": 400,
+        "title": "主曲率とガウス曲率",
+        "minutes": 14,
+        "answerType": "short",
+        "prompt": [
+          "二つの主曲率とガウス曲率$K$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$k_1=-\\cos v/(R+r\\cos v)$、$k_2=-1/r$、$K=\\cos v/[r(R+r\\cos v)]$である。",
+          "steps": [
+            "B、Cでは$F=f=0$なので座標方向が主方向である。",
+            "u方向の主曲率は$e/E=-\\cos v/(R+r\\cos v)$である。",
+            "v方向の主曲率は$g/G=-1/r$である。",
+            "積から$K=\\cos v/[r(R+r\\cos v)]$を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "主曲率",
+              "body": "直交する主方向では、第二基本形式と第一基本形式の対応する係数の比が主曲率になる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$k_1=-\\cos v/(R+r\\cos v),k_2=-1/r,K=\\cos v/[r(R+r\\cos v)]$",
+            "k1=-cos(v)/(R+r cos(v)),k2=-1/r,K=cos(v)/(r(R+r cos(v)))"
+          ],
+          "hint": "まず$e/E$と$g/G$を求めること。"
+        }
+      },
+      {
+        "id": "GSET-016-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "A",
+          "B",
+          "D"
+        ],
+        "purpose": "曲率符号の局所分類と全曲率の大域計算を統合する。",
+        "connection": "Aの正値性、Bの面積要素、Dの曲率を用いてトーラスの局所・大域幾何を完成させる。",
+        "score": 500,
+        "title": "曲率分布と全曲率",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "楕円点、放物点、双曲点をvの範囲で分類し、全曲率$\\int K\\,dA$を求めよ。さらにガウス・ボンネの定理との整合性を説明せよ。"
+        ],
+        "explanation": {
+          "summary": "外側は楕円点、上下面は放物点、内側は双曲点で、全曲率は0である。これは$\\chi(T^2)=0$と一致する。",
+          "steps": [
+            "Aより$R+r\\cos v>0$なので、DのKの符号は$\\cos v$の符号に一致する。",
+            "$\\cos v>0$の外側は楕円点、$\\cos v=0$の上下面は放物点、$\\cos v<0$の内側は双曲点である。",
+            "B、Dより$K\\,dA=\\cos v\\,du\\,dv$である。",
+            "したがって$\\int_0^{2\\pi}\\int_0^{2\\pi}\\cos v\\,dv\\,du=0$である。",
+            "ガウス・ボンネの定理$\\int K\\,dA=2\\pi\\chi(M)$と比較すると、トーラスのオイラー標数$\\chi(T^2)=0$と一致する。"
+          ],
+          "knowledge": [
+            {
+              "title": "ガウス・ボンネの定理",
+              "body": "向き付け可能な閉曲面Mでは$\\int_MK\\,dA=2\\pi\\chi(M)$が成り立ち、曲率積分と位相的不変量を結ぶ。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "外側は楕円点",
+              "$\\cos v>0$で$K>0$"
+            ],
+            [
+              "上下面は放物点",
+              "$\\cos v=0$で$K=0$"
+            ],
+            [
+              "内側は双曲点",
+              "$\\cos v<0$で$K<0$"
+            ],
+            [
+              "$K\\,dA=\\cos v\\,du\\,dv$",
+              "曲率密度を正しく簡約"
+            ],
+            [
+              "全曲率は0",
+              "$\\int K\\,dA=0$"
+            ],
+            [
+              "$\\chi(T^2)=0$と整合",
+              "ガウス・ボンネの定理に一致"
+            ]
+          ],
+          "hint": "Kと面積要素を先に掛けてから積分すること。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "GSET-017",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #017",
+    "title": "カテノイドの極小性と全曲率",
+    "field": "多様体",
+    "tags": [
+      "カテノイド",
+      "極小曲面",
+      "負曲率",
+      "全曲率"
+    ],
+    "learningGoal": "カテノイドが互いに反対の主曲率を持つ極小曲面であることを示し、全曲率−4πを計算する。",
+    "commonStatement": [
+      "$a>0$とし、カテノイドを$\\mathbf{X}(u,v)=(a\\cosh(v/a)\\cos u,a\\cosh(v/a)\\sin u,v)$で表す。",
+      "$0\\le u<2\\pi$, $v\\in\\mathbb{R}$とし、$t=v/a$と略記する。",
+      "基本形式、曲率、全曲率を順に求める。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-017-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "カテノイドの接ベクトルと正則性を確認する。",
+        "connection": "外積をBの面積要素とCの単位法線に利用する。",
+        "score": 100,
+        "title": "接ベクトルと正則性",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "$\\mathbf{X}_u$, $\\mathbf{X}_v$を求め、外積の大きさを計算せよ。"
+        ],
+        "explanation": {
+          "summary": "外積の大きさは$a\\cosh^2t>0$である。",
+          "steps": [
+            "$\\mathbf{X}_u=(-a\\cosh t\\sin u,a\\cosh t\\cos u,0)$である。",
+            "$\\mathbf{X}_v=(\\sinh t\\cos u,\\sinh t\\sin u,1)$である。",
+            "外積は$a\\cosh t(\\cos u,\\sin u,-\\sinh t)$である。",
+            "$\\cosh^2t-\\sinh^2t=1$より、その大きさは$a\\cosh^2t>0$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "双曲線関数の恒等式",
+              "body": "$\\cosh^2t-\\sinh^2t=1$は接ベクトルの長さや法線の正規化に使われる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "u方向の接ベクトルを正しく計算",
+              "$\\mathbf{X}_u=(-a\\cosh t\\sin u,a\\cosh t\\cos u,0)$"
+            ],
+            [
+              "v方向の接ベクトルを正しく計算",
+              "$\\mathbf{X}_v=(\\sinh t\\cos u,\\sinh t\\sin u,1)$"
+            ],
+            [
+              "外積は$a\\cosh t(\\cos u,\\sin u,-\\sinh t)$",
+              "接ベクトルの外積"
+            ],
+            [
+              "外積の大きさは$a\\cosh^2t$",
+              "全点で正則"
+            ]
+          ],
+          "hint": "$d\\cosh(v/a)/dv=(1/a)\\sinh(v/a)$に注意すること。"
+        }
+      },
+      {
+        "id": "GSET-017-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "カテノイドの第一基本形式と面積要素を求める。",
+        "connection": "面積要素をDの曲率とEの全曲率積分に用いる。",
+        "score": 200,
+        "title": "第一基本形式",
+        "minutes": 10,
+        "answerType": "short",
+        "prompt": [
+          "$(E,F,G)$と$dA$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$(E,F,G)=(a^2\\cosh^2t,0,\\cosh^2t)$、$dA=a\\cosh^2t\\,du\\,dv$である。",
+          "steps": [
+            "Aより$E=a^2\\cosh^2t$である。",
+            "二つの接ベクトルは直交するため$F=0$である。",
+            "$G=1+\\sinh^2t=\\cosh^2t$である。",
+            "$\\sqrt{EG}=a\\cosh^2t$より面積要素を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "面積要素",
+              "body": "局所座標では$dA=\\sqrt{EG-F^2}\\,du\\,dv$である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$(a^2\\cosh^2t,0,\\cosh^2t),dA=a\\cosh^2t\\,du\\,dv$",
+            "E=a^2 cosh^2(t),F=0,G=cosh^2(t),dA=a cosh^2(t)du dv"
+          ],
+          "hint": "$E,F,G$と面積要素を答えること。"
+        }
+      },
+      {
+        "id": "GSET-017-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "二方向の曲がりが反対符号になることを第二基本形式で示す。",
+        "connection": "この符号の打ち消しがDの平均曲率零を導く。",
+        "score": 300,
+        "title": "第二基本形式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "外向き単位法線と$(e,f,g)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{N}=(\\operatorname{sech}t\\cos u,\\operatorname{sech}t\\sin u,-\\tanh t)$、$(e,f,g)=(-a,0,1/a)$である。",
+          "steps": [
+            "Aの外積を$a\\cosh^2t$で割り、単位法線を得る。",
+            "$\\mathbf{X}_{uu}\\cdot\\mathbf{N}=-a$なので$e=-a$である。",
+            "$\\mathbf{X}_{uv}\\cdot\\mathbf{N}=0$なので$f=0$である。",
+            "$\\mathbf{X}_{vv}\\cdot\\mathbf{N}=1/a$なので$g=1/a$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "第二基本形式の符号",
+              "body": "二つの対角係数が反対符号なら、対応する方向へ曲面が反対向きに曲がる可能性を示す。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{N}=(\\operatorname{sech}t\\cos u,\\operatorname{sech}t\\sin u,-\\tanh t)$",
+              "外向き単位法線"
+            ],
+            [
+              "$e=-a$",
+              "uu係数"
+            ],
+            [
+              "$f=0$",
+              "混合係数"
+            ],
+            [
+              "$g=1/a$",
+              "vv係数"
+            ]
+          ],
+          "hint": "Aの外積を正規化して二階偏微分との内積を取ること。"
+        }
+      },
+      {
+        "id": "GSET-017-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "カテノイドの主曲率と極小性を求める。",
+        "connection": "Kと面積要素をEの全曲率計算に使う。",
+        "score": 400,
+        "title": "主曲率と極小性",
+        "minutes": 14,
+        "answerType": "short",
+        "prompt": [
+          "主曲率$k_1,k_2$、$K$、$H$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$k_1=-1/(a\\cosh^2t)$、$k_2=1/(a\\cosh^2t)$、$K=-1/(a^2\\cosh^4t)$、$H=0$である。",
+          "steps": [
+            "B、Cでは両基本形式が対角なので$k_1=e/E=-1/(a\\cosh^2t)$である。",
+            "同様に$k_2=g/G=1/(a\\cosh^2t)$である。",
+            "積から$K=-1/(a^2\\cosh^4t)$を得る。",
+            "平均は0なのでカテノイドは極小曲面である。"
+          ],
+          "knowledge": [
+            {
+              "title": "極小曲面",
+              "body": "平均曲率が全点で零となる正則曲面を極小曲面という。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$k_1=-1/(a\\cosh^2t),k_2=1/(a\\cosh^2t),K=-1/(a^2\\cosh^4t),H=0$",
+            "(-1/(a cosh^2(t)),1/(a cosh^2(t)),-1/(a^2 cosh^4(t)),0)"
+          ],
+          "hint": "$e/E$と$g/G$を計算すること。"
+        }
+      },
+      {
+        "id": "GSET-017-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "B",
+          "D"
+        ],
+        "purpose": "局所的な極小性と負曲率を全曲率という大域量へ統合する。",
+        "connection": "Bの面積要素とDの曲率を用いて学習目標を完成させる。",
+        "score": 500,
+        "title": "双曲性と全曲率",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "カテノイドの全点が双曲点であることを示し、全曲率$\\int K\\,dA$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "全点で$K<0$であり、全曲率は$-4\\pi$である。",
+          "steps": [
+            "Dより$K=-1/(a^2\\cosh^4t)<0$なので全点が双曲点である。",
+            "Bより$dA=a\\cosh^2t\\,du\\,dv$である。",
+            "$v=at$、$dv=a\\,dt$と変数変換すると$K\\,dA=-\\operatorname{sech}^2t\\,du\\,dt$となる。",
+            "したがって全曲率は$-\\int_0^{2\\pi}du\\int_{-\\infty}^{\\infty}\\operatorname{sech}^2t\\,dt$である。",
+            "$\\int\\operatorname{sech}^2t\\,dt=\\tanh t$より、結果は$-2\\pi(1-(-1))=-4\\pi$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "有限全曲率",
+              "body": "非コンパクト曲面でも$|K|$が十分速く減衰すれば全曲率が有限になる。カテノイドでは$K$が双曲線余弦の4乗に反比例する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$K<0$より全点が双曲点",
+              "カテノイドは全点で鞍型"
+            ],
+            [
+              "$v=at$と変数変換",
+              "$dv=a\\,dt$"
+            ],
+            [
+              "$K\\,dA=-\\operatorname{sech}^2t\\,du\\,dt$",
+              "曲率密度を正しく簡約"
+            ],
+            [
+              "$\\int_{-\\infty}^{\\infty}\\operatorname{sech}^2t\\,dt=2$",
+              "双曲線関数の積分"
+            ],
+            [
+              "全曲率は$-4\\pi$",
+              "$\\int K\\,dA=-4\\pi$"
+            ]
+          ],
+          "hint": "$t=v/a$へ変数変換してから積分すること。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "GSET-018",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #018",
+    "title": "ヘリコイドの線織極小面構造",
+    "field": "多様体",
+    "tags": [
+      "ヘリコイド",
+      "極小曲面",
+      "線織面",
+      "完全性"
+    ],
+    "learningGoal": "ヘリコイドの曲率を求め、全点で双曲的な線織極小面であり、誘導計量が完備であることを理解する。",
+    "commonStatement": [
+      "$a>0$とし、ヘリコイドを$\\mathbf{X}(u,v)=(u\\cos v,u\\sin v,av)$、$(u,v)\\in\\mathbb{R}^2$で表す。",
+      "単位法線は$\\mathbf{X}_u\\times\\mathbf{X}_v$の向きに選ぶ。",
+      "基本形式、曲率、線織性、計量完備性を調べる。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-018-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "ヘリコイドの接ベクトルと直線母線を確認する。",
+        "connection": "接ベクトルはB、Cに使い、直線母線はEの線織性に使う。",
+        "score": 100,
+        "title": "正則性と直線母線",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "接ベクトルと外積を求めて正則性を示し、vを固定するとu方向の曲線が直線になることを確認せよ。"
+        ],
+        "explanation": {
+          "summary": "外積は$(a\\sin v,-a\\cos v,u)$で非零であり、v一定の曲線は直線である。",
+          "steps": [
+            "$\\mathbf{X}_u=(\\cos v,\\sin v,0)$、$\\mathbf{X}_v=(-u\\sin v,u\\cos v,a)$である。",
+            "外積は$(a\\sin v,-a\\cos v,u)$で、大きさは$\\sqrt{a^2+u^2}>0$である。",
+            "したがって全点で正則である。",
+            "vを固定すると$\\mathbf{X}(u,v)=u(\\cos v,\\sin v,0)+(0,0,av)$となり、uについて直線である。"
+          ],
+          "knowledge": [
+            {
+              "title": "線織面",
+              "body": "各点を通る直線族によって生成される曲面を線織面という。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{X}_u=(\\cos v,\\sin v,0)$",
+              "u偏微分"
+            ],
+            [
+              "$\\mathbf{X}_v=(-u\\sin v,u\\cos v,a)$",
+              "v偏微分"
+            ],
+            [
+              "外積は$(a\\sin v,-a\\cos v,u)$",
+              "接ベクトルの外積"
+            ],
+            [
+              "外積の大きさは$\\sqrt{a^2+u^2}>0$",
+              "全点で正則"
+            ],
+            [
+              "v一定でuについて直線",
+              "直線母線を持つ"
+            ]
+          ],
+          "hint": "vを固定した式をuの一次式として書くこと。"
+        }
+      },
+      {
+        "id": "GSET-018-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "ヘリコイドの誘導計量を求める。",
+        "connection": "第一基本形式をDの曲率とEの完備性評価に利用する。",
+        "score": 200,
+        "title": "第一基本形式",
+        "minutes": 10,
+        "answerType": "short",
+        "prompt": [
+          "第一基本形式の係数$(E,F,G)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$(E,F,G)=(1,0,u^2+a^2)$である。",
+          "steps": [
+            "Aより$E=1$である。",
+            "二つの接ベクトルの内積は0なので$F=0$である。",
+            "$G=u^2+a^2$である。",
+            "したがって$I=du^2+(u^2+a^2)dv^2$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "誘導計量",
+              "body": "ユークリッド空間の内積を接空間へ制限して得られる計量を誘導計量という。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$(1,0,u^2+a^2)$",
+            "E=1,F=0,G=u^2+a^2"
+          ],
+          "hint": "$E,F,G$の順に答えること。"
+        }
+      },
+      {
+        "id": "GSET-018-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "混合項のみを持つ第二基本形式を求める。",
+        "connection": "この構造からDで平均曲率零と負曲率が同時に得られる。",
+        "score": 300,
+        "title": "第二基本形式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "$W=\\sqrt{a^2+u^2}$として、単位法線と$(e,f,g)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{N}=(a\\sin v,-a\\cos v,u)/W$、$(e,f,g)=(0,-a/W,0)$である。",
+          "steps": [
+            "Aの外積をWで割って単位法線を得る。",
+            "$\\mathbf{X}_{uu}=\\mathbf{0}$より$e=0$である。",
+            "$\\mathbf{X}_{uv}=(-\\sin v,\\cos v,0)$より$f=-a/W$である。",
+            "$\\mathbf{X}_{vv}=(-u\\cos v,-u\\sin v,0)$は法線と直交するので$g=0$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "非主座標",
+              "body": "第一基本形式が対角でも第二基本形式の混合係数が非零なら、座標方向は主方向ではない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{N}=(a\\sin v,-a\\cos v,u)/W$",
+              "単位法線"
+            ],
+            [
+              "$e=0$",
+              "uu係数"
+            ],
+            [
+              "$f=-a/W$",
+              "混合係数"
+            ],
+            [
+              "$g=0$",
+              "vv係数"
+            ]
+          ],
+          "hint": "$X_{uv}$と法線の内積の符号に注意すること。"
+        }
+      },
+      {
+        "id": "GSET-018-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "ヘリコイドの曲率と主曲率を求める。",
+        "connection": "Eで極小性、双曲性、線織性を統合する。",
+        "score": 400,
+        "title": "曲率と主曲率",
+        "minutes": 14,
+        "answerType": "short",
+        "prompt": [
+          "$K,H$および二つの主曲率を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$K=-a^2/(a^2+u^2)^2$、$H=0$、主曲率は$\\pm a/(a^2+u^2)$である。",
+          "steps": [
+            "Bより$EG-F^2=W^2$、Cより$eg-f^2=-a^2/W^2$である。",
+            "よって$K=-a^2/W^4$である。",
+            "$e=g=F=0$より$H=0$である。",
+            "主曲率は$k^2+K=0$の根なので$\\pm a/W^2$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "主曲率の復元",
+              "body": "主曲率は$k^2-2Hk+K=0$の根である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$K=-a^2/(a^2+u^2)^2,H=0,k_1= a/(a^2+u^2),k_2=-a/(a^2+u^2)$",
+            "K=-a^2/(a^2+u^2)^2,H=0,k=±a/(a^2+u^2)"
+          ],
+          "hint": "$H=0$を主曲率の方程式に代入すること。"
+        }
+      },
+      {
+        "id": "GSET-018-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "A",
+          "B",
+          "D"
+        ],
+        "purpose": "局所曲率と大域的な計量完備性を統合してヘリコイドを分類する。",
+        "connection": "Aの線織性、Bの計量、Dの曲率をまとめて学習目標を達成する。",
+        "score": 500,
+        "title": "線織極小面と完備性",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "ヘリコイドが全点で双曲的な線織極小面であることを示せ。また、誘導計量が完備であることを$I\\ge du^2+a^2dv^2$から説明せよ。"
+        ],
+        "explanation": {
+          "summary": "ヘリコイドは線織極小面で全点が双曲点であり、その誘導計量は完備である。",
+          "steps": [
+            "Aよりヘリコイドはv一定の直線母線を持つ線織面である。",
+            "Dより$H=0$なので極小曲面であり、$K<0$なので全点が双曲点である。",
+            "Bの計量は$I=du^2+(u^2+a^2)dv^2\\ge du^2+a^2dv^2$を満たす。",
+            "したがって誘導距離でコーシーな点列は、ユークリッド型計量$du^2+a^2dv^2$でもコーシーとなり、$\\mathbb{R}^2$内で極限を持つ。",
+            "計量係数は滑らかで正定値なので、その極限へ誘導距離でも収束し、ヘリコイドは完備である。"
+          ],
+          "knowledge": [
+            {
+              "title": "リーマン計量の完備性",
+              "body": "誘導距離に関するすべてのコーシー列が収束するとき、リーマン多様体は距離空間として完備である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "直線母線を持つ線織面",
+              "Aより線織性"
+            ],
+            [
+              "$H=0$より極小曲面",
+              "ヘリコイドは極小"
+            ],
+            [
+              "$K<0$より全点が双曲点",
+              "全点で鞍型"
+            ],
+            [
+              "$I\\ge du^2+a^2dv^2$",
+              "誘導計量を下から評価"
+            ],
+            [
+              "誘導距離のコーシー列はユークリッド型計量でもコーシー",
+              "比較計量を用いる"
+            ],
+            [
+              "ヘリコイドは完備",
+              "誘導計量が完備"
+            ]
+          ],
+          "hint": "Bの計量を定数係数の完備な計量と比較すること。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "GSET-019",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #019",
+    "title": "シェルク曲面の極小性",
+    "field": "多様体",
+    "tags": [
+      "シェルク曲面",
+      "グラフ曲面",
+      "極小曲面",
+      "負曲率"
+    ],
+    "learningGoal": "シェルク曲面の基本形式を計算し、平均曲率零かつ全点で負曲率となる極小曲面であることを示す。",
+    "commonStatement": [
+      "領域$D=(-\\pi/2,\\pi/2)^2$上で、シェルク曲面を$\\mathbf{X}(u,v)=(u,v,\\log(\\cos v/\\cos u))$とする。",
+      "$W=\\sqrt{1+\\tan^2u+\\tan^2v}$とし、法線は第3成分が正となる向きを選ぶ。",
+      "基本形式と曲率から極小性を判定する。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-019-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "グラフ関数の一階偏微分と正則性を確認する。",
+        "connection": "一階偏微分をBの計量とCの法線に使う。",
+        "score": 100,
+        "title": "接ベクトル",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "接ベクトルと上向き外積を求め、正則性を示せ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{X}_u=(1,0,\\tan u)$、$\\mathbf{X}_v=(0,1,-\\tan v)$、外積は$(-\\tan u,\\tan v,1)$である。",
+          "steps": [
+            "$-\\log(\\cos u)$の微分は$\\tan u$なので$\\mathbf{X}_u=(1,0,\\tan u)$である。",
+            "$\\log(\\cos v)$の微分は$-\\tan v$なので$\\mathbf{X}_v=(0,1,-\\tan v)$である。",
+            "外積は$(-\\tan u,\\tan v,1)$となる。",
+            "第3成分が1なのでD全体で正則である。"
+          ],
+          "knowledge": [
+            {
+              "title": "対数三角関数の微分",
+              "body": "$d\\log(\\cos x)/dx=-\\tan x$である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{X}_u=(1,0,\\tan u)$",
+              "u偏微分"
+            ],
+            [
+              "$\\mathbf{X}_v=(0,1,-\\tan v)$",
+              "v偏微分"
+            ],
+            [
+              "外積は$(-\\tan u,\\tan v,1)$",
+              "上向き外積"
+            ],
+            [
+              "第3成分が1なので正則",
+              "全領域で正則"
+            ]
+          ],
+          "hint": "$\\log(\\cos v/\\cos u)=\\log\\cos v-\\log\\cos u$と分けること。"
+        }
+      },
+      {
+        "id": "GSET-019-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "シェルク曲面の第一基本形式を求める。",
+        "connection": "行列式$W^2$をDの曲率公式に用いる。",
+        "score": 200,
+        "title": "第一基本形式",
+        "minutes": 10,
+        "answerType": "short",
+        "prompt": [
+          "$(E,F,G)$と$EG-F^2$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$(E,F,G)=(\\sec^2u,-\\tan u\\tan v,\\sec^2v)$、$EG-F^2=W^2$である。",
+          "steps": [
+            "Aより$E=1+\\tan^2u=\\sec^2u$である。",
+            "$F=-\\tan u\\tan v$、$G=1+\\tan^2v=\\sec^2v$である。",
+            "$EG-F^2=(1+\\tan^2u)(1+\\tan^2v)-\\tan^2u\\tan^2v$である。",
+            "整理すると$1+\\tan^2u+\\tan^2v=W^2$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "三角恒等式",
+              "body": "$1+\\tan^2x=\\sec^2x$を用いると計量係数を簡潔に表せる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$(\\sec^2u,-\\tan u\\tan v,\\sec^2v;W^2)$",
+            "E=sec^2(u),F=-tan(u)tan(v),G=sec^2(v),EG-F^2=W^2"
+          ],
+          "hint": "$1+\\tan^2x=\\sec^2x$を使うこと。"
+        }
+      },
+      {
+        "id": "GSET-019-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "第二基本形式の対角係数が反対の効果を持つことを求める。",
+        "connection": "Dで平均曲率の分子が打ち消し合うことを示す。",
+        "score": 300,
+        "title": "第二基本形式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "単位法線と第二基本形式の係数$(e,f,g)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{N}=(-\\tan u,\\tan v,1)/W$、$(e,f,g)=(\\sec^2u/W,0,-\\sec^2v/W)$である。",
+          "steps": [
+            "Aの外積をWで割り、上向き単位法線を得る。",
+            "$\\mathbf{X}_{uu}=(0,0,\\sec^2u)$より$e=\\sec^2u/W$である。",
+            "$\\mathbf{X}_{uv}=\\mathbf{0}$より$f=0$である。",
+            "$\\mathbf{X}_{vv}=(0,0,-\\sec^2v)$より$g=-\\sec^2v/W$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "ヘッセ行列と第二基本形式",
+              "body": "グラフ曲面では第二基本形式はグラフ関数のヘッセ行列を法線の正規化係数で割ったものになる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{N}=(-\\tan u,\\tan v,1)/W$",
+              "上向き単位法線"
+            ],
+            [
+              "$e=\\sec^2u/W$",
+              "uu係数"
+            ],
+            [
+              "$f=0$",
+              "混合係数"
+            ],
+            [
+              "$g=-\\sec^2v/W$",
+              "vv係数"
+            ]
+          ],
+          "hint": "グラフ関数の二階偏微分を計算すること。"
+        }
+      },
+      {
+        "id": "GSET-019-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "シェルク曲面のガウス曲率と平均曲率を求める。",
+        "connection": "Eで極小性、双曲性、主曲率を判定する。",
+        "score": 400,
+        "title": "曲率の計算",
+        "minutes": 14,
+        "answerType": "short",
+        "prompt": [
+          "ガウス曲率$K$と平均曲率$H$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$K=-\\sec^2u\\sec^2v/W^4$、$H=0$である。",
+          "steps": [
+            "Bより$EG-F^2=W^2$である。",
+            "Cより$eg-f^2=-\\sec^2u\\sec^2v/W^2$である。",
+            "したがって$K=-\\sec^2u\\sec^2v/W^4$である。",
+            "平均曲率の分子は$eG+gE=0$なので$H=0$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "極小グラフ方程式",
+              "body": "グラフの平均曲率が零となる条件は非線形偏微分方程式になる。シェルク曲面はその明示解である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$K=-\\sec^2u\\sec^2v/W^4,H=0$",
+            "K=-sec^2(u)sec^2(v)/W^4,H=0"
+          ],
+          "hint": "$eG$と$gE$を比較すること。"
+        }
+      },
+      {
+        "id": "GSET-019-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "B",
+          "C",
+          "D"
+        ],
+        "purpose": "曲率計算を極小性と鞍型構造へ統合する。",
+        "connection": "A〜Dから得た基本形式と曲率を用いてシェルク曲面を幾何学的に分類する。",
+        "score": 500,
+        "title": "極小性と双曲性",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "シェルク曲面が全点で双曲的な極小曲面であり、臍点を持たないことを示せ。さらに主曲率を$K$とWを用いて表せ。"
+        ],
+        "explanation": {
+          "summary": "Hは恒等的に零でKは常に負である。主曲率は$\\pm\\sec u\\sec v/W^2$で、臍点は存在しない。",
+          "steps": [
+            "Dより$H=0$なのでシェルク曲面は極小曲面である。",
+            "$\\sec^2u>0$, $\\sec^2v>0$, $W>0$より$K<0$が全点で成立する。",
+            "したがって全点が双曲点であり、等しい主曲率を持つ臍点は存在しない。",
+            "主曲率は$k^2+K=0$の根なので$k_1=-k_2=\\sec u\\sec v/W^2$である。",
+            "Cの反対符号の第二基本係数が、Dの平均曲率零と負曲率を同時に生み出している。"
+          ],
+          "knowledge": [
+            {
+              "title": "極小曲面の主曲率",
+              "body": "極小曲面では二主曲率の和が零であり、負曲率点では互いに非零で反対符号となる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$H=0$より極小曲面",
+              "シェルク曲面は極小"
+            ],
+            [
+              "$K<0$が全点で成立",
+              "全点が双曲点"
+            ],
+            [
+              "臍点を持たない",
+              "主曲率は一致しない"
+            ],
+            [
+              "主曲率は$\\pm\\sec u\\sec v/W^2$",
+              "$k_1=-k_2=\\sec u\\sec v/W^2$"
+            ],
+            [
+              "第二基本形式の反対符号が平均曲率を打ち消す",
+              "CとDの結果を統合"
+            ]
+          ],
+          "hint": "$H=0$の場合の主曲率方程式を使うこと。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "GSET-020",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #020",
+    "title": "エンネパー曲面の共形構造と全曲率",
+    "field": "多様体",
+    "tags": [
+      "エンネパー曲面",
+      "共形パラメータ",
+      "極小曲面",
+      "全曲率"
+    ],
+    "learningGoal": "エンネパー曲面の共形計量から極小性と負曲率を求め、全曲率−4πを計算する。",
+    "commonStatement": [
+      "エンネパー曲面を$\\mathbf{X}(u,v)=(u-u^3/3+uv^2,v-v^3/3+u^2v,u^2-v^2)$で表す。",
+      "$(u,v)\\in\\mathbb{R}^2$、$s=u^2+v^2$とし、原点で第3成分が正となる単位法線を選ぶ。",
+      "共形計量、極小性、全曲率を調べる。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-020-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "高次多項式で表された曲面の接ベクトルを求める。",
+        "connection": "接ベクトルの内積をBで計算し、共形性を確認する。",
+        "score": 100,
+        "title": "接ベクトル",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "$\\mathbf{X}_u$と$\\mathbf{X}_v$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{X}_u=(1-u^2+v^2,2uv,2u)$、$\\mathbf{X}_v=(2uv,1+u^2-v^2,-2v)$である。",
+          "steps": [
+            "第1成分をuで偏微分すると$1-u^2+v^2$となる。",
+            "残りの成分も偏微分し、$\\mathbf{X}_u=(1-u^2+v^2,2uv,2u)$を得る。",
+            "vで偏微分すると$\\mathbf{X}_v=(2uv,1+u^2-v^2,-2v)$となる。",
+            "これらの内積がBの共形計量を与える。"
+          ],
+          "knowledge": [
+            {
+              "title": "多項式曲面",
+              "body": "各成分が多項式なら全平面で滑らかだが、正則性は接ベクトルの独立性から確認する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{X}_u=(1-u^2+v^2,2uv,2u)$",
+              "u偏微分"
+            ],
+            [
+              "$\\mathbf{X}_v=(2uv,1+u^2-v^2,-2v)$",
+              "v偏微分"
+            ]
+          ],
+          "hint": "各成分を別々に偏微分すること。"
+        }
+      },
+      {
+        "id": "GSET-020-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "エンネパー曲面の座標が共形であることを示す。",
+        "connection": "共形係数をDの曲率とEの全曲率計算に用いる。",
+        "score": 200,
+        "title": "共形第一基本形式",
+        "minutes": 10,
+        "answerType": "short",
+        "prompt": [
+          "$(E,F,G)$と$dA$を求め、正則性を確認せよ。"
+        ],
+        "explanation": {
+          "summary": "$(E,F,G)=((1+s)^2,0,(1+s)^2)$、$dA=(1+s)^2du\\,dv$である。",
+          "steps": [
+            "Aの接ベクトルの長さを展開すると$E=(1+s)^2$となる。",
+            "内積を計算すると$F=0$である。",
+            "同様に$G=(1+s)^2$である。",
+            "$EG-F^2=(1+s)^4>0$なので正則で、面積要素は$(1+s)^2du\\,dv$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "共形パラメータ",
+              "body": "$E=G$かつ$F=0$なら座標は共形であり、計量は正の関数とユークリッド計量の積になる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$((1+s)^2,0,(1+s)^2),dA=(1+s)^2du\\,dv$",
+            "E=G=(1+s)^2,F=0,dA=(1+s)^2du dv"
+          ],
+          "hint": "$E=G$かつ$F=0$となる。"
+        }
+      },
+      {
+        "id": "GSET-020-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "反対符号の第二基本係数を求める。",
+        "connection": "$e+g=0$をDの平均曲率零へつなげる。",
+        "score": 300,
+        "title": "第二基本形式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "指定された向きの単位法線と$(e,f,g)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{N}=(-2u,2v,1-s)/(1+s)$、$(e,f,g)=(2,0,-2)$である。",
+          "steps": [
+            "Aの外積をBの面積係数$(1+s)^2$で割ると$\\mathbf{N}=(-2u,2v,1-s)/(1+s)$となる。",
+            "$\\mathbf{X}_{uu}=(-2u,2v,2)$より$e=2$である。",
+            "$\\mathbf{X}_{uv}=(2v,2u,0)$より$f=0$である。",
+            "$\\mathbf{X}_{vv}=(2u,-2v,-2)$より$g=-2$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "共形座標と平均曲率",
+              "body": "$E=G=\\lambda^2$, $F=0$では$H=(e+g)/(2\\lambda^2)$となる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{N}=(-2u,2v,1-s)/(1+s)$",
+              "指定向きの単位法線"
+            ],
+            [
+              "$e=2$",
+              "uu係数"
+            ],
+            [
+              "$f=0$",
+              "混合係数"
+            ],
+            [
+              "$g=-2$",
+              "vv係数"
+            ]
+          ],
+          "hint": "原点で法線が$(0,0,1)$となる向きを選ぶこと。"
+        }
+      },
+      {
+        "id": "GSET-020-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "エンネパー曲面の曲率と主曲率を求める。",
+        "connection": "Kと面積要素をEの全曲率積分に用いる。",
+        "score": 400,
+        "title": "曲率と極小性",
+        "minutes": 14,
+        "answerType": "short",
+        "prompt": [
+          "$K,H$および二つの主曲率を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$K=-4/(1+s)^4$、$H=0$、主曲率は$\\pm2/(1+s)^2$である。",
+          "steps": [
+            "Bより$EG-F^2=(1+s)^4$、Cより$eg-f^2=-4$である。",
+            "したがって$K=-4/(1+s)^4$である。",
+            "$E=G$かつ$e+g=0$なので$H=0$である。",
+            "主曲率は$k^2+K=0$の根として$\\pm2/(1+s)^2$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "共形極小パラメータ",
+              "body": "共形座標で$e+g=0$なら平均曲率が零となり、曲面は極小である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$K=-4/(1+s)^4,H=0,k_1=2/(1+s)^2,k_2=-2/(1+s)^2$",
+            "K=-4/(1+s)^4,H=0,k=±2/(1+s)^2"
+          ],
+          "hint": "$H=0$から主曲率が反対符号になる。"
+        }
+      },
+      {
+        "id": "GSET-020-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "B",
+          "D"
+        ],
+        "purpose": "極小性と負曲率を全曲率へ統合する。",
+        "connection": "Bの面積要素とDの曲率を用い、エンネパー曲面の大域的曲率量を決定する。",
+        "score": 500,
+        "title": "双曲性と全曲率",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "エンネパー曲面が全点で双曲的な極小曲面であることを示し、全曲率を求めよ。"
+        ],
+        "explanation": {
+          "summary": "エンネパー曲面は全点で双曲的な極小曲面で、全曲率は$-4\\pi$である。",
+          "steps": [
+            "Dより$H=0$なので極小曲面であり、$K<0$なので全点が双曲点である。",
+            "B、Dより$K\\,dA=-4(1+s)^{-2}du\\,dv$である。",
+            "極座標$s=r^2$を用いると、全曲率は$-8\\pi\\int_0^\\infty r(1+r^2)^{-2}dr$となる。",
+            "積分値は$1/2$なので、全曲率は$-8\\pi\\cdot1/2=-4\\pi$である。",
+            "局所的な極小鞍型構造と有限な大域全曲率が、A〜Dの計算から統合された。"
+          ],
+          "knowledge": [
+            {
+              "title": "全曲率の座標不変性",
+              "body": "$K\\,dA$は座標変換に対して不変な2次微分形式であり、任意の正則座標で積分できる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$H=0$より極小曲面",
+              "エンネパー曲面は極小"
+            ],
+            [
+              "$K<0$より全点が双曲点",
+              "全点で鞍型"
+            ],
+            [
+              "$K\\,dA=-4(1+s)^{-2}du\\,dv$",
+              "曲率密度を正しく計算"
+            ],
+            [
+              "極座標へ変換",
+              "$-8\\pi\\int_0^\\infty r/(1+r^2)^2dr$"
+            ],
+            [
+              "全曲率は$-4\\pi$",
+              "$\\int K\\,dA=-4\\pi$"
+            ]
+          ],
+          "hint": "$s=u^2+v^2$として極座標積分を行うこと。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "GSET-021",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #021",
+    "title": "メビウス帯の負曲率と非向き付け可能性",
+    "field": "多様体",
+    "tags": [
+      "メビウス帯",
+      "非向き付け可能",
+      "ガウス曲率",
+      "局所法線"
+    ],
+    "learningGoal": "メビウス帯の局所的な基本形式とガウス曲率を計算し、曲率は大域的に定義できても単位法線は大域的に選べないことを理解する。",
+    "commonStatement": [
+      "$0<a<1$とし、$A=1+v\\cos(u/2)$としてメビウス帯を$\\mathbf{X}(u,v)=(A\\cos u,A\\sin u,v\\sin(u/2))$で表す。",
+      "$0\\le u\\le2\\pi$, $|v|<a$とし、境界のパラメータを$(0,v)\\sim(2\\pi,-v)$で同一視する。",
+      "$\\mathbf{e}_r=(\\cos u,\\sin u,0)$、$\\mathbf{e}_\\theta=(-\\sin u,\\cos u,0)$、$\\mathbf{e}_z=(0,0,1)$を用いてよい。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-021-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "同一視が同じ空間上の点を表すことを確認し、メビウス帯のねじれを明示する。",
+        "connection": "同一視によるvの符号反転をEの法線反転の証明で利用する。",
+        "score": 100,
+        "title": "境界の同一視",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "$\\mathbf{X}(0,v)=\\mathbf{X}(2\\pi,-v)$を示し、この同一視が帯に半回転のねじれを与えることを説明せよ。"
+        ],
+        "explanation": {
+          "summary": "両点は$(1+v,0,0)$に一致し、帯の横断座標vは一周後に−vへ反転する。",
+          "steps": [
+            "$u=0$では$\\cos(u/2)=1$、$\\sin(u/2)=0$なので$\\mathbf{X}(0,v)=(1+v,0,0)$である。",
+            "$u=2\\pi$、横断座標$-v$では$\\cos\\pi=-1$なので$A=1+(-v)(-1)=1+v$である。",
+            "$\\sin\\pi=0$より$\\mathbf{X}(2\\pi,-v)=(1+v,0,0)$となる。",
+            "したがって一周すると横断方向vが反転し、メビウス帯の半ねじれが生じる。"
+          ],
+          "knowledge": [
+            {
+              "title": "商空間としてのメビウス帯",
+              "body": "長方形の対向辺を向きを反転して貼り合わせるとメビウス帯が得られる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{X}(0,v)=(1+v,0,0)$",
+              "u=0での像"
+            ],
+            [
+              "$\\mathbf{X}(2\\pi,-v)=(1+v,0,0)$",
+              "u=2πで符号反転した像"
+            ],
+            [
+              "$\\mathbf{X}(0,v)=\\mathbf{X}(2\\pi,-v)$",
+              "境界の同一視が整合"
+            ],
+            [
+              "一周後にvが−vへ反転",
+              "帯に半回転のねじれがある"
+            ]
+          ],
+          "hint": "$\\cos\\pi=-1$、$\\sin\\pi=0$を代入すること。"
+        }
+      },
+      {
+        "id": "GSET-021-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "メビウス帯の局所的な誘導計量と正則性を求める。",
+        "connection": "計量係数をCの法線の正規化とDの曲率計算に使う。",
+        "score": 200,
+        "title": "第一基本形式",
+        "minutes": 10,
+        "answerType": "proof",
+        "prompt": [
+          "接ベクトルを求め、$E=A^2+v^2/4$、$F=0$、$G=1$となることを示せ。また正則性を確認せよ。"
+        ],
+        "explanation": {
+          "summary": "$I=(A^2+v^2/4)du^2+dv^2$であり、$A>0$なので正則である。",
+          "steps": [
+            "$c=\\cos(u/2)$、$s=\\sin(u/2)$とすると$\\mathbf{X}=A\\mathbf{e}_r+vs\\mathbf{e}_z$である。",
+            "$\\mathbf{X}_u=A\\mathbf{e}_\\theta-(v/2)s\\mathbf{e}_r+(v/2)c\\mathbf{e}_z$、$\\mathbf{X}_v=c\\mathbf{e}_r+s\\mathbf{e}_z$である。",
+            "直交基底で内積を取ると$E=A^2+v^2/4$、$F=0$、$G=1$となる。",
+            "$|v|<a<1$より$A=1+vc\\ge1-a>0$なので$E>0$であり、正則である。"
+          ],
+          "knowledge": [
+            {
+              "title": "動標構",
+              "body": "円柱座標の基底では$\\partial_u\\mathbf{e}_r=\\mathbf{e}_\\theta$、$\\partial_u\\mathbf{e}_\\theta=-\\mathbf{e}_r$が成り立つ。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$\\mathbf{X}_u=A\\mathbf{e}_\\theta-(v/2)s\\mathbf{e}_r+(v/2)c\\mathbf{e}_z$",
+              "u方向の接ベクトル"
+            ],
+            [
+              "$\\mathbf{X}_v=c\\mathbf{e}_r+s\\mathbf{e}_z$",
+              "v方向の接ベクトル"
+            ],
+            [
+              "$E=A^2+v^2/4$",
+              "第一基本係数E"
+            ],
+            [
+              "$F=0,G=1$",
+              "残りの第一基本係数"
+            ],
+            [
+              "$A\\ge1-a>0$より正則",
+              "計量は正定値"
+            ]
+          ],
+          "hint": "$\\mathbf{e}_r,\\mathbf{e}_\\theta,\\mathbf{e}_z$を直交基底として計算すること。"
+        }
+      },
+      {
+        "id": "GSET-021-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "B"
+        ],
+        "purpose": "局所単位法線とガウス曲率に必要な第二基本係数を求める。",
+        "connection": "$f$と$g$をDの曲率公式に直接用いる。",
+        "score": 300,
+        "title": "局所法線と第二基本形式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "$W=\\sqrt{A^2+v^2/4}$として局所単位法線を求め、$f=-1/(2W)$、$g=0$を示せ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf{N}=(As\\mathbf{e}_r+(v/2)\\mathbf{e}_\\theta-Ac\\mathbf{e}_z)/W$で、$f=-1/(2W)$、$g=0$である。",
+          "steps": [
+            "Bの接ベクトルの外積は$As\\mathbf{e}_r+(v/2)\\mathbf{e}_\\theta-Ac\\mathbf{e}_z$で、その長さはWである。",
+            "これをWで割って局所単位法線$\\mathbf{N}$を得る。",
+            "$\\mathbf{X}_{uv}=c\\mathbf{e}_\\theta-(s/2)\\mathbf{e}_r+(c/2)\\mathbf{e}_z$との内積を取ると$f=-1/(2W)$である。",
+            "$\\mathbf{X}_{vv}=\\mathbf{0}$なので$g=0$である。",
+            "ガウス曲率では$eg-f^2$を使うため、gが零ならeを求めなくてもKを計算できる。"
+          ],
+          "knowledge": [
+            {
+              "title": "局所法線",
+              "body": "非向き付け可能な曲面でも、十分小さい座標近傍では単位法線を選べる。大域的に整合するとは限らない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "外積は$As\\mathbf{e}_r+(v/2)\\mathbf{e}_\\theta-Ac\\mathbf{e}_z$",
+              "接ベクトルの外積"
+            ],
+            [
+              "$\\mathbf{N}=(As\\mathbf{e}_r+(v/2)\\mathbf{e}_\\theta-Ac\\mathbf{e}_z)/W$",
+              "局所単位法線"
+            ],
+            [
+              "$f=-1/(2W)$",
+              "混合第二基本係数"
+            ],
+            [
+              "$g=0$",
+              "vv係数は0"
+            ]
+          ],
+          "hint": "$X_{vv}=0$を利用し、Kに不要なeの計算は省略してよい。"
+        }
+      },
+      {
+        "id": "GSET-021-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "局所法線から法線の向きに依存しないガウス曲率を求める。",
+        "connection": "負曲率をEの双曲点判定と非向き付け可能性の議論へつなげる。",
+        "score": 400,
+        "title": "ガウス曲率",
+        "minutes": 14,
+        "answerType": "short",
+        "prompt": [
+          "ガウス曲率$K$を求め、その符号を判定せよ。"
+        ],
+        "explanation": {
+          "summary": "$K=-1/(4W^4)=-1/[4(A^2+v^2/4)^2]$で、全正則点で負である。",
+          "steps": [
+            "Bより$EG-F^2=W^2$である。",
+            "Cより$g=0$、$f=-1/(2W)$なので$eg-f^2=-1/(4W^2)$である。",
+            "したがって$K=-1/(4W^4)$となる。",
+            "$W>0$なのでKは全正則点で負であり、局所法線を反転しても値は変わらない。"
+          ],
+          "knowledge": [
+            {
+              "title": "ガウス曲率の向き非依存性",
+              "body": "法線を反転すると第二基本形式全体の符号が変わるが、その行列式から得るKは変化しない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "$K=-1/(4W^4)<0$",
+            "K=-1/(4(A^2+v^2/4)^2)<0"
+          ],
+          "hint": "$g=0$なので曲率の分子は$-f^2$になる。"
+        }
+      },
+      {
+        "id": "GSET-021-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "purpose": "局所的な負曲率と大域的な非向き付け可能性を統合する。",
+        "connection": "Aの同一視、Cの局所法線、Dの曲率を統合してメビウス帯の幾何を完成させる。",
+        "score": 500,
+        "title": "双曲性と非向き付け可能性",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "全正則点が双曲点であることを示せ。さらにCの局所法線について$\\mathbf{N}(2\\pi,-v)=-\\mathbf{N}(0,v)$となることを確認し、メビウス帯が向き付け不可能であることを説明せよ。"
+        ],
+        "explanation": {
+          "summary": "Kは全点で負なので全正則点が双曲点である。一周すると局所法線が反転するため、連続な大域単位法線は存在しない。",
+          "steps": [
+            "Dより$K=-1/(4W^4)<0$なので全正則点が双曲点である。",
+            "Aの同一視では$(0,v)$と$(2\\pi,-v)$が同じ曲面上の点を表す。",
+            "Cの外積ベクトルをu=0で評価すると$(v/2)\\mathbf{e}_\\theta-(1+v)\\mathbf{e}_z$となる。",
+            "u=2π、横断座標−vで評価すると、そのベクトルは$-(v/2)\\mathbf{e}_\\theta+(1+v)\\mathbf{e}_z$となり、前者の負号倍である。",
+            "したがって正規化後も$\\mathbf{N}(2\\pi,-v)=-\\mathbf{N}(0,v)$となり、同じ点で法線が一致しない。",
+            "よって連続な大域単位法線は選べず、メビウス帯は向き付け不可能である。一方、法線の向きに依存しないKは大域的に定義される。"
+          ],
+          "knowledge": [
+            {
+              "title": "曲面の向き付け可能性",
+              "body": "連結な曲面が向き付け可能であることは、連続な大域単位法線場を持つことと同値である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "$K<0$より全正則点が双曲点",
+              "メビウス帯の各正則点は双曲的"
+            ],
+            [
+              "$(0,v)$と$(2\\pi,-v)$は同じ点",
+              "Aの境界同一視を利用"
+            ],
+            [
+              "$\\mathbf{N}(2\\pi,-v)=-\\mathbf{N}(0,v)$",
+              "一周後に法線が反転"
+            ],
+            [
+              "大域単位法線を連続に選べない",
+              "メビウス帯は向き付け不可能"
+            ],
+            [
+              "Kは法線反転で変わらない",
+              "ガウス曲率は大域的に定義可能"
+            ]
+          ],
+          "hint": "同一視される二つのパラメータ点でCの法線を比較すること。"
+        }
+      }
+    ]
   }
 ]
