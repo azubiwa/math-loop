@@ -977,7 +977,24 @@ function MathText({ text, useDisplayStyle = true }: { text: string; useDisplaySt
     return <>{fragments.map((fragment, index) => {
       const isMath = /\\[a-zA-Z]+|[_^{}=<>]/.test(fragment);
       if (!isMath) return <span key={index} className="previewText">{fragment}</span>;
-      const html = katex.renderToString(fragment.trim(), { throwOnError: false, displayMode: false, strict: false });
+      const source = fragment.trim()
+        .replace(/lim_\{([^}]+)\}\s*\(([^)]+)\)\/\(([^)]+)\)/g, (_match, limit, numerator, denominator) => {
+          const tex = (value: string) => value
+            .replace(/→/g, "\\to ")
+            .replace(/∞/g, "\\infty")
+            .replace(/²/g, "^2")
+            .replace(/³/g, "^3")
+            .replace(/⁴/g, "^4")
+            .replace(/−/g, "-");
+          return `\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}`;
+        })
+        .replace(/→/g, "\\to ")
+        .replace(/∞/g, "\\infty")
+        .replace(/²/g, "^2")
+        .replace(/³/g, "^3")
+        .replace(/⁴/g, "^4")
+        .replace(/−/g, "-");
+      const html = katex.renderToString(source, { throwOnError: false, displayMode: false, strict: false });
       return <span key={index} className="previewFormula" dangerouslySetInnerHTML={{ __html: html }} />;
     })}</>;
   }
