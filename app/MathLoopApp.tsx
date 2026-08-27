@@ -970,6 +970,17 @@ function MathText({ text, useDisplayStyle = true }: { text: string; useDisplaySt
     const html = katex.renderToString(text, { throwOnError: false, displayMode: useDisplayStyle, strict: false });
     return <span className={`previewFormula${useDisplayStyle ? " display" : ""}`} dangerouslySetInnerHTML={{ __html: html }} />;
   }
+  // Older problem sets contain TeX without `$...$` delimiters inside Japanese prose.
+  // Split at Japanese text and render only the adjacent mathematical fragments.
+  if (!text.includes("$") && /\\[a-zA-Z]+|[_^{}=<>]/.test(text)) {
+    const fragments = text.split(/([ぁ-んァ-ヶ一-龠々〆ヶ、。！？「」『』（）])/).filter(Boolean);
+    return <>{fragments.map((fragment, index) => {
+      const isMath = /\\[a-zA-Z]+|[_^{}=<>]/.test(fragment);
+      if (!isMath) return <span key={index} className="previewText">{fragment}</span>;
+      const html = katex.renderToString(fragment.trim(), { throwOnError: false, displayMode: false, strict: false });
+      return <span key={index} className="previewFormula" dangerouslySetInnerHTML={{ __html: html }} />;
+    })}</>;
+  }
   const normalizedLimit = text.replace(/lim_\{([^}]+)\}\s*\(([^)]+)\)\/\(([^)]+)\)/g, (_match, limit, numerator, denominator) => {
     const tex = (value: string) => value
       .replace(/→/g, "\\to ")
