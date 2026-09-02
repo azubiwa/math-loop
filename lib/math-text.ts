@@ -16,7 +16,7 @@ export function normalizeMathDelimiters(text: string, useDisplayStyle = true) {
 
   if (normalizedTeX.includes("$")) return normalizedTeX;
 
-  return normalizedTeX.replace(/([A-Za-z](?:_[A-Za-z0-9{}+\-]+|\^[A-Za-z0-9{}+\-]+)(?:[A-Za-z0-9_{}^\\\s∩∪∈+=()]+)?)/g, (formula) => {
+  return normalizedTeX.replace(/([A-Za-z](?:_[A-Za-z0-9{}+-]+|\^[A-Za-z0-9{}+-]+)(?:[A-Za-z0-9_{}^\\\s∩∪∈+=()]+)?)/g, (formula) => {
     const trimmed = formula.trim();
     return trimmed ? `$${useDisplayStyle ? "\\displaystyle " : ""}${trimmed}$` : formula;
   });
