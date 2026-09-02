@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import katex from "katex";
 import { usesAiGrading } from "@/lib/grading-policy";
+import { normalizeMathDelimiters } from "@/lib/math-text";
 import {
   buildPracticeQueue,
   filterProblemsAtomic,
@@ -970,24 +971,7 @@ function MathText({ text, useDisplayStyle = true }: { text: string; useDisplaySt
     const html = katex.renderToString(text, { throwOnError: false, displayMode: useDisplayStyle, strict: false });
     return <span className={`previewFormula${useDisplayStyle ? " display" : ""}`} dangerouslySetInnerHTML={{ __html: html }} />;
   }
-  const normalizedLimit = text.replace(/lim_\{([^}]+)\}\s*\(([^)]+)\)\/\(([^)]+)\)/g, (_match, limit, numerator, denominator) => {
-    const tex = (value: string) => value
-      .replace(/→/g, "\\to ")
-      .replace(/∞/g, "\\infty")
-      .replace(/²/g, "^2")
-      .replace(/³/g, "^3")
-      .replace(/⁴/g, "^4")
-      .replace(/−/g, "-");
-    return `$${useDisplayStyle ? "\\displaystyle" : ""}\\lim_{${tex(limit)}}\\frac{${tex(numerator)}}{${tex(denominator)}}$`;
-  });
-  const normalizedTeX = normalizedLimit.includes("$") ? normalizedLimit : normalizedLimit.replace(/([A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s]*\\[A-Za-z]+[A-Za-z0-9()[\]{}_^+\-*/=<>|,.\s\\]*)/g, (formula) => {
-    const trimmed = formula.trim();
-    return trimmed ? `$${useDisplayStyle ? "\\displaystyle " : ""}${trimmed}$` : formula;
-  });
-  const normalized = normalizedTeX.includes("$") ? normalizedTeX : normalizedTeX.replace(/([A-Za-z](?:_[A-Za-z0-9{}]+|\^[A-Za-z0-9{}]+)(?:[A-Za-z0-9_{}^\\\s∩∪∈+=()]+)?)/g, (formula) => {
-    const trimmed = formula.trim();
-    return trimmed ? `$${useDisplayStyle ? "\\displaystyle " : ""}${trimmed}$` : formula;
-  });
+  const normalized = normalizeMathDelimiters(text, useDisplayStyle);
   const parts = normalized.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g).filter(Boolean);
   return <>{parts.map((part, index) => {
     const display = part.startsWith("$$") && part.endsWith("$$");
