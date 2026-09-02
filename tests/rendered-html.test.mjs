@@ -25,6 +25,8 @@ test("exports the MathLoop problem-set grid as static HTML", async () => {
   assert.match(html, /定義・基本/);
   assert.match(html, /端末間で同期/);
   assert.match(html, /https:\/\/azubiwa\.github\.io\/math-loop\/og\.png/);
+  assert.match(html, /fonts\.googleapis\.com\/css2\?family=Inter/);
+  assert.match(html, /fonts\.googleapis\.com\/css2\?family=Noto\+Sans\+JP/);
   assert.doesNotMatch(html, /\/api\/progress/);
 });
 
