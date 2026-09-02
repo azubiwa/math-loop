@@ -17993,5 +17993,2863 @@
         "sourceModel": "ChatGPT 5.6 Sol（極高）"
       }
     ]
+  },
+  {
+    "id": "GSET-062",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #062",
+    "title": "確率密度の集中とDirac測度への弱収束",
+    "field": "実解析",
+    "tags": [
+      "確率測度",
+      "弱収束",
+      "一様連続性",
+      "Dirac測度",
+      "集中現象"
+    ],
+    "learningGoal": "区間上の確率密度の質量集中を定量化し、連続関数による積分を通してDirac測度への弱収束を証明する。",
+    "commonStatement": [
+      "$I=[0,1]$とし、$n=0,1,2,\\ldots$に対して$f_n(x)=(n+1)(1-x)^n$とおく。Lebesgue可測集合$A\\subset I$に対し$\\mu_n(A)=\\int_A f_n(x)\\,dx$で測度$\\mu_n$を定め、必要に応じて$I$の外側では質量0の実直線上の測度とみなす。",
+      "$0$に集中するDirac測度を$\\delta_0$と書く。確率測度の弱収束$\\mu_n\\Rightarrow\\delta_0$とは、すべての$\\varphi\\in C(I)$について$\\int_I\\varphi\\,d\\mu_n\\to\\varphi(0)$となることをいう。",
+      "密度$f_n$の質量が$0$の近くへ集中することを調べ、最終的に$\\mu_n\\Rightarrow\\delta_0$を示す。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-062-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "$\\mu_n$を確率測度として扱うため、密度の全質量を確認する。",
+        "connection": "全質量が1であることにより、後問で区間ごとの質量を確率として解釈できる。",
+        "score": 100,
+        "title": "密度の正規化",
+        "minutes": 8,
+        "answerType": "short",
+        "prompt": [
+          "$\\int_0^1 f_n(x)\\,dx$を求め、$\\mu_n$が確率測度であることを確かめよ。"
+        ],
+        "explanation": {
+          "summary": "$\\int_0^1 f_n(x)\\,dx=1$であり、$\\mu_n$は確率測度である。",
+          "steps": [
+            "$f_n(x)\\ge0$なので、残る条件は全質量が1であることだけである。",
+            "$u=1-x$とおけば、$\\int_0^1(n+1)(1-x)^n dx=(n+1)\\int_0^1u^n du=1$となる。",
+            "この正規化により、後問の$\\mu_n([\\varepsilon,1])$を原点から離れた領域に残る確率と解釈できる。"
+          ],
+          "knowledge": [
+            {
+              "title": "確率密度",
+              "body": "非負可積分関数$f$が$\\int f=1$を満たすとき、$\\mu(A)=\\int_Af$は確率測度を定める。"
+            },
+            {
+              "title": "絶対連続な測度",
+              "body": "各$\\mu_n$はLebesgue測度に関して密度$f_n$を持つため一点集合の測度は0である。一方、弱極限$\\delta_0$は$\\{0\\}$に質量1を持ち、弱収束では絶対連続性が保存されないことが分かる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "1",
+            "\\int_0^1 f_n(x)\\,dx=1"
+          ],
+          "hint": "$u=1-x$と置換してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-062-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "原点から固定距離だけ離れた部分の質量が消えることを直接計算する。",
+        "connection": "得られる指数的評価は、Dで積分を原点近傍と遠方に分けるときに使う。",
+        "score": 100,
+        "title": "原点外の質量",
+        "minutes": 9,
+        "answerType": "short",
+        "prompt": [
+          "$0<\\varepsilon<1$を固定する。$\\mu_n([\\varepsilon,1])$を求め、その$n\\to\\infty$での極限を答えよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mu_n([\\varepsilon,1])=(1-\\varepsilon)^{n+1}\\to0$である。",
+          "steps": [
+            "$\\mu_n([\\varepsilon,1])=\\int_\\varepsilon^1(n+1)(1-x)^n dx$と書く。",
+            "原始関数$-(1-x)^{n+1}$を用いると、値は$(1-\\varepsilon)^{n+1}$となる。",
+            "$0<1-\\varepsilon<1$なので指数的に0へ収束し、質量が任意の原点近傍へ集中することが分かる。"
+          ],
+          "knowledge": [
+            {
+              "title": "幾何数列の収束",
+              "body": "$|q|<1$なら$q^n\\to0$である。ここでは$q=1-\\varepsilon$である。"
+            },
+            {
+              "title": "集中の定量化",
+              "body": "$\\mu_n([\\varepsilon,1])=(1-\\varepsilon)^{n+1}$は、固定した原点近傍の外側にある質量が指数的に消えることを表す。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "\\mu_n([\\varepsilon,1])=(1-\\varepsilon)^{n+1}\\to0",
+            "(1-\\varepsilon)^{n+1}\\to0"
+          ],
+          "hint": "区間$[\\varepsilon,1]$で密度を積分してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-062-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "Lipschitz連続な試験関数に対して、弱収束の誤差を速度付きで評価する。",
+        "connection": "この評価は弱収束を定量化し、Dで一般の連続関数へ拡張する基準例になる。",
+        "score": 100,
+        "title": "Lipschitz関数に対する誤差評価",
+        "minutes": 11,
+        "answerType": "proof",
+        "prompt": [
+          "$\\varphi$がLipschitz定数$L$を持つとする。$\\int_0^1x f_n(x)\\,dx$を求め、$\\left|\\int_I\\varphi\\,d\\mu_n-\\varphi(0)\\right|\\le L/(n+2)$を示せ。"
+        ],
+        "explanation": {
+          "summary": "$\\int_0^1x f_n(x)dx=1/(n+2)$であり、積分誤差は$L/(n+2)$以下である。",
+          "steps": [
+            "部分積分またはBeta積分により、$(n+1)\\int_0^1x(1-x)^n dx=1/(n+2)$を得る。",
+            "Aの$\\int f_n=1$から、$\\int\\varphi d\\mu_n-\\varphi(0)=\\int_0^1(\\varphi(x)-\\varphi(0))f_n(x)dx$である。",
+            "$|\\varphi(x)-\\varphi(0)|\\le Lx$と$f_n\\ge0$を用いれば、絶対値は$L\\int_0^1xf_n(x)dx=L/(n+2)$以下となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "Lipschitz連続性",
+              "body": "$|\\varphi(x)-\\varphi(y)|\\le L|x-y|$である。$y=0$とすることで積分誤差を一次モーメントで抑えられる。"
+            },
+            {
+              "title": "Wasserstein距離との関係",
+              "body": "Lipschitz定数1の試験関数に対する誤差上界$1/(n+2)$は、$\\mu_n$と$\\delta_0$の1-Wasserstein距離の上界でもある。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "\\int_0^1x f_n(x)\\,dx=1/(n+2)"
+            ],
+            [
+              "|\\varphi(x)-\\varphi(0)|\\le Lx"
+            ],
+            [
+              "\\left|\\int_I\\varphi\\,d\\mu_n-\\varphi(0)\\right|\\le L/(n+2)"
+            ]
+          ],
+          "hint": "$\\varphi(0)\\int f_n$を引き、Lipschitz評価を使ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-062-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "Lipschitz条件を仮定せず、任意の連続関数へ収束を拡張する。",
+        "connection": "この結果がEで弱収束を結論する定義そのものになる。",
+        "score": 100,
+        "title": "連続試験関数への拡張",
+        "minutes": 14,
+        "answerType": "proof",
+        "prompt": [
+          "任意の$\\varphi\\in C(I)$について$\\int_I\\varphi\\,d\\mu_n\\to\\varphi(0)$を、一様連続性とBの結果を用いて示せ。"
+        ],
+        "explanation": {
+          "summary": "原点近傍では一様連続性、遠方ではBの質量評価を使うことで、すべての連続関数について積分が$\\varphi(0)$へ収束する。",
+          "steps": [
+            "$\\eta>0$を取る。一様連続性により、ある$0<\\delta<1$が存在して$0\\le x<\\delta$なら$|\\varphi(x)-\\varphi(0)|<\\eta$となる。",
+            "$M=\\|\\varphi\\|_\\infty$とし、積分を$[0,\\delta)$と$[\\delta,1]$に分ける。Aより前者は$\\eta\\mu_n([0,\\delta))\\le\\eta$で抑えられる。",
+            "後者は$|\\varphi(x)-\\varphi(0)|\\le2M$とBより$2M(1-\\delta)^{n+1}$以下であり、$n\\to\\infty$で0になる。",
+            "したがって上極限は$\\eta$以下である。$\\eta$は任意なので、求める差は0へ収束する。"
+          ],
+          "knowledge": [
+            {
+              "title": "Heine--Cantorの定理",
+              "body": "コンパクト集合上の連続関数は一様連続かつ有界である。"
+            },
+            {
+              "title": "コンパクト性の役割",
+              "body": "$I=[0,1]$のコンパクト性により、連続関数は一様連続かつ有界になる。この二つが近傍部分と遠方部分の評価を可能にする。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "一様連続性により0\\le x<\\deltaで|\\varphi(x)-\\varphi(0)|<\\eta"
+            ],
+            [
+              "積分を[0,\\delta)と[\\delta,1]に分ける"
+            ],
+            [
+              "遠方部分は2\\|\\varphi\\|_\\infty(1-\\delta)^{n+1}以下"
+            ],
+            [
+              "任意の\\eta>0に対して積分誤差の上極限は\\eta以下"
+            ]
+          ],
+          "hint": "原点近傍では関数値の差を、補集合では測度の大きさを小さくしてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-062-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "B",
+          "C",
+          "D"
+        ],
+        "purpose": "質量集中、定量評価、連続関数に対する収束を統合し、測度の弱収束として表現する。",
+        "connection": "確率密度が通常の関数には収束しなくても、測度として点質量へ収束する現象を完成させる。",
+        "score": 100,
+        "title": "Dirac測度への弱収束",
+        "minutes": 18,
+        "answerType": "proof",
+        "prompt": [
+          "$\\mu_n\\Rightarrow\\delta_0$を結論せよ。さらに$t\\in\\mathbb R$に対して分布関数$F_n(t)=\\mu_n(I\\cap(-\\infty,t])$を求め、$\\delta_0$の分布関数のすべての連続点で収束することを確かめよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mu_n\\Rightarrow\\delta_0$である。$0\\le t\\le1$では$F_n(t)=1-(1-t)^{n+1}$であり、極限は$t<0$で0、$t>0$で1となる。",
+          "steps": [
+            "Aで各$\\mu_n$が確率測度、Bで原点外の質量が消失、CでLipschitz関数に対する速度$O(n^{-1})$を得た。",
+            "Dにより任意の$\\varphi\\in C(I)$で$\\int\\varphi d\\mu_n\\to\\varphi(0)=\\int\\varphi d\\delta_0$である。これは$\\mu_n\\Rightarrow\\delta_0$を意味する。",
+            "$t<0$なら$F_n(t)=0$、$0\\le t\\le1$なら$F_n(t)=1-(1-t)^{n+1}$、$t>1$なら$F_n(t)=1$である。",
+            "$\\delta_0$の分布関数は$t<0$で0、$t\\ge0$で1であり、不連続点は$t=0$だけである。各$t\\ne0$で$F_n(t)$はこの値へ収束する。"
+          ],
+          "knowledge": [
+            {
+              "title": "弱収束と分布関数",
+              "body": "実直線上の確率測度の弱収束は、極限分布関数のすべての連続点における分布関数の収束と同値である。"
+            },
+            {
+              "title": "不連続点での注意",
+              "body": "弱収束から分布関数の収束が保証されるのは極限分布関数の連続点だけである。本問では$t=0$で$F_n(0)=0$だが$F_{\\delta_0}(0)=1$である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "任意の\\varphi\\in C(I)で\\int_I\\varphi\\,d\\mu_n\\to\\varphi(0)だから\\mu_n\\Rightarrow\\delta_0"
+            ],
+            [
+              "F_n(t)=0\\ (t<0),\\ 1-(1-t)^{n+1}\\ (0\\le t\\le1),\\ 1\\ (t>1)"
+            ],
+            [
+              "t<0では0、t>0では1へ収束する"
+            ],
+            [
+              "t=0は\\delta_0の分布関数の不連続点であり収束を要求しない"
+            ]
+          ],
+          "hint": "Dは弱収束の定義を直接満たしています。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      }
+    ]
+  },
+  {
+    "id": "GSET-063",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #063",
+    "title": "直線近似の正規方程式と直交射影",
+    "field": "線形代数",
+    "tags": [
+      "最小二乗法",
+      "正規方程式",
+      "直交射影",
+      "Gram行列",
+      "残差"
+    ],
+    "learningGoal": "離散データの直線近似を、正規方程式、残差の直交性、Pythagoras型分解へ順に結び付け、最小二乗解の存在と一意性を理解する。",
+    "commonStatement": [
+      "4点$(-1,1),(0,0),(1,1),(2,4)$を直線$y=a+bt$で最小二乗近似する。",
+      "$X=\\begin{pmatrix}1&-1\\\\1&0\\\\1&1\\\\1&2\\end{pmatrix}$、$\\mathbf y=(1,0,1,4)^T$、$\\boldsymbol\\theta=(a,b)^T$とおき、$S(a,b)=\\|\\mathbf y-X\\boldsymbol\\theta\\|^2$を考える。",
+      "最終的に最良近似直線と最小二乗誤差を求め、それが一意である理由を直交射影として説明する。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-063-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "正規方程式の係数となるGram行列を求め、2本の説明変数が独立であることを確認する。",
+        "connection": "正定値性により、Cの正規方程式が一意に解け、Eの最小性が厳密になる。",
+        "score": 100,
+        "title": "Gram行列",
+        "minutes": 8,
+        "answerType": "short",
+        "prompt": [
+          "$X^TX$とその行列式を求め、$X$の2列が一次独立であることを確かめよ。"
+        ],
+        "explanation": {
+          "summary": "$X^TX=\\begin{pmatrix}4&2\\\\2&6\\end{pmatrix}$、$\\det(X^TX)=20>0$で、$X$の列は一次独立である。",
+          "steps": [
+            "第1列の自己内積は4、第1列と第2列の内積は$-1+0+1+2=2$である。",
+            "第2列の自己内積は$1+0+1+4=6$なので、表示されたGram行列を得る。",
+            "行列式は$4\\cdot6-2^2=20>0$である。したがって$X$の2列は一次独立である。"
+          ],
+          "knowledge": [
+            {
+              "title": "Gram行列",
+              "body": "$c^TX^TXc=\\|Xc\\|^2$なので、$X$の列が一次独立なら$X^TX$は正定値である。"
+            },
+            {
+              "title": "列独立性との同値",
+              "body": "$X^TX$が正定値であることと$X$の列が一次独立であることは同値であり、このとき正規方程式の解は一意である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "X^TX=\\begin{pmatrix}4&2\\\\2&6\\end{pmatrix},\\ \\det=20",
+            "Gram行列は[[4,2],[2,6]]、行列式20"
+          ],
+          "hint": "2列のすべての内積を並べてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-063-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "二次関数$S$の停留条件を、射影を特徴付ける正規方程式として導く。",
+        "connection": "Cで係数を解き、Dで残差の直交性として読み替える。",
+        "score": 100,
+        "title": "正規方程式の導出",
+        "minutes": 10,
+        "answerType": "proof",
+        "prompt": [
+          "$S(a,b)$を偏微分して、正規方程式$X^TX\\boldsymbol\\theta=X^T\\mathbf y$を導け。さらに$X^T\\mathbf y$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "停留条件は$\\begin{pmatrix}4&2\\\\2&6\\end{pmatrix}(a,b)^T=(6,8)^T$である。",
+          "steps": [
+            "$S=(\\mathbf y-X\\boldsymbol\\theta)^T(\\mathbf y-X\\boldsymbol\\theta)$を微分すると、$\\nabla S=-2X^T(\\mathbf y-X\\boldsymbol\\theta)$である。",
+            "$\\nabla S=0$から$X^TX\\boldsymbol\\theta=X^T\\mathbf y$を得る。Aより係数行列は正定値である。",
+            "$X^T\\mathbf y=(1+0+1+4,-1+0+1+8)^T=(6,8)^T$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "正規方程式",
+              "body": "$\\min_\\theta\\|y-X\\theta\\|^2$の停留条件は$X^T(y-X\\theta)=0$であり、残差が列空間に直交することを表す。"
+            },
+            {
+              "title": "射影条件",
+              "body": "正規方程式$X^T(\\mathbf y-X\\boldsymbol\\theta)=0$は、残差が$\\operatorname{Col}(X)$の全ベクトルに直交する条件そのものである。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "\\nabla S=-2X^T(\\mathbf y-X\\boldsymbol\\theta)"
+            ],
+            [
+              "X^TX\\boldsymbol\\theta=X^T\\mathbf y"
+            ],
+            [
+              "X^T\\mathbf y=(6,8)^T"
+            ],
+            [
+              "\\begin{pmatrix}4&2\\\\2&6\\end{pmatrix}(a,b)^T=(6,8)^T"
+            ]
+          ],
+          "hint": "$S$を$\\boldsymbol\\theta$の二次式として微分してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-063-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "正規方程式を解いて最良近似の候補を具体化する。",
+        "connection": "得られた係数からDで残差を計算し、Eで大域的な最小性を証明する。",
+        "score": 100,
+        "title": "近似直線の係数",
+        "minutes": 10,
+        "answerType": "short",
+        "prompt": [
+          "Bの正規方程式を解き、$a,b$と4点での当てはめ値$X\\boldsymbol\\theta$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$(a,b)=(1,1)$で、最良近似候補は$y=1+t$、当てはめ値は$(0,1,2,3)^T$である。",
+          "steps": [
+            "方程式は$4a+2b=6$、$2a+6b=8$である。",
+            "消去すると$5b=5$となり、$b=1$、$a=1$を得る。",
+            "$X(1,1)^T=(0,1,2,3)^T$である。Aの行列式が非零なので解は一意である。"
+          ],
+          "knowledge": [
+            {
+              "title": "正定値二次関数",
+              "body": "Hessianが正定値なら停留点は一意な大域的最小点である。ここではHessianは$2X^TX$である。"
+            },
+            {
+              "title": "切片を含む回帰",
+              "body": "設計行列の第1列が全1なので、正規方程式から残差成分の和が0になる。これは切片を含む最小二乗法の一般的性質である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "a=1,b=1,\\ X\\boldsymbol\\theta=(0,1,2,3)^T",
+            "y=1+t、当てはめ値(0,1,2,3)^T"
+          ],
+          "hint": "2元連立方程式を解いてから$X\\boldsymbol\\theta$を計算してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-063-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B",
+          "C"
+        ],
+        "purpose": "最小二乗解を、単なる停留点ではなく直交射影として捉える。",
+        "connection": "残差の直交性がEのPythagoras型分解で交差項を消す。",
+        "score": 100,
+        "title": "残差の直交性",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "残差$\\mathbf r=\\mathbf y-X(1,1)^T$を求め、$X^T\\mathbf r=0$と$\\|\\mathbf r\\|^2=4$を確かめよ。これを列空間への直交射影として説明せよ。"
+        ],
+        "explanation": {
+          "summary": "$\\mathbf r=(1,-1,-1,1)^T$、$X^T\\mathbf r=0$、$\\|\\mathbf r\\|^2=4$であり、$X(1,1)^T$は$\\mathbf y$の列空間への直交射影である。",
+          "steps": [
+            "Cの当てはめ値を引くと$\\mathbf r=(1,-1,-1,1)^T$である。",
+            "第1列との内積は$1-1-1+1=0$、第2列との内積は$-1+0-1+2=0$なので$X^T\\mathbf r=0$である。",
+            "$\\|\\mathbf r\\|^2=4$である。$\\mathbf y=X(1,1)^T+\\mathbf r$は列空間成分とその直交補成分への分解である。"
+          ],
+          "knowledge": [
+            {
+              "title": "直交射影",
+              "body": "$y=p+r$、$p\\in V$、$r\\perp V$なら$p$は$y$の$V$への直交射影であり、唯一の最近点である。"
+            },
+            {
+              "title": "射影行列",
+              "body": "列が一次独立なら直交射影は$P=X(X^TX)^{-1}X^T$で与えられ、当てはめ値は$P\\mathbf y$、残差は$(I-P)\\mathbf y$である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "\\mathbf r=(1,-1,-1,1)^T"
+            ],
+            [
+              "X^T\\mathbf r=0"
+            ],
+            [
+              "\\|\\mathbf r\\|^2=4"
+            ],
+            [
+              "X(1,1)^Tは\\mathbf yの\\operatorname{Col}(X)への直交射影"
+            ]
+          ],
+          "hint": "残差と$X$の各列との内積を計算してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-063-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "A",
+          "C",
+          "D"
+        ],
+        "purpose": "前問の代数計算と直交性を統合し、最小値と一意性を大域的に証明する。",
+        "connection": "正規方程式が最小二乗法を解く理由を、誤差の直交分解として完成させる。",
+        "score": 100,
+        "title": "最小誤差と一意性",
+        "minutes": 20,
+        "answerType": "proof",
+        "prompt": [
+          "任意の$\\alpha,\\beta$について$u=\\alpha-1$、$v=\\beta-1$とおく。$S(\\alpha,\\beta)=4+4u^2+4uv+6v^2$を示し、最良近似直線と最小値が一意であることを結論せよ。"
+        ],
+        "explanation": {
+          "summary": "$S(\\alpha,\\beta)=4+4u^2+4uv+6v^2$であり、唯一の最良近似は$y=1+t$、最小値は4である。",
+          "steps": [
+            "Cの$\\boldsymbol\\theta_*=(1,1)^T$から、$\\mathbf y-X(\\alpha,\\beta)^T=\\mathbf r-X(u,v)^T$である。",
+            "Dで$\\mathbf r\\perp\\operatorname{Col}(X)$だから、$S=\\|\\mathbf r\\|^2+\\|X(u,v)^T\\|^2$となる。",
+            "Dの$\\|\\mathbf r\\|^2=4$とAのGram行列から、$\\|X(u,v)^T\\|^2=4u^2+4uv+6v^2$を得る。",
+            "$X^TX$は正定値なので追加項は$(u,v)=(0,0)$のときだけ0である。よって最小値は4、唯一の係数は$(1,1)$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "Pythagorasの定理",
+              "body": "$p\\perp q$なら$\\|p+q\\|^2=\\|p\\|^2+\\|q\\|^2$である。"
+            },
+            {
+              "title": "階数不足の場合",
+              "body": "$X$の列が一次従属なら最小当てはめ値は一意でも係数は一意とは限らない。本問では$\\det(X^TX)>0$がこの問題を排除する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "S(\\alpha,\\beta)=\\|\\mathbf r\\|^2+\\|X(u,v)^T\\|^2"
+            ],
+            [
+              "S(\\alpha,\\beta)=4+4u^2+4uv+6v^2"
+            ],
+            [
+              "X^TXが正定値なので追加項は(u,v)=(0,0)のときだけ0"
+            ],
+            [
+              "唯一の最小二乗解は(a,b)=(1,1)で最小値は4"
+            ]
+          ],
+          "hint": "Dの直交分解にPythagorasの定理を適用し、AのGram行列を使ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      }
+    ]
+  },
+  {
+    "id": "GSET-064",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #064",
+    "title": "立方体の面彩色と回転群の軌道",
+    "field": "群論",
+    "tags": [
+      "群作用",
+      "立方体回転群",
+      "Burnsideの補題",
+      "軌道安定化定理",
+      "彩色問題"
+    ],
+    "learningGoal": "立方体の回転を面集合上の巡回型で分類し、Burnsideの補題と軌道安定化定理の両方から彩色軌道を決定する。",
+    "commonStatement": [
+      "立方体の6面をちょうど3面だけ赤、残り3面を青に塗る。向きを保つ回転で移り合う彩色を同一視する。",
+      "立方体の回転群を$O$と書く。$|O|=24$であり、回転軸は向かい合う面の中心、向かい合う頂点、向かい合う辺の中点を結ぶ直線のいずれかである。",
+      "各回転の面集合上での巡回型と固定彩色数を求め、彩色の軌道を分類する。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-064-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "回転群の全要素を幾何学的な型と面置換の巡回型で分類する。",
+        "connection": "分類をBの固定彩色数の計算に用いる。",
+        "score": 100,
+        "title": "回転の分類",
+        "minutes": 11,
+        "answerType": "proof",
+        "prompt": [
+          "$O$の24元を回転角と軸で分類し、6面上の巡回型が、恒等回転$1^6$、面軸$90^\\circ$回転$1^2 4$、面軸$180^\\circ$回転$1^2 2^2$、頂点軸$120^\\circ$回転$3^2$、辺軸$180^\\circ$回転$2^3$となることを、それぞれの元の個数とともに示せ。"
+        ],
+        "explanation": {
+          "summary": "元の個数は順に$1,6,3,8,6$で、巡回型は$1^6,1^2 4,1^2 2^2,3^2,2^3$である。",
+          "steps": [
+            "恒等回転は1元で、6面をすべて固定するため巡回型は$1^6$である。",
+            "3本の面軸ごとに$\\pm90^\\circ$回転があり計6元である。軸上の2面を固定し残る4面を巡回させるため$1^2 4$である。",
+            "同じ3本の面軸の$180^\\circ$回転は各軸1元で計3元、巡回型は$1^2 2^2$である。",
+            "4本の頂点軸ごとに$\\pm120^\\circ$回転があり計8元で、面は二つの3巡回に分かれるため$3^2$である。",
+            "6本の辺軸の$180^\\circ$回転は計6元で、面を3対入れ替えるため$2^3$である。個数の和は$1+6+3+8+6=24$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "立方体の回転群",
+              "body": "立方体の向きを保つ回転群は4本の頂点対角線を置換し、$S_4$と同型で位数24である。"
+            },
+            {
+              "title": "巡回型と固定彩色",
+              "body": "ある回転で不変な彩色は各巡回上で一定である。したがって指定された赤面数は、赤く選んだ巡回の長さの和でなければならない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "面軸90^\\circ:6元で1^2 4"
+            ],
+            [
+              "面軸180^\\circ:3元で1^2 2^2"
+            ],
+            [
+              "頂点軸120^\\circ:8元で3^2"
+            ],
+            [
+              "辺軸180^\\circ:6元で2^3"
+            ],
+            [
+              "個数の総和は24"
+            ]
+          ],
+          "hint": "軸の種類ごとに、軸上または軸の周囲で面がどう動くかを追ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-064-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "各巡回型から赤3面という制約を満たす固定彩色を数える。",
+        "connection": "固定彩色数の総和をCのBurnside平均に渡す。",
+        "score": 100,
+        "title": "固定彩色数",
+        "minutes": 11,
+        "answerType": "short",
+        "prompt": [
+          "Aの5種類の回転が固定する彩色数を、同じ順序で求めよ。"
+        ],
+        "explanation": {
+          "summary": "固定彩色数は順に$(20,0,4,2,0)$である。",
+          "steps": [
+            "恒等回転では赤面を3面選ぶので$\\binom63=20$である。",
+            "$1^2 4$型では巡回長$1,1,4$の和で3を作れず、$2^3$型では赤面数が偶数になるため、固定彩色は0である。",
+            "$1^2 2^2$型では固定面を1面、2巡回を1個選ぶので$2\\cdot2=4$である。",
+            "$3^2$型では二つの3巡回の一方を赤くするので2である。"
+          ],
+          "knowledge": [
+            {
+              "title": "固定点計数",
+              "body": "固定彩色の生成関数は巡回長を$\\ell_1,\\ldots,\\ell_k$として$\\prod_j(1+x^{\\ell_j})$であり、$x^3$の係数が赤3面の固定彩色数になる。"
+            },
+            {
+              "title": "恒等元の寄与",
+              "body": "恒等元が固定する点数は作用する集合全体の大きさであり、本問では$\\binom63=20$である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "(20,0,4,2,0)",
+            "20,0,4,2,0"
+          ],
+          "hint": "各巡回を丸ごと赤または青にし、赤い巡回の長さの和を3にしてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-064-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "Burnsideの補題で回転同値な彩色数を求める。",
+        "connection": "得られた軌道数をDの幾何学的分類と照合する。",
+        "score": 100,
+        "title": "Burnside平均",
+        "minutes": 10,
+        "answerType": "proof",
+        "prompt": [
+          "Burnsideの補題を用いて、回転を同一視した彩色が2種類であることを示せ。"
+        ],
+        "explanation": {
+          "summary": "固定彩色数の総和は48なので、軌道数は$48/24=2$である。",
+          "steps": [
+            "AとBより固定彩色数の総和は$1\\cdot20+6\\cdot0+3\\cdot4+8\\cdot2+6\\cdot0=48$である。",
+            "Burnsideの補題では軌道数は固定点数の平均に等しい。",
+            "したがって軌道数は$48/|O|=48/24=2$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "Burnsideの補題",
+              "body": "有限群$G$が有限集合$X$に作用するとき、軌道数は$|G|^{-1}\\sum_{g\\in G}|\\operatorname{Fix}(g)|$である。"
+            },
+            {
+              "title": "固定対の二重計数",
+              "body": "Burnsideの補題は$\\{(g,x):gx=x\\}$を群元ごとと点ごとの二通りに数えることで証明できる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "固定彩色数の総和は20+3\\cdot4+8\\cdot2=48"
+            ],
+            [
+              "Burnsideの補題を適用する"
+            ],
+            [
+              "軌道数は48/24=2"
+            ]
+          ],
+          "hint": "Aの各型の元数とBの固定彩色数を掛けて足し、24で割ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-064-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "C"
+        ],
+        "purpose": "二つの軌道を面の隣接関係で具体的に特徴付ける。",
+        "connection": "各型の安定化群と軌道サイズをEで調べる。",
+        "score": 100,
+        "title": "二つの彩色型",
+        "minutes": 13,
+        "answerType": "proof",
+        "prompt": [
+          "赤3面の集合が、(i) 1頂点で交わる3面、または(ii) 向かい合う2面ともう1面、のどちらか一方であることを示せ。それぞれが1軌道をなし、互いに異なる軌道であることを説明せよ。"
+        ],
+        "explanation": {
+          "summary": "赤面が向かい合う対を含まなければ1頂点で交わる型、含めば向かい合う対と1面の型であり、これらが二つの軌道である。",
+          "steps": [
+            "立方体の面は3組の向かい合う対に分かれる。赤3面が向かい合う対を含まなければ各対から1面ずつ選ぶので、その3面は一つの頂点で交わる。",
+            "向かい合う対を含む場合、残る赤1面を加えた(ii)の型になる。赤面が3面だけなので二つの向かい合う対を同時には含めない。",
+            "回転群は頂点に推移的に作用するため(i)は1軌道である。また向かい合う面対に推移的で、その軸の周りの回転で残る4面にも推移的なので(ii)も1軌道である。",
+            "向かい合う赤面を含むかどうかは回転で保存されるので、二つの軌道は異なる。Cの軌道数2とも一致する。"
+          ],
+          "knowledge": [
+            {
+              "title": "軌道不変量",
+              "body": "群作用で保存される量が異なる二点は同じ軌道に入らない。本問では向かい合う赤面対の有無が不変量である。"
+            },
+            {
+              "title": "推移性",
+              "body": "立方体の回転群は頂点全体、面全体、向かい合う面対全体にそれぞれ推移的に作用する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "向かい合う赤面がなければ3面は1頂点で交わる"
+            ],
+            [
+              "向かい合う赤面があれば対ともう1面の型になる"
+            ],
+            [
+              "各型の内部では回転群が推移的に作用する"
+            ],
+            [
+              "向かい合う赤面対の有無は回転不変である"
+            ]
+          ],
+          "hint": "3組の向かい合う面対から赤面をどう選ぶかで場合分けしてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-064-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "C",
+          "D"
+        ],
+        "purpose": "軌道安定化定理から各軌道の大きさを求め、全彩色数と照合する。",
+        "connection": "Burnside計数と幾何学的分類を統合する。",
+        "score": 100,
+        "title": "安定化群と軌道サイズ",
+        "minutes": 15,
+        "answerType": "proof",
+        "prompt": [
+          "Dの(i)型と(ii)型について代表彩色の安定化群の位数を求め、軌道サイズがそれぞれ8と12であることを示せ。最後に全$\\binom63=20$彩色を尽くすことを確認せよ。"
+        ],
+        "explanation": {
+          "summary": "安定化群の位数は(i)で3、(ii)で2なので、軌道サイズは8と12であり、その和20で全彩色を尽くす。",
+          "steps": [
+            "(i)型では赤3面の共通頂点とその対頂点を結ぶ軸の$0^\\circ,120^\\circ,240^\\circ$回転が彩色を保ち、安定化群の位数は3である。",
+            "軌道安定化定理より(i)型の軌道サイズは$24/3=8$である。",
+            "(ii)型では赤い向かい合う面対の軸と垂直で、残る赤面の中心を通る面軸の$180^\\circ$回転と恒等回転だけが彩色を保つため、安定化群の位数は2である。",
+            "したがって(ii)型の軌道サイズは$24/2=12$である。$8+12=20=\\binom63$なので全彩色を尽くす。"
+          ],
+          "knowledge": [
+            {
+              "title": "軌道安定化定理",
+              "body": "有限群作用では$|Gx|=|G|/|G_x|$である。ここで$G_x$は点$x$を固定する安定化群である。"
+            },
+            {
+              "title": "Burnside計数との整合",
+              "body": "軌道サイズの和が作用集合の大きさと一致することは、軌道分類に漏れがないことの独立な確認になる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "(i)型の安定化群は位数3"
+            ],
+            [
+              "(i)型の軌道サイズは24/3=8"
+            ],
+            [
+              "(ii)型の安定化群は位数2"
+            ],
+            [
+              "(ii)型の軌道サイズは24/2=12"
+            ],
+            [
+              "8+12=20=\\binom63"
+            ]
+          ],
+          "hint": "各代表彩色を保つ回転を列挙し、軌道安定化定理を使ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      }
+    ]
+  },
+  {
+    "id": "GSET-065",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #065",
+    "title": "連分数と基本単数によるPell方程式の完全解",
+    "field": "整数論",
+    "tags": [
+      "Pell方程式",
+      "連分数",
+      "二次体",
+      "ノルム",
+      "基本単数"
+    ],
+    "learningGoal": "$\\sqrt2$の連分数と$\\mathbb Z[\\sqrt2]$のノルムを結び付け、Pell方程式$x^2-2y^2=1$の正整数解を漏れなく生成する。",
+    "commonStatement": [
+      "Pell方程式$x^2-2y^2=1$の正整数解$(x,y)\\in\\mathbb Z_{>0}^2$を考える。$\\alpha=1+\\sqrt2$、$N(a+b\\sqrt2)=a^2-2b^2$とおく。",
+      "$\\sqrt2$の連分数の第$n$収束分数を$p_n/q_n$とし、$p_0/q_0=1/1$から番号を付ける。",
+      "連分数から得られる単数と順序構造を用い、最終的にすべての正整数解を明示する。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-065-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "Pell方程式の解候補を生む周期連分数を導く。",
+        "connection": "Bでは部分商2の反復を収束分数と$\\alpha$の冪に結び付ける。",
+        "score": 100,
+        "title": "$\\sqrt2$の周期連分数",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "$\\sqrt2=[1;\\overline{2}]$を示し、最初の4個の収束分数を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$\\sqrt2=[1;\\overline2]$で、収束分数は$1,3/2,7/5,17/12$から始まる。",
+          "steps": [
+            "$\\sqrt2=1+(\\sqrt2-1)$であり、$1/(\\sqrt2-1)=\\sqrt2+1=2+(\\sqrt2-1)$である。",
+            "小数部分が逆数を取り整数部2を除いた後に再び現れるので、部分商2が周期的に続く。",
+            "$[1]$、$[1;2]$、$[1;2,2]$、$[1;2,2,2]$を計算すると$1,3/2,7/5,17/12$を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "単純連分数",
+              "body": "$[a_0;a_1,a_2,\\ldots]=a_0+1/(a_1+1/(a_2+\\cdots))$である。"
+            },
+            {
+              "title": "収束分数の漸化式",
+              "body": "連分数の収束分数は$p_n=a_np_{n-1}+p_{n-2}$、$q_n=a_nq_{n-1}+q_{n-2}$を満たす。本問では$n\\ge1$の部分商がすべて2である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "1/(\\sqrt2-1)=\\sqrt2+1=2+(\\sqrt2-1)"
+            ],
+            [
+              "\\sqrt2=[1;\\overline2]"
+            ],
+            [
+              "最初の4収束分数は1,3/2,7/5,17/12"
+            ]
+          ],
+          "hint": "$\\sqrt2$の整数部を除き、その逆数を有理化してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-065-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "収束分数の分子・分母を二次整数$1+\\sqrt2$の冪として記述する。",
+        "connection": "Cでノルムを取るだけでPell型恒等式が得られる。",
+        "score": 100,
+        "title": "収束分数と二次整数の冪",
+        "minutes": 11,
+        "answerType": "proof",
+        "prompt": [
+          "$p_n+q_n\\sqrt2=(1+\\sqrt2)^{n+1}$を示し、$p_{n+1}=p_n+2q_n$、$q_{n+1}=p_n+q_n$を導け。"
+        ],
+        "explanation": {
+          "summary": "$p_n+q_n\\sqrt2=\\alpha^{n+1}$であり、係数比較から指定の漸化式を得る。",
+          "steps": [
+            "Aの連分数の標準漸化式から、$z_n=p_n+q_n\\sqrt2$は$z_{n+1}=2z_n+z_{n-1}$を満たし、$z_0=\\alpha$、$z_1=\\alpha^2$である。",
+            "$\\alpha^2=2\\alpha+1$なので、冪列$\\alpha^{n+1}$も同じ漸化式を満たす。初期値も一致するため$z_n=\\alpha^{n+1}$である。",
+            "$z_{n+1}=\\alpha z_n=(p_n+2q_n)+(p_n+q_n)\\sqrt2$より、係数比較して二つの漸化式を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "二次整数の係数比較",
+              "body": "$a+b\\sqrt2=c+d\\sqrt2$なら、$\\sqrt2$の無理性から$a=c,b=d$である。"
+            },
+            {
+              "title": "添字と冪の対応",
+              "body": "$p_0/q_0=1/1$から始めるため、対応する二次整数の冪は$p_n+q_n\\sqrt2=(1+\\sqrt2)^{n+1}$となる。添字が1だけずれる点に注意する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "p_n+q_n\\sqrt2=(1+\\sqrt2)^{n+1}"
+            ],
+            [
+              "収束分数列と冪列が同じ二階漸化式と初期値を持つ"
+            ],
+            [
+              "p_{n+1}=p_n+2q_n"
+            ],
+            [
+              "q_{n+1}=p_n+q_n"
+            ]
+          ],
+          "hint": "連分数の標準漸化式と$\\alpha^2=2\\alpha+1$を比較してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-065-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "B"
+        ],
+        "purpose": "収束分数がPell方程式の符号付き解を交互に与えることをノルムで示す。",
+        "connection": "ノルム1を持つ$3+2\\sqrt2$をDの還元に用いる。",
+        "score": 100,
+        "title": "ノルムの交代",
+        "minutes": 10,
+        "answerType": "proof",
+        "prompt": [
+          "$p_n^2-2q_n^2=(-1)^{n+1}$を示せ。特に$\\varepsilon=3+2\\sqrt2$がノルム1であることを確かめよ。"
+        ],
+        "explanation": {
+          "summary": "$N(p_n+q_n\\sqrt2)=(-1)^{n+1}$で、$\\varepsilon=\\alpha^2=3+2\\sqrt2$はノルム1である。",
+          "steps": [
+            "$N(uv)=N(u)N(v)$であり、$N(1+\\sqrt2)=-1$である。",
+            "Bの等式にノルムを取ると$p_n^2-2q_n^2=(-1)^{n+1}$となる。",
+            "$n=1$では$3^2-2\\cdot2^2=1$なので、$\\varepsilon=3+2\\sqrt2$はノルム1の単数である。"
+          ],
+          "knowledge": [
+            {
+              "title": "共役とノルム",
+              "body": "$a+b\\sqrt2$の共役は$a-b\\sqrt2$、ノルムは両者の積であり、積に関して乗法的である。"
+            },
+            {
+              "title": "符号付きPell方程式",
+              "body": "収束分数は交互に$p_n^2-2q_n^2=-1$と$1$を満たす。偶数番目と奇数番目でノルムの符号が異なる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "N(1+\\sqrt2)=-1かつノルムは乗法的"
+            ],
+            [
+              "p_n^2-2q_n^2=(-1)^{n+1}"
+            ],
+            [
+              "\\varepsilon=3+2\\sqrt2=(1+\\sqrt2)^2"
+            ],
+            [
+              "N(\\varepsilon)=3^2-2\\cdot2^2=1"
+            ]
+          ],
+          "hint": "Bの等式の両辺に乗法的なノルムを取ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-065-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "C"
+        ],
+        "purpose": "基本単数の冪の間に別の正のノルム1単数がないことを示す。",
+        "connection": "Eではこの還元を任意のPell解へ適用する。",
+        "score": 100,
+        "title": "基本単数による還元",
+        "minutes": 15,
+        "answerType": "proof",
+        "prompt": [
+          "$v=a+b\\sqrt2\\in\\mathbb Z[\\sqrt2]$が$1\\le v<\\varepsilon$、$N(v)=1$を満たすなら$v=1$であることを示せ。"
+        ],
+        "explanation": {
+          "summary": "$[1,3+2\\sqrt2)$には1以外の正のノルム1単数は存在しない。",
+          "steps": [
+            "$N(v)=1$なので共役$v'=a-b\\sqrt2=1/v$である。$v\\ge1$から$0<v'\\le1$となり、$b=(v-v')/(2\\sqrt2)\\ge0$である。",
+            "$v<\\varepsilon$かつ$v'>\\varepsilon^{-1}$より、$2\\sqrt2 b<\\varepsilon-\\varepsilon^{-1}=4\\sqrt2$である。よって$b=0$または1である。",
+            "$b=1$なら$a^2=3$で不可能である。$b=0$なら$a^2=1$で、$v\\ge1$より$a=1$、したがって$v=1$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "単数の還元",
+              "body": "$\\varepsilon>1$なら任意の$u>0$を$\\varepsilon$の冪で割り、$[1,\\varepsilon)$へ移せる。"
+            },
+            {
+              "title": "正値性の必要性",
+              "body": "$v'=1/v$から共役の大小を評価するには$v>0$が必要である。本問の$1\\le v$がこの仮定を保証している。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "v'=a-b\\sqrt2=1/v>0"
+            ],
+            [
+              "b=(v-v')/(2\\sqrt2)から0\\le b<2"
+            ],
+            [
+              "b=1ならa^2=3となり不可能"
+            ],
+            [
+              "b=0ならv\\ge1とN(v)=1からa=1"
+            ]
+          ],
+          "hint": "$b=(v-v')/(2\\sqrt2)$を、$v<\\varepsilon$と$v'>\\varepsilon^{-1}$で評価してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-065-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "purpose": "連分数で得た候補と基本単数による還元を統合し、Pell方程式の正整数解を完全分類する。",
+        "connection": "存在だけでなく、解の漏れがないことと生成漸化式まで示す。",
+        "score": 100,
+        "title": "Pell方程式の全正整数解",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "$x^2-2y^2=1$の全正整数解が$x_k+y_k\\sqrt2=(3+2\\sqrt2)^k$（$k=1,2,\\ldots$）で与えられることを示し、$(x_k,y_k)$の漸化式を書け。"
+        ],
+        "explanation": {
+          "summary": "全正整数解は$x_k+y_k\\sqrt2=\\varepsilon^k$であり、$(x_1,y_1)=(3,2)$、$x_{k+1}=3x_k+4y_k$、$y_{k+1}=2x_k+3y_k$で生成される。",
+          "steps": [
+            "Cより$N(\\varepsilon)=1$だから、各$\\varepsilon^k$はPell方程式の正整数解を与える。A・Bでは$\\varepsilon^k=\\alpha^{2k}=p_{2k-1}+q_{2k-1}\\sqrt2$である。",
+            "任意の解から$u=x+y\\sqrt2>1$を作り、$\\varepsilon^j\\le u<\\varepsilon^{j+1}$となる$j$を選ぶ。",
+            "$v=u\\varepsilon^{-j}$は$1\\le v<\\varepsilon$を満たすノルム1単数なので、Dより$v=1$である。したがって$u=\\varepsilon^j$で、解の漏れはない。",
+            "$(x_k+y_k\\sqrt2)(3+2\\sqrt2)$の係数を比較すると、二つの漸化式を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "Pell方程式と単数群",
+              "body": "$x^2-dy^2=1$は$\\mathbb Z[\\sqrt d]$におけるノルム1単数の方程式である。"
+            },
+            {
+              "title": "符号を許す解",
+              "body": "整数解全体では$x$や$y$の符号変更も許される。本問は$x,y>0$に限定しているため、$k\\ge1$の正の冪だけが現れる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "(3+2\\sqrt2)^kはk\\ge1ごとに正整数解を与える"
+            ],
+            [
+              "任意の解uに対して1\\le u\\varepsilon^{-j}<\\varepsilonとなるjを選ぶ"
+            ],
+            [
+              "Dよりu\\varepsilon^{-j}=1なので全解はu=\\varepsilon^j"
+            ],
+            [
+              "(x_1,y_1)=(3,2)"
+            ],
+            [
+              "x_{k+1}=3x_k+4y_k,\\ y_{k+1}=2x_k+3y_k"
+            ]
+          ],
+          "hint": "任意の解を$3+2\\sqrt2$の冪で割ってDの区間へ入れてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      }
+    ]
+  },
+  {
+    "id": "GSET-066",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #066",
+    "title": "公平なランダムウォークの破産確率と吸収時間",
+    "field": "確率論",
+    "tags": [
+      "ランダムウォーク",
+      "マルチンゲール",
+      "停止時刻",
+      "任意抽出定理",
+      "破産問題"
+    ],
+    "learningGoal": "有限区間の公平なランダムウォークに停止マルチンゲールを適用し、上端到達確率と平均吸収時間を導いて、開始位置による振る舞いを理解する。",
+    "commonStatement": [
+      "$N\\ge2$、$1\\le i\\le N-1$とする。$S_0=i$から始め、$S_n$が$0$または$N$に達するまでは各時刻に確率$1/2$ずつで$+1,-1$進む。",
+      "$\\tau=\\inf\\{n\\ge0:S_n\\in\\{0,N\\}\\}$を吸収時刻、$\\mathcal F_n$を自然なフィルトレーションとする。吸収後は位置を変えないと考える。",
+      "最終的に$N$へ先に到達する確率と$\\mathbb E_i[\\tau]$を求め、平均吸収時間を最大にする開始位置を決定する。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-066-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "任意抽出を用いるため、吸収時刻がほとんど確実に有限で期待値も有限であることを確認する。",
+        "connection": "BとDで停止時刻$\\tau$までマルチンゲールの期待値を移す根拠になる。",
+        "score": 100,
+        "title": "吸収時刻の有限性",
+        "minutes": 11,
+        "answerType": "proof",
+        "prompt": [
+          "$\\mathbb P_i(\\tau>kN)\\le(1-2^{-N})^k$を示し、$\\tau<\\infty$がほとんど確実で$\\mathbb E_i[\\tau]<\\infty$であることを導け。"
+        ],
+        "explanation": {
+          "summary": "$\\tau$の尾確率は幾何級数で抑えられ、$\\tau$はほとんど確実に有限かつ可積分である。",
+          "steps": [
+            "どの内部位置からでも、次の$N$回がすべて$-1$なら$N$時刻以内に0へ達する。この事象の確率は$2^{-N}$である。",
+            "したがって次の長さ$N$のブロックで吸収されない条件付き確率は高々$1-2^{-N}$であり、各ブロックへ繰り返すと指定の評価を得る。",
+            "$k\\to\\infty$で右辺が0になるので$\\tau<\\infty$ a.s.である。尾和公式で期待値をN項ずつまとめれば幾何級数で抑えられ、$\\mathbb E_i[\\tau]<\\infty$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "尾和公式",
+              "body": "非負整数値確率変数$T$について$\\mathbb E[T]=\\sum_{m=0}^\\infty\\mathbb P(T>m)$である。"
+            },
+            {
+              "title": "ブロックごとの条件付け",
+              "body": "各長さ$N$のブロック開始時に未吸収であると条件付けても、独立増分により全て左へ進む確率は$2^{-N}$である。これを反復して幾何的尾評価を得る。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "未吸収なら次のN歩がすべて左向きとなる条件付き確率は2^{-N}"
+            ],
+            [
+              "\\mathbb P_i(\\tau>kN)\\le(1-2^{-N})^k"
+            ],
+            [
+              "尾確率が0へ収束するので\\tau<\\infty a.s."
+            ],
+            [
+              "尾和公式と幾何級数から\\mathbb E_i[\\tau]<\\infty"
+            ]
+          ],
+          "hint": "長さ$N$の時間ブロックごとに、全て左へ進む事象を考えてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-066-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "位置過程の公平性をマルチンゲールとして表し、終点位置の期待値を得る。",
+        "connection": "Cでは終点が0かNだけであることと組み合わせて到達確率を求める。",
+        "score": 100,
+        "title": "停止位置マルチンゲール",
+        "minutes": 10,
+        "answerType": "proof",
+        "prompt": [
+          "$M_n=S_{n\\wedge\\tau}$がマルチンゲールであることを示し、$\\mathbb E_i[S_\\tau]=i$を導け。"
+        ],
+        "explanation": {
+          "summary": "$S_{n\\wedge\\tau}$は$[0,N]$に値を持つマルチンゲールで、停止時の期待位置は$i$に等しい。",
+          "steps": [
+            "$n<\\tau$では増分の条件付き平均が0、$n\\ge\\tau$では増分が0なので、$\\mathbb E[M_{n+1}\\mid\\mathcal F_n]=M_n$である。",
+            "したがって各$n$で$\\mathbb E[M_n]=i$である。",
+            "Aより$M_n\\to S_\\tau$ a.s.であり、$0\\le M_n\\le N$だから有界収束定理により$\\mathbb E[S_\\tau]=i$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "停止マルチンゲール",
+              "body": "$M_n$がマルチンゲールで$\\tau$が停止時刻なら、$M_{n\\wedge\\tau}$もマルチンゲールである。"
+            },
+            {
+              "title": "停止定理の仮定",
+              "body": "一般の停止時刻では期待値保存は自動ではない。本問では停止過程が$0$と$N$の間に有界なので、極限で有界収束定理を使える。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "M_n=S_{n\\wedge\\tau}は条件付き平均増分0のマルチンゲール"
+            ],
+            [
+              "0\\le M_n\\le N"
+            ],
+            [
+              "M_n\\to S_\\tau a.s. と有界収束定理を用いる"
+            ],
+            [
+              "\\mathbb E_i[S_\\tau]=i"
+            ]
+          ],
+          "hint": "吸収前後に分けて条件付き増分を調べ、有界収束定理を使ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-066-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "停止位置の期待値から上端へ到達する確率を抽出する。",
+        "connection": "Dで$S_\\tau^2$の期待値を計算するときにも同じ確率を用いる。",
+        "score": 100,
+        "title": "上端到達確率",
+        "minutes": 8,
+        "answerType": "short",
+        "prompt": [
+          "$h_i=\\mathbb P_i(S_\\tau=N)$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$h_i=i/N$である。",
+          "steps": [
+            "Aより$S_\\tau$はほとんど確実に0またはNのどちらかである。",
+            "$\\mathbb E_i[S_\\tau]=N\\mathbb P_i(S_\\tau=N)=Nh_i$である。",
+            "Bの$\\mathbb E_i[S_\\tau]=i$と比較して$h_i=i/N$を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "二点分布の期待値",
+              "body": "$X$が0とNだけを取り、$P(X=N)=h$なら$E[X]=Nh$である。"
+            },
+            {
+              "title": "調和方程式による別解",
+              "body": "到達確率は$h_i=(h_{i-1}+h_{i+1})/2$、$h_0=0,h_N=1$も満たす。この境界値問題を解いても$h_i=i/N$を得る。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "i/N",
+            "\\mathbb P_i(S_\\tau=N)=\\frac{i}{N}"
+          ],
+          "hint": "$S_\\tau$は0またはNで、Bがその期待値を与えています。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-066-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "A",
+          "C"
+        ],
+        "purpose": "二次マルチンゲールを使い、吸収までの平均時間を到達確率と結び付ける。",
+        "connection": "Eでは得られた二次式を開始位置について最大化する。",
+        "score": 100,
+        "title": "平均吸収時間",
+        "minutes": 14,
+        "answerType": "proof",
+        "prompt": [
+          "$Q_n=S_{n\\wedge\\tau}^2-(n\\wedge\\tau)$がマルチンゲールであることを示し、$\\mathbb E_i[\\tau]=i(N-i)$を導け。"
+        ],
+        "explanation": {
+          "summary": "$S_{n\\wedge\\tau}^2-(n\\wedge\\tau)$はマルチンゲールで、平均吸収時間は$i(N-i)$である。",
+          "steps": [
+            "吸収前には$\\mathbb E[S_{n+1}^2\\mid\\mathcal F_n]=S_n^2+1$であり、吸収後は両補正が止まるので$Q_n$はマルチンゲールである。",
+            "$\\mathbb E[Q_n]=i^2$より$\\mathbb E[n\\wedge\\tau]=\\mathbb E[S_{n\\wedge\\tau}^2]-i^2$である。$S_{n\\wedge\\tau}^2\\le N^2$には有界収束定理を、$n\\wedge\\tau\\uparrow\\tau$には単調収束定理を用いて$n\\to\\infty$とする。",
+            "$\\mathbb E[\\tau]=\\mathbb E[S_\\tau^2]-i^2$を得る。Cより$\\mathbb E[S_\\tau^2]=N^2(i/N)=Ni$である。",
+            "よって$\\mathbb E_i[\\tau]=Ni-i^2=i(N-i)$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "二次マルチンゲール",
+              "body": "平均0・分散1の独立増分を持つランダムウォークでは$S_n^2-n$がマルチンゲールである。"
+            },
+            {
+              "title": "停止極限の正当化",
+              "body": "$S_{n\\wedge\\tau}^2$には有界収束、$n\\wedge\\tau$には単調収束または$\\tau$による優収束を用いる。Aで$\\mathbb E\\tau<\\infty$を先に示したことが重要である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "Q_n=S_{n\\wedge\\tau}^2-(n\\wedge\\tau)はマルチンゲール"
+            ],
+            [
+              "S_{n\\wedge\\tau}^2には有界収束、n\\wedge\\tauには単調収束を用いる"
+            ],
+            [
+              "\\mathbb E_i[S_\\tau^2]=N^2\\mathbb P_i(S_\\tau=N)=Ni"
+            ],
+            [
+              "\\mathbb E_i[\\tau]=Ni-i^2=i(N-i)"
+            ]
+          ],
+          "hint": "一歩後の平方の条件付き期待値を計算し、Cで終点の二乗平均を求めてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-066-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "B",
+          "C",
+          "D"
+        ],
+        "purpose": "到達確率と平均時間の公式を統合し、開始位置が成功率と継続時間へ与える影響を決定する。",
+        "connection": "停止マルチンゲールから得た二つの量を幾何学的に読み解く。",
+        "score": 100,
+        "title": "最長の平均継続時間",
+        "minutes": 17,
+        "answerType": "proof",
+        "prompt": [
+          "$1\\le i\\le N-1$で$\\mathbb E_i[\\tau]$を最大にする開始位置と最大値を求め、その位置での上端到達確率も答えよ。$N$の偶奇を区別せよ。"
+        ],
+        "explanation": {
+          "summary": "平均時間は中央で最大となり、最大値は$\\lfloor N^2/4\\rfloor$である。",
+          "steps": [
+            "Cで上端到達確率$i/N$、Dで平均時間$i(N-i)$を得た。",
+            "$i(N-i)=N^2/4-(i-N/2)^2$なので、整数$i$は$N/2$に最も近いとき最大になる。",
+            "$N$が偶数なら$i=N/2$で最大値$N^2/4$、到達確率$1/2$である。",
+            "$N$が奇数なら$i=(N-1)/2,(N+1)/2$で最大値$(N^2-1)/4$、到達確率はそれぞれ$(N-1)/(2N),(N+1)/(2N)$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "平方完成",
+              "body": "$i(N-i)=N^2/4-(i-N/2)^2$と書けば、整数格子上での最大点を決定できる。"
+            },
+            {
+              "title": "非公平歩行との違い",
+              "body": "左右の確率が異なる場合、到達確率は一般に$i/N$ではなく幾何級数型になる。中央が平均吸収時間の最大点になる対称性も公平性に依存する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "i(N-i)=N^2/4-(i-N/2)^2"
+            ],
+            [
+              "Nが偶数ならi=N/2、最大値N^2/4、到達確率1/2"
+            ],
+            [
+              "Nが奇数ならi=(N\\pm1)/2、最大値(N^2-1)/4"
+            ],
+            [
+              "奇数時の到達確率は(N-1)/(2N)と(N+1)/(2N)"
+            ]
+          ],
+          "hint": "Dの二次式を平方完成し、Cの公式へ最大点を代入してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      }
+    ]
+  },
+  {
+    "id": "GSET-067",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #067",
+    "title": "Fourier級数で解く熱方程式と長時間漸近",
+    "field": "偏微分方程式",
+    "tags": [
+      "熱方程式",
+      "Fourier級数",
+      "固有関数展開",
+      "エネルギー法",
+      "長時間漸近"
+    ],
+    "learningGoal": "Dirichlet熱方程式を固有関数展開で解き、Fourier係数、エネルギー減衰、第一固有モードが支配する長時間挙動を一つの流れで理解する。",
+    "commonStatement": [
+      "$0<x<\\pi$、$t>0$で熱方程式$u_t=u_{xx}$を考え、境界条件$u(0,t)=u(\\pi,t)=0$、初期条件$u(x,0)=f(x)=x(\\pi-x)$を課す。",
+      "$L^2(0,\\pi)$の内積を$\\langle g,h\\rangle=\\int_0^\\pi gh\\,dx$とする。",
+      "変数分離と正弦級数で解を構成し、最終的に長時間では第一固有関数$\\sin x$だけが残ることを定量的に示す。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-067-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "境界条件に適合する空間固有関数と時間減衰率を決定する。",
+        "connection": "Bで初期値をこの固有関数系へ展開し、Cで各モードを時間発展させる。",
+        "score": 100,
+        "title": "Dirichlet固有値問題",
+        "minutes": 10,
+        "answerType": "proof",
+        "prompt": [
+          "固有値問題$-X''=\\lambda X$、$X(0)=X(\\pi)=0$の非零解をすべて求め、変数分離解に対応する時間因子も答えよ。"
+        ],
+        "explanation": {
+          "summary": "固有値は$\\lambda_n=n^2$、固有関数は$X_n(x)=\\sin(nx)$（$n\\ge1$）である。",
+          "steps": [
+            "$\\lambda=0$と$\\lambda<0$では両端条件を満たす非零解はない。",
+            "$\\lambda=\\rho^2>0$では$X=A\\cos(\\rho x)+B\\sin(\\rho x)$で、$X(0)=0$から$A=0$となる。",
+            "$X(\\pi)=0$に非零$B$を許すには$\\rho=n\\in\\mathbb N$が必要である。",
+            "変数分離では$T'=-\\lambda T$となるため、第$n$モードの時間因子は$e^{-n^2t}$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "Sturm--Liouville固有関数",
+              "body": "Dirichlet区間の$-d^2/dx^2$の固有関数は$\\sin(nx)$で、$L^2(0,\\pi)$の直交完全系をなす。"
+            },
+            {
+              "title": "零・負の固有値",
+              "body": "$\\lambda=0$では一次関数、$\\lambda<0$では双曲線関数になるが、二つのDirichlet条件を同時に満たす非零解はない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "\\lambda\\le0ではDirichlet条件を満たす非零解はない"
+            ],
+            [
+              "\\lambda_n=n^2,\\ X_n(x)=\\sin(nx),\\ n=1,2,\\ldots"
+            ],
+            [
+              "対応する時間因子はe^{-n^2t}"
+            ]
+          ],
+          "hint": "$\\lambda$の符号を分け、両端の境界条件を課してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-067-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "初期温度をAの固有関数へ展開する係数を計算する。",
+        "connection": "この係数をCの解表示とEの第一モード漸近に使う。",
+        "score": 100,
+        "title": "初期値の正弦係数",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "$f(x)=\\sum_{n=1}^\\infty b_n\\sin(nx)$の係数$b_n$を求めよ。"
+        ],
+        "explanation": {
+          "summary": "$b_n=4(1-(-1)^n)/(\\pi n^3)$、すなわち奇数$n$で$8/(\\pi n^3)$、偶数$n$で0である。",
+          "steps": [
+            "直交性から$b_n=(2/\\pi)\\int_0^\\pi x(\\pi-x)\\sin(nx)dx$である。",
+            "$f(0)=f(\\pi)=0$を使って部分積分を2回行い、$f''=-2$を用いる。",
+            "$\\int_0^\\pi f(x)\\sin(nx)dx=2(1-(-1)^n)/n^3$となる。",
+            "$2/\\pi$を掛けて指定の係数を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "Fourier正弦係数",
+              "body": "$\\|\\sin(nx)\\|_2^2=\\pi/2$なので、$b_n=(2/\\pi)\\langle f,\\sin(nx)\\rangle$である。"
+            },
+            {
+              "title": "係数減衰と滑らかさ",
+              "body": "本問では$b_n=O(n^{-3})$で絶対和が収束するため、初期正弦級数も一様収束する。一般の$L^2$初期値では通常は$L^2$収束までしか直ちには言えない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "b_n=(2/\\pi)\\int_0^\\pi x(\\pi-x)\\sin(nx)\\,dx"
+            ],
+            [
+              "端点値とf''=-2を用いて部分積分を2回行う"
+            ],
+            [
+              "b_n=4(1-(-1)^n)/(\\pi n^3)"
+            ],
+            [
+              "奇数nでは8/(\\pi n^3)、偶数nでは0"
+            ]
+          ],
+          "hint": "正弦関数の直交性で係数積分を書き、部分積分してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-067-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "固有関数と初期係数を組み合わせて熱方程式の解を構成し、条件を検証する。",
+        "connection": "構成した級数をDのエネルギー評価とEの長時間極限の対象にする。",
+        "score": 100,
+        "title": "熱方程式の級数解",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "解$u(x,t)$を級数で表し、$t>0$で方程式と境界条件を満たし、$t\\downarrow0$で初期値へ収束することを説明せよ。"
+        ],
+        "explanation": {
+          "summary": "$u(x,t)=\\sum_{n\\ge1,\\ n\\text{ odd}}8(\\pi n^3)^{-1}e^{-n^2t}\\sin(nx)$である。",
+          "steps": [
+            "Aの各モード$e^{-n^2t}\\sin(nx)$は方程式と零境界条件を満たす。",
+            "Bの係数を重ね合わせ、$u(x,t)=\\sum_{n\\text{ odd}}8(\\pi n^3)^{-1}e^{-n^2t}\\sin(nx)$とする。",
+            "$t\\ge t_0>0$では項別微分した級数も一様収束するため、方程式を項別に検証できる。",
+            "$\\sum|b_n|<\\infty$なので$t\\downarrow0$で初期正弦級数へ一様収束し、その和は$f(x)$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "固有関数展開",
+              "body": "熱方程式では固有値$\\lambda_n$の成分が$e^{-\\lambda_nt}$倍され、高周波ほど速く減衰する。"
+            },
+            {
+              "title": "正則化効果",
+              "body": "$t>0$では因子$e^{-n^2t}$が高周波を急速に減衰させるので、級数を何回でも項別微分でき、解は空間変数について滑らかになる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "u(x,t)=\\sum_{n\\ge1,\\ n\\text{ odd}}\\frac8{\\pi n^3}e^{-n^2t}\\sin(nx)"
+            ],
+            [
+              "t>0では項別微分でき各モードがu_t=u_{xx}を満たす"
+            ],
+            [
+              "\\sin(n\\cdot0)=\\sin(n\\pi)=0なので境界条件を満たす"
+            ],
+            [
+              "\\sum|b_n|<\\inftyよりt\\downarrow0でfへ一様収束する"
+            ]
+          ],
+          "hint": "Bの各係数にAの時間因子$e^{-n^2t}$を掛けてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-067-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "C"
+        ],
+        "purpose": "エネルギー法で、解全体の単調減衰と減衰率を示す。",
+        "connection": "Eの第一モード漸近が全エネルギーの指数減衰を精密化することを示す。",
+        "score": 100,
+        "title": "熱エネルギーの減衰",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "$E(t)=\\int_0^\\pi u(x,t)^2dx$とおく。$E'(t)=-2\\int_0^\\pi u_x^2dx$を示し、$E(t)\\le e^{-2t}E(0)$を導け。$E(0)$も求めよ。"
+        ],
+        "explanation": {
+          "summary": "$E'(t)=-2\\|u_x\\|_2^2\\le-2E(t)$、$E(t)\\le e^{-2t}E(0)$で、$E(0)=\\pi^5/30$である。",
+          "steps": [
+            "$E'(t)=2\\int uu_tdx=2\\int uu_{xx}dx$である。",
+            "部分積分し、零境界条件を使うと$E'(t)=-2\\int u_x^2dx$となる。",
+            "Poincare不等式$\\int u^2dx\\le\\int u_x^2dx$より$E'\\le-2E$であり、$E(t)\\le e^{-2t}E(0)$を得る。",
+            "$E(0)=\\int_0^\\pi x^2(\\pi-x)^2dx=\\pi^5/30$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "Poincare不等式",
+              "body": "$v\\in H_0^1(0,\\pi)$なら$\\|v\\|_2^2\\le\\|v'\\|_2^2$である。最良定数1は第一固有値に対応する。"
+            },
+            {
+              "title": "等号となる場合",
+              "body": "Poincaré不等式で等号が成り立つのは第一固有関数$\\sin x$の定数倍である。したがって率$e^{-2t}$は一般には改善できない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "E'(t)=-2\\int_0^\\pi u_x^2\\,dx"
+            ],
+            [
+              "Poincaré不等式\\int u^2\\le\\int u_x^2からE'\\le-2E"
+            ],
+            [
+              "E(t)\\le e^{-2t}E(0)"
+            ],
+            [
+              "E(0)=\\int_0^\\pi x^2(\\pi-x)^2dx=\\pi^5/30"
+            ]
+          ],
+          "hint": "方程式を代入して部分積分し、第一固有値1を使ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-067-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "purpose": "全モードの減衰を比較し、長時間に残る形と誤差を定量化する。",
+        "connection": "固有関数展開とエネルギー減衰を統合し、熱方程式の長時間挙動を完成させる。",
+        "score": 100,
+        "title": "第一固有モードの支配",
+        "minutes": 14,
+        "answerType": "proof",
+        "prompt": [
+          "$e^tu(x,t)\\to(8/\\pi)\\sin x$が$[0,\\pi]$上一様に成立することを示し、誤差が$O(e^{-8t})$であることを証明せよ。"
+        ],
+        "explanation": {
+          "summary": "$e^tu(x,t)$は一様に$(8/\\pi)\\sin x$へ収束し、残りのモードは$Ce^{-8t}$以下である。",
+          "steps": [
+            "Aで最小固有値は1、Bでその係数は$b_1=8/\\pi$と得た。Cの級数から第一項を分離する。",
+            "$e^tu-(8/\\pi)\\sin x=\\sum_{n\\ge3,\\ n\\text{ odd}}(8/(\\pi n^3))e^{-(n^2-1)t}\\sin(nx)$である。",
+            "$n\\ge3$では$n^2-1\\ge8$なので、絶対値は$(8/\\pi)e^{-8t}\\sum_{n\\ge3,\\ n\\text{ odd}}n^{-3}$以下である。",
+            "上界は$x$に依存しないので一様収束し、誤差は$O(e^{-8t})$である。Dのエネルギー減衰を第一モードの形まで精密化した結果である。"
+          ],
+          "knowledge": [
+            {
+              "title": "スペクトルギャップ",
+              "body": "第一の非零固有値が1、次の現れる固有値が9なので、規格化後の誤差率は$e^{-(9-1)t}=e^{-8t}$となる。"
+            },
+            {
+              "title": "先頭係数が消える場合",
+              "body": "初期値の第一正弦係数が0なら、長時間挙動は次に係数が非零となる固有モードが支配する。減衰率は初期値にも依存する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "n=1項は(8/\\pi)e^{-t}\\sin x"
+            ],
+            [
+              "e^tu-(8/\\pi)\\sin x=\\sum_{n\\ge3,\\ n\\text{ odd}}\\frac8{\\pi n^3}e^{-(n^2-1)t}\\sin(nx)"
+            ],
+            [
+              "n\\ge3ならn^2-1\\ge8"
+            ],
+            [
+              "xに依存しない上界Ce^{-8t}により一様収束する"
+            ]
+          ],
+          "hint": "Cの級数の$n=1$項を分け、残る最小の奇数$n=3$に注目してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      }
+    ]
+  },
+  {
+    "id": "GSET-068",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #068",
+    "title": "指数因子を含む半円輪郭積分とFourier変換",
+    "field": "複素解析",
+    "tags": [
+      "留数定理",
+      "半円輪郭",
+      "Jordan型評価",
+      "Fourier変換",
+      "広義積分"
+    ],
+    "learningGoal": "指数因子の上半平面での減衰を定量化し、留数定理からCauchy核のFourier変換と余弦積分を導く。",
+    "commonStatement": [
+      "$a>0$とし、$F_a(z)=e^{iaz}/(z^2+1)$を考える。$R>1$に対し、実軸上の$-R$から$R$までの線分と上半円$C_R:z=Re^{i\\theta}$からなる反時計回りの輪郭$\\Gamma_R$を用いる。",
+      "指数因子の上半平面での減衰を使って円弧積分を評価し、$\\int_0^\\infty\\cos(ax)/(x^2+1)\\,dx$を求める。",
+      "輪郭が極を通らないよう$R\\ne1$とする。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-068-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "上半平面内の極と留数を特定する。",
+        "connection": "留数をCの輪郭積分に用いる。",
+        "score": 100,
+        "title": "極と留数",
+        "minutes": 8,
+        "answerType": "short",
+        "prompt": [
+          "$F_a$の極を求め、上半平面内の極が$z=i$だけで単純極であることを確認し、その留数を求めよ。"
+        ],
+        "explanation": {
+          "summary": "極は$z=\\pm i$で、上半平面内では$z=i$のみであり、留数は$e^{-a}/(2i)$である。",
+          "steps": [
+            "分母$z^2+1=(z-i)(z+i)$より極は$z=\\pm i$で、どちらも単純極である。",
+            "上半平面内にあるのは$z=i$だけである。",
+            "単純極の公式から$\\operatorname{Res}(F_a,i)=e^{iai}/(2i)=e^{-a}/(2i)$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "単純極の留数",
+              "body": "$g(z_0)=0$かつ$g'(z_0)\\ne0$なら、$h/g$の$z_0$における留数は$h(z_0)/g'(z_0)$である。"
+            },
+            {
+              "title": "輪郭と極",
+              "body": "留数定理では輪郭内部の極だけを足す。上半円輪郭では$-i$は寄与しない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "z=\\pm i;\\ \\operatorname{Im}z>0\\text{では }z=i;\\ \\operatorname{Res}(F_a,i)=e^{-a}/(2i)",
+            "極は\\pm i、上半平面内はi、留数はe^{-a}/(2i)",
+            "z=\\pm i;\\ \\operatorname{Im}z>0\\text{では }z=i;\\ \\operatorname{Res}(F_a,i)=-ie^{-a}/2"
+          ],
+          "hint": "分母を因数分解し、上半平面内の根で分子を分母の導関数で割ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-068-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "指数減衰を含む円弧積分を一様に評価する。",
+        "connection": "円弧項を消去してCで実軸積分へ移る。",
+        "score": 100,
+        "title": "上半円弧の評価",
+        "minutes": 14,
+        "answerType": "proof",
+        "prompt": [
+          "$z=Re^{i\\theta}$上で$|e^{iaz}|=e^{-aR\\sin\\theta}$であることを示せ。さらに$\\sin\\theta\\ge2\\theta/\\pi$（$0\\le\\theta\\le\\pi/2$）と対称性を用いて$\\int_0^\\pi e^{-aR\\sin\\theta}d\\theta\\le\\pi/(aR)$を示し、$\\int_{C_R}F_a(z)dz\\to0$を導け。"
+        ],
+        "explanation": {
+          "summary": "円弧積分は$\\pi/[a(R^2-1)]$以下であり、$R\\to\\infty$で0へ収束する。",
+          "steps": [
+            "$z=Re^{i\\theta}$では$|e^{iaz}|=e^{-a\\operatorname{Im}z}=e^{-aR\\sin\\theta}$である。",
+            "$\\sin\\theta$の対称性と$[0,\\pi/2]$上の評価から、$\\int_0^\\pi e^{-aR\\sin\\theta}d\\theta\\le2\\int_0^{\\pi/2}e^{-2aR\\theta/\\pi}d\\theta\\le\\pi/(aR)$である。",
+            "$|z^2+1|\\ge R^2-1$かつ$|dz|=R\\,d\\theta$なので、$\\left|\\int_{C_R}F_a(z)dz\\right|\\le\\frac{R}{R^2-1}\\int_0^\\pi e^{-aR\\sin\\theta}d\\theta\\le\\frac{\\pi}{a(R^2-1)}$である。",
+            "右辺は$R\\to\\infty$で0へ収束する。"
+          ],
+          "knowledge": [
+            {
+              "title": "Jordan型の評価",
+              "body": "$e^{iaz}$は$a>0$のとき上半平面で絶対値$e^{-a\\operatorname{Im}z}$となり、円弧の中央部で強く減衰する。"
+            },
+            {
+              "title": "パラメータの符号",
+              "body": "$a<0$なら上半平面では指数因子が増大するため、同じ議論では下半平面の輪郭を選ぶ。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "|e^{iaz}|=e^{-aR\\sin\\theta}"
+            ],
+            [
+              "\\int_0^\\pi e^{-aR\\sin\\theta}d\\theta\\le\\pi/(aR)"
+            ],
+            [
+              "|z^2+1|\\ge R^2-1"
+            ],
+            [
+              "\\left|\\int_{C_R}F_a dz\\right|\\le\\pi/[a(R^2-1)]\\to0"
+            ]
+          ],
+          "hint": "指数因子と分母を別々に評価し、上半円を左右対称な二つの区間に分けてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-068-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "留数定理と円弧評価を統合して全実軸上の複素積分を求める。",
+        "connection": "Dで実部を取り余弦積分を得る。",
+        "score": 100,
+        "title": "実軸上の複素積分",
+        "minutes": 13,
+        "answerType": "proof",
+        "prompt": [
+          "$\\Gamma_R$に留数定理を適用し、$\\int_{-\\infty}^{\\infty}e^{iax}/(x^2+1)\\,dx=\\pi e^{-a}$を示せ。広義積分の収束も確認せよ。"
+        ],
+        "explanation": {
+          "summary": "留数定理とBの円弧評価から、全実軸上の積分は$\\pi e^{-a}$である。",
+          "steps": [
+            "留数定理とAより$\\int_{-R}^R F_a(x)dx+\\int_{C_R}F_a(z)dz=2\\pi i\\,e^{-a}/(2i)=\\pi e^{-a}$である。",
+            "Bより円弧積分は$R\\to\\infty$で0へ収束する。",
+            "実軸上では$|e^{iax}/(x^2+1)|=1/(x^2+1)$であり、これは全実軸上で可積分なので広義積分は絶対収束する。",
+            "したがって$R\\to\\infty$として$\\int_{-\\infty}^{\\infty}e^{iax}/(x^2+1)\\,dx=\\pi e^{-a}$を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "留数定理",
+              "body": "正向き単純閉曲線$\\Gamma$の内部にある孤立特異点の留数和を取ると、$\\int_\\Gamma f(z)dz=2\\pi i\\sum\\operatorname{Res}(f)$である。"
+            },
+            {
+              "title": "絶対収束",
+              "body": "複素値広義積分も絶対値の積分が有限なら収束し、実部と虚部を別々に積分できる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "輪郭積分は2\\pi i\\,\\operatorname{Res}(F_a,i)=\\pi e^{-a}"
+            ],
+            [
+              "円弧積分は0へ収束する"
+            ],
+            [
+              "実軸積分は1/(x^2+1)により絶対収束する"
+            ],
+            [
+              "\\int_{-\\infty}^{\\infty}e^{iax}/(x^2+1)\\,dx=\\pi e^{-a}"
+            ]
+          ],
+          "hint": "Aの留数を留数定理へ代入し、Bで円弧項を消去してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-068-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "C"
+        ],
+        "purpose": "複素積分の実部と対称性から半直線の余弦積分を取り出す。",
+        "connection": "Eで分母の尺度を一般化する。",
+        "score": 100,
+        "title": "余弦積分",
+        "minutes": 10,
+        "answerType": "proof",
+        "prompt": [
+          "Cの式の実部と虚部を調べ、$\\int_0^\\infty\\cos(ax)/(x^2+1)\\,dx=(\\pi/2)e^{-a}$を示せ。また全実軸上の虚部の積分が0になる理由を述べよ。"
+        ],
+        "explanation": {
+          "summary": "余弦項は偶関数、正弦項は奇関数なので、半直線の余弦積分は$(\\pi/2)e^{-a}$である。",
+          "steps": [
+            "Cの積分の実部は$\\int_{-\\infty}^{\\infty}\\cos(ax)/(x^2+1)dx=\\pi e^{-a}$である。",
+            "余弦項は偶関数なので全実軸積分は半直線積分の2倍である。",
+            "よって$\\int_0^\\infty\\cos(ax)/(x^2+1)dx=(\\pi/2)e^{-a}$である。",
+            "虚部$\\sin(ax)/(x^2+1)$は奇関数で絶対可積分なので、全実軸上の積分は0である。"
+          ],
+          "knowledge": [
+            {
+              "title": "偶奇性",
+              "body": "偶関数の全実軸積分は半直線積分の2倍であり、絶対可積分な奇関数の対称区間上の積分は0である。"
+            },
+            {
+              "title": "Fourier変換",
+              "body": "規約$\\widehat f(a)=\\int_{\\mathbb R}f(x)e^{iax}dx$では、Cは$1/(1+x^2)$のFourier変換が$\\pi e^{-|a|}$であることの$a>0$の場合を与える。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "余弦項は偶関数である"
+            ],
+            [
+              "正弦項は奇関数で全実軸積分が0である"
+            ],
+            [
+              "\\int_0^\\infty\\cos(ax)/(x^2+1)dx=(\\pi/2)e^{-a}"
+            ]
+          ],
+          "hint": "Cの右辺は実数です。実部を取り、余弦の偶性を使ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-068-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "D"
+        ],
+        "purpose": "変数変換で任意の尺度のCauchy核へ公式を拡張する。",
+        "connection": "輪郭積分の結果をパラメータ付き公式として完成させる。",
+        "score": 100,
+        "title": "尺度付きCauchy核",
+        "minutes": 15,
+        "answerType": "proof",
+        "prompt": [
+          "$a,b>0$について$\\int_0^\\infty\\cos(ax)/(x^2+b^2)\\,dx=\\pi e^{-ab}/(2b)$を示せ。さらに$a\\downarrow0$として$\\int_0^\\infty dx/(x^2+b^2)=\\pi/(2b)$を確認せよ。"
+        ],
+        "explanation": {
+          "summary": "$x=bt$と置くと余弦の引数が$ab,t$となり、Dから値は$\\pi e^{-ab}/(2b)$、$a\\downarrow0$で$\\pi/(2b)$となる。",
+          "steps": [
+            "$x=bt$と置くと$dx=b\\,dt$、$x^2+b^2=b^2(t^2+1)$である。",
+            "したがって積分は$b^{-1}\\int_0^\\infty\\cos(abt)/(t^2+1)dt$に等しい。",
+            "Dをパラメータ$ab>0$に適用すると値は$\\pi e^{-ab}/(2b)$である。",
+            "$a\\downarrow0$で右辺は$\\pi/(2b)$へ収束する。左辺でも$1/(x^2+b^2)$を優関数として優収束定理を適用できる。"
+          ],
+          "knowledge": [
+            {
+              "title": "尺度変換",
+              "body": "分母$x^2+b^2$では$x=bt$により標準形$1+t^2$へ帰着でき、積分全体に係数$1/b$が現れる。"
+            },
+            {
+              "title": "パラメータ極限",
+              "body": "$|\\cos(ax)|/(x^2+b^2)\\le1/(x^2+b^2)$で右辺は可積分なので、$a\\downarrow0$では優収束定理で積分と極限を交換できる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "x=btによりb^{-1}\\int_0^\\infty\\cos(abt)/(1+t^2)dt"
+            ],
+            [
+              "Dをパラメータabに適用する"
+            ],
+            [
+              "\\int_0^\\infty\\cos(ax)/(x^2+b^2)dx=\\pi e^{-ab}/(2b)"
+            ],
+            [
+              "優収束定理によりa\\downarrow0で\\pi/(2b)"
+            ]
+          ],
+          "hint": "$x=bt$でDの標準形へ変換し、最後は可積分な優関数を使ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      }
+    ]
+  },
+  {
+    "id": "GSET-069",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #069",
+    "title": "Kleinの壺の基本群と半直積構造",
+    "field": "代数的位相",
+    "tags": [
+      "Kleinの壺",
+      "基本群",
+      "van Kampenの定理",
+      "半直積",
+      "アーベル化"
+    ],
+    "learningGoal": "Kleinの壺の胞体表示から基本群を求め、正規形による半直積構造を通して中心、アーベル化、指数2部分群を決定する。",
+    "commonStatement": [
+      "単位正方形$Q=[0,1]^2$で$(x,0)\\sim(x,1)$、$(0,y)\\sim(1,1-y)$と同一視して得られるKleinの壺$K$を考える。",
+      "商空間の1骨格に現れる二つの向き付きループを$a,b$とし、正方形の境界を正向きに一周した語が$aba^{-1}b$となるようにラベルを選ぶ。",
+      "胞体構造から$\\pi_1(K)$を求め、その群論的構造を使ってトーラスの基本群との違いまで明らかにする。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-069-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "商による頂点と辺の同一視を追い、基本群計算の土台となる胞体構造を得る。",
+        "connection": "Bで唯一の2胞体の付着写像を1骨格上の語として読む。",
+        "score": 100,
+        "title": "商空間の1骨格",
+        "minutes": 8,
+        "answerType": "proof",
+        "prompt": [
+          "正方形の4頂点が商で1点になり、1骨格が二つの円の一点和$S^1\\vee S^1$になることを示せ。"
+        ],
+        "explanation": {
+          "summary": "$K$は1個の0胞体、2個の1胞体$a,b$、1個の2胞体を持ち、1骨格は$S^1\\vee S^1$である。",
+          "steps": [
+            "上下辺と左右辺の同一視を順に追うと、正方形の4頂点はすべて同じ点になる。",
+            "上下の一対の辺は閉じた1胞体$a$、左右の一対の辺は閉じた1胞体$b$となる。",
+            "両1胞体は唯一の0胞体で接着されるので1骨格は$S^1\\vee S^1$であり、内部が1個の2胞体を与える。"
+          ],
+          "knowledge": [
+            {
+              "title": "CW複体の1骨格",
+              "body": "1個の0胞体へ両端を付着した1胞体は円になり、二つなら円の一点和になる。"
+            },
+            {
+              "title": "Euler標数",
+              "body": "このCW分解は0胞体1個、1胞体2個、2胞体1個を持つため$\\chi(K)=1-2+1=0$である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "正方形の4頂点は商で1点に同一視される"
+            ],
+            [
+              "二対の辺から1胞体a,bを得る"
+            ],
+            [
+              "1骨格はS^1\\vee S^1で内部は1個の2胞体になる"
+            ]
+          ],
+          "hint": "上下辺と左右辺による頂点の同一視を順に追ってください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-069-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "2胞体が基本群へ課す唯一の関係式を境界の向きから決定する。",
+        "connection": "Cでvan Kampenの定理により群表示へ変換する。",
+        "score": 100,
+        "title": "2胞体の付着語",
+        "minutes": 9,
+        "answerType": "proof",
+        "prompt": [
+          "正方形の境界を正向きにたどり、2胞体の付着語が$aba^{-1}b$であることを説明せよ。これと同値な関係式を一つ書け。"
+        ],
+        "explanation": {
+          "summary": "付着語は$aba^{-1}b$で、関係式は$aba^{-1}=b^{-1}$である。",
+          "steps": [
+            "境界を一周すると、最初の辺を$a$、次を$b$の正方向に進む。",
+            "反対側の$a$辺は逆向きなので$a^{-1}$、反転して貼る$b$辺は商で再び$b$の正方向に対応する。",
+            "よって境界語は$aba^{-1}b$であり、2胞体で縮むため$aba^{-1}b=1$、すなわち$aba^{-1}=b^{-1}$である。"
+          ],
+          "knowledge": [
+            {
+              "title": "付着語",
+              "body": "2胞体を付着すると、その境界円の像を表す語が基本群で1になる。"
+            },
+            {
+              "title": "ラベル規約",
+              "body": "辺の向きや生成元名を変えると付着語の見た目は変わるが、Tietze変形で同値な群表示を与える。問題文の規約を固定して境界語を読むことが重要である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "辺の向きを追うと付着語はaba^{-1}b"
+            ],
+            [
+              "2胞体の付着によりaba^{-1}b=1"
+            ],
+            [
+              "同値な関係式はaba^{-1}=b^{-1}"
+            ]
+          ],
+          "hint": "4辺を順に読み、商で指定した$a,b$の向きと比較してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-069-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "胞体構造をvan Kampenの定理へ入力し、Kleinの壺の基本群を表示する。",
+        "connection": "Dではこの表示の関係式を使ってすべての元の正規形を作る。",
+        "score": 100,
+        "title": "基本群の表示",
+        "minutes": 10,
+        "answerType": "proof",
+        "prompt": [
+          "van Kampenの定理を用いて$\\pi_1(K)\\cong\\langle a,b\\mid aba^{-1}=b^{-1}\\rangle$を示せ。"
+        ],
+        "explanation": {
+          "summary": "$\\pi_1(K)$は自由群$F(a,b)$を関係語$aba^{-1}b$の正規閉包で割った群である。",
+          "steps": [
+            "Aより1骨格は$S^1\\vee S^1$なので、その基本群は自由群$F(a,b)$である。",
+            "2胞体を付着すると、van Kampenの定理により付着語の正規閉包で割る。",
+            "Bの付着語から$\\pi_1(K)\\cong\\langle a,b\\mid aba^{-1}=b^{-1}\\rangle$を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "van Kampenの定理と2胞体",
+              "body": "$X$へ2胞体を付着すると、基本群は$\\pi_1(X)$を付着円の像の正規閉包で割った群になる。"
+            },
+            {
+              "title": "2胞体付着の効果",
+              "body": "2胞体を付着しても基本群の生成元は増えず、付着円に対応する語を関係式として追加する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "\\pi_1(S^1\\vee S^1)=F(a,b)"
+            ],
+            [
+              "van Kampenの定理により付着語の正規閉包で商を取る"
+            ],
+            [
+              "\\pi_1(K)\\cong\\langle a,b\\mid aba^{-1}=b^{-1}\\rangle"
+            ]
+          ],
+          "hint": "Aの1骨格の自由群に、Bの付着語が1になる関係を加えてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-069-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "C"
+        ],
+        "purpose": "群表示を計算可能な半直積の形へ直し、元の等号や可換性を判定できるようにする。",
+        "connection": "Eで中心、アーベル化、指数2部分群を正規形から計算する。",
+        "score": 100,
+        "title": "半直積と正規形",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "$G=\\langle a,b\\mid aba^{-1}=b^{-1}\\rangle$の各元が一意に$b^na^m$と書け、積が$(m,n)(p,q)=(m+p,n+(-1)^mq)$で与えられることを示せ。ここで$(m,n)$は$b^na^m$を表す。"
+        ],
+        "explanation": {
+          "summary": "各元は一意に$b^na^m$と書け、座標$(m,n)$の積は$(m,n)(p,q)=(m+p,n+(-1)^mq)$である。これは$m$が$n$へ符号反転で作用する半直積である。",
+          "steps": [
+            "Cの関係式から$a^mb^q=b^{(-1)^mq}a^m$を得る。したがって任意の語を$b^na^m$の形にできる。",
+            "二つの正規形を掛けると$b^na^mb^qa^p=b^{n+(-1)^mq}a^{m+p}$となる。",
+            "$\\mathbb Z^2$にこの積を定めると群になり、$A=(1,0),B=(0,1)$は$ABA^{-1}=B^{-1}$を満たす。",
+            "群表示の普遍性から得る二方向の準同型は生成元上で互いに逆なので同型であり、正規形の一意性も従う。"
+          ],
+          "knowledge": [
+            {
+              "title": "半直積",
+              "body": "ここでは$m\\in\\mathbb Z$が$q\\mapsto(-1)^mq$で別の$\\mathbb Z$へ作用する。"
+            },
+            {
+              "title": "半直積の規約",
+              "body": "半直積の記号は因子の順序に流儀があるため、作用$m:q\\mapsto(-1)^mq$と積$(m,n)(p,q)=(m+p,n+(-1)^mq)$を明記すると曖昧さがない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "a^mb^q=b^{(-1)^mq}a^mにより全元をb^na^mと書ける"
+            ],
+            [
+              "(m,n)(p,q)=(m+p,n+(-1)^mq)"
+            ],
+            [
+              "この積を持つ\\mathbb Z^2と群表示から双方向の準同型を構成する"
+            ],
+            [
+              "準同型が生成元上で互いに逆なので正規形は一意である"
+            ]
+          ],
+          "hint": "関係式で$a$を右へ移し、同じ積を持つ$\\mathbb Z^2$上の群を構成してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-069-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "A",
+          "C",
+          "D"
+        ],
+        "purpose": "基本群の正規形から主要な不変量を抽出し、Kleinの壺とトーラスの位相的差異を示す。",
+        "connection": "胞体表示から群の内部構造までを統合する。",
+        "score": 100,
+        "title": "中心・アーベル化・指数2部分群",
+        "minutes": 17,
+        "answerType": "proof",
+        "prompt": [
+          "$G$の中心$Z(G)$、アーベル化$G_{\\mathrm{ab}}$を求めよ。また$\\langle a^2,b\\rangle$が指数2で$\\mathbb Z^2$と同型であることを示し、$K$がトーラスとホモトピー同値でないことを結論せよ。"
+        ],
+        "explanation": {
+          "summary": "$Z(G)=\\langle a^2\\rangle\\cong\\mathbb Z$、$G_{\\mathrm{ab}}\\cong\\mathbb Z\\oplus\\mathbb Z/2$、$\\langle a^2,b\\rangle\\cong\\mathbb Z^2$は指数2であり、$K$はトーラスとホモトピー同値でない。",
+          "steps": [
+            "Dの$(m,n)$が$b=(0,1)$と可換であるには$m$が偶数、$a=(1,0)$と可換であるには$n=0$が必要十分である。よって中心は$\\langle a^2\\rangle$である。",
+            "アーベル化では関係式が$b=b^{-1}$、すなわち$2[b]=0$となるため、$G_{\\mathrm{ab}}\\cong\\mathbb Z[a]\\oplus(\\mathbb Z/2)[b]$である。",
+            "$a$の指数が偶数の元全体は$\\langle a^2,b\\rangle$で、指数2である。$a^2b=ba^2$と正規形の一意性から$\\mathbb Z^2$と同型である。",
+            "正規形により$b$は無限位数で$b\\ne b^{-1}$だから$G$は非可換である。トーラスの基本群$\\mathbb Z^2$は可換なので、基本群のホモトピー不変性から両空間はホモトピー同値でない。"
+          ],
+          "knowledge": [
+            {
+              "title": "ホモトピー不変性",
+              "body": "弧状連結空間がホモトピー同値なら基本群は同型である。"
+            },
+            {
+              "title": "向き付け二重被覆",
+              "body": "指数2部分群$\\langle a^2,b\\rangle\\cong\\mathbb Z^2$は、Kleinの壺の向き付け二重被覆がトーラスであることに対応する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "一般元がa,bと可換する条件からZ(G)=\\langle a^2\\rangle"
+            ],
+            [
+              "G_{\\mathrm{ab}}\\cong\\mathbb Z\\oplus\\mathbb Z/2"
+            ],
+            [
+              "\\langle a^2,b\\rangle\\cong\\mathbb Z^2はaの指数の偶奇により指数2"
+            ],
+            [
+              "Gは非可換だが\\pi_1(T^2)=\\mathbb Z^2は可換なのでホモトピー同値でない"
+            ]
+          ],
+          "hint": "Dの積公式で一般元が$a,b$と可換になる条件を調べてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      }
+    ]
+  },
+  {
+    "id": "GSET-070",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #070",
+    "title": "行列木定理で導く完全二部グラフの全域木数",
+    "field": "グラフ理論",
+    "tags": [
+      "完全二部グラフ",
+      "Laplacian",
+      "行列木定理",
+      "Schur補行列",
+      "全域木"
+    ],
+    "learningGoal": "完全二部グラフのLaplacian余因子をブロック行列として評価し、行列木定理の根拠も確認して、全域木数$m^{n-1}n^{m-1}$を導く。",
+    "commonStatement": [
+      "$m,n\\ge2$とし、頂点部分$U=\\{u_1,\\ldots,u_m\\}$、$V=\\{v_1,\\ldots,v_n\\}$を持つ完全二部グラフ$K_{m,n}$を考える。",
+      "$I_k$を$k$次単位行列、$J_{r\\times s}$を全成分1の$r\\times s$行列とする。グラフLaplacianを$L=D-A$とする。",
+      "Laplacianの余因子を計算し、最終的に$K_{m,n}$の全域木数を求める。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-070-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "完全二部構造をLaplacianのブロック形へ翻訳する。",
+        "connection": "Bで1頂点に対応する行列の行列式を余因子として取り出す。",
+        "score": 100,
+        "title": "ブロックLaplacian",
+        "minutes": 8,
+        "answerType": "short",
+        "prompt": [
+          "頂点順を$u_1,\\ldots,u_m,v_1,\\ldots,v_n$として、$K_{m,n}$のLaplacian $L$をブロック行列で書け。"
+        ],
+        "explanation": {
+          "summary": "$L=\\begin{pmatrix}nI_m&-J_{m\\times n}\\\\-J_{n\\times m}&mI_n\\end{pmatrix}$である。",
+          "steps": [
+            "各$u_i$の次数はn、各$v_j$の次数はmである。",
+            "同じ部分内の隣接行列ブロックは0、異なる部分間は全成分1である。",
+            "$L=D-A$なので、指定のブロック行列を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "グラフLaplacian",
+              "body": "$L=D-A$であり、対角成分は頂点次数、隣接頂点間の成分は$-1$である。"
+            },
+            {
+              "title": "定数ベクトルと核",
+              "body": "任意のグラフLaplacianは$L\\mathbf1=0$を満たす。連結グラフでは核は$\\mathbf1$の張る1次元空間である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "L=\\begin{pmatrix}nI_m&-J_{m\\times n}\\\\-J_{n\\times m}&mI_n\\end{pmatrix}"
+          ],
+          "hint": "U側の次数はn、V側の次数はmです。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-070-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "行列木定理で必要になるLaplacian余因子を具体的なブロック行列として準備する。",
+        "connection": "CでSchur補行列を使ってこの行列式を評価する。",
+        "score": 100,
+        "title": "縮約Laplacian",
+        "minutes": 8,
+        "answerType": "short",
+        "prompt": [
+          "$v_n$に対応する行と列を$L$から削除した縮約Laplacian$L_*$を書け。"
+        ],
+        "explanation": {
+          "summary": "$L_*=\\begin{pmatrix}nI_m&-J_{m\\times(n-1)}\\\\-J_{(n-1)\\times m}&mI_{n-1}\\end{pmatrix}$である。",
+          "steps": [
+            "AのV側ブロックから$v_n$に対応する最後の行と列を削除する。",
+            "U側のm頂点は残るので$nI_m$は変化しない。",
+            "V側の大きさだけが$n-1$となり、非対角ブロックも対応する長方形サイズになる。"
+          ],
+          "knowledge": [
+            {
+              "title": "Laplacian余因子",
+              "body": "Laplacianから同じ頂点に対応する1行1列を削除した行列の行列式が余因子である。"
+            },
+            {
+              "title": "削除頂点によらない値",
+              "body": "連結グラフではLaplacianのどの1行1列を削除しても余因子は同じ全域木数になる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "exact",
+          "accepted": [
+            "L_*=\\begin{pmatrix}nI_m&-J_{m\\times(n-1)}\\\\-J_{(n-1)\\times m}&mI_{n-1}\\end{pmatrix}"
+          ],
+          "hint": "AのV側から1行1列だけ削除し、対角の次数は変えないでください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-070-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "B"
+        ],
+        "purpose": "縮約Laplacianの行列式をブロック構造と全1行列の固有値で計算する。",
+        "connection": "Eでこの余因子を行列木定理により全域木数と同一視する。",
+        "score": 100,
+        "title": "Schur補行列による行列式",
+        "minutes": 15,
+        "answerType": "proof",
+        "prompt": [
+          "Schur補行列を用いて$\\det L_*=m^{n-1}n^{m-1}$を示せ。"
+        ],
+        "explanation": {
+          "summary": "Schur補行列は$nI_m-((n-1)/m)J_m$で、その行列式から$\\det L_*=m^{n-1}n^{m-1}$を得る。",
+          "steps": [
+            "$mI_{n-1}$に関するブロック行列式公式から、$\\det L_*=m^{n-1}\\det(nI_m-(1/m)J_{m\\times(n-1)}J_{(n-1)\\times m})$である。",
+            "全1行列の積は$(n-1)J_m$なので、Schur補行列は$S=nI_m-((n-1)/m)J_m$となる。",
+            "$J_m$は全1ベクトル上で固有値m、その直交補上で固有値0を持つ。よって$S$の固有値は1が1個、nが$m-1$個である。",
+            "$\\det S=n^{m-1}$なので、結論を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "Schur補行列",
+              "body": "$D$が可逆なら$\\det\\begin{pmatrix}A&B\\\\C&D\\end{pmatrix}=\\det D\\det(A-BD^{-1}C)$である。"
+            },
+            {
+              "title": "Schur補の適用条件",
+              "body": "右下ブロック$mI_{n-1}$は$m\\ne0$なので可逆である。この可逆性がブロック行列式公式の仮定である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "Schur補はnI_m-((n-1)/m)J_m"
+            ],
+            [
+              "J_mの固有値はmが1個、0がm-1個"
+            ],
+            [
+              "Schur補の固有値は1が1個、nがm-1個"
+            ],
+            [
+              "\\det L_*=m^{n-1}n^{m-1}"
+            ]
+          ],
+          "hint": "右下ブロック$mI_{n-1}$を使い、全1行列の積を計算してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-070-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B"
+        ],
+        "purpose": "Laplacian余因子が全域木を数える理由を、接続行列とCauchy--Binet公式から確認する。",
+        "connection": "EでCの行列式を全域木数として解釈する根拠になる。",
+        "score": 100,
+        "title": "行列木定理の仕組み",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "各辺に任意の向きを付けた接続行列から1行を削除した行列を$B_*$とする。$L_*=B_*B_*^T$とCauchy--Binet公式を用い、$\\det L_*$が全域木数に等しいことを説明せよ。"
+        ],
+        "explanation": {
+          "summary": "$\\det(B_*B_*^T)$は辺数$m+n-1$の部分集合ごとの小行列式平方和であり、全域木に対応する項だけが1となる。",
+          "steps": [
+            "向き付き接続行列では$BB^T=L$であり、同じ1行を削除すれば$L_*=B_*B_*^T$となる。",
+            "Cauchy--Binet公式より、$\\det(B_*B_*^T)=\\sum_{|T|=m+n-1}\\det(B_{*,T})^2$である。",
+            "$T$が閉路を含むか非連結なら対応列の階数が不足し、行列式は0である。",
+            "$T$が全域木なら葉を順に除く帰納法により$\\det(B_{*,T})=\\pm1$である。したがって各全域木が1ずつ寄与する。"
+          ],
+          "knowledge": [
+            {
+              "title": "Cauchy--Binet公式",
+              "body": "$\\det(PQ)$は、対応する最大小行列式の積をすべて足したものになる。"
+            },
+            {
+              "title": "辺の向きへの不変性",
+              "body": "接続行列で辺の向きを反転すると対応列の符号だけが変わる。$BB^T$と小行列式の平方は変わらないため、数え上げは向きに依存しない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "向き付き接続行列からL_*=B_*B_*^T"
+            ],
+            [
+              "Cauchy--Binet公式で|T|=m+n-1の小行列式平方和を得る"
+            ],
+            [
+              "Tが閉路を含むか非連結なら\\det(B_{*,T})=0"
+            ],
+            [
+              "Tが全域木なら\\det(B_{*,T})=\\pm1"
+            ],
+            [
+              "したがって\\det L_*は全域木数に等しい"
+            ]
+          ],
+          "hint": "辺部分集合が木である場合と、閉路または非連結である場合に小行列式を分類してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-070-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "A",
+          "C",
+          "D"
+        ],
+        "purpose": "ブロック行列の計算と行列木定理を統合し、完全二部グラフの全域木数を閉じた公式で得る。",
+        "connection": "Laplacianの線形代数が組合せ的な木の数を与えるという主要目標を達成する。",
+        "score": 100,
+        "title": "完全二部グラフの全域木数",
+        "minutes": 13,
+        "answerType": "proof",
+        "prompt": [
+          "CとDを用いて$K_{m,n}$の全域木数$\\tau(K_{m,n})$を導け。また$K_{2,3}$の場合の値を答えよ。"
+        ],
+        "explanation": {
+          "summary": "$\\tau(K_{m,n})=m^{n-1}n^{m-1}$で、$\\tau(K_{2,3})=12$である。",
+          "steps": [
+            "A・BでLaplacian余因子$L_*$を具体化し、Cで$\\det L_*=m^{n-1}n^{m-1}$と計算した。",
+            "Dの行列木定理により、連結グラフのLaplacian余因子は全域木数に等しい。",
+            "よって$\\tau(K_{m,n})=m^{n-1}n^{m-1}$である。",
+            "$m=2,n=3$を代入すると$2^2\\cdot3=12$となる。"
+          ],
+          "knowledge": [
+            {
+              "title": "完全二部グラフの全域木公式",
+              "body": "$K_{m,n}$の全域木数は$m^{n-1}n^{m-1}$である。"
+            },
+            {
+              "title": "二部の交換対称性",
+              "body": "公式$m^{n-1}n^{m-1}$は$m,n$の交換で不変であり、$K_{m,n}\\cong K_{n,m}$というグラフの対称性と一致する。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "\\det L_*=m^{n-1}n^{m-1}"
+            ],
+            [
+              "行列木定理により\\tau(K_{m,n})=\\det L_*"
+            ],
+            [
+              "\\tau(K_{m,n})=m^{n-1}n^{m-1}"
+            ],
+            [
+              "\\tau(K_{2,3})=12"
+            ]
+          ],
+          "hint": "Cの行列式をDの行列木定理で全域木数と読み替えてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      }
+    ]
+  },
+  {
+    "id": "GSET-071",
+    "category": "guided_set",
+    "displayName": "テーマ演習 #071",
+    "title": "縮小写像から解くVolterra積分方程式",
+    "field": "関数解析",
+    "tags": [
+      "Volterra積分方程式",
+      "縮小写像",
+      "Banach不動点定理",
+      "Picard反復",
+      "常微分方程式"
+    ],
+    "learningGoal": "Volterra積分方程式を関数空間上の不動点問題として解き、Picard反復、微分方程式との同値性、明示解と誤差評価を結び付ける。",
+    "commonStatement": [
+      "Banach空間$C[0,1]$に一様ノルム$\\|f\\|_\\infty=\\max_{0\\le x\\le1}|f(x)|$を入れる。作用素$T:C[0,1]\\to C[0,1]$を$(Tf)(x)=1+\\int_0^x(x-t)f(t)dt$で定める。",
+      "Volterra積分方程式$y(x)=1+\\int_0^x(x-t)y(t)dt$は不動点方程式$y=Ty$である。",
+      "最終的に解の存在・一意性、Picard反復の収束、明示解をすべて求める。"
+    ],
+    "questions": [
+      {
+        "id": "GSET-071-A",
+        "position": "A",
+        "difficulty": "A",
+        "dependsOn": [],
+        "purpose": "積分作用素がBanach不動点定理を適用できる縮小写像であることを確認する。",
+        "connection": "Bで解の存在と一意性を得る。",
+        "score": 100,
+        "title": "積分作用素の縮小性",
+        "minutes": 10,
+        "answerType": "proof",
+        "prompt": [
+          "$T$が$C[0,1]$を自身に写し、$\\|Tf-Tg\\|_\\infty\\le\\frac12\\|f-g\\|_\\infty$を満たすことを示せ。"
+        ],
+        "explanation": {
+          "summary": "$T$は縮小率$1/2$以下の縮小写像である。",
+          "steps": [
+            "$f$が連続ならパラメータ積分$Tf$も連続なので、$T:C[0,1]\\to C[0,1]$である。",
+            "$|(Tf)(x)-(Tg)(x)|\\le\\int_0^x(x-t)|f(t)-g(t)|dt$である。",
+            "右辺は$\\|f-g\\|_\\infty\\int_0^x(x-t)dt=(x^2/2)\\|f-g\\|_\\infty\\le(1/2)\\|f-g\\|_\\infty$である。",
+            "$x$について最大を取れば縮小率$q=1/2<1$を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "縮小写像",
+              "body": "$d(Tx,Ty)\\le qd(x,y)$を満たす$0\\le q<1$が存在するとき、$T$を縮小写像という。"
+            },
+            {
+              "title": "区間を広げる場合",
+              "body": "区間$[0,A]$では同じ評価の縮小率は$A^2/2$になる。$A\\ge\\sqrt2$ではこの一様ノルム評価だけでは縮小写像と結論できない。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "f\\in C[0,1]ならTf\\in C[0,1]"
+            ],
+            [
+              "\\int_0^x(x-t)dt=x^2/2"
+            ],
+            [
+              "\\|Tf-Tg\\|_\\infty\\le\\frac12\\|f-g\\|_\\infty"
+            ],
+            [
+              "縮小率は1/2<1"
+            ]
+          ],
+          "hint": "差を積分の中へ入れ、$|f(t)-g(t)|$を一様ノルムで抑えてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-071-B",
+        "position": "B",
+        "difficulty": "B",
+        "dependsOn": [
+          "A"
+        ],
+        "purpose": "縮小写像の構造から積分方程式の可解性を明示計算に先立って確立する。",
+        "connection": "Cの反復列が一意解へ収束することを保証する。",
+        "score": 100,
+        "title": "不動点の存在と一意性",
+        "minutes": 9,
+        "answerType": "proof",
+        "prompt": [
+          "Banachの不動点定理を適用し、積分方程式が$C[0,1]$にただ一つの解を持つことを示せ。"
+        ],
+        "explanation": {
+          "summary": "完備性とAの縮小性から、$T$は唯一の不動点$y$を持ち、任意の初期関数からの反復は$y$へ一様収束する。",
+          "steps": [
+            "$C[0,1]$は一様ノルムに関してBanach空間である。",
+            "Aより$T$は$C[0,1]$から自身への縮小写像である。",
+            "Banachの不動点定理により、ただ一つの$y$が存在して$Ty=y$となる。",
+            "同定理により、任意の$y_0$からの反復$y_{n+1}=Ty_n$は一様ノルムで$y$へ収束する。"
+          ],
+          "knowledge": [
+            {
+              "title": "Banachの不動点定理",
+              "body": "完備距離空間上の縮小写像は唯一の不動点を持ち、反復列はその不動点へ収束する。"
+            },
+            {
+              "title": "完備性の重要性",
+              "body": "縮小写像の反復列はCauchy列になる。極限を同じ空間内に確保するため、Banachの不動点定理では空間の完備性が必要である。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "C[0,1]は一様ノルムについて完備である"
+            ],
+            [
+              "AよりTは縮小率1/2の自己写像である"
+            ],
+            [
+              "Banachの不動点定理により不動点は存在して一意である"
+            ],
+            [
+              "任意の初期関数からの反復は不動点へ一様収束する"
+            ]
+          ],
+          "hint": "空間の完備性とAの縮小率をBanachの不動点定理へ当てはめてください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-071-C",
+        "position": "C",
+        "difficulty": "C",
+        "dependsOn": [
+          "A",
+          "B"
+        ],
+        "purpose": "Picard反復を具体的に計算し、解のべき級数を発見する。",
+        "connection": "Eでこの多項式列を$\\cosh x$のTaylor部分和と同定する。",
+        "score": 100,
+        "title": "Picard反復の明示式",
+        "minutes": 12,
+        "answerType": "proof",
+        "prompt": [
+          "$y_0(x)=1$、$y_{n+1}=Ty_n$とする。$y_n(x)=\\sum_{k=0}^n x^{2k}/(2k)!$を帰納法で示せ。"
+        ],
+        "explanation": {
+          "summary": "Picard反復は$y_n(x)=1+x^2/2!+\\cdots+x^{2n}/(2n)!$となる。",
+          "steps": [
+            "$n=0$では$y_0=1$で式が成立する。",
+            "$y_n=\\sum_{k=0}^n t^{2k}/(2k)!$と仮定する。",
+            "$\\int_0^x(x-t)t^{2k}dt=x^{2k+2}/((2k+1)(2k+2))$である。",
+            "これを$(2k)!$で割ると$x^{2k+2}/(2k+2)!$となるので、$Ty_n=\\sum_{k=0}^{n+1}x^{2k}/(2k)!$を得る。"
+          ],
+          "knowledge": [
+            {
+              "title": "Picard反復",
+              "body": "不動点方程式$y=Ty$に対し$y_{n+1}=Ty_n$と反復する方法である。"
+            },
+            {
+              "title": "階乗による収束",
+              "body": "このVolterra核では反復ごとに2階ずつ積分され、係数に$(2k)!$が現れる。このため実際の収束は幾何評価より速い。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "n=0ではy_0(x)=1で成立する"
+            ],
+            [
+              "\\int_0^x(x-t)t^{2k}dt=x^{2k+2}/((2k+1)(2k+2))"
+            ],
+            [
+              "帰納仮定を代入するとTy_n=\\sum_{k=0}^{n+1}x^{2k}/(2k)!"
+            ],
+            [
+              "y_n(x)=\\sum_{k=0}^n x^{2k}/(2k)!"
+            ]
+          ],
+          "hint": "帰納仮定を積分へ代入し、各単項式に対する核の積分を計算してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-071-D",
+        "position": "D",
+        "difficulty": "D",
+        "dependsOn": [
+          "B"
+        ],
+        "purpose": "積分方程式を初期値問題へ変換し、解の正則性と別の特徴付けを得る。",
+        "connection": "Eで初期値問題を解いて不動点を明示する。",
+        "score": 100,
+        "title": "常微分方程式への変換",
+        "minutes": 13,
+        "answerType": "proof",
+        "prompt": [
+          "Bで得た解$y$が$y''=y$、$y(0)=1$、$y'(0)=0$を満たすことを示せ。逆に、この初期値問題の$C^2$解は積分方程式を満たすことも示せ。"
+        ],
+        "explanation": {
+          "summary": "積分方程式は初期値問題$y''=y$、$y(0)=1$、$y'(0)=0$と同値である。",
+          "steps": [
+            "積分方程式をLeibniz則で微分すると$y'(x)=\\int_0^xy(t)dt$となる。",
+            "さらに微分して$y''(x)=y(x)$を得る。$x=0$を代入すると$y(0)=1$、$y'(0)=0$である。",
+            "逆に$y''=y$を初期条件の下で2回積分すると$y(x)=1+\\int_0^x\\int_0^s y(t)dtds$となる。",
+            "積分順序を交換すると二重積分は$\\int_0^x(x-t)y(t)dt$となり、積分方程式へ戻る。"
+          ],
+          "knowledge": [
+            {
+              "title": "Leibnizの積分微分則",
+              "body": "$G(x)=\\int_0^xK(x,t)dt$なら、$G'(x)=K(x,x)+\\int_0^x\\partial_xK(x,t)dt$である。"
+            },
+            {
+              "title": "積分作用素の正則化",
+              "body": "連続な$y$に作用させた$\\int_0^x(x-t)y(t)dt$は$C^2$級になるため、積分方程式の連続解は自動的に2回微分可能になる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "連続解は積分方程式からC^2級になる"
+            ],
+            [
+              "y'(x)=\\int_0^xy(t)dt,\\ y''(x)=y(x)"
+            ],
+            [
+              "y(0)=1,\\ y'(0)=0"
+            ],
+            [
+              "初期値問題を2回積分し積分順序を交換すると元の積分方程式を得る"
+            ]
+          ],
+          "hint": "積分方程式を2回微分し、逆向きには初期値を使って2回積分してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      },
+      {
+        "id": "GSET-071-E",
+        "position": "E",
+        "difficulty": "E",
+        "dependsOn": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "purpose": "不動点理論、反復級数、微分方程式を統合して解を同定し、反復誤差まで評価する。",
+        "connection": "存在・一意性と明示解の両面からVolterra方程式を完全に解く。",
+        "score": 100,
+        "title": "明示解と反復誤差",
+        "minutes": 16,
+        "answerType": "proof",
+        "prompt": [
+          "積分方程式の唯一の解を求め、Picard反復について$\\|y-y_n\\|_\\infty\\le2^{-n}$を示せ。またCの式からも同じ極限を確認せよ。"
+        ],
+        "explanation": {
+          "summary": "唯一の解は$y(x)=\\cosh x$であり、$y_n$は一様に$y$へ収束して$\\|y-y_n\\|_\\infty\\le2^{-n}$を満たす。",
+          "steps": [
+            "Dの初期値問題の一般解は$Ae^x+Be^{-x}$である。初期条件から$A=B=1/2$となり、$y(x)=\\cosh x$を得る。Bにより唯一解である。",
+            "Aの縮小率$q=1/2$と不動点反復の評価から、$\\|y-y_n\\|_\\infty\\le q^n(1-q)^{-1}\\|y_1-y_0\\|_\\infty$である。",
+            "$y_1-y_0=x^2/2$なので$\\|y_1-y_0\\|_\\infty=1/2$であり、右辺は$2^{-n}$となる。",
+            "Cの$y_n=\\sum_{k=0}^nx^{2k}/(2k)!$は$\\cosh x$のTaylor級数の部分和で、$[0,1]$上一様収束する。",
+            "以上でAの縮小性、Bの存在一意性、Cの反復、Dの微分方程式が同じ解へ統合された。"
+          ],
+          "knowledge": [
+            {
+              "title": "不動点反復の誤差評価",
+              "body": "縮小率$q$の反復では$d(x_n,x_*)\\le q^n(1-q)^{-1}d(x_1,x_0)$が成立する。"
+            },
+            {
+              "title": "誤差評価の鋭さ",
+              "body": "縮小写像定理の$2^{-n}$は簡便な一様上界である。Taylor余項を使えば本問では$\\|y-y_n\\|_\\infty\\le\\cosh(1)/(2n+2)!$というより鋭い評価も得られる。"
+            }
+          ]
+        },
+        "grade": {
+          "type": "keywords",
+          "groups": [
+            [
+              "初期値問題から唯一解はy(x)=\\cosh x"
+            ],
+            [
+              "\\|y-y_n\\|_\\infty\\le q^n(1-q)^{-1}\\|y_1-y_0\\|_\\infty"
+            ],
+            [
+              "q=1/2,\\ \\|y_1-y_0\\|_\\infty=1/2より\\|y-y_n\\|_\\infty\\le2^{-n}"
+            ],
+            [
+              "y_nは\\cosh xのTaylor級数の部分和である"
+            ]
+          ],
+          "hint": "Dの初期値問題で解を同定し、Aの縮小率を誤差公式へ代入してください。"
+        },
+        "sourceModel": "ChatGPT 5.6 Sol（極高）"
+      }
+    ]
   }
 ]
