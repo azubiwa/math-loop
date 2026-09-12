@@ -44,6 +44,61 @@ button { color: inherit; }
 .sideFooter small { margin-top: 4px; color: #888; font-size: 9px; }
 
 .workspace { min-width: 0; }
+
+.grid25Intro { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 10px 0 26px; }
+.grid25Intro h2 { margin: 10px 0; font-size: clamp(27px, 4vw, 40px); font-weight: 600; }
+.grid25Intro p { margin: 0; color: #666; font-size: 12px; line-height: 1.9; }
+.grid25Emblem { width: 98px; height: 98px; display: grid; align-content: center; justify-items: center; background: #e8e8e3; border-radius: 20px; font-size: 42px; font-weight: 600; flex-shrink: 0; }
+.grid25Emblem span { font-size: 9px; letter-spacing: .24em; }
+.grid25Modes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 20px; }
+.grid25Modes button { padding: 16px; text-align: left; background: white; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; }
+.grid25Modes button[aria-pressed="true"] { background: #202020; border-color: #202020; color: white; }
+.grid25Modes b { display: block; font-size: 12px; }
+.grid25Modes small { display: block; margin-top: 7px; font-size: 10px; line-height: 1.7; opacity: .7; }
+.grid25Toolbar { display: flex; justify-content: space-between; align-items: center; padding: 23px 26px 14px; gap: 16px; }
+.grid25Toolbar h3 { margin: 0 0 9px; font-size: 19px; }
+.grid25Toolbar label { color: #666; font-size: 11px; }
+.grid25Toolbar select { margin-left: 8px; padding: 5px 9px; border: 1px solid var(--line); border-radius: 5px; background: #fff; }
+.grid25Metrics { display: flex; gap: 24px; }
+.grid25Metrics small { display: block; color: #777; font-size: 10px; }
+.grid25Metrics b { display: block; margin-top: 5px; font-size: 23px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.grid25Metrics em { font-size: 12px; font-style: normal; color: #777; }
+.grid25Hint { margin: 0; padding: 0 26px 20px; color: #666; font-size: 11px; line-height: 1.8; }
+.grid25Hint span { display: block; color: #888; font-size: 10px; }
+.grid25Scroll { overflow-x: auto; padding: 0 25px; }
+.grid25Table { width: 100%; min-width: 440px; table-layout: fixed; border-collapse: collapse; }
+.grid25Table th { text-align: center; padding: 16px 4px; color: #222; background: #efefec; font-size: 17px; font-weight: 600; letter-spacing: 0; border: 1px solid #d6d6d0; }
+.grid25Table th:first-child { width: 15%; }
+.grid25Table th.grid25Operator { background: #222; color: white; font-size: 24px; }
+.grid25Table td { position: relative; padding: 22px 4px 18px; height: 82px; text-align: center; border: 1px solid #d6d6d0; background: white; }
+.grid25Table td:focus-within { outline: 2px solid #555; outline-offset: -2px; background: #f6f6f2; }
+.grid25Table input { width: 100%; min-width: 0; padding: 5px 0; border: none; background: transparent; color: #171717; text-align: center; outline: none; font-size: 18px; font-variant-numeric: tabular-nums; }
+.grid25CellNumber { position: absolute; top: 6px; left: 7px; color: #999; font-size: 8px; }
+.grid25Table td.correct { background: #eff8f0; }
+.grid25Table td.incorrect { background: #fff2ed; }
+.grid25CellResult { position: absolute; top: 5px; right: 6px; font-size: 10px; color: #b64330; }
+.correct .grid25CellResult { color: #267443; }
+.grid25Answer { display: block; color: #555; font-size: 12px; }
+.grid25Footer { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; }
+.grid25Footer > span { font-size: 11px; color: #777; }
+.grid25Footer button:disabled { opacity: .4; cursor: default; transform: none; }
+.grid25ResultActions { display: flex; flex-wrap: wrap; gap: 8px; }
+.grid25ResultActions button:not(.submitButton) { padding: 10px 12px; border: 1px solid var(--line); border-radius: 7px; background: white; font-size: 11px; cursor: pointer; }
+.grid25Result { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 20px 25px; background: #f0f3ec; border-top: 1px solid var(--line); }
+.grid25Result b { font-size: 19px; }.grid25Result span { color: #666; font-size: 11px; }
+.grid25SaveNote { color: #888; font-size: 10px; line-height: 1.8; }
+@media (max-width: 760px) {
+  .grid25Modes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid25Modes button { padding: 12px; }
+  .grid25Toolbar { padding: 18px 14px 12px; }.grid25Hint { padding: 0 14px 16px; }
+  .grid25Scroll { padding: 0 10px; }.grid25Footer, .grid25Result { padding: 16px 14px; }
+  .grid25Metrics { gap: 12px; }.grid25Metrics b { font-size: 19px; }
+  .grid25Emblem { width: 72px; height: 72px; font-size: 31px; }
+  .grid25Table { min-width: 0; }.grid25Table th { font-size: 12px; }.grid25Table input { font-size: 16px; }
+  .grid25Table td { height: 72px; }.grid25Table th:first-child { width: 14%; }
+  .grid25Answer { font-size: 10px; }
+  .grid25Complex { min-width: 540px; }
+}
 .topbar { min-height: 108px; padding: 24px clamp(24px, 4.5vw, 68px) 21px; border-bottom: 1px solid var(--line); background: rgba(255, 255, 255, .78); backdrop-filter: blur(12px); display: flex; justify-content: space-between; align-items: flex-end; }
 .eyebrow { color: var(--green); font-size: 9px; font-weight: 800; letter-spacing: .19em; }
 h1 { margin: 6px 0 0; font-size: 27px; font-weight: 600; letter-spacing: .02em; }
