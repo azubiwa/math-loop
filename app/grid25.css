@@ -61,3 +61,17 @@
   .drillHistoryHeading { padding: 16px 15px; }.drillHistoryList > button { padding: 14px 15px; }.drillHistoryList > button > span:last-child { white-space: nowrap; }
   .drillNotice, .drillFeedback { margin: 10px 14px; font-size: 11px; }
 }
+
+.gridGuide { padding: 0; overflow: hidden; }
+.gridGuide > summary { padding: 20px 24px; cursor: pointer; font-weight: 700; font-size: 14px; }
+.gridGuide > summary span { margin-left: 12px; color: var(--muted); font-size: 12px; font-weight: 400; }
+.gridGuide > p { padding: 16px 24px; font-size: 12px; }
+.gridGuideBody { padding: 0 24px 24px; max-width: 940px; line-height: 1.9; font-size: 14px; }
+.gridGuideBody label { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.gridGuideBody select { max-width: 100%; padding: 10px; border: 1px solid #d8dad4; border-radius: 8px; background: white; }
+.gridGuideBody h3 { font-size: 20px; margin: 24px 0 8px; }.gridGuideBody h4 { margin: 20px 0 8px; font-size: 14px; }
+.gridGuideBody ol { padding-left: 22px; }.gridGuideBody li { margin: 6px 0; }
+.gridGuideMath { overflow-x: auto; padding: 12px 2px; font-size: 16px; }
+.gridGuideExample { background: #f5f6f1; border-radius: 12px; padding: 2px 18px 14px; margin-top: 20px; }
+.gridGuideNote { border-left: 3px solid #8c9279; padding-left: 14px; margin-top: 22px; }.gridGuideSource { font-size: 12px; }.gridGuideSource a { text-decoration: underline; }
+@media(max-width:760px) { .gridGuide > summary { padding: 18px 15px; }.gridGuide > summary span { display: block; margin-left: 0; margin-top: 5px; }.gridGuideBody { padding: 0 15px 20px; font-size: 13px; }.gridGuideMath { font-size: 14px; } }

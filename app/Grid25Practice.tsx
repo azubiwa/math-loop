@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import katex from "katex";
 import { createDrillBoard, drillCategories, drills, expressionTex, getDrill, gradeDrillCell, type Category, type DrillCell } from "@/lib/grid-drills";
 import { accuracy, confirmCell, createRun, duration, eligibleBest, emptyGridSaved, finishRun, gridStorageKey, legacyGridStorageKey, mergeGridSaved, migrateLegacy, parseGridSaved, runIndices, runKey, sameBoard, type GridSaved, type Run } from "@/lib/grid-history";
+import Grid25Guide from "./Grid25Guide";
 import DrillStatistics from "./Grid25Statistics";
 
 export function Formula({ tex }: { tex: string }) {
@@ -20,7 +21,7 @@ function downloadJson(text: string, name: string) {
   const anchor = document.createElement("a"); anchor.href = url; anchor.download = name; anchor.click();
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-const basisTex = (basis: string) => basis.split("∧").map((b) => `\\mathrm{d}${b.slice(1)}`).join("\\wedge ");
+const basisTex = (basis: string) => basis.startsWith("∂") ? `\\partial_${basis.slice(1)}` : basis === "e₁" ? "e_1" : basis === "e₂" ? "e_2" : basis.split("∧").map((b) => `\\mathrm{d}${b.slice(1)}`).join("\\wedge ");
 function answerTex(cell: DrillCell, values: string[]) {
   if (cell.basis[0] === "答え") return expressionTex(values[0] || "0");
   return values.map((v, i) => `\\left(${expressionTex(v || "0")}\\right)${basisTex(cell.basis[i])}`).join("+");
@@ -171,6 +172,7 @@ export default function Grid25Practice() {
     <section className="grid25Intro"><div><span className="heroLabel">MATHLOOP · 25 GRID</span><h2>25マス計算</h2><p>数から微分形式まで。<br />25回の反復で、数学の基本操作を身につける。</p></div><div className="grid25Emblem" aria-hidden="true">25<span>MASU</span></div></section>
     <nav className="drillCategories" aria-label="ドリルの分野">{drillCategories.map((c) => <button key={c.id} aria-pressed={category === c.id} onClick={() => { setCategory(c.id); changeSelection({ ...selection, id: drills.find((d) => d.category === c.id)!.id, level: "basic", sheet: 1 }); }}><b>{c.title}</b><small>{c.english}</small></button>)}</nav>
     <div className="grid25Modes" aria-label="演算の種類">{drills.filter((d) => d.category === category).map((d) => <button key={d.id} aria-pressed={selection.id === d.id} onClick={() => changeSelection({ ...selection, id: d.id, level: "basic", sheet: 1 })}><b>{d.title}</b><small>{d.description}</small></button>)}</div>
+    <Grid25Guide key={selection.id} drillId={selection.id} locked={run.mode === "timed" && run.startedAt !== null && !finished} />
     <section className="panel grid25Panel" aria-label="25マス計算の問題">
       <div className="grid25Toolbar"><div><h3>{definition.title}</h3><div className="drillSelectors">
         {definition.levels && <label>難度<select aria-label="ドリルの難度" value={selection.level} onChange={(e) => changeSelection({ ...selection, level: e.target.value as Selection["level"] })}><option value="basic">基礎</option><option value="standard">標準</option></select></label>}

@@ -1,0 +1,336 @@
+[
+  {
+    "id": "addition",
+    "title": "整数の加算",
+    "intro": "正負の符号と絶対値を分けて考えます。",
+    "formula": "a+(-b)=a-b",
+    "steps": [
+      "同符号なら絶対値を足して元の符号を付ける。",
+      "異符号なら絶対値の差を取り、大きい側の符号を付ける。"
+    ],
+    "example": "左が−7、上が3の場合。",
+    "work": [
+      "-7+3=-(7-3)=-4"
+    ],
+    "note": "負号も答えの一部です。"
+  },
+  {
+    "id": "multiplication",
+    "title": "整数の乗算",
+    "intro": "先に符号を決め、次に絶対値を掛けます。",
+    "formula": "(-a)(-b)=ab,\\quad (-a)b=-ab",
+    "steps": [
+      "負の因子が偶数個なら正、奇数個なら負。",
+      "絶対値どうしを掛ける。"
+    ],
+    "example": "左が−4、上が−6の場合。",
+    "work": [
+      "(-4)(-6)=24"
+    ],
+    "note": "零との積は常に0です。"
+  },
+  {
+    "id": "fractions",
+    "title": "分数の加算",
+    "intro": "共通の分母へそろえてから分子を足します。",
+    "formula": "\\frac ab+\\frac cd=\\frac{ad+bc}{bd}",
+    "steps": [
+      "分母の最小公倍数を見つける。",
+      "同じ倍率で分子も掛け、分子を足して約分する。"
+    ],
+    "example": "1/6と1/4を足す。",
+    "work": [
+      "\\frac16+\\frac14=\\frac2{12}+\\frac3{12}=\\frac5{12}"
+    ],
+    "note": "分母どうしを足しません。近似小数ではなく厳密値で答えます。"
+  },
+  {
+    "id": "complex",
+    "title": "複素数の乗算",
+    "intro": "分配法則で展開し、i²を−1に置き換えます。",
+    "formula": "(a+bi)(c+di)=(ac-bd)+(ad+bc)i",
+    "steps": [
+      "実部・虚部の4つの積を作る。",
+      "実数項とiの項をそれぞれまとめる。"
+    ],
+    "example": "(2+i)(1−3i)を計算する。",
+    "work": [
+      "2-6i+i-3i^2=5-5i"
+    ],
+    "note": "i²=1としないこと。答えは5-5iの形で入力します。"
+  },
+  {
+    "id": "dot",
+    "title": "ベクトルの内積",
+    "intro": "同じ位置の成分の積を足します。",
+    "formula": "a\\cdot b=\\sum_i a_i b_i",
+    "steps": [
+      "次元と成分の順序を確認する。",
+      "対応する成分を掛け、全成分について足す。"
+    ],
+    "example": "a=(1,−2,3)、b=(4,1,−1)。",
+    "work": [
+      "a\\cdot b=1\\cdot4+(-2)\\cdot1+3\\cdot(-1)=-1"
+    ],
+    "note": "結果はベクトルではなく数値です。ここでは実標準内積を使います。"
+  },
+  {
+    "id": "matrix",
+    "title": "行列積",
+    "intro": "左の行と上の列の内積が、そのマスの値になります。",
+    "formula": "(AB)_{ij}=\\sum_k A_{ik}B_{kj}",
+    "steps": [
+      "Aの列数とBの行数が等しいか確認する。",
+      "第i行と第j列を取り出し、対応する成分の積を足す。"
+    ],
+    "example": "Aの行が(2,−1)、Bの列が(3,4)。",
+    "work": [
+      "(AB)_{ij}=2\\cdot3+(-1)\\cdot4=2"
+    ],
+    "note": "成分ごとの行列の積ではありません。一般にABとBAは異なります。"
+  },
+  {
+    "id": "derivative",
+    "title": "多項式の微分",
+    "intro": "各項をべき乗の微分公式で微分します。",
+    "formula": "\\frac{d}{dx}x^n=nx^{n-1}",
+    "steps": [
+      "係数に指数を掛け、指数を1つ下げる。",
+      "定数項を0にし、指定回数だけ繰り返す。"
+    ],
+    "example": "f(x)=3x³−2xの2階微分。",
+    "work": [
+      "f\\prime(x)=9x^2-2",
+      "f^{\\prime\\prime}(x)=18x"
+    ],
+    "note": "指数0の定数項を、負の指数の項として残さないこと。"
+  },
+  {
+    "id": "gcd",
+    "title": "最大公約数",
+    "intro": "割り算の余りを使うユークリッドの互除法で求めます。",
+    "formula": "\\gcd(a,b)=\\gcd(b,a\\bmod b)",
+    "steps": [
+      "大きい数を小さい数で割る。",
+      "除数と余りで繰り返し、余りが0になったときの除数を取る。"
+    ],
+    "example": "gcd(42,30)を求める。",
+    "work": [
+      "42=1\\cdot30+12",
+      "30=2\\cdot12+6",
+      "12=2\\cdot6\\quad\\Longrightarrow\\quad\\gcd(42,30)=6"
+    ],
+    "note": "最大公約数は正の整数で答えます。"
+  },
+  {
+    "id": "mod",
+    "title": "剰余",
+    "intro": "指定された範囲に入る余りを選びます。",
+    "formula": "a=qb+r,\\quad 0\\leq r<b",
+    "steps": [
+      "正の除数bに対して商qを切り下げで選ぶ。",
+      "r=a−qbを計算する。"
+    ],
+    "example": "−13を5で割った余り。",
+    "work": [
+      "-13=(-3)\\cdot5+2",
+      "-13\\bmod5=2"
+    ],
+    "note": "負の被除数でも、ここでの余りは0以上です。"
+  },
+  {
+    "id": "evaluation",
+    "title": "1形式の評価",
+    "intro": "1形式は接ベクトルを数値へ写す線形写像です。",
+    "formula": "dx^i(\\partial_j)=\\delta^i_j,\\quad\\omega(X)=\\sum_i\\omega_iX^i",
+    "steps": [
+      "1形式と接ベクトルの係数を同じ座標順に並べる。",
+      "同じ座標の係数を掛けて足す。"
+    ],
+    "example": "ω=2dx−dy、X=3∂x+4∂y。",
+    "work": [
+      "\\omega(X)=2\\cdot3-1\\cdot4=2"
+    ],
+    "note": "計量を使う内積とは別の、双対空間の自然な作用です。"
+  },
+  {
+    "id": "wedge",
+    "title": "wedge積",
+    "intro": "微分形式の交代的な積です。基底の順序で符号が変わります。",
+    "formula": "dx\\wedge dy=-dy\\wedge dx,\\quad dx\\wedge dx=0",
+    "steps": [
+      "分配法則で展開する。",
+      "同じ基底の積を0にし、dx∧dy、dx∧dz、dy∧dzの順へ整理する。"
+    ],
+    "example": "α=dx+2dy、β=3dx−dy。",
+    "work": [
+      "\\alpha\\wedge\\beta=-dx\\wedge dy+6dy\\wedge dx",
+      "\\alpha\\wedge\\beta=-7dx\\wedge dy"
+    ],
+    "note": "一般にp形式αとq形式βではα∧β=(−1)^(pq)β∧α。係数欄には基底を除いて−7と入力します。"
+  },
+  {
+    "id": "differential",
+    "title": "関数の微分 df",
+    "intro": "関数の各方向の変化率を1形式にまとめます。",
+    "formula": "df=\\frac{\\partial f}{\\partial x}dx+\\frac{\\partial f}{\\partial y}dy",
+    "steps": [
+      "列のパラメータ値を代入し、定数として扱う。",
+      "各変数で偏微分し、その変数の基底に付ける。"
+    ],
+    "example": "f=x²y+2xy。",
+    "work": [
+      "f_x=2xy+2y,\\quad f_y=x^2+2x",
+      "df=(2xy+2y)dx+(x^2+2x)dy"
+    ],
+    "note": "他の変数を定数として偏微分します。dfと勾配は同じ種類の対象ではありません。"
+  },
+  {
+    "id": "exterior",
+    "title": "外微分 dω",
+    "intro": "係数を微分して基底とのwedge積を取ります。",
+    "formula": "d(Pdx+Qdy)=(Q_x-P_y)dx\\wedge dy",
+    "steps": [
+      "d(Pdx)=dP∧dx、d(Qdy)=dQ∧dyを作る。",
+      "基底の重複を0にし、順序をそろえて足す。"
+    ],
+    "example": "ω=x²y dx+xy dy。",
+    "work": [
+      "P_y=x^2,\\quad Q_x=y",
+      "d\\omega=(y-x^2)dx\\wedge dy"
+    ],
+    "note": "滑らかな形式ではd²=0。p形式αにはd(α∧β)=dα∧β+(−1)^p α∧dβが成り立ちます。"
+  },
+  {
+    "id": "pullback",
+    "title": "pullback（引き戻し）",
+    "intro": "写像を使い、係数と基底の両方を始域の変数に直します。",
+    "formula": "F^*(h\\,dx)=(h\\circ F)\\,dF_1",
+    "steps": [
+      "係数にx=F₁、y=F₂を代入する。",
+      "dxをdF₁、dyをdF₂に置き換え、積を整理する。"
+    ],
+    "example": "F(u,v)=(u+v,uv)、ω=xdy。",
+    "work": [
+      "F^*dy=d(uv)=v\\,du+u\\,dv",
+      "F^*(xdy)=v(u+v)du+u(u+v)dv"
+    ],
+    "note": "引き戻しは和・wedge積を保ち、dと可換です。係数関数への代入を忘れないこと。"
+  },
+  {
+    "id": "ode",
+    "title": "常微分方程式",
+    "intro": "まず方程式の型を見分けます。ここでは1階線形方程式の積分因子法を扱います。",
+    "formula": "y\\prime+p(x)y=q(x),\\quad\\mu=e^{\\int p(x)dx},\\quad(\\mu y)\\prime=\\mu q",
+    "steps": [
+      "標準形へ整理し、積分因子μを求める。",
+      "両辺にμを掛けて積分し、初期条件から定数を決める。"
+    ],
+    "example": "y′+2y=4、y(0)=1。 ドリルで扱う積分形の例も最後に示します。",
+    "work": [
+      "(e^{2x}y)\\prime=4e^{2x}",
+      "e^{2x}y=2e^{2x}+C",
+      "y=2+Ce^{-2x},\\quad C=-1",
+      "y'=2x+1,\\ y(0)=3\\ \\Longrightarrow\\ y=x^2+x+3"
+    ],
+    "note": "代入と微分で解を検算します。変数分離でyを割る場合は、失われる定数解も確認します。"
+  },
+  {
+    "id": "lie",
+    "title": "リーブラケット",
+    "intro": "ベクトル場が関数へ作用する順序の差を取ります。",
+    "formula": "[X,Y]^i=\\sum_j(X^j\\partial_jY^i-Y^j\\partial_jX^i)",
+    "steps": [
+      "XでYの各係数を方向微分する。",
+      "YでXの各係数を方向微分し、前者から引く。"
+    ],
+    "example": "X=x∂y、Y=y∂x。",
+    "work": [
+      "X(Y^x)=x,\\quad Y(X^y)=y",
+      "[X,Y]=x\\partial_x-y\\partial_y"
+    ],
+    "note": "ここでは[X,Y]f=X(Yf)−Y(Xf)。順序を逆にすると符号が反転します。座標基底どうしの括弧は0です。"
+  },
+  {
+    "id": "metric",
+    "title": "計量と内積",
+    "intro": "計量の成分行列で、接ベクトルの長さや角度を測ります。",
+    "formula": "g(v,w)=v^TGw=\\sum_{i,j}g_{ij}v^iw^j",
+    "steps": [
+      "計量とベクトルを同じ座標基底で表す。",
+      "まずGw、次にvとの標準内積を計算する。"
+    ],
+    "example": "G=diag(1,4)、v=(1,2)、w=(3,−1)。",
+    "work": [
+      "Gw=\\begin{pmatrix}3\\\\-4\\end{pmatrix}",
+      "g(v,w)=1\\cdot3+2\\cdot(-4)=-5"
+    ],
+    "note": "Riemann計量は対称・正定値です。異なるベクトルの内積は負でもよく、g(v,v)>0はv≠0に対する条件です。"
+  },
+  {
+    "id": "christoffel",
+    "title": "クリストッフェル記号",
+    "intro": "Levi-Civita接続の係数を、計量の偏微分から求めます。",
+    "formula": "\\Gamma^k_{ij}=\\frac12\\sum_\\ell g^{k\\ell}(\\partial_i g_{j\\ell}+\\partial_j g_{i\\ell}-\\partial_\\ell g_{ij})",
+    "steps": [
+      "計量行列の逆行列gⁱʲを求める。",
+      "必要な偏微分を計算し、添字を固定して和を取る。"
+    ],
+    "example": "平面の極座標：ds²=dr²+r²dθ²（r>0）。",
+    "work": [
+      "(g^{ij})=\\operatorname{diag}(1,r^{-2}),\\quad\\partial_r g_{\\theta\\theta}=2r",
+      "\\Gamma^r_{\\theta\\theta}=-r",
+      "\\Gamma^\\theta_{r\\theta}=\\Gamma^\\theta_{\\theta r}=1/r"
+    ],
+    "note": "この例では他は0。記号自体はテンソルではなく、平坦な空間でも曲線座標では非零になり得ます。"
+  },
+  {
+    "id": "tangent",
+    "title": "接ベクトルと微分",
+    "intro": "接ベクトルは関数の方向微分として働き、写像の微分は接ベクトルを押し出します。",
+    "formula": "v(f)=df_p(v),\\quad dF_p(v)=J_F(p)v",
+    "steps": [
+      "関数なら偏微分とベクトル成分の積を足す。",
+      "写像ならJacobianを作り、点を代入してベクトルを掛ける。"
+    ],
+    "example": "F(x,y)=(x²,xy)、p=(1,2)、v=(3,−1)。",
+    "work": [
+      "J_F(x,y)=\\begin{pmatrix}2x&0\\\\y&x\\end{pmatrix}",
+      "dF_p(v)=\\begin{pmatrix}2&0\\\\2&1\\end{pmatrix}\\begin{pmatrix}3\\\\-1\\end{pmatrix}=\\begin{pmatrix}6\\\\5\\end{pmatrix}"
+    ],
+    "note": "写像の値F(p)と線形写像dF_pを区別します。始域と終域の接空間にも注意します。"
+  },
+  {
+    "id": "taylor",
+    "title": "テイラー展開",
+    "intro": "展開中心での導関数から、各次数の係数を作ります。",
+    "formula": "T_n(x)=\\sum_{k=0}^n\\frac{f^{(k)}(a)}{k!}(x-a)^k",
+    "steps": [
+      "展開中心aと打切り次数nを決める。",
+      "各導関数をaで評価し、k!で割って項を足す。"
+    ],
+    "example": "eˣを0の周りで3次まで展開する。",
+    "work": [
+      "f^{(k)}(0)=1",
+      "e^x=1+x+\\frac{x^2}{2}+\\frac{x^3}{6}+O(x^4)\\quad(x\\to0)"
+    ],
+    "note": "導関数そのものではなくk!で割った値が係数。一般の滑らかな関数が無限Taylor級数と一致するとは限りません。"
+  },
+  {
+    "id": "complex-analysis",
+    "title": "複素解析",
+    "intro": "複素微分は近づく方向に依存しない微分です。実部・虚部に分けて確認します。",
+    "formula": "f=u+iv,\\quad u_x=v_y,\\quad u_y=-v_x",
+    "steps": [
+      "実部uと虚部vを求め、Cauchy–Riemann方程式を確認する。",
+      "多項式なら通常のべき乗微分で導関数を求める。"
+    ],
+    "example": "f(z)=z²、z=x+iy。",
+    "work": [
+      "u=x^2-y^2,\\quad v=2xy",
+      "u_x=2x=v_y,\\quad u_y=-2y=-v_x",
+      "f\\prime(z)=2z,\\quad f\\prime(1+i)=2+2i"
+    ],
+    "note": "近傍で実部・虚部がC¹なら、Cauchy–Riemann方程式は複素微分可能性の十分条件です。点での偏微分の一致だけでは一般に不十分です。"
+  }
+]
