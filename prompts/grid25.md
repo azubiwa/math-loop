@@ -21,8 +21,8 @@
 
 ## 既存内容の確認と新規性
 
-- リポジトリが読める場合、lib/grid-drills.ts、lib/grid25.ts、lib/grid-math.ts、docs/25-grid-design.mdを参照する。型・演算・採点制約は実装を正本とする。
-- 現行実装では、既存4演算はbasicのみ各10セット、追加10演算はbasicとstandardを各10セット持つ。実際の最新実装と索引を優先する。
+- リポジトリが読める場合、lib/grid-drills.ts、lib/grid25.ts、lib/grid-advanced.ts、lib/grid-guides.json、lib/grid-math.ts、docs/25-grid-design.mdを参照する。型・演算・採点制約は実装を正本とする。
+- 現行実装では、既存4演算はbasicのみ各10セット、追加17演算はbasicとstandardを各10セット持つ。実際の最新実装と索引を優先する。
 - 既存問題はJSON一覧ではなく生成処理にある。対象演算・難度の全セットを生成して、行・列・規則を比較する。実行できない場合は、完全な索引の提供を求める。
 - リポジトリを参照できない場合は、生成条件のEXISTING_GRID25_CATALOGを使う。索引は各セットのdrillId、level、sheet、version、rule、context、rows、columnsを含むこと。
 - 対象演算・難度の最大sheetの次から連番を振る。番号を推測しない。索引が不足する場合、JSONを作らず、足りない演算・難度の索引を求める。
@@ -50,15 +50,28 @@
 | differential | geometry | 定数aを含む関数f | aの具体値 | aを定数としてdf |
 | exterior | geometry | 定数aを含む1形式ω | aの具体値 | aを定数としてdω |
 | pullback | geometry | 写像F | 微分形式ω | F*ω |
+| ode | analysis | y′=p(x)またはy″=p(x) | y(0)、標準ではy′(0)も | 初期条件を満たす多項式解 |
+| taylor | analysis | 多項式f(x) | 展開中心a | f(a+u)のTaylor多項式 |
+| complex-analysis | analysis | 正則多項式f(z) | 点z₀ | f′(z₀) |
+| lie | geometry | ベクトル場X | ベクトル場Y | [X,Y] |
+| metric | geometry | ベクトルv | ベクトルw | 共通計量GでvᵀGw |
+| christoffel | geometry | 計量g | 成分の添字 | 共通の点でΓの値 |
+| tangent | geometry | 写像F | 接ベクトルv | 共通の点pでdFₚ(v) |
 
-- addition、multiplication、fractions、complexのlevelはbasicのみ。他の10演算はbasicまたはstandard。
+- addition、multiplication、fractions、complexのlevelはbasicのみ。他の17演算はbasicまたはstandard。
 - dot、matrix、evaluationはbasicで2成分、standardで3成分。内積は実標準内積、評価は標準座標の双対基底を使う。
 - matrixはAが5×k、Bがk×5（k=2または3）。左の5行と上の5列でAB全体が得られるようにする。行ベクトルと列ベクトルの役割を明示する。
 - derivativeは列をD¹,D²,D³,D⁴,D⁵とし、行には相異なる多項式を置く。
 - wedgeは両難度ともR³の定数係数1形式を使う。standardでは混合成分や負係数の組合せを増やす。
 - differential、exteriorはbasicで座標(x,y)、standardで(x,y,z)。aを微分する変数に含めない。列のaの値は相異なる5整数にする。
 - pullbackはF:R²(u,v)→R²(x,y)。basicは1形式、standardは2形式。係数関数を持つ形式も含める。
-- 新しい演算ID、三角関数、積分、Lie括弧、曲率などは今回の仕様に混ぜない。必要なら別の拡張提案として扱う。
+- odeはbasicで1階、standardで2階の積分形。解は変数xの多項式、basis:["答え"]。
+- taylorはbasicで3次、standardで5次まで。変数u=x−aで答え、basis:["答え"]、variables:["u"]。
+- complex-analysisは整数係数多項式の導関数を整数の実部・虚部を持つ点で評価する。complexと同じlegacy形式を使う。
+- lieはR²上の多項式係数ベクトル場。basis:["∂x","∂y"]、variables:["x","y"]。規約は[X,Y]f=X(Yf)−Y(Xf)。
+- metricはR²の対称正定値行列をcontextで指定する。tangentはR²→R²の多項式写像のJacobianを点で評価し、basis:["e₁","e₂"]、variables:[]で成分を答える。
+- christoffelは座標(x,y)の対角計量diag(e^(2bx),e^(2ax))、評価点(0,0)。basicはb=0、standardはbも変える。Levi-Civita接続の成分の数値を答える。計量を微分してから点を代入する。
+- 未対応の演算や、答えに三角関数・指数関数を必要とする問題は今回の仕様に混ぜない。
 
 ## 数学的品質と難度
 
@@ -141,10 +154,10 @@
 - 多項式の正答は展開・同類項整理した簡潔な式。使えるのは許可された変数、小さい整数・有理数、+ - * / ^、括弧、暗黙の乗算。例："2xy-x^2", "x/2"。
 - 分母は0でない定数のみ。指数は0〜8の整数。1成分300文字以内。変数分母、負・分数指数、関数、根号、無限大、近似値を出さない。
 - 数値は厳密値。分数は既約・正の分母とする。全て零でも空文字ではなく"0"。
-- addition、multiplication、fractions、complexの全cellには追加キーlegacyを付ける。形式は{"real": 整数, "denominator": 正整数, "imaginary": 整数}。
+- addition、multiplication、fractions、complex、complex-analysisの全cellには追加キーlegacyを付ける。形式は{"real": 整数, "denominator": 正整数, "imaginary": 整数}。
 - legacyは採点用の正答を表す。整数はdenominator:1, imaginary:0。分数はreal/denominatorを既約にしimaginary:0。複素数はreal+imaginary*iを表しdenominator:1。expectedの表示と必ず一致させる。
 - 複素数expectedは"2-3i", "i", "-i", "0"などのa+bi形式。実部・虚部は整数。iを多項式変数として扱わない。
-- それ以外の演算にはlegacyを付けない。同値な多項式は専用パーサーで採点する想定とする。
+- ode、taylor、lie、metric、christoffel、tangentを含む、それ以外の演算にはlegacyを付けない。同値な多項式は専用パーサーで採点する想定とする。
 
 ## 出力前の内部検査
 

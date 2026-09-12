@@ -1,4 +1,4 @@
-import { createDrillBoard, getDrill, gradeDrillCell, type DrillBoard, type Grade } from "./grid-drills.ts";
+import { createDrillBoard, drills, getDrill, gradeDrillCell, type DrillBoard, type Grade } from "./grid-drills.ts";
 
 export const gridStorageKey = "mathloop-grid25-v2";
 export const legacyGridStorageKey = "mathloop-grid25-v1";
@@ -96,7 +96,7 @@ export function parseGridSaved(text: string): GridSaved {
   if (text.length > 15_000_000) throw new Error("保存データが大きすぎます（15MB以内）。");
   const data: unknown = JSON.parse(text);
   if (!isObject(data) || data.format !== "mathloop-grid25" || data.version !== 2 || !Array.isArray(data.history) || !isObject(data.drafts)
-    || Object.keys(data.drafts).length > 600 || typeof data.legacyImported !== "boolean") throw new Error("25マス計算の保存データではありません。");
+    || Object.keys(data.drafts).length > drills.length * 40 || typeof data.legacyImported !== "boolean") throw new Error("25マス計算の保存データではありません。");
   if (!data.history.every((r) => validRun(r) && r.finishedAt !== null)
     || !Object.entries(data.drafts).every(([key, r]) => validRun(r) && r.mode !== "legacy" && key === runKey(r.board, r.mode))) throw new Error("保存データの問題・回答・時刻の形式を確認してください。");
   const ids = data.history.map((r) => r.id);

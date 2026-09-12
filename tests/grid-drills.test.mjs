@@ -37,7 +37,7 @@ test('pullback substitutes coefficient functions and commutes with d', () => {
   assert.deepEqual(d(result),pullback(d(omega),['u','v'],map));
 });
 
-test('all 240 boards are deterministic, complete and accept canonical answers', () => {
+test('all 380 boards are deterministic, complete and accept canonical answers', () => {
   let count=0;
   for(const def of drills) for(const level of def.levels?['basic','standard']:['basic']) for(let sheet=1;sheet<=10;sheet++) {
     const b=board(def.id,sheet,level); count++;
@@ -45,7 +45,7 @@ test('all 240 boards are deterministic, complete and accept canonical answers', 
     assert.deepEqual(b,board(def.id,sheet,level));
     for(const c of b.cells) assert.equal(grade(c,c.expected).status,'correct',`${def.id} ${sheet} ${c.expected}`);
   }
-  assert.equal(count,240);
+  assert.equal(count,380);
 });
 
 test('original 40 sets and independent sample answers stay correct', () => {

@@ -1,3 +1,4 @@
+import { advancedBoard } from "./grid-advanced.ts";
 import { createGrid, formatGridValue, gridAnswer, gridModes, isGridAnswerCorrect, type GridMode, type GridValue } from "./grid25.ts";
 import { constant, derivative, equalPoly, exteriorDerivative, form, oneForm, parsePolynomial, polynomialText, pullback, substitute, wedge, type DifferentialForm, type Polynomial } from "./grid-math.ts";
 
@@ -25,6 +26,13 @@ export type DrillBoard = {
 };
 export type DrillDefinition = { id: string; category: Category; title: string; description: string; levels: boolean };
 export const drills: DrillDefinition[] = [
+  { id: "ode", category: "analysis", title: "常微分方程式", description: "積分と初期条件から多項式解を求める。", levels: true },
+  { id: "taylor", category: "analysis", title: "テイラー展開", description: "展開中心を変えて低次の項を残す。", levels: true },
+  { id: "complex-analysis", category: "analysis", title: "複素解析", description: "正則多項式の導関数の値を求める。", levels: true },
+  { id: "lie", category: "geometry", title: "リーブラケット", description: "ベクトル場が作用する順序の差。", levels: true },
+  { id: "metric", category: "geometry", title: "計量と内積", description: "指定された計量で内積を計算する。", levels: true },
+  { id: "christoffel", category: "geometry", title: "クリストッフェル記号", description: "計量を微分し接続の係数を求める。", levels: true },
+  { id: "tangent", category: "geometry", title: "接ベクトルと微分", description: "Jacobianで接ベクトルを写す。", levels: true },
   ...gridModes.map((mode) => ({ id: mode.id, title: mode.title, description: mode.description, category: "calculation" as const, levels: false })),
   { id: "dot", category: "algebra", title: "ベクトルの内積", description: "対応する成分を掛けて足す。", levels: true },
   { id: "matrix", category: "algebra", title: "行列積", description: "25マス全体で AB を完成させる。", levels: true },
@@ -81,6 +89,8 @@ export function createDrillBoard(id: string, sheet: number, requestedLevel: "bas
   const definition = getDrill(id);
   if (!definition || !Number.isInteger(sheet) || sheet < 1 || sheet > 10) throw new Error("問題セットが見つかりません。");
   const level = definition.levels ? requestedLevel : "basic";
+  const advanced = advancedBoard(id, sheet, level);
+  if (advanced) return advanced;
   const standard = level === "standard";
   const board: DrillBoard = { drillId: id, version: 1, sheet, level, rows: [], columns: [], cells: [], context: "", rule: "", operator: "" };
   const legacyMode = gridModes.find((m) => m.id === id);
