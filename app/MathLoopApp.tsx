@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import katex from "katex";
+import Grid25Practice from "./Grid25Practice";
 import { usesAiGrading } from "@/lib/grading-policy";
 import { normalizeMathDelimiters } from "@/lib/math-text";
 import {
@@ -212,7 +213,7 @@ function StatusBadge({ status }: { status?: Status }) {
 }
 
 export default function MathLoopApp() {
-  const [view, setView] = useState<"problems" | "stats">("problems");
+  const [view, setView] = useState<"problems" | "stats" | "grid25">("problems");
   const [activeProblem, setActiveProblem] = useState<Problem | null>(null);
   const [progress, setProgress] = useState<Record<string, Progress>>({});
   const [attemptsByProblem, setAttemptsByProblem] = useState<Record<string, Attempt[]>>({});
@@ -315,7 +316,8 @@ export default function MathLoopApp() {
       }
 
       setActiveProblem(null);
-      setView(url.searchParams.get("view") === "stats" ? "stats" : "problems");
+      const nextView = url.searchParams.get("view");
+      setView(nextView === "stats" || nextView === "grid25" ? nextView : "problems");
     }
 
     applyLocation();
@@ -367,10 +369,10 @@ export default function MathLoopApp() {
     return guidedSets.filter((set) => visibleIds.has(set.id));
   }, [filtered]);
 
-  function navigate(next: "problems" | "stats") {
+  function navigate(next: "problems" | "stats" | "grid25") {
     const url = new URL(window.location.href);
     url.searchParams.delete("problem");
-    if (next === "stats") url.searchParams.set("view", "stats");
+    if (next !== "problems") url.searchParams.set("view", next);
     else url.searchParams.delete("view");
     window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
     setView(next);
@@ -650,6 +652,7 @@ export default function MathLoopApp() {
         </button>
         <nav aria-label="メインナビゲーション">
           <button className={`navItem ${view === "problems" ? "active" : ""}`} onClick={() => navigate("problems")}><span>▦</span>問題一覧</button>
+          <button className={`navItem ${view === "grid25" ? "active" : ""}`} onClick={() => navigate("grid25")}><span>25</span>25マス計算</button>
           <button className={`navItem ${view === "stats" ? "active" : ""}`} onClick={() => navigate("stats")}><span>⌁</span>統計</button>
         </nav>
         <div className="sideProgress">
@@ -664,7 +667,7 @@ export default function MathLoopApp() {
         <header className="topbar">
           <div>
             <span className="eyebrow">MATHEMATICS PRACTICE LOG</span>
-            <h1>{activeProblem ? displayContest(activeProblem.contest) : view === "stats" ? "学習統計" : "問題一覧"}</h1>
+            <h1>{activeProblem ? displayContest(activeProblem.contest) : view === "stats" ? "学習統計" : view === "grid25" ? "25マス計算" : "問題一覧"}</h1>
           </div>
           <div className="topActions">
             {virtualSeconds !== null && virtualSeconds > 0 && <span className="contestClock"><i>●</i> 集中モード {formatTime(virtualSeconds)}</span>}
@@ -699,6 +702,8 @@ export default function MathLoopApp() {
             onInsert={insertSymbol}
             textareaRef={textareaRef}
           />
+        ) : view === "grid25" ? (
+          <Grid25Practice />
         ) : view === "stats" ? (
           <StatsView progress={progress} solved={solved} attempted={attempted} attempts={attempts} totalSeconds={totalSeconds} />
         ) : (
